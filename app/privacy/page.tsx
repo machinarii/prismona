@@ -18,17 +18,20 @@ export default function PrivacyPage() {
         Prismona is operated by <strong>Sensory Apparatus LLC</strong>. Personality data
         is sensitive, so we built the product so that we never hold it: the assessment,
         scoring, and reports run entirely in your browser. This page states exactly what
-        that means. Effective June 11, 2026.
+        that means — including the one optional, opt-in exception (section V).
+        Effective June 11, 2026.
       </p>
 
       <section className="section">
         <div className="section-head"><span className="roman">I.</span><h2>What we never collect</h2></div>
         <p className="prose">
-          Your answers, your trait scores, your facet profile, your archetype blend,
-          your dyad reports, and your share codes are computed and stored only on your
-          device. They are not transmitted to us or to anyone else, not stored on a
-          server, not used for advertising, and not sold — ever. There are no accounts,
-          no sign-ups, and no profiles held by Sensory Apparatus LLC.
+          Your answers, your facet profile, your dyad reports — the raw material of the
+          assessment — are computed and stored only on your device. They are not
+          transmitted to us or to anyone else, not stored on a server, not used for
+          advertising, and not sold — ever. There are no accounts, no sign-ups, and no
+          profiles held by Sensory Apparatus LLC. Trait scores follow the same rule with
+          one narrow, explicit exception you control: the opt-in norms contribution
+          described in section V. Nothing is contributed unless you press the button.
         </p>
       </section>
 
@@ -68,7 +71,28 @@ export default function PrivacyPage() {
       </section>
 
       <section className="section">
-        <div className="section-head"><span className="roman">V.</span><h2>Cookies</h2></div>
+        <div className="section-head"><span className="roman">V.</span><h2>Optional norms contribution</h2></div>
+        <p className="prose">
+          Our percentiles rest on provisional published norms, and improving them
+          requires data — so the results page offers an explicit, optional contribution.
+          If, and only if, you press <em>Contribute anonymously</em>, we receive exactly
+          three things: the contents of your share code (six quantized trait scores,
+          edition, date, and consistency index — the same payload you could text to a
+          friend); the age range you optionally selected before the assessment, as a
+          coarse band only; and a two-letter country code derived from the network
+          request at our edge, stored without the IP address it came from. We never ask
+          your device for its location, never store precise location, and never attach
+          names, identifiers, cookies, or user agents to a contribution. The purpose is
+          stated and limited: re-estimating norms and comparing trait distributions
+          across countries and age bands, in aggregate. Because contributions are
+          anonymous by construction, we cannot link one back to you afterward — which
+          also means we cannot selectively delete one; that is the trade the anonymity
+          buys, and it is why the choice is yours each time.
+        </p>
+      </section>
+
+      <section className="section">
+        <div className="section-head"><span className="roman">VI.</span><h2>Cookies</h2></div>
         <p className="prose">
           Prismona sets no cookies. Local storage is used solely to keep your own
           results on your own device, as described above; it is never read for
@@ -77,7 +101,7 @@ export default function PrivacyPage() {
       </section>
 
       <section className="section">
-        <div className="section-head"><span className="roman">VI.</span><h2>Children</h2></div>
+        <div className="section-head"><span className="roman">VII.</span><h2>Children</h2></div>
         <p className="prose">
           Prismona is intended for adults. The instruments are normed on adult samples,
           and the service is not directed to children under 16. Because we collect
@@ -87,11 +111,11 @@ export default function PrivacyPage() {
       </section>
 
       <section className="section" style={{ paddingBottom: "var(--s-8)" }}>
-        <div className="section-head"><span className="roman">VII.</span><h2>Changes and contact</h2></div>
+        <div className="section-head"><span className="roman">VIII.</span><h2>Changes and contact</h2></div>
         <p className="prose">
-          If the architecture ever changes — for example, an optional account system for
-          informant ratings — this policy will change first, visibly, with a new
-          effective date, and any new collection will be opt-in. Questions can be
+          If the architecture ever changes, this policy changes first, visibly, with a
+          new effective date, and any new collection will be opt-in — section V is the
+          first and so far only such addition, made under exactly that rule. Questions can be
           directed to Sensory Apparatus LLC. See the{" "}
           <Link href="/method">Method page</Link> for the scientific and ethical
           commitments that sit alongside this policy, and the{" "}

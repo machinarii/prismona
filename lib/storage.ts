@@ -1,6 +1,7 @@
 import type { Profile, Snapshot, Tier } from "./types";
 import { pushSnapshot, snapshotOf } from "./timeline";
 import type { InterestProfile } from "./interests";
+import { AGE_BANDS, type AgeBand } from "./contrib";
 
 // Privacy by default: profiles live only in this browser's localStorage.
 const key = (tier: Tier) => `prismona.profile.${tier}`;
@@ -50,6 +51,29 @@ export function loadInterests(): InterestProfile | null {
     const ip = JSON.parse(raw) as InterestProfile;
     return ip && ip.v === 1 ? ip : null;
   } catch { return null; }
+}
+
+// Optional, local-only until the user explicitly contributes.
+export function saveAgeBand(band: AgeBand | null): void {
+  try {
+    if (band) localStorage.setItem("prismona.ageBand", band);
+    else localStorage.removeItem("prismona.ageBand");
+  } catch { /* ignore */ }
+}
+
+export function loadAgeBand(): AgeBand | null {
+  try {
+    const v = localStorage.getItem("prismona.ageBand");
+    return v && (AGE_BANDS as readonly string[]).includes(v) ? (v as AgeBand) : null;
+  } catch { return null; }
+}
+
+export function markContributed(code: string): void {
+  try { localStorage.setItem(`prismona.contributed.${code}`, "1"); } catch { /* ignore */ }
+}
+
+export function hasContributed(code: string): boolean {
+  try { return localStorage.getItem(`prismona.contributed.${code}`) === "1"; } catch { return false; }
 }
 
 export function clearProfiles(): void {

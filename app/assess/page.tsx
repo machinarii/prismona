@@ -7,7 +7,8 @@ import { itemsForTier } from "@/lib/items";
 import { TIME_LIMIT_MS } from "@/lib/norms";
 import { scoreTest } from "@/lib/scoring";
 import { encodeShareCode } from "@/lib/codec";
-import { saveProfile } from "@/lib/storage";
+import { loadAgeBand, saveAgeBand, saveProfile } from "@/lib/storage";
+import { AGE_BANDS, type AgeBand } from "@/lib/contrib";
 import { TimerRing } from "@/components/TimerRing";
 import type { Answer, Tier } from "@/lib/types";
 
@@ -18,6 +19,38 @@ const LIKERT: Array<[string, string]> = [
   ["4", "Somewhat accurate"],
   ["5", "Very accurate"],
 ];
+
+function AgeBandRow() {
+  const [band, setBand] = useState<AgeBand | null>(null);
+  useEffect(() => { setBand(loadAgeBand()); }, []);
+  return (
+    <div style={{ marginTop: "var(--s-8)" }}>
+      <span className="label">Age range · optional</span>
+      <div className="flags" style={{ marginTop: "var(--s-3)" }}>
+        {AGE_BANDS.map((b) => (
+          <button
+            key={b}
+            className="flag num"
+            aria-pressed={band === b}
+            style={band === b ? { borderColor: "var(--gold)", color: "var(--gold)" } : undefined}
+            onClick={() => {
+              const next = band === b ? null : b;
+              setBand(next);
+              saveAgeBand(next);
+            }}
+          >
+            {b}
+          </button>
+        ))}
+      </div>
+      <p className="footnote" style={{ marginTop: "var(--s-3)" }}>
+        Never required, never sent anywhere on its own. Used only if you later choose,
+        on your results page, to contribute anonymized scores to our norms — and even
+        then only as this coarse band.
+      </p>
+    </div>
+  );
+}
 
 function Brief({ tier, onBegin }: { tier: Tier; onBegin: () => void }) {
   const quick = tier === "quick";
@@ -43,6 +76,7 @@ function Brief({ tier, onBegin }: { tier: Tier; onBegin: () => void }) {
           this browser.
         </p>
       </div>
+      <AgeBandRow />
       <div style={{ marginTop: "var(--s-12)", display: "flex", gap: "var(--s-3)", alignItems: "center", flexWrap: "wrap" }}>
         <button className="btn solid" onClick={onBegin}>Begin the assessment</button>
         {quick && <Link className="cite" href="/assess?tier=full">or take the Full Index →</Link>}

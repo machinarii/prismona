@@ -2,7 +2,7 @@
 
 A research-grade personality & compatibility platform — the scientific honesty MBTI never had. Built only on public-domain, peer-reviewed instruments (Mini-IPIP, IPIP-NEO-120, IPIP HEXACO Honesty-Humility), with uncertainty bands on every score and a citation behind every claim. Results are personalized, not generic: every profile gets dynamic, citation-grounded readings across six use cases (relationships, career, work style, leadership, integrity, cofounder fit), generated from the user's actual trait and facet percentiles.
 
-**Privacy by architecture:** no accounts, no API routes, no analytics on answers. All scoring runs client-side; profiles live in the browser's localStorage; dyad comparison works by exchanging 21-character share codes that carry six quantized trait scores and nothing else.
+**Privacy by architecture:** no accounts, no analytics on answers. All scoring runs client-side; profiles live in the browser's localStorage; dyad comparison works by exchanging 21-character share codes that carry six quantized trait scores and nothing else. The one server endpoint (`/api/contribute`) exists solely for the explicit opt-in norms contribution: share-code payload + optional coarse age band + network-level country, no IP stored — described in full in the Privacy Policy §V.
 
 ## App
 
