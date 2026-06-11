@@ -11,6 +11,7 @@ import { decodeShareCode, encodeShareCode } from "@/lib/codec";
 import { profileUrl, sameShareCode } from "@/lib/shareview";
 import { RarityLine } from "@/components/RarityLine";
 import { TraitFigure } from "@/components/TraitFigure";
+import { Contribute } from "@/components/Contribute";
 import { TRAIT_LABELS } from "@/lib/norms";
 import { loadHistory, loadInterests, loadLatest, loadProfile } from "@/lib/storage";
 import { traitDrift, type DriftReport } from "@/lib/timeline";
@@ -312,6 +313,7 @@ function Report({ profile, drift, interests }: {
           Consistency is a person-fit heuristic: how coherently you answered items
           measuring the same construct (Meade &amp; Craig, 2012).
         </p>
+        <Contribute profile={profile} />
       </section>
 
       {/* read this */}

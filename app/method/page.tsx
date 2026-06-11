@@ -193,7 +193,12 @@ export default function MethodPage() {
         <p className="prose">
           Personality data is sensitive, so the architecture is the policy: no account,
           no server-side scoring, no analytics on answers, nothing transmitted. Profiles
-          live in your browser&apos;s local storage and die with it. We will never sell
+          live in your browser&apos;s local storage and die with it. The one exception is
+          explicit and opt-in: the results page offers an anonymous norms contribution —
+          the share-code payload, an optional coarse age band, and a network-level
+          country code, no IP stored — so percentiles can eventually rest on our own
+          published norms and trait distributions can be compared across countries in
+          aggregate (details in the Privacy Policy, §V). We will never sell
           profiles or assess anyone without their consent — inferred profiles of third
           parties are an ethical boundary, not a roadmap item. Any future hiring module
           ships only after criterion validation and adverse-impact analysis under the
