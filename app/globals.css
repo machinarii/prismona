@@ -355,6 +355,21 @@ table.tiers th { font-family: var(--font-label), system-ui, sans-serif; font-siz
 .footnote { font-size: var(--t-sm); color: var(--ivory-faint); max-width: var(--measure); line-height: 1.7; }
 
 .cite { color: var(--ivory-faint); }
+
+/* numbered citations: tiny superscripts in text, one list at the end */
+.cite-sup { font-size: 0.62em; line-height: 0; letter-spacing: 0.02em; }
+.cite-sup a { color: var(--gold-deep); }
+.cite-sup a:hover { color: var(--gold); }
+.cite-list {
+  margin-top: var(--s-4);
+  padding-left: 1.4em;
+  font-size: var(--t-sm);
+  color: var(--ivory-faint);
+  line-height: 1.9;
+  columns: 2 32ch;
+  column-gap: var(--s-12);
+}
+.cite-list li::marker { font-family: var(--font-label), system-ui, sans-serif; font-size: 0.85em; }
 .cite a { color: var(--ivory-dim); border-bottom: 1px solid var(--hairline); }
 .cite a:hover { color: var(--gold); border-color: var(--gold-deep); }
 

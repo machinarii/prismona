@@ -10,6 +10,8 @@ import { TRAIT_LABELS } from "@/lib/norms";
 import { BandBar } from "@/components/BandBar";
 import { RarityLine } from "@/components/RarityLine";
 import { TraitFigure } from "@/components/TraitFigure";
+import { CitationList, CiteMarks } from "@/components/Citations";
+import { buildCitationIndex } from "@/lib/citations";
 import type { Profile, ReportKey } from "@/lib/types";
 
 const TRAIT_ORDER: ReportKey[] = ["O", "C", "E", "A", "ES", "H"];
@@ -38,6 +40,7 @@ function Invalid() {
 function SharedReport({ profile }: { profile: Profile }) {
   const top = archetypeByName(profile.archetypes[0]?.name);
   const insights = buildInsights(profile);
+  const citations = buildCitationIndex(insights.flatMap((s) => s.insights.map((i) => i.cite)));
   return (
     <main className="shell reveal">
       <div className="print-only print-head">
@@ -121,8 +124,8 @@ function SharedReport({ profile }: { profile: Profile }) {
                 <div key={i.title}>
                   <dt>{i.title}</dt>
                   <dd>
-                    {i.body}{" "}
-                    <span className="cite" style={{ color: "var(--ivory-dim)" }}>({i.cite})</span>
+                    {i.body}
+                    <CiteMarks nums={citations.numbersFor(i.cite)} />
                   </dd>
                 </div>
               ))}
@@ -145,6 +148,8 @@ function SharedReport({ profile }: { profile: Profile }) {
           <button className="btn quiet" onClick={() => window.print()}>Save as PDF</button>
         </div>
       </section>
+
+      <CitationList refs={citations.refs} />
     </main>
   );
 }

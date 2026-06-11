@@ -12,6 +12,8 @@ import { profileUrl, sameShareCode } from "@/lib/shareview";
 import { RarityLine } from "@/components/RarityLine";
 import { TraitFigure } from "@/components/TraitFigure";
 import { Contribute } from "@/components/Contribute";
+import { CitationList, CiteMarks } from "@/components/Citations";
+import { buildCitationIndex } from "@/lib/citations";
 import { TRAIT_LABELS } from "@/lib/norms";
 import { loadHistory, loadInterests, loadLatest, loadProfile } from "@/lib/storage";
 import { traitDrift, type DriftReport } from "@/lib/timeline";
@@ -20,6 +22,7 @@ import type { Profile, ReportKey } from "@/lib/types";
 
 const TRAIT_ORDER: ReportKey[] = ["O", "C", "E", "A", "ES", "H"];
 const FACET_DOMAIN_ORDER: ReportKey[] = ["O", "C", "E", "A", "ES", "H"];
+const INTERESTS_CITE = "Holland, 1997; Rounds et al. (O*NET Mini-IP)";
 
 function EmptyState() {
   return (
@@ -106,6 +109,12 @@ function Report({ profile, drift, interests }: {
 }) {
   const top = archetypeByName(profile.archetypes[0]?.name);
   const insights = buildInsights(profile);
+  const citations = buildCitationIndex(
+    insights.flatMap((s) => [
+      ...s.insights.map((i) => i.cite),
+      ...(s.key === "career" && interests ? [INTERESTS_CITE] : []),
+    ]),
+  );
   const code = encodeShareCode(profile);
   const q = profile.quality;
   const cleanPace = q.fast <= 3 && q.timeouts <= 2 && !q.straight;
@@ -248,8 +257,8 @@ function Report({ profile, drift, interests }: {
                 <div key={i.title}>
                   <dt>{i.title}</dt>
                   <dd>
-                    {i.body}{" "}
-                    <span className="cite" style={{ color: "var(--ivory-dim)" }}>({i.cite})</span>
+                    {i.body}
+                    <CiteMarks nums={citations.numbersFor(i.cite)} />
                   </dd>
                 </div>
               ))}
@@ -257,8 +266,8 @@ function Report({ profile, drift, interests }: {
                 <div>
                   <dt>Interests × traits</dt>
                   <dd>
-                    {interestsCareerNote(interests, profile)}{" "}
-                    <span className="cite" style={{ color: "var(--ivory-dim)" }}>(Holland, 1997; Rounds et al., O*NET Mini-IP)</span>
+                    {interestsCareerNote(interests, profile)}
+                    <CiteMarks nums={citations.numbersFor(INTERESTS_CITE)} />
                   </dd>
                 </div>
               )}
@@ -335,6 +344,8 @@ function Report({ profile, drift, interests }: {
           <button className="btn quiet" onClick={() => window.print()}>Save as PDF</button>
         </div>
       </section>
+
+      <CitationList refs={citations.refs} />
     </main>
   );
 }
