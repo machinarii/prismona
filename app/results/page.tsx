@@ -4,6 +4,7 @@ import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { archetypeByName, trustNote } from "@/lib/archetypes";
+import { buildInsights } from "@/lib/insights";
 import { encodeShareCode } from "@/lib/codec";
 import { TRAIT_LABELS } from "@/lib/norms";
 import { loadLatest, loadProfile } from "@/lib/storage";
@@ -56,6 +57,7 @@ function CopyCode({ code }: { code: string }) {
 
 function Report({ profile }: { profile: Profile }) {
   const top = archetypeByName(profile.archetypes[0]?.name);
+  const insights = buildInsights(profile);
   const code = encodeShareCode(profile);
   const q = profile.quality;
   const cleanPace = q.fast <= 3 && q.timeouts <= 2 && !q.straight;
@@ -146,26 +148,40 @@ function Report({ profile }: { profile: Profile }) {
         </section>
       )}
 
-      {/* V — compatibility */}
-      {top && (
-        <section className="report-section">
-          <span className="label"><span className="roman" style={{ fontSize: "1em" }}>{profile.facets.length ? "V" : "IV"}</span> &nbsp;·&nbsp; Compatibility</span>
-          <dl className="ledger">
-            <div><dt>Romantic</dt><dd>{top.rom}</dd></div>
-            <div><dt>Cofounder</dt><dd>{top.cof}</dd></div>
-            <div><dt>Best-fit roles</dt><dd>{top.role}</dd></div>
-          </dl>
-          <p className="prose" style={{ margin: "var(--s-8) 0 var(--s-4)" }}>
-            For a pairing read against the evidence — not notes, but your two actual
-            profiles — exchange share codes. Yours encodes six trait scores and nothing
-            else: no answers, no identity.
-          </p>
-          <CopyCode code={code} />
-          <div style={{ marginTop: "var(--s-6)" }}>
-            <Link href="/compare" className="btn">Compare with someone</Link>
+      {/* V — applied readings */}
+      <section className="report-section">
+        <span className="label"><span className="roman" style={{ fontSize: "1em" }}>{profile.facets.length ? "V" : "IV"}</span> &nbsp;·&nbsp; Applied readings</span>
+        <p className="prose" style={{ margin: "var(--s-4) 0 var(--s-10)" }}>
+          Six readings of the same six scores — generated from your actual percentiles,
+          not your archetype label. Each carries its evidence inline and states its limits.
+        </p>
+        {insights.map((s) => (
+          <div key={s.key} style={{ marginBottom: "var(--s-12)" }}>
+            <span className="label gold">{s.heading}</span>
+            <dl className="ledger" style={{ marginTop: "var(--s-3)" }}>
+              {s.insights.map((i) => (
+                <div key={i.title}>
+                  <dt>{i.title}</dt>
+                  <dd>
+                    {i.body}{" "}
+                    <span className="cite" style={{ color: "var(--ivory-dim)" }}>({i.cite})</span>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+            <p className="footnote" style={{ marginTop: "var(--s-3)" }}>{s.caveat}</p>
           </div>
-        </section>
-      )}
+        ))}
+        <p className="prose" style={{ margin: "var(--s-8) 0 var(--s-4)" }}>
+          For a pairing read against the evidence — not notes, but your two actual
+          profiles — exchange share codes. Yours encodes six trait scores and nothing
+          else: no answers, no identity.
+        </p>
+        <CopyCode code={code} />
+        <div style={{ marginTop: "var(--s-6)" }}>
+          <Link href="/compare" className="btn">Compare with someone</Link>
+        </div>
+      </section>
 
       {/* VI — confidence */}
       <section className="report-section">

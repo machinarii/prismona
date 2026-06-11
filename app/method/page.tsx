@@ -22,6 +22,8 @@ const CITATIONS: Array<[string, string]> = [
   ["McCarthy, P. X., et al. (2023). The impact of founder personalities on startup success. Scientific Reports, 13, 17200.", "https://www.nature.com/articles/s41598-023-41980-y"],
   ["Bell, S. T. (2007). Deep-level composition variables as predictors of team performance: A meta-analysis. Journal of Applied Psychology, 92(3), 595–615.", "https://doi.org/10.1037/0021-9010.92.3.595"],
   ["Pletzer, J. L., et al. (2019). Comparing domain- and facet-level relations of the HEXACO personality model with workplace deviance: A meta-analysis. Personality and Individual Differences, 152, 109539.", "https://doi.org/10.1016/j.paid.2019.109539"],
+  ["Barrick, M. R., & Mount, M. K. (1991). The Big Five personality dimensions and job performance: A meta-analysis. Personnel Psychology, 44(1), 1–26.", "https://doi.org/10.1111/j.1744-6570.1991.tb00688.x"],
+  ["Judge, T. A., Bono, J. E., Ilies, R., & Gerhardt, M. W. (2002). Personality and leadership: A qualitative and quantitative review. Journal of Applied Psychology, 87(4), 765–780.", "https://doi.org/10.1037/0021-9010.87.4.765"],
   ["Fine, S., & Pirak, M. (2016). Faking fast and slow: Within-person response time latencies for measuring faking in personnel testing. Journal of Business and Psychology, 31, 51–64.", "https://doi.org/10.1007/s10869-015-9398-5"],
   ["Meade, A. W., & Craig, S. B. (2012). Identifying careless responses in survey data. Psychological Methods, 17(3), 437–455.", "https://doi.org/10.1037/a0028085"],
   ["Röhner, J., & Thoss, P. (2022). Challenging response latencies in faking detection.", "https://pmc.ncbi.nlm.nih.gov/articles/PMC8863730/"],
