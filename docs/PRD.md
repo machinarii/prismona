@@ -1,8 +1,9 @@
 # PRD — "Keystone" (working title)
 ### A research-grade personality & compatibility platform
 
-**Version:** 0.1 (draft) · **Date:** 2026-06-10 · **Owner:** Jin
-**Companion docs:** `research/BIBLIOGRAPHY.md` (evidence base) · `poc/index.html` (MVP proof of concept)
+**Version:** 0.2 · **Date:** 2026-06-11 (orig. 2026-06-10) · **Owner:** Jin
+**Companion docs:** `research/BIBLIOGRAPHY.md` (evidence base) · `ROADMAP.md` (feature status) · `poc/index.html` (original proof of concept)
+**Shipped as:** Prismona (https://prismona.vercel.app) — Next.js app at the repo root; "Keystone" was the working title.
 
 ---
 
@@ -59,17 +60,19 @@ A personality assessment people take as seriously as a credit score and enjoy as
 
 ## 6. Product scope
 
-### 6.1 MVP (this PoC, weeks 0–6)
-- **Test:** 26 items — Mini-IPIP (20, Big Five) + 6 IPIP Honesty-Humility items. 5-point Likert. ~5 minutes.
+### 6.1 MVP — ✅ built and live (exceeds original scope)
+- **Test:** two tiers — Quick: 26 items (Mini-IPIP + 6 IPIP Honesty-Humility, ~5 min); Full Index: 126 items (IPIP-NEO-120 + H, 30 facets). 5-point Likert.
 - **Per-question timer:** 20s visible countdown; auto-advance on timeout (item marked unanswered); latency recorded per item.
-- **Quality flags:** % too-fast responses (<800ms), timeouts, straight-lining; shown on results as a confidence indicator.
-- **Scoring:** reverse-keyed means → z-scores vs. published norms → percentiles. Client-side only; no account, no server (privacy by default).
+- **Quality flags:** % too-fast responses (<800ms), timeouts, straight-lining, person-fit consistency index; shown on results as a confidence indicator.
+- **Scoring:** reverse-keyed means → z-scores vs. published norms → percentiles with ±1 SEM bands. Client-side only; no account, no server (privacy by default).
 - **Archetype:** nearest-prototype match over 6 trait z-scores to 8 research-anchored archetypes; always shown WITH the dimensional profile and a "you are 73% Architect, 41% Catalyst" gradient, per the Gerlach/Freudenstein debate.
-- **Distillation:** per archetype — how you think, act, decide/solve, what you value, blind spots, trust profile (H-factor), and preliminary compatibility notes (relationship / cofounder / role).
-- **Out of scope for MVP:** accounts, dyad reports, payments, hiring module.
+- **Distillation:** per archetype — how you think, act, decide/solve, what you value, blind spots, trust profile (H-factor).
+- **Applied readings (added v0.2):** the static per-archetype compatibility notes were replaced by dynamic readings generated from the user's actual percentiles (three tiers: ≥70 / ≥40 / <40), facet-refined on the full tier, across six use cases — relationships, career, work style, leadership & teams, integrity, cofounder fit. Every reading cites its evidence inline and carries an epistemic caveat; the integrity reading explicitly disclaims any screening/hiring use.
+- **Dyad reports (pulled forward from v1):** share-code compare for romantic / cofounder / colleague — see §7.
+- **Still out of scope:** accounts, payments, hiring module.
 
 ### 6.2 v1 (months 2–5)
-Accounts + profile persistence; upgrade path to IPIP-NEO-120 (30 facets); **Dyad Compatibility Report** (relationship + cofounder) with invite flow; shareable archetype cards (growth engine); norms recomputed from own user base.
+Accounts + profile persistence; invite flow on top of the existing share-code dyad compare; shareable archetype cards (growth engine); norms recomputed from own user base. (IPIP-NEO-120 facet tier and dyad reports already shipped in MVP — see §6.1.)
 
 ### 6.3 v2 (months 6–12)
 Schwartz PVQ-RR values module + value-congruence scoring; ECR-R attachment module (romance vertical); cofounder team report (3+ people, diversity index); hiring/role-fit module **only after** criterion validation study + legal review (EEOC adverse-impact analysis, AERA/APA/NCME Standards).
