@@ -39,31 +39,44 @@ export default function PrivacyPage() {
         <div className="section-head"><span className="roman">II.</span><h2>Where your data lives</h2></div>
         <p className="prose">
           Completed profiles are saved in your browser&apos;s local storage so your
-          results survive a page reload. They remain until you clear them — from the
-          results page or by clearing your browser&apos;s site data — and they die with
-          the browser profile they live in. If you use a shared or public computer,
+          results survive a page reload. The same local storage holds everything else
+          the product remembers: your retest history (compact per-assessment snapshots
+          for the trajectory view), your interest-inventory result, the age range you
+          optionally selected, and a flag noting whether you already contributed a
+          given profile to our norms. All of it remains until you clear it — from the
+          results page or by clearing your browser&apos;s site data — and it dies with
+          the browser profile it lives in. If you use a shared or public computer,
           clear your results before leaving it.
         </p>
       </section>
 
       <section className="section">
-        <div className="section-head"><span className="roman">III.</span><h2>Share codes</h2></div>
+        <div className="section-head"><span className="roman">III.</span><h2>Share codes, profile links, and exports</h2></div>
         <p className="prose">
           A share code carries six quantized trait scores, a date, and a checksum —
           twenty-one characters, no name, no identity, no individual answers. Codes are
           generated and decoded in the browser; comparing two codes never sends either
-          one anywhere. Sharing a code is your choice and your disclosure: anyone who
-          holds it can run comparisons that include your trait profile.
+          one anywhere. A profile link (or manual link) is the same code carried in the
+          URL after the <span className="num">#</span> — a fragment, which browsers do
+          not transmit in requests, so even our hosting provider&apos;s logs never see
+          it. Sharing a code or link is your choice and your disclosure: anyone who
+          holds it can view the domain-level report and run comparisons that include
+          your trait profile. The copyable AI-context block works the same way — you
+          copy it, nothing is sent by us — but once you paste it into a third-party
+          assistant, that service&apos;s privacy terms govern what happens to it.
         </p>
       </section>
 
       <section className="section">
         <div className="section-head"><span className="roman">IV.</span><h2>What our infrastructure sees</h2></div>
         <p className="prose">
-          The site is static pages served from a hosting provider. Like virtually all
-          web hosting, the provider records standard access logs (IP address, requested
-          page, user agent, timestamp) for delivery and abuse prevention; these logs
-          contain no assessment content, because assessment content is never sent.
+          The site is static pages served from a hosting provider, plus exactly one
+          server endpoint, which exists solely to receive the opt-in contribution
+          described in section V and does nothing else. Like virtually all web hosting,
+          the provider records standard access logs (IP address, requested page, user
+          agent, timestamp) for delivery and abuse prevention; these logs contain no
+          assessment content, because assessment content is never sent — and profile
+          links keep their payload in the URL fragment, which never reaches a server.
           Fonts are bundled with the site at build time, so no request is made to a
           font service. We run no advertising trackers and no analytics on answers or
           results.
