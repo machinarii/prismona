@@ -9,6 +9,7 @@ import { profileFromShare } from "@/lib/shareview";
 import { TRAIT_LABELS } from "@/lib/norms";
 import { BandBar } from "@/components/BandBar";
 import { RarityLine } from "@/components/RarityLine";
+import { TraitFigure } from "@/components/TraitFigure";
 import type { Profile, ReportKey } from "@/lib/types";
 
 const TRAIT_ORDER: ReportKey[] = ["O", "C", "E", "A", "ES", "H"];
@@ -50,15 +51,20 @@ function SharedReport({ profile }: { profile: Profile }) {
         <p className="label gold num">
           Shared profile · {profile.tier === "full" ? "Full Index" : "Quick Profile"} · {profile.date}
         </p>
-        <h1 className="arch-name display">{top?.name ?? "—"}</h1>
-        <p className="arch-tag">{top?.tag}</p>
-        <div className="blend">
-          {profile.archetypes.slice(0, 3).map((a) => (
-            <div key={a.name}>
-              <div className="pctnum num">{a.match}%</div>
-              <div className="pctname">{a.name}</div>
+        <div className="arch-figure-row">
+          <div>
+            <h1 className="arch-name display">{top?.name ?? "—"}</h1>
+            <p className="arch-tag">{top?.tag}</p>
+            <div className="blend">
+              {profile.archetypes.slice(0, 3).map((a) => (
+                <div key={a.name}>
+                  <div className="pctnum num">{a.match}%</div>
+                  <div className="pctname">{a.name}</div>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+          <TraitFigure profile={profile} />
         </div>
         <RarityLine profile={profile} topName={top?.name} />
         <p className="footnote" style={{ marginTop: "var(--s-6)" }}>

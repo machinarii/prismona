@@ -285,6 +285,25 @@ dl.ledger dd { color: var(--ivory-dim); max-width: var(--measure); }
   display: inline-flex; gap: var(--s-6); align-items: center; flex-wrap: wrap;
 }
 
+/* trait figure: a parametric engraving in the house palette */
+.trait-figure { display: block; }
+.trait-figure .ring { fill: none; stroke: var(--hairline-soft); stroke-width: 0.75; }
+.trait-figure .axis { stroke: var(--hairline-soft); stroke-width: 0.5; }
+.trait-figure .band { fill: var(--gold-wash); stroke: var(--gold-deep); stroke-width: 0.75; }
+.trait-figure .line { fill: none; stroke: var(--gold); stroke-width: 1.4; stroke-linejoin: round; }
+.trait-figure .tick { fill: var(--ivory); }
+.trait-figure .axis-label {
+  fill: var(--ivory-faint);
+  font-family: var(--font-label), system-ui, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+.arch-figure-row {
+  display: flex; gap: var(--s-12); align-items: center;
+  flex-wrap: wrap; justify-content: space-between;
+}
+.arch-figure-row > div:first-child { flex: 1 1 380px; }
+
 /* staggered reveal on report load */
 .reveal > * { animation: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .reveal > *:nth-child(1) { animation-delay: 0.05s; }
@@ -415,7 +434,7 @@ table.tiers th { font-family: var(--font-label), system-ui, sans-serif; font-siz
   dl.ledger > div, .band-row, .facet-domain, .flags, .share-code, .blend { break-inside: avoid; }
 
   /* uncertainty bands and ticks must keep their fills on paper */
-  .band-track .band, .band-track .tick {
+  .band-track .band, .band-track .tick, .trait-figure {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }

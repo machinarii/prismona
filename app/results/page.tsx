@@ -10,6 +10,7 @@ import { interestsCareerNote, type InterestProfile } from "@/lib/interests";
 import { decodeShareCode, encodeShareCode } from "@/lib/codec";
 import { profileUrl, sameShareCode } from "@/lib/shareview";
 import { RarityLine } from "@/components/RarityLine";
+import { TraitFigure } from "@/components/TraitFigure";
 import { TRAIT_LABELS } from "@/lib/norms";
 import { loadHistory, loadInterests, loadLatest, loadProfile } from "@/lib/storage";
 import { traitDrift, type DriftReport } from "@/lib/timeline";
@@ -124,15 +125,20 @@ function Report({ profile, drift, interests }: {
           {profile.tier === "full" ? "Full Index" : "Quick Profile"} · {profile.date} ·
           primary archetype
         </p>
-        <h1 className="arch-name display">{top?.name ?? "—"}</h1>
-        <p className="arch-tag">{top?.tag}</p>
-        <div className="blend">
-          {profile.archetypes.slice(0, 3).map((a) => (
-            <div key={a.name}>
-              <div className="pctnum num">{a.match}%</div>
-              <div className="pctname">{a.name}</div>
+        <div className="arch-figure-row">
+          <div>
+            <h1 className="arch-name display">{top?.name ?? "—"}</h1>
+            <p className="arch-tag">{top?.tag}</p>
+            <div className="blend">
+              {profile.archetypes.slice(0, 3).map((a) => (
+                <div key={a.name}>
+                  <div className="pctnum num">{a.match}%</div>
+                  <div className="pctname">{a.name}</div>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+          <TraitFigure profile={profile} />
         </div>
         <RarityLine profile={profile} topName={top?.name} />
         <p className="footnote" style={{ marginTop: "var(--s-6)" }}>
