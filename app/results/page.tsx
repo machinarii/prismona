@@ -8,6 +8,7 @@ import { buildInsights } from "@/lib/insights";
 import { aiContextBlock } from "@/lib/portable";
 import { interestsCareerNote, type InterestProfile } from "@/lib/interests";
 import { encodeShareCode } from "@/lib/codec";
+import { profileUrl } from "@/lib/shareview";
 import { TRAIT_LABELS } from "@/lib/norms";
 import { loadHistory, loadInterests, loadLatest, loadProfile } from "@/lib/storage";
 import { traitDrift, type DriftReport } from "@/lib/timeline";
@@ -37,22 +38,30 @@ function EmptyState() {
   );
 }
 
-function CopyCode({ code }: { code: string }) {
-  const [copied, setCopied] = useState(false);
+function CopyCode({ code, profile }: { code: string; profile: Profile }) {
+  const [copied, setCopied] = useState<"code" | "link" | null>(null);
+  const copy = (text: string, kind: "code" | "link") => {
+    navigator.clipboard?.writeText(text).then(() => {
+      setCopied(kind);
+      setTimeout(() => setCopied(null), 1800);
+    });
+  };
   return (
     <div className="share-code">
       <span className="num">{code}</span>
       <button
         className="btn quiet"
         style={{ padding: "8px 18px" }}
-        onClick={() => {
-          navigator.clipboard?.writeText(code).then(() => {
-            setCopied(true);
-            setTimeout(() => setCopied(false), 1800);
-          });
-        }}
+        onClick={() => copy(code, "code")}
       >
-        {copied ? "Copied" : "Copy"}
+        {copied === "code" ? "Copied" : "Copy code"}
+      </button>
+      <button
+        className="btn quiet"
+        style={{ padding: "8px 18px" }}
+        onClick={() => copy(profileUrl(profile, location.origin), "link")}
+      >
+        {copied === "link" ? "Copied" : "Copy profile link"}
       </button>
     </div>
   );
@@ -258,9 +267,10 @@ function Report({ profile, drift, interests }: {
         <p className="prose" style={{ margin: "var(--s-8) 0 var(--s-4)" }}>
           For a pairing read against the evidence — not notes, but your two actual
           profiles — exchange share codes. Yours encodes six trait scores and nothing
-          else: no answers, no identity.
+          else: no answers, no identity. The profile link is the same code carried in
+          a URL fragment, which browsers never transmit — even we couldn&apos;t log it.
         </p>
-        <CopyCode code={code} />
+        <CopyCode code={code} profile={profile} />
         <div style={{ marginTop: "var(--s-6)" }}>
           <Link href="/compare" className="btn">Compare with someone</Link>
         </div>

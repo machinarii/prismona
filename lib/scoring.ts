@@ -14,7 +14,7 @@ export function normCdf(z: number): number {
 
 export const toPct = (z: number) => Math.min(99, Math.max(1, Math.round(normCdf(z) * 100)));
 
-function band(z: number, alpha: number): TraitScore {
+export function band(z: number, alpha: number): TraitScore {
   const sem = Math.sqrt(1 - alpha);
   return { z, pct: toPct(z), lo: toPct(z - sem), hi: toPct(z + sem) };
 }
