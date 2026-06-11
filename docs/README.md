@@ -20,4 +20,4 @@ The shipped product is the Next.js app at the repo root (see root `README.md`); 
 - **Profile as asset:** retest timeline with SEM-band-overlap drift detection (Roberts et al. 2007 framing), generated "Working with me" one-pager, portable AI context block, and print-to-PDF for every report.
 - **Norms:** provisional; replace with own-user norms at scale (see PRD §6).
 
-Scoring, codec, dyad, insight, manual, timeline, interests, and portable-context logic are unit-tested (87 vitest tests in `lib/__tests__/`).
+Scoring, codec, dyad, insight, manual, timeline, interests, and portable-context logic are unit-tested (95 vitest tests in `lib/__tests__/`).

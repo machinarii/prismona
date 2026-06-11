@@ -14,6 +14,7 @@ A research-grade personality & compatibility platform — the scientific honesty
 | `/results` | Archetype blend, trait percentiles with ±1 SEM bands, retest trajectory, facets, distillation, applied readings (six use cases, percentile-keyed), share code, AI context block, profile confidence |
 | `/interests` | RIASEC interest inventory (O*NET Mini-IP, 30 items, untimed) → Holland code, feeds the career reading |
 | `/manual` | "Working with me" — a generated, printable first-person one-pager from the profile |
+| `/p#PRSM-…` | A profile's unique URL: the share code carried in the fragment (never transmitted to any server) renders a full domain-level report |
 | `/compare` | Dyad report from two share codes: romantic / cofounder / colleague |
 | `/method` | Full method, scoring math, ethics, citations |
 
