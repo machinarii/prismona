@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Privacy Policy — Prismona",
   description:
-    "Prismona's privacy policy: the architecture is the policy. Answers and profiles never leave your browser; Sensory Apparatus LLC collects no accounts, no answers, no analytics on responses.",
+    "Prismona's privacy policy: the architecture is the policy. Answers and profiles never leave your browser; Sensing Apparatus LLC collects no accounts, no answers, no analytics on responses.",
 };
 
 export default function PrivacyPage() {
@@ -15,7 +15,7 @@ export default function PrivacyPage() {
         The architecture is the policy.
       </h1>
       <p className="prose">
-        Prismona is operated by <strong>Sensory Apparatus LLC</strong>. Personality data
+        Prismona is operated by <strong>Sensing Apparatus LLC</strong>. Personality data
         is sensitive, so we built the product so that we never hold it: the assessment,
         scoring, and reports run entirely in your browser. This page states exactly what
         that means — including the one optional, opt-in exception (section V).
@@ -29,7 +29,7 @@ export default function PrivacyPage() {
           assessment — are computed and stored only on your device. They are not
           transmitted to us or to anyone else, not stored on a server, not used for
           advertising, and not sold — ever. There are no accounts, no sign-ups, and no
-          profiles held by Sensory Apparatus LLC. Trait scores follow the same rule with
+          profiles held by Sensing Apparatus LLC. Trait scores follow the same rule with
           one narrow, explicit exception you control: the opt-in norms contribution
           described in section V. Nothing is contributed unless you press the button.
         </p>
@@ -116,7 +116,7 @@ export default function PrivacyPage() {
           If the architecture ever changes, this policy changes first, visibly, with a
           new effective date, and any new collection will be opt-in — section V is the
           first and so far only such addition, made under exactly that rule. Questions can be
-          directed to Sensory Apparatus LLC. See the{" "}
+          directed to Sensing Apparatus LLC. See the{" "}
           <Link href="/method">Method page</Link> for the scientific and ethical
           commitments that sit alongside this policy, and the{" "}
           <Link href="/terms">Terms of Service</Link> for the rest of the agreement.

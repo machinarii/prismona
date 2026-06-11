@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Terms of Service — Prismona",
   description:
-    "The terms under which Sensory Apparatus LLC offers Prismona: what the instrument is and is not, your license, acceptable use, and our disclaimers.",
+    "The terms under which Sensing Apparatus LLC offers Prismona: what the instrument is and is not, your license, acceptable use, and our disclaimers.",
 };
 
 export default function TermsPage() {
@@ -15,7 +15,7 @@ export default function TermsPage() {
         The agreement, in plain language.
       </h1>
       <p className="prose">
-        Prismona is operated by <strong>Sensory Apparatus LLC</strong> (&ldquo;we,&rdquo;
+        Prismona is operated by <strong>Sensing Apparatus LLC</strong> (&ldquo;we,&rdquo;
         &ldquo;us&rdquo;). By using this site you agree to these terms. They are short
         because the product is simple: an assessment that runs in your browser.
         Effective June 11, 2026.
@@ -43,7 +43,7 @@ export default function TermsPage() {
           its intended purpose. The assessment items are public domain via the
           International Personality Item Pool. Everything else — the reports, archetype
           narratives, dyad analyses, design, and code of this site — is the property of
-          Sensory Apparatus LLC or its licensors and may not be copied, resold, or
+          Sensing Apparatus LLC or its licensors and may not be copied, resold, or
           repackaged as a competing service without written permission.
         </p>
       </section>
@@ -85,7 +85,7 @@ export default function TermsPage() {
       <section className="section">
         <div className="section-head"><span className="roman">VI.</span><h2>Limitation of liability</h2></div>
         <p className="prose">
-          To the maximum extent permitted by law, Sensory Apparatus LLC will not be
+          To the maximum extent permitted by law, Sensing Apparatus LLC will not be
           liable for any indirect, incidental, special, consequential, or punitive
           damages, or any loss of data, opportunity, or goodwill, arising from your use
           of Prismona. Our total aggregate liability for any claim relating to the
@@ -99,7 +99,7 @@ export default function TermsPage() {
         <p className="prose">
           We may revise these terms; material changes will be reflected by a new
           effective date on this page, and continued use constitutes acceptance.
-          Questions about these terms can be directed to Sensory Apparatus LLC.
+          Questions about these terms can be directed to Sensing Apparatus LLC.
           See also the <Link href="/privacy">Privacy Policy</Link> and the{" "}
           <Link href="/method">Method page</Link>, which together describe how the
           instrument works and what happens to your data (in short: it stays with you).
