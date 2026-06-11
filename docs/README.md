@@ -1,18 +1,21 @@
-# Real World Personality Test — Keystone (PoC)
+# Prismona — docs
+
+The shipped product is the Next.js app at the repo root (see root `README.md`); it is live at https://prismona.vercel.app. This folder holds the product documents and the historical artifacts the app grew out of.
 
 | File | What it is |
 |---|---|
 | `PRD.md` | Product requirements: vision, science basis, competitive analysis, MVP→v2 scope, compatibility engine, risks |
+| `ROADMAP.md` | Prioritized feature roadmap, use-case expansion verticals, design direction, build log |
 | `research/BIBLIOGRAPHY.md` | 65 annotated papers (trait models, relationships, work fit, teams/cofounders, trust, values, timing/faking). [OA] = one-click full text |
-| `poc/index.html` | Working MVP: open in any browser. 26-item Big Five + Honesty-Humility test, 20s/question timer, archetype + trait percentiles + compatibility notes. Fully client-side |
+| `superpowers/specs/2026-06-11-prismona-web-app-design.md` | Web app design spec (frozen snapshot from build day) |
+| `poc/index.html` | Original working PoC, superseded by the app: 26-item Big Five + Honesty-Humility test, fully client-side. Double-click to run |
+| `keystone/` | Pre-Prismona project skeleton ("Keystone" was the working title), kept for reference |
 
-## Run the PoC
-Double-click `poc/index.html`. No install, no server, no data leaves the browser.
-
-## Science in the PoC
-- **Items:** Mini-IPIP (Donnellan et al. 2006) + IPIP Honesty-Humility (Ashton, Lee & Goldberg 2007) — public domain, commercially usable.
+## Science in the app
+- **Items:** Mini-IPIP (Donnellan et al. 2006) + IPIP-NEO-120 (Johnson 2014) + IPIP Honesty-Humility (Ashton, Lee & Goldberg 2007) — public domain, commercially usable.
 - **Timer:** response latency as a data-quality signal (Fine & Pirak 2016; Meade & Craig 2012).
 - **Archetypes:** 8 prototypes matched in trait z-space, always shown with gradient membership (per the Gerlach 2018 / Freudenstein 2019 debate — never type-only).
+- **Applied readings:** six use-case readings (relationships, career, work, leadership, integrity, cofounder) generated from the user's percentiles at three tiers, with facet refinement on the full tier; every reading cites its evidence and states its limits. Integrity is self-insight only — never a hiring instrument.
 - **Norms:** provisional; replace with own-user norms at scale (see PRD §6).
 
-Scoring logic is unit-tested (reverse keying, ES inversion, archetype assignment, null/timeout handling, careless-response flags).
+Scoring, codec, dyad, and insight logic are unit-tested (49 vitest tests in `lib/__tests__/`).

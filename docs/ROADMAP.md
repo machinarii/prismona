@@ -10,6 +10,7 @@
 | 2 | **Uncertainty bands** | Report percentile *ranges* from SEM (SD·√(1−α)), not point scores. Scientifically honest; no consumer competitor does it. | ✅ Built |
 | 3 | **IRT + adaptive testing** | Calibrate items with IRT → CAT cuts length ~40% at equal precision; per-person reliability as byproduct. | v2 (needs response dataset) |
 | 4 | **Person-fit statistics** | Within-construct consistency (does the response *pattern* cohere?) + latency screens → a real confidence score per profile. Meade & Craig 2012. | ✅ Built (consistency index + latency/straight-line flags) |
+| 13 | **Applied readings (use-case insight engine)** | Static archetype text → dynamic readings generated from the user's actual percentiles, keyed at three tiers, facet-refined on the full tier. Six use cases: relationships, career, work style, leadership, integrity (never a hiring verdict), cofounder. Every reading cites evidence inline (Barrick & Mount 1991; Judge et al. 2002; Malouff 2010; Pletzer 2019; Joel 2020 caveat). | ✅ Built 2026-06-11 (`lib/insights.ts`, results §V) |
 
 ### Tier 2 — New data sources beyond self-report
 | # | Feature | Rationale | Status |
@@ -44,6 +45,8 @@
 **Ethical boundary:** no non-consensual profiling (negotiation counterparts, jury consulting, inferred profiles à la Crystal). Consent-only is core to brand trust.
 
 **Sequencing:** therapist tooling (B.1), VC diligence (B.3), and "working with me" manuals (B.5) share the dyad-report engine already built, monetize fastest, and avoid hiring-law exposure.
+
+**Status (2026-06-11):** the solo-profile side of several verticals shipped as the applied-readings layer (feature 13): career guidance, work style/job fit, and leadership readings now exist on every results page, citation-grounded and percentile-keyed. The hiring/HR vertical remains gated — the integrity reading explicitly disclaims screening use pending criterion validation and adverse-impact analysis.
 
 ## C. Design direction
 Elevated to high-end/exclusive: near-black ground, ivory typography, champagne-gold accents, editorial serif display (Cormorant), hairline rules, roman-numeral pacing, restrained motion. Tone: private research institute — "measured, not gamified."
