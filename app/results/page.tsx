@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { archetypeByName, trustNote } from "@/lib/archetypes";
 import { buildInsights } from "@/lib/insights";
+import { aiContextBlock } from "@/lib/portable";
 import { encodeShareCode } from "@/lib/codec";
 import { TRAIT_LABELS } from "@/lib/norms";
 import { loadLatest, loadProfile } from "@/lib/storage";
@@ -52,6 +53,37 @@ function CopyCode({ code }: { code: string }) {
         {copied ? "Copied" : "Copy"}
       </button>
     </div>
+  );
+}
+
+function CopyContext({ profile }: { profile: Profile }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <details>
+      <summary className="btn quiet" style={{ listStyle: "none", cursor: "pointer" }}>
+        Preview AI context
+      </summary>
+      <pre
+        className="footnote num"
+        style={{
+          whiteSpace: "pre-wrap", border: "1px dashed var(--hairline)",
+          padding: "var(--s-4) var(--s-6)", margin: "var(--s-4) 0", letterSpacing: 0,
+        }}
+      >
+        {aiContextBlock(profile)}
+      </pre>
+      <button
+        className="btn quiet"
+        onClick={() => {
+          navigator.clipboard?.writeText(aiContextBlock(profile)).then(() => {
+            setCopied(true);
+            setTimeout(() => setCopied(false), 1800);
+          });
+        }}
+      >
+        {copied ? "Copied" : "Copy AI context"}
+      </button>
+    </details>
   );
 }
 
@@ -188,6 +220,16 @@ function Report({ profile }: { profile: Profile }) {
         <CopyCode code={code} />
         <div style={{ marginTop: "var(--s-6)" }}>
           <Link href="/compare" className="btn">Compare with someone</Link>
+        </div>
+
+        <div className="no-print" style={{ marginTop: "var(--s-12)" }}>
+          <span className="label gold">Take your profile to your AI</span>
+          <p className="prose" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
+            Copy a plain-text context block — percentiles, uncertainty ranges, and an
+            honest set of instructions — and paste it into Claude, ChatGPT, or any
+            assistant so it adapts to how you actually think. You copy it; nothing is sent.
+          </p>
+          <CopyContext profile={profile} />
         </div>
       </section>
 
