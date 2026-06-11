@@ -30,7 +30,7 @@
 | # | Feature | Rationale | Status |
 |---|---|---|---|
 | 11 | **Own norms + outcome loop** | Re-norm percentiles from user base; 6/12-month outcome follow-ups build proprietary validity evidence. | v1+ (needs DB) |
-| 12 | **Retest tracking** | 6-month re-invites; publish own retest reliability as a trust signal. | v1+ |
+| 12 | **Retest tracking** | 6-month re-invites; publish own retest reliability as a trust signal. | ◐ Client-side timeline built 2026-06-11 (snapshot history, SEM-band drift detection); re-invites still need accounts |
 
 ## B. Use-case expansion (new verticals)
 
@@ -47,6 +47,8 @@
 **Sequencing:** therapist tooling (B.1), VC diligence (B.3), and "working with me" manuals (B.5) share the dyad-report engine already built, monetize fastest, and avoid hiring-law exposure.
 
 **Status (2026-06-11):** the solo-profile side of several verticals shipped as the applied-readings layer (feature 13): career guidance, work style/job fit, and leadership readings now exist on every results page, citation-grounded and percentile-keyed. The hiring/HR vertical remains gated — the integrity reading explicitly disclaims screening use pending criterion validation and adverse-impact analysis.
+
+**Status (2026-06-11, later):** four more shipped the same day (spec: `superpowers/specs/2026-06-11-profile-value-expansion-design.md`): **"Working with me" manual** at `/manual` (B.5's solo-profile core — generated first-person one-pager, printable); **career-pivot direction layer** via the O*NET Mini-IP RIASEC inventory at `/interests` (interests × traits in the career reading); **client-side retest timeline** (feature 12, partial); and the **portable AI context block** (frontier item's zero-backend MVP — copyable personality context for any AI assistant). Print-to-PDF shipped for all report surfaces.
 
 ## C. Design direction
 Elevated to high-end/exclusive: near-black ground, ivory typography, champagne-gold accents, editorial serif display (Cormorant), hairline rules, roman-numeral pacing, restrained motion. Tone: private research institute — "measured, not gamified."
