@@ -8,6 +8,7 @@ import { decodeShareCode, encodeShareCode } from "@/lib/codec";
 import { profileFromShare } from "@/lib/shareview";
 import { TRAIT_LABELS } from "@/lib/norms";
 import { BandBar } from "@/components/BandBar";
+import { RarityLine } from "@/components/RarityLine";
 import type { Profile, ReportKey } from "@/lib/types";
 
 const TRAIT_ORDER: ReportKey[] = ["O", "C", "E", "A", "ES", "H"];
@@ -59,6 +60,7 @@ function SharedReport({ profile }: { profile: Profile }) {
             </div>
           ))}
         </div>
+        <RarityLine profile={profile} topName={top?.name} />
         <p className="footnote" style={{ marginTop: "var(--s-6)" }}>
           Rendered entirely from the code in this link: six trait scores, nothing else —
           no name, no answers, no facets. The person who sent it controls every copy.

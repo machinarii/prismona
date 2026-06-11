@@ -9,6 +9,7 @@ import { aiContextBlock } from "@/lib/portable";
 import { interestsCareerNote, type InterestProfile } from "@/lib/interests";
 import { decodeShareCode, encodeShareCode } from "@/lib/codec";
 import { profileUrl, sameShareCode } from "@/lib/shareview";
+import { RarityLine } from "@/components/RarityLine";
 import { TRAIT_LABELS } from "@/lib/norms";
 import { loadHistory, loadInterests, loadLatest, loadProfile } from "@/lib/storage";
 import { traitDrift, type DriftReport } from "@/lib/timeline";
@@ -133,6 +134,7 @@ function Report({ profile, drift, interests }: {
             </div>
           ))}
         </div>
+        <RarityLine profile={profile} topName={top?.name} />
         <p className="footnote" style={{ marginTop: "var(--s-6)" }}>
           You are the percentages, not the label: archetypes narrate your dimensional
           scores below, never replace them (Gerlach et al., 2018).
