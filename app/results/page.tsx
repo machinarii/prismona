@@ -8,7 +8,8 @@ import { buildInsights } from "@/lib/insights";
 import { aiContextBlock } from "@/lib/portable";
 import { encodeShareCode } from "@/lib/codec";
 import { TRAIT_LABELS } from "@/lib/norms";
-import { loadLatest, loadProfile } from "@/lib/storage";
+import { loadHistory, loadLatest, loadProfile } from "@/lib/storage";
+import { traitDrift, type DriftReport } from "@/lib/timeline";
 import { BandBar } from "@/components/BandBar";
 import type { Profile, ReportKey } from "@/lib/types";
 
@@ -87,7 +88,7 @@ function CopyContext({ profile }: { profile: Profile }) {
   );
 }
 
-function Report({ profile }: { profile: Profile }) {
+function Report({ profile, drift }: { profile: Profile; drift: DriftReport | null }) {
   const top = archetypeByName(profile.archetypes[0]?.name);
   const insights = buildInsights(profile);
   const code = encodeShareCode(profile);
@@ -145,6 +146,29 @@ function Report({ profile }: { profile: Profile }) {
           your true standing most plausibly lies inside it. Norms are re-estimated as our
           sample grows.
         </p>
+        {drift && (
+          <div style={{ marginTop: "var(--s-8)" }}>
+            <span className="label gold num">
+              Trajectory · {drift.n} measurements · {drift.from} → {drift.to}
+            </span>
+            <div className="flags" style={{ marginTop: "var(--s-4)" }}>
+              {TRAIT_ORDER.map((k) => {
+                const d = drift.traits[k];
+                return d.shifted ? (
+                  <span key={k} className="flag num">
+                    {TRAIT_LABELS[k]} {d.from} → {d.to} — moved beyond the error band
+                  </span>
+                ) : null;
+              })}
+              {drift.stable && <span className="flag ok">all six traits stable within their error bands</span>}
+            </div>
+            <p className="footnote" style={{ marginTop: "var(--s-4)" }}>
+              Personality does change — slowly (Roberts et al., 2007). We report movement
+              only when your first and latest ±1 SEM bands fail to overlap; everything
+              inside the bands is measurement noise, honestly labeled.
+            </p>
+          </div>
+        )}
       </section>
 
       {/* III — facets (full tier) */}
@@ -280,15 +304,17 @@ function ResultsInner() {
   const params = useSearchParams();
   const tierParam = params.get("tier");
   const [profile, setProfile] = useState<Profile | null | undefined>(undefined);
+  const [drift, setDrift] = useState<DriftReport | null>(null);
 
   useEffect(() => {
     const p = tierParam === "full" || tierParam === "quick" ? loadProfile(tierParam) ?? loadLatest() : loadLatest();
     setProfile(p);
+    setDrift(traitDrift(loadHistory()));
   }, [tierParam]);
 
   if (profile === undefined) return null; // first paint, before storage read
   if (profile === null) return <EmptyState />;
-  return <Report profile={profile} />;
+  return <Report profile={profile} drift={drift} />;
 }
 
 export default function ResultsPage() {

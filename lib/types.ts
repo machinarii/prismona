@@ -69,6 +69,14 @@ export interface DyadReport {
   frictions: Friction[];
 }
 
+// Compact per-assessment record kept for the retest timeline.
+export interface Snapshot {
+  date: string; // ISO yyyy-mm-dd
+  tier: Tier;
+  traits: Record<ReportKey, { pct: number; lo: number; hi: number }>;
+  consistency: number;
+}
+
 // Domain-level payload carried by a share code (compact by design).
 export interface ShareProfile {
   v: 1;
