@@ -64,6 +64,14 @@ function Report({ profile }: { profile: Profile }) {
 
   return (
     <main className="shell reveal">
+      {/* print-only document header */}
+      <div className="print-only print-head">
+        <span className="label gold">Prismona — Personality Profile</span>
+        <span className="num" style={{ fontSize: "var(--t-sm)", color: "var(--ivory-faint)" }}>
+          {profile.tier === "full" ? "Full Index" : "Quick Profile"} · {profile.date} · prismona.vercel.app
+        </span>
+      </div>
+
       {/* I — archetype */}
       <section className="arch-display">
         <p className="label gold num">
@@ -218,6 +226,7 @@ function Report({ profile }: { profile: Profile }) {
             ? <Link href="/assess?tier=full" className="btn">Take the Full Index</Link>
             : <Link href="/assess?tier=quick" className="btn quiet">Retake Quick Profile</Link>}
           <Link href={`/assess?tier=${profile.tier}`} className="btn quiet">Retake</Link>
+          <button className="btn quiet" onClick={() => window.print()}>Save as PDF</button>
         </div>
       </section>
     </main>
