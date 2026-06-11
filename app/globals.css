@@ -362,3 +362,61 @@ table.tiers th { font-family: var(--font-label), system-ui, sans-serif; font-siz
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   html { scroll-behavior: auto; }
 }
+
+/* ---------- print — "Save as PDF" renders the report as a light document ----------
+   Same tokens, remapped: ivory ground, near-black type, deepened gold so the
+   accent survives white paper. Interactive chrome disappears; the document
+   header (.print-head) appears. */
+
+.print-only { display: none; }
+
+@media print {
+  :root {
+    --ground: #fff;
+    --ground-deep: #fff;
+    --ground-raised: oklch(0.96 0.012 88);
+    --hairline: oklch(0.78 0.015 85);
+    --hairline-soft: oklch(0.87 0.012 85);
+    --ivory: oklch(0.2 0.012 80);
+    --ivory-dim: oklch(0.34 0.014 82);
+    --ivory-faint: oklch(0.5 0.014 84);
+    --gold: oklch(0.52 0.1 85);
+    --gold-deep: oklch(0.44 0.09 82);
+    --gold-wash: oklch(0.78 0.088 88 / 0.25);
+    --sage: oklch(0.45 0.08 150);
+    --claret: oklch(0.46 0.12 28);
+  }
+
+  @page { margin: 16mm; }
+
+  body { background: #fff; color: var(--ivory); line-height: 1.55; min-height: 0; }
+
+  .masthead, .site-footer, .btn, .no-print { display: none !important; }
+  .print-only { display: block !important; }
+
+  /* the staggered reveal must not print mid-animation */
+  .reveal > * { animation: none !important; }
+
+  a { color: inherit; }
+
+  .print-head {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--s-6);
+    border-bottom: 1px solid var(--ivory);
+    padding-bottom: var(--s-3);
+    margin-bottom: var(--s-4);
+  }
+
+  .report-section { padding: var(--s-6) 0 var(--s-8); }
+  .arch-display { padding: var(--s-4) 0 var(--s-6); }
+  .report-section > .label { break-after: avoid; }
+  dl.ledger > div, .band-row, .facet-domain, .flags, .share-code, .blend { break-inside: avoid; }
+
+  /* uncertainty bands and ticks must keep their fills on paper */
+  .band-track .band, .band-track .tick {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
