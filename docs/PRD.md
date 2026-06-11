@@ -69,6 +69,7 @@ A personality assessment people take as seriously as a credit score and enjoy as
 - **Distillation:** per archetype — how you think, act, decide/solve, what you value, blind spots, trust profile (H-factor).
 - **Applied readings (added v0.2):** the static per-archetype compatibility notes were replaced by dynamic readings generated from the user's actual percentiles (three tiers: ≥70 / ≥40 / <40), facet-refined on the full tier, across six use cases — relationships, career, work style, leadership & teams, integrity, cofounder fit. Every reading cites its evidence inline and carries an epistemic caveat; the integrity reading explicitly disclaims any screening/hiring use.
 - **Dyad reports (pulled forward from v1):** share-code compare for romantic / cofounder / colleague — see §7.
+- **Profile-as-asset layer (added v0.2):** RIASEC interest inventory (O*NET Mini-IP, public domain) feeding an interests × traits career reading; generated "Working with me" one-pager at `/manual`; client-side retest timeline with SEM-band drift detection; portable AI context block; print-to-PDF on all report surfaces.
 - **Still out of scope:** accounts, payments, hiring module.
 
 ### 6.2 v1 (months 2–5)

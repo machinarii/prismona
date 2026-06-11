@@ -16,6 +16,8 @@ The shipped product is the Next.js app at the repo root (see root `README.md`); 
 - **Timer:** response latency as a data-quality signal (Fine & Pirak 2016; Meade & Craig 2012).
 - **Archetypes:** 8 prototypes matched in trait z-space, always shown with gradient membership (per the Gerlach 2018 / Freudenstein 2019 debate — never type-only).
 - **Applied readings:** six use-case readings (relationships, career, work, leadership, integrity, cofounder) generated from the user's percentiles at three tiers, with facet refinement on the full tier; every reading cites its evidence and states its limits. Integrity is self-insight only — never a hiring instrument.
+- **Interests:** O*NET Mini-IP (Rounds et al., public domain, 30 items) scored to a Holland code (Holland 1997); combined with traits in the career reading — interests as direction, traits as performance.
+- **Profile as asset:** retest timeline with SEM-band-overlap drift detection (Roberts et al. 2007 framing), generated "Working with me" one-pager, portable AI context block, and print-to-PDF for every report.
 - **Norms:** provisional; replace with own-user norms at scale (see PRD §6).
 
-Scoring, codec, dyad, and insight logic are unit-tested (49 vitest tests in `lib/__tests__/`).
+Scoring, codec, dyad, insight, manual, timeline, interests, and portable-context logic are unit-tested (87 vitest tests in `lib/__tests__/`).

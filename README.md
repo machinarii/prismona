@@ -11,7 +11,9 @@ A research-grade personality & compatibility platform — the scientific honesty
 | `/` | Editorial landing — the two editions, what you receive, claims discipline |
 | `/assess?tier=quick` | Quick Profile: 26 items (Mini-IPIP + H), 20 s/question timer |
 | `/assess?tier=full` | Full Index: 126 items (IPIP-NEO-120 + H), 30-facet resolution |
-| `/results` | Archetype blend, trait percentiles with ±1 SEM bands, facets, distillation, applied readings (six use cases, percentile-keyed), share code, profile confidence |
+| `/results` | Archetype blend, trait percentiles with ±1 SEM bands, retest trajectory, facets, distillation, applied readings (six use cases, percentile-keyed), share code, AI context block, profile confidence |
+| `/interests` | RIASEC interest inventory (O*NET Mini-IP, 30 items, untimed) → Holland code, feeds the career reading |
+| `/manual` | "Working with me" — a generated, printable first-person one-pager from the profile |
 | `/compare` | Dyad report from two share codes: romantic / cofounder / colleague |
 | `/method` | Full method, scoring math, ethics, citations |
 
@@ -30,7 +32,7 @@ Standard Next.js 15 App Router project — deploys on Vercel zero-config (`verce
 
 ## Structure
 
-- `lib/` — pure, unit-tested core: items data, norms, scoring (z → percentiles → SEM bands, person-fit consistency, quality flags), archetype matching, insight engine (percentile-keyed use-case readings with facet refinement), dyad engine, share-code codec
+- `lib/` — pure, unit-tested core: items data (IPIP + O*NET Mini-IP), norms, scoring (z → percentiles → SEM bands, person-fit consistency, quality flags), archetype matching, insight engine (percentile-keyed use-case readings with facet refinement), working-with-me manual generator, RIASEC interest scoring, retest-drift detection (SEM-band overlap test), portable AI context block, dyad engine, share-code codec
 - `app/`, `components/` — Next.js UI (design direction: `docs/ROADMAP.md` §C)
 - `docs/` — PRD, roadmap, 65-paper annotated bibliography, original PoC, spec
 

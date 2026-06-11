@@ -52,6 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </Link>
             <nav aria-label="Primary">
               <Link href="/results">Profile</Link>
+              <Link href="/interests">Interests</Link>
               <Link href="/compare">Compare</Link>
               <Link href="/method">Method</Link>
             </nav>
