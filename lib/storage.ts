@@ -1,13 +1,24 @@
-import type { Profile, Tier } from "./types";
+import type { Profile, Snapshot, Tier } from "./types";
+import { pushSnapshot, snapshotOf } from "./timeline";
 
 // Privacy by default: profiles live only in this browser's localStorage.
 const key = (tier: Tier) => `prismona.profile.${tier}`;
+const HISTORY_KEY = "prismona.history";
 
 export function saveProfile(p: Profile): void {
   try {
     localStorage.setItem(key(p.tier), JSON.stringify(p));
     localStorage.setItem("prismona.latest", p.tier);
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(pushSnapshot(loadHistory(), snapshotOf(p))));
   } catch { /* storage unavailable (private mode etc.) — session-only */ }
+}
+
+export function loadHistory(): Snapshot[] {
+  try {
+    const raw = localStorage.getItem(HISTORY_KEY);
+    const h = raw ? (JSON.parse(raw) as Snapshot[]) : [];
+    return Array.isArray(h) ? h : [];
+  } catch { return []; }
 }
 
 export function loadProfile(tier: Tier): Profile | null {
@@ -31,5 +42,6 @@ export function clearProfiles(): void {
     localStorage.removeItem(key("quick"));
     localStorage.removeItem(key("full"));
     localStorage.removeItem("prismona.latest");
+    localStorage.removeItem(HISTORY_KEY);
   } catch { /* ignore */ }
 }
