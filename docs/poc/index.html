@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keystone — Science-Based Personality Archetype Test</title>
+<style>
+  :root{
+    --bg:#0f1115; --card:#181b22; --card2:#1f232d; --ink:#e8e6e1; --ink-dim:#9a97a0;
+    --accent:#d4a373; --accent2:#7c9885; --danger:#c97064; --line:#2a2e3a;
+    --radius:14px; font-size:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:Georgia,'Times New Roman',serif;line-height:1.6;min-height:100vh;display:flex;justify-content:center}
+  .wrap{width:100%;max-width:720px;padding:32px 20px 80px}
+  .sans{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif}
+  h1{font-size:2rem;font-weight:normal;letter-spacing:.5px}
+  .screen{display:none}.screen.active{display:block;animation:fade .35s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .kicker{color:var(--accent);text-transform:uppercase;letter-spacing:2.5px;font-size:.7rem;margin-bottom:12px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px;margin:18px 0}
+  .btn{display:inline-block;background:var(--accent);color:#181410;border:none;border-radius:10px;
+       padding:13px 30px;font-size:1rem;cursor:pointer;font-family:inherit;transition:transform .12s}
+  .btn:hover{transform:translateY(-1px)}
+  .btn.ghost{background:transparent;color:var(--ink-dim);border:1px solid var(--line)}
+  .dim{color:var(--ink-dim)} .small{font-size:.85rem}
+  ul.clean{list-style:none} ul.clean li{padding:6px 0 6px 22px;position:relative}
+  ul.clean li::before{content:"—";position:absolute;left:0;color:var(--accent)}
+  /* quiz */
+  .qtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .progress{height:4px;background:var(--line);border-radius:2px;overflow:hidden;margin-bottom:36px}
+  .progress i{display:block;height:100%;background:var(--accent);width:0%;transition:width .3s}
+  .timer{position:relative;width:54px;height:54px}
+  .timer svg{transform:rotate(-90deg)}
+  .timer circle{fill:none;stroke-width:4}
+  .timer .track{stroke:var(--line)}
+  .timer .arc{stroke:var(--accent2);stroke-linecap:round;transition:stroke-dashoffset .2s linear}
+  .timer.low .arc{stroke:var(--danger)}
+  .timer span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.85rem}
+  .qtext{font-size:1.45rem;min-height:110px;margin:10px 0 28px}
+  .likert{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+  .likert button{background:var(--card2);border:1px solid var(--line);color:var(--ink);border-radius:10px;
+      padding:16px 6px;cursor:pointer;font-family:inherit;font-size:.8rem;transition:all .12s}
+  .likert button:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .likert b{display:block;font-size:1.25rem;margin-bottom:4px;color:var(--accent)}
+  .hint{margin-top:18px;text-align:center}
+  /* results */
+  .arch-card{background:linear-gradient(135deg,#23202b,#1a1f1c);border:1px solid var(--accent);border-radius:var(--radius);padding:34px;text-align:center;margin:20px 0}
+  .arch-name{font-size:2.3rem;color:var(--accent);margin:6px 0}
+  .blend{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-top:14px}
+  .blend div{font-size:.85rem;color:var(--ink-dim)}
+  .blend b{color:var(--ink)}
+  .bar-row{display:grid;grid-template-columns:170px 1fr 52px;gap:12px;align-items:center;padding:7px 0}
+  .bar{height:10px;background:var(--line);border-radius:5px;overflow:hidden}
+  .bar i{display:block;height:100%;background:var(--accent2);border-radius:5px}
+  .pct{text-align:right;font-variant-numeric:tabular-nums}
+  h3.sec{color:var(--accent);font-weight:normal;letter-spacing:1px;text-transform:uppercase;font-size:.8rem;margin:26px 0 8px}
+  .flag{display:inline-block;background:var(--card2);border:1px solid var(--line);border-radius:20px;padding:4px 14px;margin:4px 6px 0 0;font-size:.8rem}
+  .flag.warn{border-color:var(--danger);color:var(--danger)}
+  .flag.ok{border-color:var(--accent2);color:var(--accent2)}
+  a{color:var(--accent2)}
+  table.compat{width:100%;border-collapse:collapse;font-size:.92rem}
+  table.compat td{padding:9px 10px;border-top:1px solid var(--line);vertical-align:top}
+  table.compat td:first-child{color:var(--accent);white-space:nowrap}
+  @media(max-width:560px){.qtext{font-size:1.2rem}.bar-row{grid-template-columns:110px 1fr 46px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- INTRO -->
+  <section id="intro" class="screen active">
+    <p class="kicker sans">Keystone · proof of concept</p>
+    <h1>What's your operating archetype?</h1>
+    <div class="card">
+      <p>A 5-minute, <strong>science-based</strong> assessment built on the two best-validated models of human personality: the <strong>Big Five</strong> (Mini-IPIP; Donnellan et al., 2006) and <strong>HEXACO Honesty-Humility</strong> (IPIP; Ashton, Lee & Goldberg, 2007) — all public-domain, peer-reviewed instruments.</p>
+      <br>
+      <ul class="clean small">
+        <li><strong>26 statements.</strong> Rate how accurately each describes you.</li>
+        <li><strong>20 seconds per question.</strong> First instincts are more honest than polished answers — response timing is part of the method (Fine &amp; Pirak, 2016).</li>
+        <li><strong>You'll get:</strong> your archetype, full trait percentiles, and a distillation of how you think, act, decide, and what you value — plus compatibility notes for relationships, cofounders, and roles.</li>
+        <li><strong>Private:</strong> everything runs in your browser. Nothing is sent anywhere.</li>
+      </ul>
+    </div>
+    <button class="btn sans" onclick="startTest()">Begin →</button>
+    <p class="dim small" style="margin-top:14px">Answer as you actually are, not as you wish to be. There are no good or bad profiles.</p>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="screen">
+    <div class="qtop sans">
+      <span class="dim small" id="qcount"></span>
+      <div class="timer" id="timer">
+        <svg width="54" height="54"><circle class="track" cx="27" cy="27" r="23"/><circle class="arc" id="arc" cx="27" cy="27" r="23"/></svg>
+        <span id="tnum"></span>
+      </div>
+    </div>
+    <div class="progress"><i id="pbar"></i></div>
+    <p class="qtext" id="qtext"></p>
+    <div class="likert sans" id="likert"></div>
+    <p class="hint dim small sans">Keys 1–5 work too</p>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="results" class="screen">
+    <p class="kicker sans">Your profile</p>
+    <div class="arch-card">
+      <p class="dim small sans">PRIMARY ARCHETYPE</p>
+      <h2 class="arch-name" id="archName"></h2>
+      <p id="archTag" class="dim"></p>
+      <div class="blend sans" id="blend"></div>
+    </div>
+
+    <h3 class="sec sans">Trait profile (percentile vs. provisional adult norms)</h3>
+    <div class="card" id="bars"></div>
+
+    <h3 class="sec sans">Distillation</h3>
+    <div class="card">
+      <table class="compat">
+        <tr><td>How you think</td><td id="dThink"></td></tr>
+        <tr><td>How you act</td><td id="dAct"></td></tr>
+        <tr><td>What you value</td><td id="dValue"></td></tr>
+        <tr><td>How you solve</td><td id="dSolve"></td></tr>
+        <tr><td>Blind spots</td><td id="dBlind"></td></tr>
+        <tr><td>Trust profile</td><td id="dTrust"></td></tr>
+      </table>
+    </div>
+
+    <h3 class="sec sans">Compatibility notes</h3>
+    <div class="card">
+      <table class="compat">
+        <tr><td>Romantic</td><td id="cRom"></td></tr>
+        <tr><td>Cofounder</td><td id="cCof"></td></tr>
+        <tr><td>Best-fit roles</td><td id="cRole"></td></tr>
+      </table>
+      <p class="dim small" style="margin-top:12px">Compatibility is purpose-specific and probabilistic — these notes flag likely frictions and fits, not verdicts. Strongest evidence: a partner's emotional stability, agreeableness and conscientiousness predict relationship satisfaction (Malouff et al., 2010); complementary founder-trait mixes predict startup success (McCarthy et al., 2023); Honesty-Humility is the best predictor of workplace integrity (Pletzer et al., 2019).</p>
+    </div>
+
+    <h3 class="sec sans">Response quality</h3>
+    <div class="card sans" id="quality"></div>
+
+    <div class="card small dim">
+      <strong style="color:var(--ink)">Read this before acting on results.</strong> This short screening test estimates broad traits with real but limited precision (20–26 items). Personality predicts life outcomes at modest effect sizes (r ≈ .2–.3 for the strongest links). Archetypes are a narrative layer over your dimensional scores — you are the percentages, not the label. Sources: Donnellan 2006 · Johnson 2014 · Ashton &amp; Lee 2007 · Gerlach 2018 · Roberts 2007 · full bibliography in the project repo.
+    </div>
+    <button class="btn ghost sans" onclick="location.reload()">Retake</button>
+  </section>
+</div>
+
+<script>
+// ============================ SCORING CORE ============================
+// (pure functions/data — independently unit-testable)
+
+const TIME_LIMIT_MS = 20000, FAST_MS = 800;
+
+// Mini-IPIP (Donnellan et al. 2006) + IPIP Honesty-Humility (Ashton, Lee & Goldberg 2007). Public domain.
+const ITEMS = [
+  {t:"I am the life of the party.", k:"E", r:false},
+  {t:"I sympathize with others' feelings.", k:"A", r:false},
+  {t:"I get chores done right away.", k:"C", r:false},
+  {t:"I have frequent mood swings.", k:"N", r:false},
+  {t:"I have a vivid imagination.", k:"O", r:false},
+  {t:"I don't talk a lot.", k:"E", r:true},
+  {t:"I am not interested in other people's problems.", k:"A", r:true},
+  {t:"I often forget to put things back in their proper place.", k:"C", r:true},
+  {t:"I am relaxed most of the time.", k:"N", r:true},
+  {t:"I am not interested in abstract ideas.", k:"O", r:true},
+  {t:"I talk to a lot of different people at parties.", k:"E", r:false},
+  {t:"I feel others' emotions.", k:"A", r:false},
+  {t:"I like order.", k:"C", r:false},
+  {t:"I get upset easily.", k:"N", r:false},
+  {t:"I have difficulty understanding abstract ideas.", k:"O", r:true},
+  {t:"I keep in the background.", k:"E", r:true},
+  {t:"I am not really interested in others.", k:"A", r:true},
+  {t:"I make a mess of things.", k:"C", r:true},
+  {t:"I seldom feel blue.", k:"N", r:true},
+  {t:"I do not have a good imagination.", k:"O", r:true},
+  {t:"I would never take things that aren't mine.", k:"H", r:false},
+  {t:"I would be tempted to use counterfeit money if I were sure I could get away with it.", k:"H", r:true},
+  {t:"I tell other people what they want to hear so that they will do what I want them to do.", k:"H", r:true},
+  {t:"I am an ordinary person who is no better than others.", k:"H", r:false},
+  {t:"I'd be tempted to buy stolen property if money were tight.", k:"H", r:true},
+  {t:"I cheat to get ahead.", k:"H", r:true},
+];
+
+// Provisional norms (approximate, from Mini-IPIP & IPIP community samples). Replace with own-user norms at scale.
+const NORMS = { E:{m:3.0,sd:0.90}, A:{m:3.9,sd:0.70}, C:{m:3.4,sd:0.80},
+                N:{m:2.9,sd:0.85}, O:{m:3.8,sd:0.70}, H:{m:3.6,sd:0.70} };
+
+const TRAIT_LABELS = { O:"Openness", C:"Conscientiousness", E:"Extraversion",
+                       A:"Agreeableness", ES:"Emotional Stability", H:"Honesty-Humility" };
+
+// Archetype prototypes in z-space [O, C, E, A, ES, H].
+// Narrative layer inspired by empirical trait clustering (Gerlach et al. 2018) — always reported with gradient membership.
+const ARCHETYPES = [
+ {name:"The Architect", v:[1.0,1.0,-0.5,0.0,0.5,0.5],
+  tag:"Deliberate systems-builder: imagination disciplined by structure.",
+  think:"In systems and long arcs. You model how parts interact before touching any of them, and you'd rather be slow and right than fast and plausible.",
+  act:"Methodically, with plans that survive contact with reality. You under-promise, document, and quietly resent improvisation forced on you.",
+  value:"Competence, intellectual honesty, autonomy. Sloppy reasoning bothers you more than disagreement.",
+  solve:"Decompose → first principles → design the durable fix, not the patch. You prefer one correct solution over three workarounds.",
+  blind:"Over-engineering; deciding too late; reading others' need for speed or reassurance as unseriousness.",
+  rom:"Steadiest with partners high in warmth who voice needs directly — you can miss unspoken bids. Your reliability is your love language; say the words too.",
+  cof:"Pair with a Catalyst or Driver who sells and decides fast; you keep the machine sound. Risk: two Architects polish forever and ship never.",
+  role:"Engineering/architecture, research, strategy, ops design, CTO-type roles."},
+ {name:"The Catalyst", v:[1.0,0.0,1.0,0.5,0.3,0.0],
+  tag:"Idea-to-people converter: energy, vision, and momentum.",
+  think:"In possibilities and connections. New information is fuel; you think out loud and synthesize across domains.",
+  act:"Fast starts, visible enthusiasm, magnetic recruitment of others to the cause. Follow-through depends on who's around you.",
+  value:"Growth, novelty, inspiration, being in motion with people you rate.",
+  solve:"Reframe the problem, borrow an analogy from another field, prototype in public, iterate from feedback.",
+  blind:"Shiny-object switching; underestimating maintenance work; mistaking excitement for commitment.",
+  rom:"You bring adventure; you need a partner who is genuinely okay with intensity that comes in waves. Conscientious partners stabilize you — if you let them.",
+  cof:"The classic visionary half. Pair with an Operator or Steward who closes loops. Risk: two Catalysts = ten projects, zero invoices.",
+  role:"Founding, product vision, evangelism/sales, BD, creative direction."},
+ {name:"The Steward", v:[0.0,1.0,0.0,1.0,0.5,1.0],
+  tag:"The trustworthy anchor: duty, warmth, and clean hands.",
+  think:"In responsibilities and consequences for people. 'Who is affected, and what did we promise?' comes before 'what is clever?'",
+  act:"Consistently. You do what you said, on time, without being watched — and you notice who else does.",
+  value:"Integrity, fairness, loyalty, keeping one's word. Your Honesty-Humility profile is your defining asset.",
+  solve:"Stabilize first, then fix causes. You prefer proven methods and clear ownership over heroics.",
+  blind:"Absorbing others' work silently until resentment; risk-aversion; assuming everyone's word is as good as yours.",
+  rom:"High partner-satisfaction profile — stability, warmth and reliability are the three best-evidenced traits a partner can have. Guard against over-giving.",
+  cof:"The cofounder everyone *should* want: you make the trust layer of the company. Pair with a Driver/Catalyst for offense. Vet partners' integrity — you project your own onto others.",
+  role:"Finance, operations, people leadership, compliance, customer trust, COO-type roles."},
+ {name:"The Diplomat", v:[0.5,0.0,0.8,1.0,0.0,0.5],
+  tag:"Social intelligence in motion: the room works because you're in it.",
+  think:"In relationships and undercurrents. You read motives and moods quickly and accurately, and think in 'who needs what.'",
+  act:"Warmly and adaptively; you broker, translate, and de-escalate. Conflict avoidance is your default setting.",
+  value:"Harmony, belonging, being of real use to people you care about.",
+  solve:"Through people: find the stakeholders, align incentives, talk it out. You fix the relationship and the problem dissolves.",
+  blind:"Saying yes too often; deciding by consensus when someone just needs to decide; deferring hard feedback until it's expensive.",
+  rom:"Naturally attuned and generous; your risk is self-erasure. You need a partner who asks what *you* want — and you need to answer.",
+  cof:"Glue of any founding team; superb for partnerships, hiring, culture. Pair with someone comfortable being the bad cop. Risk: low-Honesty partners exploit your accommodation.",
+  role:"Partnerships, account/customer leadership, talent, comms, chief-of-staff."},
+ {name:"The Explorer", v:[1.2,-0.8,0.5,0.0,0.3,0.0],
+  tag:"Frontier-runner: curiosity over comfort, motion over maps.",
+  think:"Divergently. Constraints feel like suggestions; your best ideas arrive sideways, mid-experience, not at a desk.",
+  act:"Improvisationally and bravely. You commit to the interesting before the certain, and you recover from chaos faster than most.",
+  value:"Freedom, experience, authenticity. A predictable decade is your nightmare.",
+  solve:"Try it. Then try the weirder version. You learn by collision, and your error-recovery is your method.",
+  blind:"Structure debt — finishing, filing, maintaining; promising spontaneity others read as unreliability.",
+  rom:"Thrilling and present; long-horizon logistics are where friction appears. Works best with secure, flexible partners who don't read novelty-seeking as rejection.",
+  cof:"Brilliant 0→1, hazardous 1→10. Pair with a Steward/Operator and give yourself the explore mandate. Risk: low dual-conscientiousness teams stall after the demo.",
+  role:"R&D, field work, early product, growth experiments, creative production."},
+ {name:"The Operator", v:[-0.8,1.0,0.0,0.0,0.8,0.3],
+  tag:"Calm execution engine: today's plan, done today, no drama.",
+  think:"Concretely and practically. You distrust abstractions until they cash out in steps, owners, and dates.",
+  act:"With low-noise consistency under pressure — your emotional stability is a genuine competitive advantage.",
+  value:"Results, reliability, common sense, deserved rest.",
+  solve:"Standardize the repeatable, escalate the exceptional. You make hard things boring, which is the highest operational compliment.",
+  blind:"Dismissing unfamiliar ideas too early; mistaking 'works now' for 'will keep working'; under-selling your wins.",
+  rom:"A steady, de-dramatizing presence (high partner-satisfaction evidence). Make room for your partner's abstract or emotional explorations — they're not inefficiency.",
+  cof:"You convert vision into payroll-meeting reality. Pair with a Catalyst/Architect for direction. Risk: optimizing the current thing while the market moves.",
+  role:"Operations, logistics, manufacturing, SRE/infrastructure, GM roles."},
+ {name:"The Driver", v:[0.3,0.8,0.8,-0.8,0.5,-0.3],
+  tag:"Outcome-hungry competitor: speed, will, and a scoreboard.",
+  think:"In targets and leverage. You triage fast, tolerate ambiguity, and think 'what wins?' before 'what's ideal?'",
+  act:"Decisively, sometimes abrasively. You'd rather apologize than ask permission, and you respect people who push back with substance.",
+  value:"Winning, candor, competence, control of your own fate.",
+  solve:"Pick the highest-leverage move, commit hard, renegotiate reality later. Analysis is a tool, not a home.",
+  blind:"Collateral damage to relationships; hearing disagreement as weakness; ethical gray zones under pressure — watch your own corner-cutting honestly.",
+  rom:"Exciting and protective; the friction point is low agreeableness in daily conflict. Partners high in emotional stability fare best; practice repair, not just victory.",
+  cof:"You supply velocity and external force. Pair with a high-Honesty Steward who can tell you no — and listen. Two Drivers: great sprint, likely explosion.",
+  role:"Sales leadership, CEO/GM, turnarounds, trading, competitive markets."},
+ {name:"The Scholar", v:[1.0,0.3,-1.0,0.0,0.8,0.3],
+  tag:"Deep, independent mind: signal over noise, depth over reach.",
+  think:"Slowly, precisely, alone. You build unusually accurate models in your domains and know exactly where your knowledge ends.",
+  act:"Selectively. You spend social energy like the scarce resource it is and do your best work in long, protected stretches.",
+  value:"Truth, depth, quiet, intellectual freedom.",
+  solve:"Read everything, think hard, emerge with the answer — often the one everyone else missed by moving too fast.",
+  blind:"Under-communicating (being right invisibly); avoiding necessary conflict and self-promotion; analysis as procrastination.",
+  rom:"Loyal and low-drama with rich inner life; partners may need explicit reassurance that silence isn't distance. Schedule the connection you won't improvise.",
+  cof:"Superb technical/insight cofounder. You need an outward-facing partner; agree explicitly on who owns external noise. Risk: conflict avoidance lets problems compound silently.",
+  role:"Research, specialist engineering, analysis, writing, science, deep craft."},
+];
+
+function normCdf(z){ // Abramowitz-Stegun approximation
+  const t=1/(1+0.2316419*Math.abs(z));
+  const d=0.3989423*Math.exp(-z*z/2);
+  let p=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));
+  return z>0?1-p:p;
+}
+
+// answers: [{value:1-5|null, latencyMs:number, timedOut:bool}]
+function scoreTest(answers){
+  const sums={}, counts={};
+  ITEMS.forEach((it,i)=>{
+    const a=answers[i];
+    if(!a||a.value==null) return;
+    const v=it.r?6-a.value:a.value;
+    sums[it.k]=(sums[it.k]||0)+v; counts[it.k]=(counts[it.k]||0)+1;
+  });
+  const traits={};
+  for(const k of ["O","C","E","A","N","H"]){
+    const mean=counts[k]?sums[k]/counts[k]:NORMS[k].m;
+    traits[k]={mean, z:(mean-NORMS[k].m)/NORMS[k].sd};
+  }
+  // report Emotional Stability (reverse of Neuroticism)
+  const prof={O:traits.O.z, C:traits.C.z, E:traits.E.z, A:traits.A.z, ES:-traits.N.z, H:traits.H.z};
+  const pct={}; for(const k in prof) pct[k]=Math.round(normCdf(prof[k])*100);
+
+  // nearest-prototype with gradient membership
+  const vec=[prof.O,prof.C,prof.E,prof.A,prof.ES,prof.H];
+  const ranked=ARCHETYPES.map(a=>{
+    const d=Math.sqrt(a.v.reduce((s,p,i)=>s+(p-vec[i])**2,0));
+    return {a, sim:Math.pow(1/(1+d),3)};
+  }).sort((x,y)=>y.sim-x.sim);
+  const simSum=ranked.slice(0,3).reduce((s,r)=>s+r.sim,0);
+  ranked.forEach(r=>r.match=Math.round(100*r.sim/simSum)); // blend % across top 3
+
+  // quality
+  const answered=answers.filter(a=>a&&a.value!=null);
+  const fast=answered.filter(a=>a.latencyMs<FAST_MS).length;
+  const timeouts=answers.filter(a=>a&&a.timedOut).length;
+  let maxRun=0,run=0,prev=null;
+  answers.forEach(a=>{ const v=a&&a.value;
+    if(v!=null&&v===prev){run++;maxRun=Math.max(maxRun,run);}else{run=1;}
+    prev=v; });
+  const medLat=answered.length?answered.map(a=>a.latencyMs).sort((a,b)=>a-b)[Math.floor(answered.length/2)]:0;
+  return {prof, pct, ranked, quality:{fast, timeouts, straight:maxRun>=8, medLat, answered:answered.length, total:answers.length}};
+}
+// ========================== END SCORING CORE ==========================
+
+// ------------------------------ UI ------------------------------
+const $=id=>document.getElementById(id);
+const LIKERT=[["1","Very inaccurate"],["2","Somewhat inaccurate"],["3","Neutral"],["4","Somewhat accurate"],["5","Very accurate"]];
+let idx=0, answers=[], shownAt=0, tInterval=null;
+const CIRC=2*Math.PI*23;
+
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id).classList.add('active');}
+
+function startTest(){
+  idx=0; answers=ITEMS.map(()=>null);
+  $('likert').innerHTML=LIKERT.map((l,i)=>`<button onclick="answer(${i+1})"><b>${l[0]}</b>${l[1]}</button>`).join('');
+  show('quiz'); renderQ();
+}
+
+function renderQ(){
+  $('qcount').textContent=`Question ${idx+1} of ${ITEMS.length}`;
+  $('qtext').textContent=ITEMS[idx].t;
+  $('pbar').style.width=(idx/ITEMS.length*100)+'%';
+  shownAt=performance.now();
+  const arc=$('arc'); arc.style.strokeDasharray=CIRC;
+  clearInterval(tInterval);
+  tInterval=setInterval(()=>{
+    const elapsed=performance.now()-shownAt, left=Math.max(0,TIME_LIMIT_MS-elapsed);
+    $('tnum').textContent=Math.ceil(left/1000);
+    arc.style.strokeDashoffset=CIRC*(1-left/TIME_LIMIT_MS);
+    $('timer').classList.toggle('low',left<5000);
+    if(left<=0){clearInterval(tInterval); answers[idx]={value:null,latencyMs:TIME_LIMIT_MS,timedOut:true}; next();}
+  },100);
+}
+
+function answer(v){
+  clearInterval(tInterval);
+  answers[idx]={value:v, latencyMs:Math.round(performance.now()-shownAt), timedOut:false};
+  next();
+}
+document.addEventListener('keydown',e=>{
+  if(!$('quiz').classList.contains('active'))return;
+  if(e.key>='1'&&e.key<='5')answer(+e.key);
+});
+
+function next(){ idx++; idx<ITEMS.length?renderQ():finish(); }
+
+function finish(){
+  const r=scoreTest(answers);
+  const top=r.ranked[0].a;
+  $('archName').textContent=top.name;
+  $('archTag').textContent=top.tag;
+  $('blend').innerHTML=r.ranked.slice(0,3).map(x=>`<div><b>${x.match}%</b> ${x.a.name}</div>`).join('');
+  $('bars').innerHTML=Object.keys(TRAIT_LABELS).map(k=>
+    `<div class="bar-row sans"><span class="small">${TRAIT_LABELS[k]}</span>
+     <div class="bar"><i style="width:${r.pct[k]}%"></i></div>
+     <span class="pct small">${r.pct[k]}%</span></div>`).join('');
+  $('dThink').textContent=top.think; $('dAct').textContent=top.act;
+  $('dValue').textContent=top.value; $('dSolve').textContent=top.solve;
+  $('dBlind').textContent=top.blind;
+  $('dTrust').textContent=trustNote(r.pct.H);
+  $('cRom').textContent=top.rom; $('cCof').textContent=top.cof; $('cRole').textContent=top.role;
+  const q=r.quality, flags=[];
+  flags.push(`<span class="flag">${q.answered}/${q.total} answered</span>`);
+  flags.push(`<span class="flag">median response ${(q.medLat/1000).toFixed(1)}s</span>`);
+  flags.push(q.fast>3?`<span class="flag warn">${q.fast} very fast (&lt;0.8s) responses — possible carelessness</span>`:`<span class="flag ok">pace looks considered</span>`);
+  if(q.timeouts>2)flags.push(`<span class="flag warn">${q.timeouts} timeouts — scores less precise</span>`);
+  if(q.straight)flags.push(`<span class="flag warn">long identical-answer streak — possible straight-lining</span>`);
+  if(q.fast<=3&&q.timeouts<=2&&!q.straight)flags.push(`<span class="flag ok">profile confidence: good</span>`);
+  $('quality').innerHTML=flags.join('');
+  $('pbar').style.width='100%';
+  show('results'); window.scrollTo(0,0);
+}
+
+function trustNote(h){
+  if(h>=70)return "High Honesty-Humility — the single best-evidenced predictor of integrity and low exploitation risk (Pletzer et al., 2019). People are right to extend you trust early; your risk is assuming others operate the same way.";
+  if(h>=40)return "Mid-range Honesty-Humility — situationally principled, like most people. Your integrity holds when norms and incentives support it; choose environments (and partners) that do.";
+  return "Lower Honesty-Humility — comfortable with self-interested angles others avoid. That candor about advantage can be an asset in negotiation, but it is the trait most associated with trust breakdowns in teams; explicit commitments and accountability structures protect your relationships.";
+}
+</script>
+</body>
+</html>
