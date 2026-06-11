@@ -2,7 +2,7 @@ import type { Profile, ReportKey, ShareProfile } from "./types";
 import { ALPHA } from "./norms";
 import { band } from "./scoring";
 import { matchArchetypes } from "./archetypes";
-import { encodeShareCode } from "./codec";
+import { decodeShareCode, encodeShareCode } from "./codec";
 
 // A share code is a profile's unique URL payload: domain z-scores carried in
 // the fragment (#) of /p, which browsers never transmit — the link is
@@ -34,6 +34,15 @@ export function profileFromShare(s: ShareProfile): Profile {
   };
 }
 
-export function profileUrl(p: Profile | ShareProfile, origin: string): string {
-  return `${origin}/p#${encodeShareCode(p)}`;
+export function profileUrl(p: Profile | ShareProfile, origin: string, path = "/p"): string {
+  return `${origin}${path}#${encodeShareCode(p)}`;
+}
+
+// Canonical comparison: does this code (with or without prefix, however the
+// URL mangled it) denote this profile? Decode → re-encode → compare, so the
+// answer survives prefix stripping and never throws on garbage.
+export function sameShareCode(code: string, p: Profile | ShareProfile): boolean {
+  const decoded = decodeShareCode(code);
+  if (!decoded) return false;
+  return encodeShareCode(decoded) === encodeShareCode(p);
 }

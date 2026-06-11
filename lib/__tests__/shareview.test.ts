@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { profileFromShare, profileUrl } from "../shareview";
+import { profileFromShare, profileUrl, sameShareCode } from "../shareview";
 import { decodeShareCode, encodeShareCode } from "../codec";
 import { matchArchetypes } from "../archetypes";
 import { toPct } from "../scoring";
@@ -88,5 +88,30 @@ describe("profileUrl", () => {
   it("accepts a full Profile too", () => {
     const url = profileUrl(fullProfile({ E: 1 }), "http://localhost:3000");
     expect(url).toMatch(/^http:\/\/localhost:3000\/p#PRSM-/);
+  });
+
+  it("can target other code-aware pages, like the manual", () => {
+    const url = profileUrl(share({ E: 1 }), "https://prismona.vercel.app", "/manual");
+    expect(url).toMatch(/^https:\/\/prismona\.vercel\.app\/manual#PRSM-/);
+  });
+});
+
+describe("sameShareCode", () => {
+  const mine = fullProfile({ O: 1.1, C: -0.4, E: 0.8 });
+  const myCode = encodeShareCode(mine);
+
+  it("recognizes a profile's own code, with or without the PRSM- prefix", () => {
+    expect(sameShareCode(myCode, mine)).toBe(true);
+    expect(sameShareCode(myCode.replace("PRSM-", ""), mine)).toBe(true);
+  });
+
+  it("rejects a different profile's code", () => {
+    const other = encodeShareCode(fullProfile({ O: -1.2, ES: 1.0 }));
+    expect(sameShareCode(other, mine)).toBe(false);
+  });
+
+  it("rejects garbage without throwing", () => {
+    expect(sameShareCode("not-a-code", mine)).toBe(false);
+    expect(sameShareCode("", mine)).toBe(false);
   });
 });

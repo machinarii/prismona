@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { archetypeByName, trustNote } from "@/lib/archetypes";
 import { buildInsights } from "@/lib/insights";
-import { decodeShareCode } from "@/lib/codec";
+import { decodeShareCode, encodeShareCode } from "@/lib/codec";
 import { profileFromShare } from "@/lib/shareview";
 import { TRAIT_LABELS } from "@/lib/norms";
 import { BandBar } from "@/components/BandBar";
@@ -133,6 +133,7 @@ function SharedReport({ profile }: { profile: Profile }) {
         <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-8)", flexWrap: "wrap" }}>
           <Link href="/assess?tier=quick" className="btn solid">Measure yourself · 5 minutes</Link>
           <Link href="/compare" className="btn">Compare with this profile</Link>
+          <Link href={`/manual#${encodeShareCode(profile)}`} className="btn quiet">Their working-with-me manual</Link>
           <button className="btn quiet" onClick={() => window.print()}>Save as PDF</button>
         </div>
       </section>

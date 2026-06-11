@@ -6,6 +6,7 @@ import Link from "next/link";
 import { itemsForTier } from "@/lib/items";
 import { TIME_LIMIT_MS } from "@/lib/norms";
 import { scoreTest } from "@/lib/scoring";
+import { encodeShareCode } from "@/lib/codec";
 import { saveProfile } from "@/lib/storage";
 import { TimerRing } from "@/components/TimerRing";
 import type { Answer, Tier } from "@/lib/types";
@@ -64,7 +65,9 @@ function Runner({ tier }: { tier: Tier }) {
     setStage("scoring");
     const profile = scoreTest(items, answersRef.current, tier);
     saveProfile(profile);
-    router.push(`/results?tier=${tier}`);
+    // Land on results already at the profile's unique URL — the address bar
+    // is the share link from the first paint.
+    router.push(`/results?tier=${tier}#${encodeShareCode(profile)}`);
   }, [items, tier, router]);
 
   const advance = useCallback((a: Answer) => {
