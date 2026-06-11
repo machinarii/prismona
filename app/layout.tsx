@@ -75,6 +75,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               IPIP HEXACO Honesty-Humility (Ashton, Lee &amp; Goldberg, 2007). Public domain via
               the International Personality Item Pool. <Link href="/method">Full method &amp; citations</Link>.
             </p>
+            <p className="footnote">
+              Prismona is made by Sensory Apparatus LLC. © 2026 Sensory Apparatus LLC.
+              All rights reserved. <Link href="/terms">Terms of Service</Link> ·{" "}
+              <Link href="/privacy">Privacy Policy</Link>
+            </p>
           </div>
         </footer>
       </body>
