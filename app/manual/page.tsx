@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { buildManual } from "@/lib/manual";
+import { decodeShareCode, encodeShareCode } from "@/lib/codec";
+import { profileFromShare, profileUrl } from "@/lib/shareview";
 import { loadLatest } from "@/lib/storage";
 import type { Profile } from "@/lib/types";
 
@@ -21,6 +23,23 @@ function EmptyState() {
         <Link href="/assess?tier=quick" className="btn solid">Begin · 5 minutes</Link>
       </div>
     </main>
+  );
+}
+
+function CopyManualLink({ profile }: { profile: Profile }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      className="btn quiet"
+      onClick={() => {
+        navigator.clipboard?.writeText(profileUrl(profile, location.origin, "/manual")).then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1800);
+        });
+      }}
+    >
+      {copied ? "Copied" : "Copy manual link"}
+    </button>
   );
 }
 
@@ -72,6 +91,7 @@ function Manual({ profile }: { profile: Profile }) {
         </p>
         <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-8)", flexWrap: "wrap" }}>
           <button className="btn" onClick={() => window.print()}>Save as PDF</button>
+          <CopyManualLink profile={profile} />
           <Link href="/results" className="btn quiet">Back to profile</Link>
         </div>
       </section>
@@ -81,7 +101,17 @@ function Manual({ profile }: { profile: Profile }) {
 
 export default function ManualPage() {
   const [profile, setProfile] = useState<Profile | null | undefined>(undefined);
-  useEffect(() => { setProfile(loadLatest()); }, []);
+  useEffect(() => {
+    // A code in the URL renders that profile's manual (the manual is
+    // domain-level by design, so a share code carries everything it needs);
+    // otherwise fall back to this browser's own profile.
+    const hash = location.hash.slice(1);
+    const shared = hash ? decodeShareCode(hash) : null;
+    const p = shared ? profileFromShare(shared) : loadLatest();
+    setProfile(p);
+    // Keep the address bar at the manual's unique URL from the first paint.
+    if (p) history.replaceState(null, "", `${location.pathname}#${encodeShareCode(p)}`);
+  }, []);
   if (profile === undefined) return null;
   if (profile === null) return <EmptyState />;
   return <Manual profile={profile} />;

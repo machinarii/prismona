@@ -1,14 +1,14 @@
 "use client";
 
 import { Suspense, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { archetypeByName, trustNote } from "@/lib/archetypes";
 import { buildInsights } from "@/lib/insights";
 import { aiContextBlock } from "@/lib/portable";
 import { interestsCareerNote, type InterestProfile } from "@/lib/interests";
-import { encodeShareCode } from "@/lib/codec";
-import { profileUrl } from "@/lib/shareview";
+import { decodeShareCode, encodeShareCode } from "@/lib/codec";
+import { profileUrl, sameShareCode } from "@/lib/shareview";
 import { TRAIT_LABELS } from "@/lib/norms";
 import { loadHistory, loadInterests, loadLatest, loadProfile } from "@/lib/storage";
 import { traitDrift, type DriftReport } from "@/lib/timeline";
@@ -331,6 +331,7 @@ function Report({ profile, drift, interests }: {
 
 function ResultsInner() {
   const params = useSearchParams();
+  const router = useRouter();
   const tierParam = params.get("tier");
   const [profile, setProfile] = useState<Profile | null | undefined>(undefined);
   const [drift, setDrift] = useState<DriftReport | null>(null);
@@ -338,10 +339,20 @@ function ResultsInner() {
 
   useEffect(() => {
     const p = tierParam === "full" || tierParam === "quick" ? loadProfile(tierParam) ?? loadLatest() : loadLatest();
+    // A code in the URL that isn't this browser's profile is someone else's
+    // link — hand it to the shared-profile view rather than ignoring it.
+    const hash = location.hash.slice(1);
+    if (hash && decodeShareCode(hash) && (!p || !sameShareCode(hash, p))) {
+      router.replace(`/p#${hash}`);
+      return;
+    }
     setProfile(p);
     setDrift(traitDrift(loadHistory()));
     setInterests(loadInterests());
-  }, [tierParam]);
+    // Keep the address bar at the profile's unique URL so the link is
+    // copyable from the first paint.
+    if (p) history.replaceState(null, "", `${location.pathname}${location.search}#${encodeShareCode(p)}`);
+  }, [tierParam, router]);
 
   if (profile === undefined) return null; // first paint, before storage read
   if (profile === null) return <EmptyState />;
