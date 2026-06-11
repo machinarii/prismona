@@ -1,9 +1,11 @@
 import type { Profile, Snapshot, Tier } from "./types";
 import { pushSnapshot, snapshotOf } from "./timeline";
+import type { InterestProfile } from "./interests";
 
 // Privacy by default: profiles live only in this browser's localStorage.
 const key = (tier: Tier) => `prismona.profile.${tier}`;
 const HISTORY_KEY = "prismona.history";
+const INTERESTS_KEY = "prismona.interests";
 
 export function saveProfile(p: Profile): void {
   try {
@@ -37,11 +39,25 @@ export function loadLatest(): Profile | null {
   } catch { return null; }
 }
 
+export function saveInterests(ip: InterestProfile): void {
+  try { localStorage.setItem(INTERESTS_KEY, JSON.stringify(ip)); } catch { /* ignore */ }
+}
+
+export function loadInterests(): InterestProfile | null {
+  try {
+    const raw = localStorage.getItem(INTERESTS_KEY);
+    if (!raw) return null;
+    const ip = JSON.parse(raw) as InterestProfile;
+    return ip && ip.v === 1 ? ip : null;
+  } catch { return null; }
+}
+
 export function clearProfiles(): void {
   try {
     localStorage.removeItem(key("quick"));
     localStorage.removeItem(key("full"));
     localStorage.removeItem("prismona.latest");
     localStorage.removeItem(HISTORY_KEY);
+    localStorage.removeItem(INTERESTS_KEY);
   } catch { /* ignore */ }
 }
