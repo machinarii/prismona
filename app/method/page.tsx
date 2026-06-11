@@ -24,6 +24,8 @@ const CITATIONS: Array<[string, string]> = [
   ["Pletzer, J. L., et al. (2019). Comparing domain- and facet-level relations of the HEXACO personality model with workplace deviance: A meta-analysis. Personality and Individual Differences, 152, 109539.", "https://doi.org/10.1016/j.paid.2019.109539"],
   ["Barrick, M. R., & Mount, M. K. (1991). The Big Five personality dimensions and job performance: A meta-analysis. Personnel Psychology, 44(1), 1–26.", "https://doi.org/10.1111/j.1744-6570.1991.tb00688.x"],
   ["Judge, T. A., Bono, J. E., Ilies, R., & Gerhardt, M. W. (2002). Personality and leadership: A qualitative and quantitative review. Journal of Applied Psychology, 87(4), 765–780.", "https://doi.org/10.1037/0021-9010.87.4.765"],
+  ["Holland, J. L. (1997). Making Vocational Choices: A Theory of Vocational Personalities and Work Environments (3rd ed.). Psychological Assessment Resources.", "https://psycnet.apa.org/record/1997-08980-000"],
+  ["Rounds, J., Wee, C. J. M., Cao, M., Song, C., & Lewis, P. Development of an O*NET Mini Interest Profiler (Mini-IP) for Mobile Devices: Psychometric Characteristics. National Center for O*NET Development.", "https://www.onetcenter.org/reports/Mini-IP.html"],
   ["Fine, S., & Pirak, M. (2016). Faking fast and slow: Within-person response time latencies for measuring faking in personnel testing. Journal of Business and Psychology, 31, 51–64.", "https://doi.org/10.1007/s10869-015-9398-5"],
   ["Meade, A. W., & Craig, S. B. (2012). Identifying careless responses in survey data. Psychological Methods, 17(3), 437–455.", "https://doi.org/10.1037/a0028085"],
   ["Röhner, J., & Thoss, P. (2022). Challenging response latencies in faking detection.", "https://pmc.ncbi.nlm.nih.gov/articles/PMC8863730/"],
@@ -81,10 +83,21 @@ export default function MethodPage() {
             </dd>
           </div>
           <div>
+            <dt>Interests</dt>
+            <dd>
+              O*NET Mini Interest Profiler (Rounds et al.): 30 items, five per RIASEC
+              scale (Holland, 1997), scale α ≈ .70–.75, r = .95–.96 with the 60-item
+              Short Form. Scored ipsatively to a Holland code; interests supply career
+              direction, traits the performance estimate.
+            </dd>
+          </div>
+          <div>
             <dt>Licensing</dt>
             <dd>
-              All items are public domain via the International Personality Item Pool
-              (Goldberg et al., 2006). No proprietary instrument is imitated or licensed.
+              All personality items are public domain via the International Personality
+              Item Pool (Goldberg et al., 2006); interest items are public domain via the
+              U.S. Department of Labor O*NET program. No proprietary instrument is
+              imitated or licensed.
             </dd>
           </div>
         </dl>

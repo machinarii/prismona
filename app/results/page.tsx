@@ -6,9 +6,10 @@ import Link from "next/link";
 import { archetypeByName, trustNote } from "@/lib/archetypes";
 import { buildInsights } from "@/lib/insights";
 import { aiContextBlock } from "@/lib/portable";
+import { interestsCareerNote, type InterestProfile } from "@/lib/interests";
 import { encodeShareCode } from "@/lib/codec";
 import { TRAIT_LABELS } from "@/lib/norms";
-import { loadHistory, loadLatest, loadProfile } from "@/lib/storage";
+import { loadHistory, loadInterests, loadLatest, loadProfile } from "@/lib/storage";
 import { traitDrift, type DriftReport } from "@/lib/timeline";
 import { BandBar } from "@/components/BandBar";
 import type { Profile, ReportKey } from "@/lib/types";
@@ -88,7 +89,9 @@ function CopyContext({ profile }: { profile: Profile }) {
   );
 }
 
-function Report({ profile, drift }: { profile: Profile; drift: DriftReport | null }) {
+function Report({ profile, drift, interests }: {
+  profile: Profile; drift: DriftReport | null; interests: InterestProfile | null;
+}) {
   const top = archetypeByName(profile.archetypes[0]?.name);
   const insights = buildInsights(profile);
   const code = encodeShareCode(profile);
@@ -232,7 +235,23 @@ function Report({ profile, drift }: { profile: Profile; drift: DriftReport | nul
                   </dd>
                 </div>
               ))}
+              {s.key === "career" && interests && (
+                <div>
+                  <dt>Interests × traits</dt>
+                  <dd>
+                    {interestsCareerNote(interests, profile)}{" "}
+                    <span className="cite" style={{ color: "var(--ivory-dim)" }}>(Holland, 1997; Rounds et al., O*NET Mini-IP)</span>
+                  </dd>
+                </div>
+              )}
             </dl>
+            {s.key === "career" && !interests && (
+              <p className="footnote no-print" style={{ marginTop: "var(--s-3)" }}>
+                Add the direction layer: the five-minute{" "}
+                <Link href="/interests" className="cite" style={{ color: "var(--ivory-dim)" }}>interest inventory</Link>{" "}
+                (O*NET Mini-IP) combines with these traits for a sharper career reading.
+              </p>
+            )}
             <p className="footnote" style={{ marginTop: "var(--s-3)" }}>{s.caveat}</p>
           </div>
         ))}
@@ -305,16 +324,18 @@ function ResultsInner() {
   const tierParam = params.get("tier");
   const [profile, setProfile] = useState<Profile | null | undefined>(undefined);
   const [drift, setDrift] = useState<DriftReport | null>(null);
+  const [interests, setInterests] = useState<InterestProfile | null>(null);
 
   useEffect(() => {
     const p = tierParam === "full" || tierParam === "quick" ? loadProfile(tierParam) ?? loadLatest() : loadLatest();
     setProfile(p);
     setDrift(traitDrift(loadHistory()));
+    setInterests(loadInterests());
   }, [tierParam]);
 
   if (profile === undefined) return null; // first paint, before storage read
   if (profile === null) return <EmptyState />;
-  return <Report profile={profile} drift={drift} />;
+  return <Report profile={profile} drift={drift} interests={interests} />;
 }
 
 export default function ResultsPage() {
