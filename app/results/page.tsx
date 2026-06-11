@@ -226,6 +226,7 @@ function Report({ profile }: { profile: Profile }) {
             ? <Link href="/assess?tier=full" className="btn">Take the Full Index</Link>
             : <Link href="/assess?tier=quick" className="btn quiet">Retake Quick Profile</Link>}
           <Link href={`/assess?tier=${profile.tier}`} className="btn quiet">Retake</Link>
+          <Link href="/manual" className="btn quiet">Working-with-me manual</Link>
           <button className="btn quiet" onClick={() => window.print()}>Save as PDF</button>
         </div>
       </section>
