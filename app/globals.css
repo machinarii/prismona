@@ -63,7 +63,7 @@ h1, h2, h3, .display {
   line-height: 1.12;
   letter-spacing: 0.005em;
 }
-h1, .display { line-height: 0.95; }
+h1, .display { line-height: 0.95; letter-spacing: 0; }
 
 a { color: var(--gold); text-decoration: none; transition: color 0.18s ease; }
 a:hover { color: var(--ivory); }
