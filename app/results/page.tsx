@@ -368,29 +368,6 @@ function Report({ profile, drift, interests }: {
           verdict on yourself or anyone else. Full evidence on the{" "}
           <Link href="/method" className="cite" style={{ color: "var(--ivory-dim)" }}>Method page</Link>.
         </p>
-        <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-8)", flexWrap: "wrap" }}>
-          {profile.tier === "quick"
-            ? <Link href="/assess?tier=full" className="btn">Take the Full Index</Link>
-            : <Link href="/assess?tier=quick" className="btn quiet">Retake Quick Profile</Link>}
-          <Link href={`/assess?tier=${profile.tier}`} className="btn quiet">Retake</Link>
-          <button className="btn quiet" onClick={() => window.print()}>Save as PDF</button>
-          <button
-            className="btn quiet"
-            onClick={() => {
-              const blob = new Blob(
-                [JSON.stringify(buildProfileExport(profile, interests), null, 2)],
-                { type: "application/json" },
-              );
-              const a = document.createElement("a");
-              a.href = URL.createObjectURL(blob);
-              a.download = `prismona-profile-${profile.date}.json`;
-              a.click();
-              URL.revokeObjectURL(a.href);
-            }}
-          >
-            Download JSON
-          </button>
-        </div>
       </section>
 
       <CitationList refs={citations.refs} />
@@ -467,19 +444,43 @@ function ProfileViews({ profile, drift, interests }: {
   return (
     <>
       <div className="shell no-print" style={{ paddingTop: "var(--s-8)" }}>
-        <div className="view-tabs" role="tablist" aria-label="Profile views">
-          {VIEWS.map((v) => (
+        <div className="view-bar">
+          <div className="view-tabs" role="tablist" aria-label="Profile views">
+            {VIEWS.map((v) => (
+              <button
+                key={v.key}
+                className="view-tab"
+                role="tab"
+                aria-selected={view === v.key}
+                onClick={() => setView(v.key)}
+              >
+                <span className="vt-name">{v.name}</span>
+                <span className="vt-desc">{v.desc}</span>
+              </button>
+            ))}
+          </div>
+          <div className="view-actions">
+            {profile.tier === "quick"
+              ? <Link href="/assess?tier=full" className="va-primary">Take the Full Index</Link>
+              : <Link href="/assess?tier=quick">Retake Quick</Link>}
+            <Link href={`/assess?tier=${profile.tier}`}>Retake</Link>
+            <button onClick={() => window.print()}>Save as PDF</button>
             <button
-              key={v.key}
-              className="view-tab"
-              role="tab"
-              aria-selected={view === v.key}
-              onClick={() => setView(v.key)}
+              onClick={() => {
+                const blob = new Blob(
+                  [JSON.stringify(buildProfileExport(profile, interests), null, 2)],
+                  { type: "application/json" },
+                );
+                const a = document.createElement("a");
+                a.href = URL.createObjectURL(blob);
+                a.download = `prismona-profile-${profile.date}.json`;
+                a.click();
+                URL.revokeObjectURL(a.href);
+              }}
             >
-              <span className="vt-name">{v.name}</span>
-              <span className="vt-desc">{v.desc}</span>
+              Download JSON
             </button>
-          ))}
+          </div>
         </div>
       </div>
       {view === "breakdown" && <Report profile={profile} drift={drift} interests={interests} />}

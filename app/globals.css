@@ -313,11 +313,37 @@ dl.ledger dd { color: var(--ivory-dim); max-width: var(--measure); }
 
 /* view tabs: editorial folio switcher — typography on a hairline, the only
    state signal a gold rule segment sliding beneath the active view */
+.view-bar {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--s-8);
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--hairline-soft);
+}
 .view-tabs {
   display: flex;
   gap: clamp(28px, 7vw, 72px);
-  border-bottom: 1px solid var(--hairline-soft);
 }
+/* document actions: quiet label-style links on the tab bar's right edge */
+.view-actions {
+  display: flex;
+  gap: var(--s-6);
+  align-items: baseline;
+  flex-wrap: wrap;
+  margin-left: auto;
+  padding-bottom: var(--s-4);
+}
+.view-actions a, .view-actions button {
+  font-family: var(--font-label), system-ui, sans-serif;
+  font-size: var(--t-xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ivory-faint);
+  transition: color 0.2s ease;
+}
+.view-actions a:hover, .view-actions button:hover { color: var(--gold); }
+.view-actions .va-primary { color: var(--gold); }
+.view-actions .va-primary:hover { color: var(--ivory); }
 .view-tab {
   position: relative;
   display: grid;
