@@ -55,13 +55,13 @@
 
 **Tier 0 — unblock:** link the `prismona-contrib` Blob store (contributions are "paused" until then; every data feature below rides that pipeline).
 
-**Tier 1 — platform play (days each):**
+**Tier 1 — platform play — ✅ built 2026-06-12** (codec package + MCP server not yet npm-published):
 1. Open codec package + spec (`@prismona/codec`) — prerequisite for everything; makes the share code a standard.
 2. MCP server, local/stdio (`prismona-mcp`) — tools: decode_profile, compare_dyad, team_composition, working_with_me, agent_persona. The "identity layer for AI" frontier item, zero infra.
 3. Compatible AI agent persona generator — complement personas from trait tiers (structure for low C, calm anchor for low ES, challenger for high A); the killer MCP tool.
 4. JSON export + published schema — the lingua franca for HRIS/org/automation tools.
 
-**Tier 2 — growth loops + best science per item (~week each):**
+**Tier 2 — growth loops + best science per item — ✅ built 2026-06-12:**
 5. "Predict their profile" game — viral, and collects relationship-perception data (the most predictive variable; Joel 2020).
 6. Informant mini-360 via observer codes — best validity booster in the literature; the "self-insight gap" output; serverless.
 7. `/team` composition (N codes → diversity, coverage, single-point-of-failure, gates) + export + MCP tool — unlocks org/roster/VC verticals.

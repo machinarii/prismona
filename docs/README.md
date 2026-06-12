@@ -4,6 +4,7 @@ The shipped product is the Next.js app at the repo root (see root `README.md`); 
 
 | File | What it is |
 |---|---|
+| `HANDOFF.md` | **Start here**: full project handoff — architecture map, workflows, constraints, open items |
 | `PRD.md` | Product requirements: vision, science basis, competitive analysis, MVP→v2 scope, compatibility engine, risks |
 | `ROADMAP.md` | Prioritized feature roadmap, use-case expansion verticals, design direction, build log |
 | `research/BIBLIOGRAPHY.md` | 65 annotated papers (trait models, relationships, work fit, teams/cofounders, trust, values, timing/faking). [OA] = one-click full text |
@@ -20,4 +21,6 @@ The shipped product is the Next.js app at the repo root (see root `README.md`); 
 - **Profile as asset:** retest timeline with SEM-band-overlap drift detection (Roberts et al. 2007 framing), generated "Working with me" one-pager, portable AI context block, and print-to-PDF for every report.
 - **Norms:** provisional; replace with own-user norms at scale (see PRD §6).
 
-Scoring, codec, dyad, insight, manual, timeline, interests, and portable-context logic are unit-tested (95 vitest tests in `lib/__tests__/`).
+- **Digital ID layer:** unique profile URLs (`/p#code`, fragment never transmitted), companion persona + interaction guide prompts, canonical JSON export with published schema, the open `@prismona/codec` package, and `prismona-mcp` — a local MCP server exposing the profile to any agent. Plus team composition (`/team`), the perception game (`/predict`), and a serverless informant mini-360 (`/observe`).
+
+The entire `lib/` core is unit-tested (179 vitest tests in `lib/__tests__/`), built test-first.
