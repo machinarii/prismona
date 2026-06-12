@@ -7,6 +7,7 @@ import { archetypeByName, trustNote } from "@/lib/archetypes";
 import { buildInsights } from "@/lib/insights";
 import { aiContextBlock } from "@/lib/portable";
 import { agentPersona } from "@/lib/persona";
+import { buildProfileExport } from "@/lib/export";
 import { INTERESTS_CITE, interestsCareerNote, type InterestProfile } from "@/lib/interests";
 import { decodeShareCode, encodeShareCode } from "@/lib/codec";
 import { profileUrl, sameShareCode } from "@/lib/shareview";
@@ -345,6 +346,22 @@ function Report({ profile, drift, interests }: {
           <Link href={`/assess?tier=${profile.tier}`} className="btn quiet">Retake</Link>
           <Link href="/manual" className="btn quiet">Working-with-me manual</Link>
           <button className="btn quiet" onClick={() => window.print()}>Save as PDF</button>
+          <button
+            className="btn quiet"
+            onClick={() => {
+              const blob = new Blob(
+                [JSON.stringify(buildProfileExport(profile, interests), null, 2)],
+                { type: "application/json" },
+              );
+              const a = document.createElement("a");
+              a.href = URL.createObjectURL(blob);
+              a.download = `prismona-profile-${profile.date}.json`;
+              a.click();
+              URL.revokeObjectURL(a.href);
+            }}
+          >
+            Download JSON
+          </button>
         </div>
       </section>
 
