@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { aiContextBlock } from "@/lib/portable";
 import { agentPersona } from "@/lib/persona";
 import { profileUrl } from "@/lib/shareview";
+import { managementStyle, type FeedbackDigest } from "@/lib/management";
+import { encodeShareCode } from "@/lib/codec";
 import type { Profile } from "@/lib/types";
 
 function CopyBlock({ summary, action, text }: { summary: string; action: string; text: string }) {
@@ -55,9 +57,50 @@ function CopyAiLink({ profile }: { profile: Profile }) {
   );
 }
 
+function FieldNotes({ profile }: { profile: Profile }) {
+  const [digest, setDigest] = useState<FeedbackDigest | null>(null);
+  const [paused, setPaused] = useState(false);
+  useEffect(() => {
+    fetch(`/api/feedback?code=${encodeURIComponent(encodeShareCode(profile))}`)
+      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then(setDigest)
+      .catch((s) => { if (s === 503) setPaused(true); });
+  }, [profile]);
+  if (paused) return <p className="footnote">Field notes are paused right now — the questionnaire default stands alone.</p>;
+  if (!digest || digest.weeks.length === 0) {
+    return (
+      <p className="footnote">
+        No field notes yet. Agents that work with you can report what worked and what
+        didn&apos;t via the MCP tool <span className="num">report_collaboration</span>;
+        notes fold into a weekly digest here and refine the default above.
+      </p>
+    );
+  }
+  return (
+    <div>
+      {digest.weeks.map((w) => (
+        <div key={w.week} style={{ marginBottom: "var(--s-6)" }}>
+          <span className="label num">
+            {w.week}{w.collecting ? " · collecting" : ""} · {w.sources} source{w.sources > 1 ? "s" : ""}
+          </span>
+          <div className="flags" style={{ marginTop: "var(--s-3)" }}>
+            {w.worked.map((x) => <span key={`w${x}`} className="flag ok">{x}</span>)}
+            {w.didnt.map((x) => <span key={`d${x}`} className="flag warn">{x}</span>)}
+          </div>
+        </div>
+      ))}
+      <p className="footnote">
+        Weekly digests of observations reported by agents you worked with — they outrank
+        the questionnaire default wherever the two disagree.
+      </p>
+    </div>
+  );
+}
+
 // The AI prompt pair, renderable as the profile's third tab or standalone at
 // /ai#code — its own distinct share link.
 export function AiSheet({ profile }: { profile: Profile }) {
+  const style = managementStyle(profile);
   return (
     <>
       <section className="arch-display">
@@ -82,6 +125,29 @@ export function AiSheet({ profile }: { profile: Profile }) {
           person who should set up your assistant. Agents can also connect live via the{" "}
           <Link href="/mcp" className="cite" style={{ color: "var(--ivory-dim)" }}>MCP endpoint</Link>.
         </p>
+      </section>
+
+      <section className="report-section">
+        <span className="label gold">Management style</span>
+        <p className="prose" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
+          {style.headline} Agents that work with you can refine it: the MCP tool{" "}
+          <span className="num">report_collaboration</span> records what worked and what
+          didn&apos;t, digested weekly below.
+        </p>
+        <dl className="ledger">
+          {style.entries.map((e) => (
+            <div key={e.title}>
+              <dt>{e.title}</dt>
+              <dd>{e.body}</dd>
+            </div>
+          ))}
+        </dl>
+        <div style={{ marginTop: "var(--s-8)" }}>
+          <span className="label">Field notes · updated weekly</span>
+          <div style={{ marginTop: "var(--s-4)" }}>
+            <FieldNotes profile={profile} />
+          </div>
+        </div>
       </section>
     </>
   );
