@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { interactionGuide } from "@/lib/persona";
 import Link from "next/link";
 import { archetypeByName, trustNote } from "@/lib/archetypes";
 import { buildInsights } from "@/lib/insights";
@@ -34,6 +35,23 @@ function Invalid() {
         <Link href="/assess?tier=quick" className="btn solid">Measure yourself instead</Link>
       </div>
     </main>
+  );
+}
+
+function CopyGuide({ profile }: { profile: Profile }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      className="btn quiet"
+      onClick={() => {
+        navigator.clipboard?.writeText(interactionGuide(profile)).then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1800);
+        });
+      }}
+    >
+      {copied ? "Copied" : "Copy interaction guide"}
+    </button>
   );
 }
 
@@ -136,6 +154,15 @@ function SharedReport({ profile }: { profile: Profile }) {
       </section>
 
       <section className="report-section">
+        <div className="no-print" style={{ marginBottom: "var(--s-10)" }}>
+          <span className="label gold">Interacting with this person?</span>
+          <p className="prose" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
+            This profile is a consented digital ID. Copy the interaction guide below
+            into your own AI assistant — or read it yourself — to communicate with
+            them the way their measured profile suggests works best.
+          </p>
+          <CopyGuide profile={profile} />
+        </div>
         <p className="prose">
           Curious how you two pair? Take the assessment, then compare your code with
           this one — the dyad report scores the pairing for romance, cofounding, or

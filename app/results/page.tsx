@@ -6,6 +6,7 @@ import Link from "next/link";
 import { archetypeByName, trustNote } from "@/lib/archetypes";
 import { buildInsights } from "@/lib/insights";
 import { aiContextBlock } from "@/lib/portable";
+import { agentPersona } from "@/lib/persona";
 import { INTERESTS_CITE, interestsCareerNote, type InterestProfile } from "@/lib/interests";
 import { decodeShareCode, encodeShareCode } from "@/lib/codec";
 import { profileUrl, sameShareCode } from "@/lib/shareview";
@@ -72,12 +73,12 @@ function CopyCode({ code, profile }: { code: string; profile: Profile }) {
   );
 }
 
-function CopyContext({ profile }: { profile: Profile }) {
+function CopyBlock({ summary, action, text }: { summary: string; action: string; text: string }) {
   const [copied, setCopied] = useState(false);
   return (
-    <details>
-      <summary className="btn quiet" style={{ listStyle: "none", cursor: "pointer" }}>
-        Preview AI context
+    <details style={{ marginBottom: "var(--s-4)" }}>
+      <summary className="btn quiet" style={{ listStyle: "none", cursor: "pointer", display: "inline-block" }}>
+        {summary}
       </summary>
       <pre
         className="footnote num"
@@ -86,18 +87,18 @@ function CopyContext({ profile }: { profile: Profile }) {
           padding: "var(--s-4) var(--s-6)", margin: "var(--s-4) 0", letterSpacing: 0,
         }}
       >
-        {aiContextBlock(profile)}
+        {text}
       </pre>
       <button
         className="btn quiet"
         onClick={() => {
-          navigator.clipboard?.writeText(aiContextBlock(profile)).then(() => {
+          navigator.clipboard?.writeText(text).then(() => {
             setCopied(true);
             setTimeout(() => setCopied(false), 1800);
           });
         }}
       >
-        {copied ? "Copied" : "Copy AI context"}
+        {copied ? "Copied" : action}
       </button>
     </details>
   );
@@ -295,11 +296,14 @@ function Report({ profile, drift, interests }: {
         <div className="no-print" style={{ marginTop: "var(--s-12)" }}>
           <span className="label gold">Take your profile to your AI</span>
           <p className="prose" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
-            Copy a plain-text context block — percentiles, uncertainty ranges, and an
-            honest set of instructions — and paste it into Claude, ChatGPT, or any
-            assistant so it adapts to how you actually think. You copy it; nothing is sent.
+            Two plain-text blocks to paste into Claude, ChatGPT, or any assistant.
+            The <em>context</em> makes an AI adapt to how you think; the{" "}
+            <em>companion persona</em> goes further — it calibrates an AI to be your
+            complement, supplying the structure, calm, or candor your profile suggests
+            you benefit from. You copy them; nothing is sent.
           </p>
-          <CopyContext profile={profile} />
+          <CopyBlock summary="Preview AI context" action="Copy AI context" text={aiContextBlock(profile)} />
+          <CopyBlock summary="Preview companion persona" action="Copy companion persona" text={agentPersona(profile)} />
         </div>
       </section>
 
