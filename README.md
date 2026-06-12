@@ -14,6 +14,7 @@ A research-grade personality & compatibility platform — the scientific honesty
 | `/results` | Two views behind a folio tab — **My breakdown** (archetype blend, trait figure, percentiles with ±1 SEM bands, trajectory, interests plate, facets, distillation, applied readings, rarity, share/AI blocks, confidence) and **Working with me** (the manual, inline) |
 | `/interests` | RIASEC inventory runner (O*NET Mini-IP, 30 items, untimed) — results render inside the profile; reached from there, not the nav |
 | `/manual` | The working-with-me one-pager as a standalone, code-addressable route (`/manual#PRSM-…`) |
+| `/ai` | The AI prompt pair (context + companion persona) as its own share link (`/ai#PRSM-…`) |
 | `/mcp` | How to connect agents to the hosted MCP endpoint; tools and consent model |
 | `/p#PRSM-…` | A profile's unique URL: the share code carried in the fragment (never transmitted to any server) renders a full domain-level report |
 | `/compare` | Dyad report from two share codes: romantic / cofounder / colleague |
