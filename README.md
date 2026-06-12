@@ -11,9 +11,10 @@ A research-grade personality & compatibility platform — the scientific honesty
 | `/` | Editorial landing — the two editions, what you receive, claims discipline |
 | `/assess?tier=quick` | Quick Profile: 26 items (Mini-IPIP + H), 20 s/question timer |
 | `/assess?tier=full` | Full Index: 126 items (IPIP-NEO-120 + H), 30-facet resolution |
-| `/results` | Archetype blend, trait percentiles with ±1 SEM bands, retest trajectory, facets, distillation, applied readings (six use cases, percentile-keyed), share code, AI context block, profile confidence |
-| `/interests` | RIASEC interest inventory (O*NET Mini-IP, 30 items, untimed) → Holland code, feeds the career reading |
-| `/manual` | "Working with me" — a generated, printable first-person one-pager from the profile |
+| `/results` | Two views behind a folio tab — **My breakdown** (archetype blend, trait figure, percentiles with ±1 SEM bands, trajectory, interests plate, facets, distillation, applied readings, rarity, share/AI blocks, confidence) and **Working with me** (the manual, inline) |
+| `/interests` | RIASEC inventory runner (O*NET Mini-IP, 30 items, untimed) — results render inside the profile; reached from there, not the nav |
+| `/manual` | The working-with-me one-pager as a standalone, code-addressable route (`/manual#PRSM-…`) |
+| `/mcp` | How to connect agents to the hosted MCP endpoint; tools and consent model |
 | `/p#PRSM-…` | A profile's unique URL: the share code carried in the fragment (never transmitted to any server) renders a full domain-level report |
 | `/compare` | Dyad report from two share codes: romantic / cofounder / colleague |
 | `/team` | Team composition from 2+ codes: diversity, role coverage, gates; JSON export |
@@ -36,7 +37,7 @@ Standard Next.js 15 App Router project — deploys on Vercel zero-config (`verce
 
 ## Digital ID & integrations
 
-A profile is a portable, consent-carried identity: the share code is the grant. Surfaces, from least to most structured — profile/manual links (`/p#code`, `/manual#code`); copyable AI context and **companion persona** (an AI calibrated as your complement) on results; the **interaction guide** on shared profiles (how anyone — or anyone's agent — should communicate with this person); canonical **JSON export** (`/schema/profile.v1.json`); the open **`@prismona/codec`** package (`packages/codec`, spec included); and **`prismona-mcp`** (`packages/mcp`), a local stdio MCP server exposing decode/readings/dyad/team/manual/persona/guide tools to any MCP-capable agent — everything computes in-process, nothing is transmitted.
+A profile is a portable, consent-carried identity: the share code is the grant. Surfaces, from least to most structured — profile/manual links (`/p#code`, `/manual#code`); copyable AI context and **companion persona** (an AI calibrated as your complement) on results; the **interaction guide** on shared profiles (how anyone — or anyone's agent — should communicate with this person); canonical **JSON export** (`/schema/profile.v1.json`); the open **`@prismona/codec`** package (`packages/codec`, spec included); and **MCP in two flavors**: the hosted endpoint `https://prismona.vercel.app/api/mcp` (Streamable HTTP, stateless — any agent connects and negotiates live, zero install; docs at `/mcp`) and `prismona-mcp` (`packages/mcp`), the same seven tools as a local stdio server for fully-offline use. Tool registry shared in `lib/mcptools.ts`; nothing is stored either way.
 
 ## Structure
 

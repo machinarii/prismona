@@ -32,14 +32,15 @@ Next.js 15 App Router, all routes statically prerendered except one API route. A
 | `export.ts` | canonical JSON export (schema: `public/schema/profile.v1.json`) |
 | `portable.ts` | copyable AI context block |
 | `citations.ts` / `data/references.ts` | superscript numbering + full references (invariant test: every emitted cite must have a full reference) |
-| `contrib.ts` | contribution validation gate (the only thing the API route stores) |
+| `contrib.ts` | contribution validation gate (the only thing the contribute route stores) |
+| `mcptools.ts` | the MCP tool registry (7 tools), shared by the hosted endpoint and the stdio package |
 | `storage.ts` | localStorage: profiles, history, interests, age band, observer codes, contribution flags |
 
-**`app/`** — pages: `/` `/assess` `/results` `/p` (shared profile via fragment) `/manual` `/interests` `/compare` `/team` `/predict` `/observe` `/method` `/privacy` `/terms` + `api/contribute/route.ts`. Results/p/manual are client-rendered (data is local) — **their static HTML is intentionally empty; verify deployed changes via their `_next` JS chunks, not the HTML.**
+**`app/`** — pages: `/` `/assess` `/results` (two views behind a folio tab: breakdown + working-with-me) `/p` (shared profile via fragment) `/manual` `/interests` `/compare` `/team` `/predict` `/observe` `/mcp` (connection docs) `/method` `/privacy` `/terms` + two API routes: `api/contribute/route.ts` and `api/[transport]/route.ts` (the **hosted MCP endpoint** at `/api/mcp` — `mcp-handler`, Streamable HTTP, stateless, SSE disabled). Results/p/manual are client-rendered (data is local) — **their static HTML is intentionally empty; verify deployed changes via their `_next` JS chunks, not the HTML.** ⚠️ `mcp-handler@1.1.0` pins `@modelcontextprotocol/sdk` to exactly **1.26.0** — don't bump the SDK without checking.
 
 **`packages/`** — not published to npm yet (deliberate):
 - `codec/` — `@prismona/codec`, dependency-free, `SPEC.md`, parity test in main suite.
-- `mcp/` — `prismona-mcp`, local stdio MCP server, 7 tools (decode_profile, profile_readings, compare_dyad, team_composition, working_with_me, agent_persona, interaction_guide). Build: `cd packages/mcp && npm run build` (esbuild bundle → `dist/server.mjs`, gitignored). Smoke-test by piping JSON-RPC initialize/tools-list/tools-call lines to `node dist/server.mjs`.
+- `mcp/` — `prismona-mcp`, the same 7 tools (registered from `lib/mcptools.ts`) as a local stdio server for fully-offline use. Build: `cd packages/mcp && npm run build` (esbuild bundle → `dist/server.mjs`, gitignored). Smoke-test by piping JSON-RPC initialize/tools-list/tools-call lines to `node dist/server.mjs`; the hosted endpoint smoke-tests the same way with `curl -X POST /api/mcp` and `Accept: application/json, text/event-stream`.
 
 ## Workflows
 
