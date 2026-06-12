@@ -6,9 +6,9 @@ import Link from "next/link";
 const LINKS: Array<[string, string]> = [
   ["/results", "Profile"],
   ["/interests", "Interests"],
-  ["/compare", "Compare"],
-  ["/team", "Team"],
-  ["/method", "Method"],
+  ["/compare", "Compare 1:1"],
+  ["/team", "Team Composition"],
+  ["/method", "Methodology"],
 ];
 
 // Primary navigation: inline links on wide screens, a hamburger-toggled
