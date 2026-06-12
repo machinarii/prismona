@@ -38,10 +38,31 @@ export default function McpPage() {
       </h1>
       <p className="prose">
         A Prismona profile is a digital ID for personality, and this server is how
-        agents read it. Connect any MCP-capable assistant — Claude, Cursor, your own
-        agent — to the live endpoint below, hand it a share code someone gave you,
-        and it can decode the profile, generate readings, compare pairs, read teams,
-        and calibrate itself to communicate with that person well.
+        AIs and other systems read it. Plugging in means two things:
+      </p>
+      <dl className="ledger" style={{ margin: "var(--s-6) 0" }}>
+        <div>
+          <dt>Your AI becomes your complement</dt>
+          <dd>
+            Hand your own assistant your code and it takes on a personality calibrated
+            to suit yours — supplying the structure, calm, candor, or grounding your
+            profile suggests you benefit from, instead of a one-size-fits-all voice.
+          </dd>
+        </div>
+        <div>
+          <dt>Other systems learn to work with you</dt>
+          <dd>
+            Anyone&apos;s agent — a colleague&apos;s assistant, a team tool, a scheduling
+            bot — can take a code you chose to share and adapt how it communicates and
+            collaborates with you: the right channel, the right pace, the right amount
+            of directness. Plus pairing reads, team composition, and your
+            working-with-me manual, on demand.
+          </dd>
+        </div>
+      </dl>
+      <p className="prose">
+        Connect any MCP-capable assistant — Claude, Cursor, your own agent — to the
+        live endpoint below, and it negotiates the rest.
       </p>
 
       <section className="section">
