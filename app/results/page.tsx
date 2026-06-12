@@ -334,18 +334,6 @@ function Report({ profile, drift, interests }: {
           <Link href="/compare" className="btn">Compare with someone</Link>
         </div>
 
-        <div className="no-print" style={{ marginTop: "var(--s-12)" }}>
-          <span className="label gold">Take your profile to your AI</span>
-          <p className="prose" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
-            Two plain-text blocks to paste into Claude, ChatGPT, or any assistant.
-            The <em>context</em> makes an AI adapt to how you think; the{" "}
-            <em>companion persona</em> goes further — it calibrates an AI to be your
-            complement, supplying the structure, calm, or candor your profile suggests
-            you benefit from. You copy them; nothing is sent.
-          </p>
-          <CopyBlock summary="Preview AI context" action="Copy AI context" text={aiContextBlock(profile)} />
-          <CopyBlock summary="Preview companion persona" action="Copy companion persona" text={agentPersona(profile)} />
-        </div>
       </section>
 
       {/* VI — confidence */}
@@ -443,12 +431,39 @@ function ResultsInner() {
 const VIEWS = [
   { key: "breakdown" as const, name: "My breakdown", desc: "The full report, for you" },
   { key: "manual" as const, name: "Working with me", desc: "The one-pager, for others" },
+  { key: "ai" as const, name: "For my AI", desc: "Context & companion persona" },
 ];
+
+function AiSheet({ profile }: { profile: Profile }) {
+  return (
+    <>
+      <section className="arch-display">
+        <p className="label gold">Take your profile to your AI</p>
+        <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "12px 0 16px" }}>
+          An assistant that knows you.
+        </h1>
+        <p className="prose">
+          Two blocks to paste into Claude, ChatGPT, or any assistant: the{" "}
+          <em>context</em> teaches it who you are; the <em>persona</em> calibrates it
+          to complement you. You copy them — nothing is sent.
+        </p>
+      </section>
+      <section className="report-section">
+        <CopyBlock summary="Preview AI context" action="Copy AI context" text={aiContextBlock(profile)} />
+        <CopyBlock summary="Preview companion persona" action="Copy companion persona" text={agentPersona(profile)} />
+        <p className="footnote" style={{ marginTop: "var(--s-6)" }}>
+          Agents can also connect live — your share code works with the{" "}
+          <Link href="/mcp" className="cite" style={{ color: "var(--ivory-dim)" }}>MCP endpoint</Link>.
+        </p>
+      </section>
+    </>
+  );
+}
 
 function ProfileViews({ profile, drift, interests }: {
   profile: Profile; drift: DriftReport | null; interests: InterestProfile | null;
 }) {
-  const [view, setView] = useState<"breakdown" | "manual">("breakdown");
+  const [view, setView] = useState<"breakdown" | "manual" | "ai">("breakdown");
   return (
     <>
       <div className="shell no-print" style={{ paddingTop: "var(--s-8)" }}>
@@ -467,9 +482,9 @@ function ProfileViews({ profile, drift, interests }: {
           ))}
         </div>
       </div>
-      {view === "breakdown"
-        ? <Report profile={profile} drift={drift} interests={interests} />
-        : <main className="shell reveal"><ManualSheet profile={profile} showBack={false} /></main>}
+      {view === "breakdown" && <Report profile={profile} drift={drift} interests={interests} />}
+      {view === "manual" && <main className="shell reveal"><ManualSheet profile={profile} showBack={false} /></main>}
+      {view === "ai" && <main className="shell reveal"><AiSheet profile={profile} /></main>}
     </>
   );
 }
