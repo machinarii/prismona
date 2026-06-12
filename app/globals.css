@@ -360,10 +360,10 @@ dl.ledger dd { color: var(--ivory-dim); max-width: var(--measure); }
 /* interests plate: the one raised passage in the report — vocational
    interests get their own ground so direction reads apart from traits */
 .interests-plate {
-  margin-top: var(--s-10);
+  margin-top: var(--s-16);
   background: var(--ground-raised);
   border: 1px solid var(--hairline-soft);
-  padding: var(--s-6) var(--s-8) var(--s-6);
+  padding: var(--s-8) var(--s-8) var(--s-6);
 }
 .interests-plate .ip-code {
   font-family: var(--font-display), Georgia, serif;
