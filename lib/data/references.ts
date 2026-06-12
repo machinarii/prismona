@@ -38,6 +38,18 @@ export const REFERENCES: Record<string, Reference> = {
     full: "McCarthy, P. X., Gong, X., Braesemann, F., Stephany, F., Rizoiu, M.-A., & Kern, M. L. (2023). The impact of founder personalities on startup success. Scientific Reports, 13, 17200.",
     url: "https://www.nature.com/articles/s41598-023-41980-y",
   },
+  "Higgins, 1987": {
+    full: "Higgins, E. T. (1987). Self-discrepancy: A theory relating self and affect. Psychological Review, 94(3), 319\u2013340.",
+    url: "https://doi.org/10.1037/0033-295X.94.3.319",
+  },
+  "Markus & Nurius, 1986": {
+    full: "Markus, H., & Nurius, P. (1986). Possible selves. American Psychologist, 41(9), 954\u2013969.",
+    url: "https://doi.org/10.1037/0003-066X.41.9.954",
+  },
+  "Hudson & Fraley, 2015": {
+    full: "Hudson, N. W., & Fraley, R. C. (2015). Volitional personality trait change: Can people choose to change their personality traits? Journal of Personality and Social Psychology, 109(3), 490\u2013507.",
+    url: "https://doi.org/10.1037/pspp0000021",
+  },
   "Holland, 1997": {
     full: "Holland, J. L. (1997). Making Vocational Choices: A Theory of Vocational Personalities and Work Environments (3rd ed.). Psychological Assessment Resources.",
     url: "https://psycnet.apa.org/record/1997-08980-000",
