@@ -371,6 +371,9 @@ table.tiers th { font-family: var(--font-label), system-ui, sans-serif; font-siz
   column-gap: var(--s-12);
 }
 .cite-list li::marker { font-family: var(--font-label), system-ui, sans-serif; font-size: 0.85em; }
+.cite-list li { break-inside: avoid; margin-bottom: var(--s-2); }
+.cite-list a { color: var(--ivory-faint); }
+.cite-list a:hover { color: var(--gold); }
 .cite a { color: var(--ivory-dim); border-bottom: 1px solid var(--hairline); }
 .cite a:hover { color: var(--gold); border-color: var(--gold-deep); }
 
