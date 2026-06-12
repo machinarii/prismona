@@ -14,6 +14,7 @@ import { profileUrl, sameShareCode } from "@/lib/shareview";
 import { RarityLine } from "@/components/RarityLine";
 import { TraitFigure } from "@/components/TraitFigure";
 import { Contribute } from "@/components/Contribute";
+import { ObserverLens } from "@/components/ObserverLens";
 import { CitationList, CiteMarks } from "@/components/Citations";
 import { buildCitationIndex } from "@/lib/citations";
 import { TRAIT_LABELS } from "@/lib/norms";
@@ -326,6 +327,7 @@ function Report({ profile, drift, interests }: {
           Consistency is a person-fit heuristic: how coherently you answered items
           measuring the same construct (Meade &amp; Craig, 2012).
         </p>
+        <ObserverLens profile={profile} />
         <Contribute profile={profile} />
       </section>
 

@@ -68,6 +68,23 @@ export function loadAgeBand(): AgeBand | null {
   } catch { return null; }
 }
 
+// Observer codes from the informant mini-360 (kept as raw codes; max 3).
+export function saveObserverCode(code: string): void {
+  try {
+    const list = loadObserverCodes().filter((c) => c !== code);
+    list.push(code);
+    localStorage.setItem("prismona.observers", JSON.stringify(list.slice(-3)));
+  } catch { /* ignore */ }
+}
+
+export function loadObserverCodes(): string[] {
+  try {
+    const raw = localStorage.getItem("prismona.observers");
+    const list = raw ? (JSON.parse(raw) as string[]) : [];
+    return Array.isArray(list) ? list : [];
+  } catch { return []; }
+}
+
 export function markContributed(code: string): void {
   try { localStorage.setItem(`prismona.contributed.${code}`, "1"); } catch { /* ignore */ }
 }
