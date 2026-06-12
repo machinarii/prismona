@@ -16,6 +16,9 @@ A research-grade personality & compatibility platform — the scientific honesty
 | `/manual` | "Working with me" — a generated, printable first-person one-pager from the profile |
 | `/p#PRSM-…` | A profile's unique URL: the share code carried in the fragment (never transmitted to any server) renders a full domain-level report |
 | `/compare` | Dyad report from two share codes: romantic / cofounder / colleague |
+| `/team` | Team composition from 2+ codes: diversity, role coverage, gates; JSON export |
+| `/predict` | Guess someone's profile before reading it — perception accuracy scored against SEM bands |
+| `/observe` | Informant mini-360: rate someone in 12 items, send back an observer code; results shows the self-insight gap |
 | `/method` | Full method, scoring math, ethics, citations |
 
 ## Develop
@@ -31,9 +34,15 @@ npm run build  # production build
 
 Standard Next.js 15 App Router project — deploys on Vercel zero-config (`vercel`, or import the repo in the Vercel dashboard). All routes are statically prerendered; there is no server state.
 
+## Digital ID & integrations
+
+A profile is a portable, consent-carried identity: the share code is the grant. Surfaces, from least to most structured — profile/manual links (`/p#code`, `/manual#code`); copyable AI context and **companion persona** (an AI calibrated as your complement) on results; the **interaction guide** on shared profiles (how anyone — or anyone's agent — should communicate with this person); canonical **JSON export** (`/schema/profile.v1.json`); the open **`@prismona/codec`** package (`packages/codec`, spec included); and **`prismona-mcp`** (`packages/mcp`), a local stdio MCP server exposing decode/readings/dyad/team/manual/persona/guide tools to any MCP-capable agent — everything computes in-process, nothing is transmitted.
+
 ## Structure
 
-- `lib/` — pure, unit-tested core: items data (IPIP + O*NET Mini-IP), norms, scoring (z → percentiles → SEM bands, person-fit consistency, quality flags), archetype matching, insight engine (percentile-keyed use-case readings with facet refinement), working-with-me manual generator, RIASEC interest scoring, retest-drift detection (SEM-band overlap test), portable AI context block, dyad engine, share-code codec
+- `lib/` — pure, unit-tested core: items data (IPIP + O*NET Mini-IP + observer items), norms, scoring (z → percentiles → SEM bands, person-fit consistency, quality flags), archetype matching, insight engine, manual generator, persona pair (companion + interaction guide), RIASEC scoring, retest-drift detection, rarity (Mahalanobis + base rates), team composition, prediction scoring, self-other gap, JSON export, portable AI context, dyad engine, share-code codec
+- `packages/codec` — `@prismona/codec`: the open PRSM format (spec + dependency-free implementation, parity-tested)
+- `packages/mcp` — `prismona-mcp`: local stdio MCP server over the core (seven tools)
 - `app/`, `components/` — Next.js UI (design direction: `docs/ROADMAP.md` §C)
 - `docs/` — PRD, roadmap, 65-paper annotated bibliography, original PoC, spec
 
