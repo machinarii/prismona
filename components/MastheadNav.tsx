@@ -7,6 +7,7 @@ const LINKS: Array<[string, string]> = [
   ["/results", "Profile"],
   ["/interests", "Interests"],
   ["/compare", "Compare"],
+  ["/team", "Team"],
   ["/method", "Method"],
 ];
 
