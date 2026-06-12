@@ -1,4 +1,4 @@
-import type { Item } from "./types";
+import type { Domain, Item } from "./types";
 import { IPIP120_ITEMS } from "./data/ipip120";
 
 // ---------------------------------------------------------------------------
@@ -41,11 +41,56 @@ export const H_ITEMS: Item[] = [
 export const QUICK_TEST: Item[] = [...QUICK_ITEMS, ...H_ITEMS];
 
 // ---------------------------------------------------------------------------
+// Instructed attention checks (Meade & Craig, 2012): excluded from scoring,
+// counted into quality. Quick stays clean — 26 items is short enough.
+// ---------------------------------------------------------------------------
+const ATTN_LOW: Item = { t: "To show you are reading carefully, select 'Very Inaccurate' for this statement.", k: "O", r: false, chk: 1 };
+const ATTN_HIGH: Item = { t: "For quality control, select 'Very Accurate' for this statement.", k: "O", r: false, chk: 5 };
+
+// ---------------------------------------------------------------------------
+// STANDARD TIER — fatigue-aware middle edition (~8 minutes, alpha ~= .80):
+// one IPIP-NEO-120 item from EACH of the six facets per Big Five domain
+// (content breadth: consecutive questions feel different because they probe
+// different facets), keying alternated for balance, plus the six H markers —
+// the whole bank round-robin interleaved so no two consecutive questions
+// come from the same domain.
+// ---------------------------------------------------------------------------
+function buildStandard(): Item[] {
+  const big5: Domain[] = ["O", "C", "E", "A", "N"];
+  const perDomain: Partial<Record<Domain, Item[]>> = { H: [...H_ITEMS] };
+  big5.forEach((d) => {
+    const facets = [...new Set(IPIP120_ITEMS.filter((it) => it.k === d && it.f).map((it) => it.f!))];
+    perDomain[d] = facets.map((f, idx) => {
+      const pool = IPIP120_ITEMS.filter((it) => it.k === d && it.f === f);
+      const preferReversed = idx % 2 === 1;
+      return pool.find((it) => it.r === preferReversed) ?? pool[0];
+    });
+  });
+  const rotation: Domain[] = ["O", "C", "E", "A", "N", "H"];
+  const out: Item[] = [];
+  for (let round = 0; round < 6; round++) {
+    rotation.forEach((d) => out.push(perDomain[d]![round]));
+  }
+  out.splice(12, 0, ATTN_LOW);
+  out.splice(27, 0, ATTN_HIGH);
+  return out;
+}
+
+export const STANDARD_TEST: Item[] = buildStandard();
+
+// ---------------------------------------------------------------------------
 // FULL TIER — IPIP-NEO-120 (Johnson, 2014): 30 facets, 4 items each,
 // + the same 6 Honesty-Humility markers. 126 items total.
 // ---------------------------------------------------------------------------
-export const FULL_TEST: Item[] = [...IPIP120_ITEMS, ...H_ITEMS];
+function buildFull(): Item[] {
+  const out: Item[] = [...IPIP120_ITEMS, ...H_ITEMS];
+  out.splice(45, 0, ATTN_LOW);
+  out.splice(95, 0, ATTN_HIGH);
+  return out;
+}
 
-export function itemsForTier(tier: "quick" | "full"): Item[] {
-  return tier === "full" ? FULL_TEST : QUICK_TEST;
+export const FULL_TEST: Item[] = buildFull();
+
+export function itemsForTier(tier: "quick" | "standard" | "full"): Item[] {
+  return tier === "full" ? FULL_TEST : tier === "standard" ? STANDARD_TEST : QUICK_TEST;
 }

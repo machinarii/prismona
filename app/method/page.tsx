@@ -78,6 +78,17 @@ export default function MethodPage() {
             </dd>
           </div>
           <div>
+            <dt>Big Five — standard</dt>
+            <dd>
+              A facet-balanced selection from the IPIP-NEO-120: one item from each of
+              the six facets per domain (36 scored items, α ≈ .80), round-robin
+              interleaved so no two consecutive items probe the same domain — content
+              breadth instead of repetition, by design, against respondent fatigue.
+              Two instructed attention checks (Meade &amp; Craig, 2012) are embedded and
+              excluded from scoring.
+            </dd>
+          </div>
+          <div>
             <dt>Honesty-Humility</dt>
             <dd>
               IPIP HEXACO markers (Ashton, Lee &amp; Goldberg, 2007): 6 items. The

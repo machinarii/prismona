@@ -22,6 +22,7 @@ export const FACET_SD = 0.95;
 // Facets: 4-item scales (Johnson 2014, mean α ≈ .72). H: 6 items (α ≈ .76).
 export const ALPHA = {
   quickDomain: 0.7,
+  standardDomain: 0.8, // 6-item facet-balanced domain scales (one item per facet)
   fullDomain: 0.88,
   facet: 0.72,
   h: 0.76,
@@ -29,6 +30,12 @@ export const ALPHA = {
 
 export const TIME_LIMIT_MS = 20000;
 export const FAST_MS = 800;
+
+export const TIER_LABELS: Record<string, string> = {
+  quick: "Quick Profile",
+  standard: "Standard Profile",
+  full: "Full Index",
+};
 
 export const TRAIT_LABELS: Record<string, string> = {
   O: "Openness",

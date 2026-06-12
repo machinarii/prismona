@@ -37,8 +37,10 @@ export function buildProfileExport(p: Profile, interests: InterestProfile | null
     version: 1,
     generator: "Prismona",
     instrument: p.tier === "full"
-      ? "IPIP-NEO-120 + IPIP HEXACO Honesty-Humility (126 items)"
-      : "Mini-IPIP + IPIP HEXACO Honesty-Humility (26 items)",
+      ? "IPIP-NEO-120 + IPIP HEXACO Honesty-Humility (126 scored items)"
+      : p.tier === "standard"
+        ? "IPIP-NEO-120 facet-balanced short scales + IPIP HEXACO Honesty-Humility (36 scored items)"
+        : "Mini-IPIP + IPIP HEXACO Honesty-Humility (26 items)",
     date: p.date,
     tier: p.tier,
     shareCode: encodeShareCode(p),

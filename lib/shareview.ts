@@ -15,7 +15,7 @@ import { decodeShareCode, encodeShareCode } from "./codec";
 const KEYS: ReportKey[] = ["O", "C", "E", "A", "ES", "H"];
 
 export function profileFromShare(s: ShareProfile): Profile {
-  const domainAlpha = s.tier === "full" ? ALPHA.fullDomain : ALPHA.quickDomain;
+  const domainAlpha = s.tier === "full" ? ALPHA.fullDomain : s.tier === "standard" ? ALPHA.standardDomain : ALPHA.quickDomain;
   const traits = {} as Profile["traits"];
   KEYS.forEach((k) => {
     traits[k] = band(s.z[k], k === "H" ? ALPHA.h : domainAlpha);

@@ -30,8 +30,14 @@ export function scoreTest(items: Item[], answers: Answer[], tier: Tier): Profile
   const domains: Partial<Record<Domain, Bucket>> = {};
   const facets: Record<string, Bucket & { domain: Domain; name: string }> = {};
 
+  let attnPassed = 0, attnTotal = 0;
   items.forEach((it, i) => {
     const a = answers[i];
+    if (it.chk !== undefined) {
+      attnTotal += 1;
+      if (a && a.value === it.chk) attnPassed += 1;
+      return; // instructed items never touch trait scores
+    }
     if (!a || a.value == null) return;
     const v = keyedValue(it, a.value);
     const d = (domains[it.k] ??= bucket());
@@ -51,7 +57,7 @@ export function scoreTest(items: Item[], answers: Answer[], tier: Tier): Profile
     zRaw[k] = (mean - NORMS[k].m) / NORMS[k].sd;
   });
 
-  const domainAlpha = tier === "full" ? ALPHA.fullDomain : ALPHA.quickDomain;
+  const domainAlpha = tier === "full" ? ALPHA.fullDomain : tier === "standard" ? ALPHA.standardDomain : ALPHA.quickDomain;
   const traits: Record<ReportKey, TraitScore> = {
     O: band(zRaw.O, domainAlpha),
     C: band(zRaw.C, domainAlpha),
@@ -73,6 +79,7 @@ export function scoreTest(items: Item[], answers: Answer[], tier: Tier): Profile
   });
 
   const quality = assessQuality(answers, domains);
+  if (attnTotal > 0) quality.attn = { passed: attnPassed, total: attnTotal };
   const archetypes = matchArchetypes({
     O: traits.O.z, C: traits.C.z, E: traits.E.z, A: traits.A.z, ES: traits.ES.z, H: traits.H.z,
   });

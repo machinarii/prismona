@@ -11,8 +11,10 @@ const ORDER: ReportKey[] = ["O", "C", "E", "A", "ES", "H"];
 
 export function aiContextBlock(p: Profile): string {
   const instrument = p.tier === "full"
-    ? "IPIP-NEO-120 + IPIP HEXACO Honesty-Humility (126 items, 30 facets)"
-    : "Mini-IPIP + IPIP HEXACO Honesty-Humility (26 items)";
+    ? "IPIP-NEO-120 + IPIP HEXACO Honesty-Humility (126 scored items, 30 facets)"
+    : p.tier === "standard"
+      ? "IPIP-NEO-120 facet-balanced short scales + IPIP HEXACO Honesty-Humility (36 scored items)"
+      : "Mini-IPIP + IPIP HEXACO Honesty-Humility (26 items)";
 
   const traits = ORDER.map((k) => {
     const t = p.traits[k];
