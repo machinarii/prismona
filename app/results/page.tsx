@@ -440,7 +440,7 @@ function AiSheet({ profile }: { profile: Profile }) {
       <section className="arch-display">
         <p className="label gold">Take your profile to your AI</p>
         <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "12px 0 16px" }}>
-          An assistant that knows you.
+          An agent that knows you.
         </h1>
         <p className="prose">
           Two blocks to paste into Claude, ChatGPT, or any assistant: the{" "}
