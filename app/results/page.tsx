@@ -8,7 +8,8 @@ import { buildInsights } from "@/lib/insights";
 import { aiContextBlock } from "@/lib/portable";
 import { agentPersona } from "@/lib/persona";
 import { buildProfileExport } from "@/lib/export";
-import { INTERESTS_CITE, interestsCareerNote, type InterestProfile } from "@/lib/interests";
+import { INTERESTS_CITE, interestsCareerNote, type InterestProfile, type RiasecKey } from "@/lib/interests";
+import { RIASEC_LABELS } from "@/lib/data/riasec";
 import { decodeShareCode, encodeShareCode } from "@/lib/codec";
 import { profileUrl, sameShareCode } from "@/lib/shareview";
 import { RarityLine } from "@/components/RarityLine";
@@ -103,6 +104,46 @@ function CopyBlock({ summary, action, text }: { summary: string; action: string;
         {copied ? "Copied" : action}
       </button>
     </details>
+  );
+}
+
+function InterestsBlock({ interests }: { interests: InterestProfile | null }) {
+  if (!interests) {
+    return (
+      <p className="footnote no-print" style={{ marginTop: "var(--s-8)" }}>
+        Traits say how you travel; interests say which direction. The five-minute{" "}
+        <Link href="/interests" className="cite" style={{ color: "var(--ivory-dim)" }}>interest inventory</Link>{" "}
+        adds your Holland code here and sharpens the career reading below.
+      </p>
+    );
+  }
+  const ranked = (["R", "I", "A", "S", "E", "C"] as RiasecKey[])
+    .sort((a, b) => interests.scores[b].mean - interests.scores[a].mean);
+  return (
+    <div style={{ marginTop: "var(--s-8)" }}>
+      <span className="label gold num">
+        Vocational interests · Holland code {interests.code} · {interests.date}
+      </span>
+      <div style={{ marginTop: "var(--s-4)" }}>
+        {ranked.map((k) => {
+          const mean = interests.scores[k].mean;
+          return (
+            <div className="band-row" key={k}>
+              <span className="name">{RIASEC_LABELS[k].name} — {RIASEC_LABELS[k].gloss}</span>
+              <div className="band-track" role="img" aria-label={`${RIASEC_LABELS[k].name}: ${mean.toFixed(1)} of 5`}>
+                <span className="band" style={{ left: 0, width: `${((mean - 1) / 4) * 100}%` }} />
+              </div>
+              <span className="val num">{mean.toFixed(1)}</span>
+            </div>
+          );
+        })}
+      </div>
+      <p className="footnote" style={{ marginTop: "var(--s-3)" }}>
+        Ranked against each other (ipsative; O*NET Mini-IP) — the ordering is the result.
+        Interests supply career direction; the traits above estimate the travel.{" "}
+        <Link href="/interests?retake=1" className="cite" style={{ color: "var(--ivory-dim)" }}>Retake</Link>
+      </p>
+    </div>
   );
 }
 
@@ -201,6 +242,7 @@ function Report({ profile, drift, interests }: {
             </p>
           </div>
         )}
+        <InterestsBlock interests={interests} />
       </section>
 
       {/* III — facets (full tier) */}
@@ -274,13 +316,6 @@ function Report({ profile, drift, interests }: {
                 </div>
               )}
             </dl>
-            {s.key === "career" && !interests && (
-              <p className="footnote no-print" style={{ marginTop: "var(--s-3)" }}>
-                Add the direction layer: the five-minute{" "}
-                <Link href="/interests" className="cite" style={{ color: "var(--ivory-dim)" }}>interest inventory</Link>{" "}
-                (O*NET Mini-IP) combines with these traits for a sharper career reading.
-              </p>
-            )}
             <p className="footnote" style={{ marginTop: "var(--s-3)" }}>{s.caveat}</p>
           </div>
         ))}
