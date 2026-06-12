@@ -9,6 +9,8 @@ import { RIASEC_ITEMS, RIASEC_LABELS } from "./data/riasec";
 
 export type RiasecKey = "R" | "I" | "A" | "S" | "E" | "C";
 
+export const INTERESTS_CITE = "Holland, 1997; Rounds et al. (O*NET Mini-IP)";
+
 const KEYS: RiasecKey[] = ["R", "I", "A", "S", "E", "C"];
 
 export interface InterestProfile {

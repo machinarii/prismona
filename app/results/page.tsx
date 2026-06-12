@@ -6,7 +6,7 @@ import Link from "next/link";
 import { archetypeByName, trustNote } from "@/lib/archetypes";
 import { buildInsights } from "@/lib/insights";
 import { aiContextBlock } from "@/lib/portable";
-import { interestsCareerNote, type InterestProfile } from "@/lib/interests";
+import { INTERESTS_CITE, interestsCareerNote, type InterestProfile } from "@/lib/interests";
 import { decodeShareCode, encodeShareCode } from "@/lib/codec";
 import { profileUrl, sameShareCode } from "@/lib/shareview";
 import { RarityLine } from "@/components/RarityLine";
@@ -22,7 +22,6 @@ import type { Profile, ReportKey } from "@/lib/types";
 
 const TRAIT_ORDER: ReportKey[] = ["O", "C", "E", "A", "ES", "H"];
 const FACET_DOMAIN_ORDER: ReportKey[] = ["O", "C", "E", "A", "ES", "H"];
-const INTERESTS_CITE = "Holland, 1997; Rounds et al. (O*NET Mini-IP)";
 
 function EmptyState() {
   return (
