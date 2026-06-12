@@ -438,16 +438,8 @@ function ResultsInner() {
 }
 
 const VIEWS = [
-  {
-    key: "breakdown" as const,
-    name: "My breakdown",
-    desc: "The full report, for you: traits, interests, readings, confidence.",
-  },
-  {
-    key: "manual" as const,
-    name: "Working with me",
-    desc: "The one-pager, for others: how to collaborate with you well.",
-  },
+  { key: "breakdown" as const, name: "My breakdown", desc: "The full report, for you" },
+  { key: "manual" as const, name: "Working with me", desc: "The one-pager, for others" },
 ];
 
 function ProfileViews({ profile, drift, interests }: {
@@ -457,17 +449,17 @@ function ProfileViews({ profile, drift, interests }: {
   return (
     <>
       <div className="shell no-print" style={{ paddingTop: "var(--s-8)" }}>
-        <div className="purpose-row" role="tablist" aria-label="Profile views" style={{ maxWidth: "720px" }}>
+        <div className="view-tabs" role="tablist" aria-label="Profile views">
           {VIEWS.map((v) => (
             <button
               key={v.key}
+              className="view-tab"
               role="tab"
               aria-selected={view === v.key}
-              aria-pressed={view === v.key}
               onClick={() => setView(v.key)}
             >
-              <span className="p-name">{v.name}</span>
-              <span className="p-desc">{v.desc}</span>
+              <span className="vt-name">{v.name}</span>
+              <span className="vt-desc">{v.desc}</span>
             </button>
           ))}
         </div>

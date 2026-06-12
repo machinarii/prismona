@@ -311,6 +311,52 @@ dl.ledger dd { color: var(--ivory-dim); max-width: var(--measure); }
   display: inline-flex; gap: var(--s-6); align-items: center; flex-wrap: wrap;
 }
 
+/* view tabs: editorial folio switcher — typography on a hairline, the only
+   state signal a gold rule segment sliding beneath the active view */
+.view-tabs {
+  display: flex;
+  gap: clamp(28px, 7vw, 72px);
+  border-bottom: 1px solid var(--hairline-soft);
+}
+.view-tab {
+  position: relative;
+  display: grid;
+  gap: 3px;
+  justify-items: start;
+  text-align: left;
+  padding: var(--s-2) 0 var(--s-4);
+}
+.view-tab::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.view-tab[aria-selected="true"]::after { transform: scaleX(1); }
+.view-tab .vt-name {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: var(--t-lg);
+  line-height: 1.2;
+  color: var(--ivory-faint);
+  transition: color 0.22s ease;
+}
+.view-tab[aria-selected="true"] .vt-name { color: var(--ivory); }
+.view-tab:hover .vt-name { color: var(--gold); }
+.view-tab .vt-desc {
+  font-family: var(--font-label), system-ui, sans-serif;
+  font-size: var(--t-xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ivory-faint);
+  opacity: 0.55;
+  transition: opacity 0.22s ease;
+}
+.view-tab[aria-selected="true"] .vt-desc { opacity: 1; color: var(--gold-deep); }
+
 /* trait figure: a parametric engraving in the house palette */
 .trait-figure { display: block; }
 .trait-figure .ring { fill: none; stroke: var(--hairline-soft); stroke-width: 0.75; }
