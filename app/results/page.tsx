@@ -20,7 +20,7 @@ import { AiSheet } from "@/components/AiSheet";
 import { BecomingSheet } from "@/components/BecomingSheet";
 import { CitationList, CiteMarks } from "@/components/Citations";
 import { buildCitationIndex } from "@/lib/citations";
-import { TRAIT_LABELS } from "@/lib/norms";
+import { TIER_LABELS, TRAIT_LABELS } from "@/lib/norms";
 import { loadHistory, loadInterests, loadLatest, loadProfile } from "@/lib/storage";
 import { traitDrift, type DriftReport } from "@/lib/timeline";
 import { BandBar } from "@/components/BandBar";
@@ -43,7 +43,8 @@ function EmptyState() {
       </p>
       <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-12)", flexWrap: "wrap" }}>
         <Link href="/assess?tier=quick" className="btn solid">Begin · 5 minutes</Link>
-        <Link href="/assess?tier=full" className="btn">Full Index · 126 items</Link>
+        <Link href="/assess?tier=standard" className="btn">Standard · 8 minutes</Link>
+        <Link href="/assess?tier=full" className="btn quiet">Full Index · facet detail</Link>
       </div>
     </main>
   );
@@ -142,14 +143,14 @@ function Report({ profile, drift, interests }: {
       <div className="print-only print-head">
         <span className="label gold">Prismona — Personality Profile</span>
         <span className="num" style={{ fontSize: "var(--t-sm)", color: "var(--ivory-faint)" }}>
-          {profile.tier === "full" ? "Full Index" : "Quick Profile"} · {longDate(profile.date)} · prismona.vercel.app
+          {TIER_LABELS[profile.tier]} · {longDate(profile.date)} · prismona.vercel.app
         </span>
       </div>
 
       {/* I — archetype */}
       <section className="arch-display">
         <p className="label gold num">
-          {profile.tier === "full" ? "Full Index" : "Quick Profile"} · {longDate(profile.date)} ·
+          {TIER_LABELS[profile.tier]} · {longDate(profile.date)} ·
           primary archetype
         </p>
         <div className="arch-figure-row">
@@ -318,6 +319,9 @@ function Report({ profile, drift, interests }: {
             : <span className="flag ok">pace looks considered</span>}
           {q.timeouts > 2 && <span className="flag warn num">{q.timeouts} timeouts — scores less precise</span>}
           {q.straight && <span className="flag warn">long identical-answer streak — possible straight-lining</span>}
+          {q.attn && (q.attn.passed < q.attn.total
+            ? <span className="flag warn num">{q.attn.total - q.attn.passed} of {q.attn.total} attention checks missed</span>
+            : <span className="flag ok num">attention checks {q.attn.passed}/{q.attn.total}</span>)}
           {cleanPace && q.consistency >= 60 && <span className="flag ok">profile confidence: good</span>}
         </div>
         <p className="footnote" style={{ marginTop: "var(--s-4)" }}>
@@ -332,7 +336,7 @@ function Report({ profile, drift, interests }: {
       <section className="report-section">
         <p className="footnote" style={{ maxWidth: "72ch" }}>
           <strong style={{ color: "var(--ivory)" }}>Read this before acting on results.</strong>{" "}
-          This {profile.tier === "full" ? "instrument estimates traits with good precision (126 items), yet personality" : "short screening estimates broad traits with real but limited precision (26 items). Personality"}{" "}
+          This {profile.tier === "full" ? "instrument estimates traits with good precision (120 scored items), yet personality" : profile.tier === "standard" ? "facet-balanced edition estimates traits with solid precision (36 scored items), and personality" : "short screening estimates broad traits with real but limited precision (26 items). Personality"}{" "}
           predicts life outcomes at modest effect sizes (r ≈ .2–.3 for the strongest links).
           Use this profile to structure better conversations and decisions — never as a
           verdict on yourself or anyone else. Full evidence on the{" "}
@@ -426,8 +430,10 @@ function ProfileViews({ profile, drift, interests }: {
           </div>
           <div className="view-actions">
             <CopyCodeChip profile={profile} />
-            {profile.tier === "quick"
-              ? <Link href="/assess?tier=full" className="va-primary">Take the Full Index</Link>
+            {profile.tier !== "full"
+              ? <Link href={profile.tier === "quick" ? "/assess?tier=standard" : "/assess?tier=full"} className="va-primary">
+                  {profile.tier === "quick" ? "Take the Standard" : "Take the Full Index"}
+                </Link>
               : <Link href="/assess?tier=quick">Retake Quick</Link>}
             <Link href={`/assess?tier=${profile.tier}`}>Retake</Link>
             <button onClick={() => window.print()}>Save as PDF</button>

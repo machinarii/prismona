@@ -137,8 +137,8 @@ describe("norms sanity", () => {
   it("all domains have positive sd", () => {
     Object.values(NORMS).forEach((n) => expect(n.sd).toBeGreaterThan(0));
   });
-  it("full test is 126 items, quick is 26", () => {
-    expect(FULL_TEST).toHaveLength(126);
+  it("full test is 128 items (126 + 2 attention checks), quick is 26", () => {
+    expect(FULL_TEST).toHaveLength(128);
     expect(QUICK_TEST).toHaveLength(26);
   });
 });

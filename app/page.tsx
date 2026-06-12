@@ -33,7 +33,7 @@ export default function Home() {
       <section className="section">
         <div className="section-head">
           <span className="roman">I.</span>
-          <h2>Two editions of one instrument</h2>
+          <h2>Three editions of one instrument</h2>
         </div>
         <table className="tiers">
           <thead>
@@ -63,6 +63,24 @@ export default function Home() {
                 trust profile, compatibility notes.
               </td>
               <td><Link className="btn quiet" href="/assess?tier=quick">Begin</Link></td>
+            </tr>
+            <tr>
+              <td>
+                <span className="display" style={{ fontSize: "var(--t-lg)" }}>Standard Profile</span>
+                <div className="footnote num">38 items · ~8 min</div>
+              </td>
+              <td className="prose" style={{ fontSize: "var(--t-sm)", lineHeight: 1.65 }}>
+                Eight minutes, noticeably sharper: one question from each facet of every
+                trait, so no two consecutive questions feel alike — accuracy without the
+                fatigue.
+                <span className="footnote" style={{ display: "block", marginTop: "6px" }}>
+                  IPIP-NEO-120 facet-balanced selection + Honesty-Humility; α ≈ .80 per domain.
+                </span>
+              </td>
+              <td className="prose" style={{ fontSize: "var(--t-sm)", lineHeight: 1.65 }}>
+                Everything in Quick, with tighter uncertainty bands on every score.
+              </td>
+              <td><Link className="btn quiet" href="/assess?tier=standard">Begin</Link></td>
             </tr>
             <tr>
               <td>

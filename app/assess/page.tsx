@@ -54,9 +54,10 @@ function AgeBandRow() {
 
 function Brief({ tier, onBegin }: { tier: Tier; onBegin: () => void }) {
   const quick = tier === "quick";
+  void quick;
   return (
     <div className="reveal">
-      <p className="label gold">{quick ? "Quick Profile · 26 statements · ~5 minutes" : "Full Index · 126 statements · ~20 minutes"}</p>
+      <p className="label gold">{tier === "quick" ? "Quick Profile · 26 statements · ~5 minutes" : tier === "standard" ? "Standard Profile · 38 statements · ~8 minutes" : "Full Index · 128 statements · ~20 minutes"}</p>
       <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "16px 0 24px", maxWidth: "18ch" }}>
         Answer as you are, not as you wish to be.
       </h1>
@@ -79,7 +80,8 @@ function Brief({ tier, onBegin }: { tier: Tier; onBegin: () => void }) {
       <AgeBandRow />
       <div style={{ marginTop: "var(--s-12)", display: "flex", gap: "var(--s-3)", alignItems: "center", flexWrap: "wrap" }}>
         <button className="btn solid" onClick={onBegin}>Begin the assessment</button>
-        {quick && <Link className="cite" href="/assess?tier=full">or take the Full Index →</Link>}
+        {tier === "quick" && <Link className="cite" href="/assess?tier=standard">or the Standard Profile · 8 minutes →</Link>}
+        {tier === "standard" && <Link className="cite" href="/assess?tier=full">or the Full Index · facet resolution →</Link>}
       </div>
     </div>
   );
@@ -194,7 +196,8 @@ function Runner({ tier }: { tier: Tier }) {
 
 function AssessInner() {
   const params = useSearchParams();
-  const tier: Tier = params.get("tier") === "full" ? "full" : "quick";
+  const t = params.get("tier");
+  const tier: Tier = t === "full" ? "full" : t === "standard" ? "standard" : "quick";
   return <Runner key={tier} tier={tier} />;
 }
 

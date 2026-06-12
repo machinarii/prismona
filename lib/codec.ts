@@ -57,7 +57,7 @@ export function encodeShareCode(p: Profile | ShareProfile): string {
   const days = Math.max(0, Math.min(65535, Math.round((Date.parse(p.date) - EPOCH_MS) / 86400000)));
   const bytes = [
     1,
-    p.tier === "full" ? 1 : 0,
+    p.tier === "full" ? 1 : p.tier === "standard" ? 2 : 0,
     days >> 8, days & 255,
     ...KEYS.map((k) => quantZ(z[k])),
     Math.max(0, Math.min(100, Math.round(consistency))),
@@ -75,7 +75,7 @@ export function decodeShareCode(code: string): ShareProfile | null {
   if (bytes[0] !== 1) return null;
   if (checksum(bytes.slice(0, 11)) !== bytes[11]) return null;
 
-  const tier: Tier = bytes[1] === 1 ? "full" : "quick";
+  const tier: Tier = bytes[1] === 1 ? "full" : bytes[1] === 2 ? "standard" : "quick";
   const days = (bytes[2] << 8) | bytes[3];
   const date = new Date(EPOCH_MS + days * 86400000).toISOString().slice(0, 10);
   const z = Object.fromEntries(

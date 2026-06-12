@@ -6,6 +6,7 @@ export interface Item {
   k: Domain;          // keyed domain
   f?: string;         // facet name (full tier only; H has none)
   r: boolean;         // reverse-keyed
+  chk?: number;       // instructed attention check: expected raw response (1-5); excluded from scoring
 }
 
 export interface Answer {
@@ -14,7 +15,7 @@ export interface Answer {
   timedOut: boolean;
 }
 
-export type Tier = "quick" | "full";
+export type Tier = "quick" | "standard" | "full";
 
 export interface TraitScore {
   z: number;
@@ -36,6 +37,7 @@ export interface Quality {
   answered: number;
   total: number;
   consistency: number; // 0-100 person-fit index
+  attn?: { passed: number; total: number }; // instructed attention checks
 }
 
 export interface ArchetypeMatch {

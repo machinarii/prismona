@@ -15,7 +15,7 @@ Base64url alphabet: `A–Z a–z 0–9 - _` (RFC 4648 §5, unpadded).
 | Byte | Field | Encoding |
 |---|---|---|
 | 0 | version | `1` |
-| 1 | tier | `0` = quick (Mini-IPIP + H, 26 items), `1` = full (IPIP-NEO-120 + H, 126 items) |
+| 1 | tier | `0` = quick (Mini-IPIP + H, 26 items), `1` = full (IPIP-NEO-120 + H), `2` = standard (facet-balanced 6/domain + H) |
 | 2–3 | date | big-endian uint16, days since 2020-01-01 UTC |
 | 4–9 | z-scores | one byte each, order **O, C, E, A, ES, H**: `round(z × 20)` clamped to ±63, offset by +128 (0.05 z resolution, ±3.15 range) |
 | 10 | consistency | 0–100 person-fit index |
@@ -26,7 +26,7 @@ Base64url alphabet: `A–Z a–z 0–9 - _` (RFC 4648 §5, unpadded).
 ## Semantics for consumers
 
 - z-scores are vs **provisional adult norms** (see prismona.vercel.app/method); convert to percentiles with the standard normal CDF.
-- Tier implies reliability: rebuild ±1 SEM bands with α = .88 (full) / .70 (quick) per domain, α = .76 for H.
+- Tier implies reliability: rebuild ±1 SEM bands with α = .88 (full) / .80 (standard) / .70 (quick) per domain, α = .76 for H.
 - These are self-report estimates with modest effect sizes. Do not use codes for screening, hiring, or any verdict on a person; a code shared in one context is not consent for another.
 
 ## Reference implementation

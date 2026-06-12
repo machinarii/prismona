@@ -8,7 +8,7 @@ import { archetypeByName, trustNote } from "@/lib/archetypes";
 import { buildInsights } from "@/lib/insights";
 import { decodeShareCode, encodeShareCode } from "@/lib/codec";
 import { profileFromShare } from "@/lib/shareview";
-import { TRAIT_LABELS } from "@/lib/norms";
+import { TIER_LABELS, TRAIT_LABELS } from "@/lib/norms";
 import { BandBar } from "@/components/BandBar";
 import { RarityLine } from "@/components/RarityLine";
 import { TraitFigure } from "@/components/TraitFigure";
@@ -65,13 +65,13 @@ function SharedReport({ profile }: { profile: Profile }) {
       <div className="print-only print-head">
         <span className="label gold">Prismona — Shared Profile</span>
         <span className="num" style={{ fontSize: "var(--t-sm)", color: "var(--ivory-faint)" }}>
-          {profile.tier === "full" ? "Full Index" : "Quick Profile"} · {longDate(profile.date)} · prismona.vercel.app
+          {TIER_LABELS[profile.tier]} · {longDate(profile.date)} · prismona.vercel.app
         </span>
       </div>
 
       <section className="arch-display">
         <p className="label gold num">
-          Shared profile · {profile.tier === "full" ? "Full Index" : "Quick Profile"} · {longDate(profile.date)}
+          Shared profile · {TIER_LABELS[profile.tier]} · {longDate(profile.date)}
         </p>
         <div className="arch-figure-row">
           <div>
