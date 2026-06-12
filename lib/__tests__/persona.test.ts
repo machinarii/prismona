@@ -26,7 +26,7 @@ describe("agentPersona", () => {
     (["O", "C", "E", "A", "ES", "H"] as ReportKey[]).forEach((k) => {
       expect(persona).toContain(String(p.traits[k].pct));
     });
-    expect(persona).toContain("2026-06-12");
+    expect(persona).toContain("June 12, 2026");
     expect(persona).toMatch(/self-report/i);
   });
 

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { decodeShareCode } from "@/lib/codec";
 import { scorePrediction, type PredictionResult } from "@/lib/predict";
 import { TRAIT_LABELS } from "@/lib/norms";
+import { longDate } from "@/lib/dates";
 import { BandBar } from "@/components/BandBar";
 import type { ReportKey, ShareProfile } from "@/lib/types";
 
@@ -71,7 +72,7 @@ export default function PredictPage() {
 
       {target && !result && (
         <div className="reveal" style={{ margin: "var(--s-8) 0" }}>
-          <p className="footnote">Profile measured {target.date}. Set each slider to the percentile you believe they&apos;d score — 50 is exactly average.</p>
+          <p className="footnote">Profile measured {longDate(target.date)}. Set each slider to the percentile you believe they&apos;d score — 50 is exactly average.</p>
           {KEYS.map((k) => (
             <div className="band-row" key={k}>
               <span className="name">{TRAIT_LABELS[k]}<br /><span className="footnote">{HINTS[k]}</span></span>

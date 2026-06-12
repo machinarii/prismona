@@ -5,6 +5,7 @@ import Link from "next/link";
 import { RIASEC_ITEMS, RIASEC_LABELS } from "@/lib/data/riasec";
 import { scoreInterests, type InterestProfile, type RiasecKey } from "@/lib/interests";
 import { loadInterests, saveInterests } from "@/lib/storage";
+import { longDate } from "@/lib/dates";
 
 const SCALE = ["Strongly dislike", "Dislike", "Unsure", "Like", "Strongly like"];
 const KEYS: RiasecKey[] = ["R", "I", "A", "S", "E", "C"];
@@ -14,7 +15,7 @@ function Result({ ip }: { ip: InterestProfile }) {
   return (
     <main className="shell reveal">
       <section className="arch-display">
-        <p className="label gold num">Interests · {ip.date} · O*NET Mini-IP</p>
+        <p className="label gold num">Interests · {longDate(ip.date)} · O*NET Mini-IP</p>
         <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "12px 0 8px" }}>
           Holland code <span style={{ color: "var(--gold)" }}>{ip.code}</span>
         </h1>

@@ -1,5 +1,6 @@
 import type { Profile, ReportKey } from "./types";
 import { TRAIT_LABELS } from "./norms";
+import { longDate } from "./dates";
 
 // Portable AI context: a copyable plain-text block the user can paste into
 // any AI assistant so it adapts to them. Consent-by-design (the user copies
@@ -31,7 +32,7 @@ export function aiContextBlock(p: Profile): string {
     }
   }
 
-  return `PERSONALITY CONTEXT (self-report, Prismona, ${p.date})
+  return `PERSONALITY CONTEXT (self-report, Prismona, ${longDate(p.date)})
 Instrument: ${instrument}; percentiles vs provisional adult norms; ranges are ±1 standard error.
 
 Trait percentiles:

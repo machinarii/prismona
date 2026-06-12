@@ -41,7 +41,7 @@ describe("aiContextBlock", () => {
   });
 
   it("states the instrument, date, and that it is self-report", () => {
-    expect(block).toContain("2026-06-11");
+    expect(block).toContain("June 11, 2026");
     expect(block).toMatch(/self-report/i);
     expect(block).toMatch(/Mini-IPIP|IPIP/);
   });
