@@ -168,6 +168,31 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 }
 .masthead nav a:hover { color: var(--gold); }
 
+/* hamburger: hidden on wide screens, replaces the inline links on small */
+.nav-toggle { display: none; }
+@media (max-width: 640px) {
+  .masthead-links { display: none !important; }
+  .nav-toggle {
+    display: grid; gap: 5px; padding: 12px 6px;
+  }
+  .nav-toggle span {
+    display: block; width: 22px; height: 1px; background: var(--ivory);
+    transition: transform 0.22s ease, opacity 0.22s ease;
+  }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+  .nav-drawer {
+    position: absolute; top: 100%; left: 0; right: 0;
+    display: grid !important; gap: 0;
+    background: var(--ground-deep);
+    border-bottom: 1px solid var(--hairline-soft);
+    padding: var(--s-2) clamp(20px, 4vw, 48px) var(--s-6);
+  }
+  .nav-drawer a { padding: var(--s-4) 0; border-top: 1px solid var(--hairline-soft); }
+  .nav-drawer a:first-child { border-top: 0; }
+}
+
 .site-footer {
   margin-top: var(--s-24);
   border-top: 1px solid var(--hairline-soft);
@@ -391,8 +416,6 @@ table.tiers th { font-family: var(--font-label), system-ui, sans-serif; font-siz
   .likert button { padding: var(--s-4) 2px; }
   .band-row { grid-template-columns: 104px 1fr 44px; }
   dl.ledger > div { grid-template-columns: 1fr; gap: var(--s-1); }
-  .masthead nav { gap: 12px; }
-  .masthead nav a { letter-spacing: 0.14em; white-space: nowrap; }
   .wordmark { letter-spacing: 0.26em; font-size: 0.9rem; gap: var(--s-2); }
 }
 
