@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Privacy Policy — Prismona",
   description:
-    "Prismona's privacy policy: the architecture is the policy. Answers and profiles never leave your browser; Sensing Apparatus LLC collects no accounts, no answers, no analytics on responses.",
+    "Prismona's privacy policy: the architecture is the policy. Answers never leave your browser; no analytics on responses; accounts are optional, minimal, and exist only for profile sync.",
 };
 
 export default function PrivacyPage() {
@@ -18,7 +18,7 @@ export default function PrivacyPage() {
         Prismona is operated by <strong>Sensing Apparatus LLC</strong>. Personality data
         is sensitive, so we built the product so that we never hold it: the assessment,
         scoring, and reports run entirely in your browser. This page states exactly what
-        that means — including the one optional, opt-in exception (section V).
+        that means — including the optional, opt-in exceptions (sections V and VI).
         Effective June 11, 2026.
       </p>
 
@@ -28,10 +28,10 @@ export default function PrivacyPage() {
           Your answers, your facet profile, your dyad reports — the raw material of the
           assessment — are computed and stored only on your device. They are not
           transmitted to us or to anyone else, not stored on a server, not used for
-          advertising, and not sold — ever. There are no accounts, no sign-ups, and no
-          profiles held by Sensing Apparatus LLC. Trait scores follow the same rule with
-          one narrow, explicit exception you control: the opt-in norms contribution
-          described in section V. Nothing is contributed unless you press the button.
+          advertising, and not sold — ever. No account is required for anything. Trait
+          scores follow the same rule with two narrow, explicit exceptions you control:
+          the opt-in norms contribution (section V) and the opt-in account sync
+          (section VI). Nothing leaves your browser unless you press the button.
         </p>
       </section>
 
@@ -70,9 +70,10 @@ export default function PrivacyPage() {
       <section className="section">
         <div className="section-head"><span className="roman">IV.</span><h2>What our infrastructure sees</h2></div>
         <p className="prose">
-          The site is static pages served from a hosting provider, plus exactly one
-          server endpoint, which exists solely to receive the opt-in contribution
-          described in section V and does nothing else. Like virtually all web hosting,
+          The site is static pages served from a hosting provider, plus a handful of
+          narrow server endpoints: the opt-in norms contribution (section V), the
+          optional sign-in and profile sync (section VI), and the MCP endpoint, which
+          is stateless and stores nothing. Like virtually all web hosting,
           the provider records standard access logs (IP address, requested page, user
           agent, timestamp) for delivery and abuse prevention; these logs contain no
           assessment content, because assessment content is never sent — and profile
@@ -105,16 +106,33 @@ export default function PrivacyPage() {
       </section>
 
       <section className="section">
-        <div className="section-head"><span className="roman">VI.</span><h2>Cookies</h2></div>
+        <div className="section-head"><span className="roman">VI.</span><h2>Optional account and sync</h2></div>
         <p className="prose">
-          Prismona sets no cookies. Local storage is used solely to keep your own
-          results on your own device, as described above; it is never read for
-          tracking and never transmitted.
+          You can use all of Prismona with no account. If you choose to sign in (email
+          plus a six-digit emailed code — no password), an account stores exactly two
+          things in private storage: your email address, and — only when you press{" "}
+          <em>Save this browser&apos;s profile</em> — the profile bundle you chose to
+          sync, so you can load it on another device. Sign-in codes are stored only as
+          salted hashes and expire in ten minutes; the session lives in a single
+          httpOnly cookie. Nothing syncs automatically, your email is never used for
+          anything but sending codes, and you can delete the synced bundle from the
+          account page or ask us to remove the account entirely.
         </p>
       </section>
 
       <section className="section">
-        <div className="section-head"><span className="roman">VII.</span><h2>Children</h2></div>
+        <div className="section-head"><span className="roman">VII.</span><h2>Cookies</h2></div>
+        <p className="prose">
+          Prismona sets no cookies for visitors. The single exception is the httpOnly
+          session cookie created if you choose to sign in (section VI) — it identifies
+          your session and nothing else, and signing out removes it. Local storage is
+          used solely to keep your own results on your own device, as described above;
+          it is never read for tracking and never transmitted.
+        </p>
+      </section>
+
+      <section className="section">
+        <div className="section-head"><span className="roman">VIII.</span><h2>Children</h2></div>
         <p className="prose">
           Prismona is intended for adults. The instruments are normed on adult samples,
           and the service is not directed to children under 16. Because we collect
@@ -124,11 +142,11 @@ export default function PrivacyPage() {
       </section>
 
       <section className="section" style={{ paddingBottom: "var(--s-8)" }}>
-        <div className="section-head"><span className="roman">VIII.</span><h2>Changes and contact</h2></div>
+        <div className="section-head"><span className="roman">IX.</span><h2>Changes and contact</h2></div>
         <p className="prose">
           If the architecture ever changes, this policy changes first, visibly, with a
-          new effective date, and any new collection will be opt-in — section V is the
-          first and so far only such addition, made under exactly that rule. Questions can be
+          new effective date, and any new collection will be opt-in — sections V and VI
+          are the additions so far, each made under exactly that rule. Questions can be
           directed to Sensing Apparatus LLC. See the{" "}
           <Link href="/method">Method page</Link> for the scientific and ethical
           commitments that sit alongside this policy, and the{" "}
