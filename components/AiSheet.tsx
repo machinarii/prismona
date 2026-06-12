@@ -135,13 +135,26 @@ export function AiSheet({ profile }: { profile: Profile }) {
           didn&apos;t, digested weekly below.
         </p>
         <dl className="ledger">
-          {style.entries.map((e) => (
-            <div key={e.title}>
-              <dt>{e.title}</dt>
-              <dd>{e.body}</dd>
+          {style.sections.map((sec) => (
+            <div key={sec.key}>
+              <dt>{sec.heading}</dt>
+              <dd>
+                {sec.entries.map((e, i) => (
+                  <p key={i} style={{ margin: i ? "var(--s-3) 0 0" : 0 }}>
+                    {e.body}{" "}
+                    <span className="footnote num" style={{ whiteSpace: "nowrap" }}>
+                      · {e.strength === "strong" ? "strong tendency" : e.strength === "tendency" ? "tendency" : "light"}
+                    </span>
+                  </p>
+                ))}
+              </dd>
             </div>
           ))}
         </dl>
+        <p className="footnote" style={{ marginTop: "var(--s-4)" }}>
+          Strength labels are keyed to percentile extremity — the further a trait sits
+          from the median, the harder the tendency.
+        </p>
         <div style={{ marginTop: "var(--s-8)" }}>
           <span className="label">Field notes · updated weekly</span>
           <div style={{ marginTop: "var(--s-4)" }}>

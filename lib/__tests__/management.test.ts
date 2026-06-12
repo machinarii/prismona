@@ -18,15 +18,37 @@ const profile = (z: Partial<Record<ReportKey, number>> = {}): Profile => {
 };
 
 describe("managementStyle", () => {
-  const style = managementStyle(profile({ C: -1.0, A: -0.9, E: 1.1 }));
+  const style = managementStyle(profile({ C: -1.0, A: -0.9, E: 1.1, O: 1.2 }));
 
-  it("produces a headline and substantive entries", () => {
-    expect(style.headline.length).toBeGreaterThan(20);
-    expect(style.entries.length).toBeGreaterThanOrEqual(4);
-    style.entries.forEach((e) => {
-      expect(e.title.length).toBeGreaterThan(0);
-      expect(e.body.length).toBeGreaterThan(50);
+  it("produces the six working-doc sections in order", () => {
+    expect(style.sections.map((s) => s.key)).toEqual([
+      "core", "strengths", "communication", "environment", "friction", "moves",
+    ]);
+    style.sections.forEach((sec) => {
+      expect(sec.heading.length).toBeGreaterThan(3);
+      expect(sec.entries.length).toBeGreaterThanOrEqual(1);
+      sec.entries.forEach((e) => {
+        expect(e.body.length).toBeGreaterThan(40);
+        expect(["strong", "tendency", "light"]).toContain(e.strength);
+      });
     });
+  });
+
+  it("labels strength by percentile extremity — extreme traits read as strong tendencies", () => {
+    const extreme = managementStyle(profile({ C: -1.8 }));
+    const frictions = extreme.sections.find((s) => s.key === "friction")!;
+    expect(frictions.entries.some((e) => e.strength === "strong")).toBe(true);
+  });
+
+  it("friction section is honest about the profile's failure modes", () => {
+    const friction = style.sections.find((s) => s.key === "friction")!;
+    const text = friction.entries.map((e) => e.body).join(" ");
+    expect(text).toMatch(/process|execution|structure/i); // low C
+  });
+
+  it("best-practice moves answer the frictions", () => {
+    const moves = style.sections.find((s) => s.key === "moves")!;
+    expect(moves.entries.length).toBeGreaterThanOrEqual(2);
   });
 
   it("varies with the profile", () => {
