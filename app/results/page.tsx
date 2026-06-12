@@ -121,10 +121,13 @@ function InterestsBlock({ interests }: { interests: InterestProfile | null }) {
   const ranked = (["R", "I", "A", "S", "E", "C"] as RiasecKey[])
     .sort((a, b) => interests.scores[b].mean - interests.scores[a].mean);
   return (
-    <div style={{ marginTop: "var(--s-8)" }}>
-      <span className="label gold num">
-        Vocational interests · Holland code {interests.code} · {interests.date}
-      </span>
+    <div className="interests-plate">
+      <span className="label gold num">Vocational interests · {interests.date}</span>
+      <div className="ip-code num">{interests.code}</div>
+      <p className="ip-names">
+        {interests.top.map((k) => RIASEC_LABELS[k].name).join(" · ")} — which work you
+        keep choosing; the traits above estimate how you&apos;ll travel it.
+      </p>
       <div style={{ marginTop: "var(--s-4)" }}>
         {ranked.map((k) => {
           const mean = interests.scores[k].mean;
@@ -140,8 +143,8 @@ function InterestsBlock({ interests }: { interests: InterestProfile | null }) {
         })}
       </div>
       <p className="footnote" style={{ marginTop: "var(--s-3)" }}>
-        Ranked against each other (ipsative; O*NET Mini-IP) — the ordering is the result.
-        Interests supply career direction; the traits above estimate the travel.{" "}
+        Scales are ranked against each other (ipsative; O*NET Mini-IP) — the ordering is
+        the result.{" "}
         <Link href="/interests?retake=1" className="cite" style={{ color: "var(--ivory-dim)" }}>Retake</Link>
       </p>
     </div>

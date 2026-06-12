@@ -357,6 +357,31 @@ dl.ledger dd { color: var(--ivory-dim); max-width: var(--measure); }
 }
 .view-tab[aria-selected="true"] .vt-desc { opacity: 1; color: var(--gold-deep); }
 
+/* interests plate: the one raised passage in the report — vocational
+   interests get their own ground so direction reads apart from traits */
+.interests-plate {
+  margin-top: var(--s-10);
+  background: var(--ground-raised);
+  border: 1px solid var(--hairline-soft);
+  padding: var(--s-6) var(--s-8) var(--s-6);
+}
+.interests-plate .ip-code {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: var(--t-xl);
+  color: var(--gold);
+  letter-spacing: 0.18em;
+  margin: 6px 0 2px;
+}
+.interests-plate .ip-names {
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-size: var(--t-md);
+  color: var(--ivory-dim);
+  max-width: 52ch;
+  line-height: 1.5;
+}
+.interests-plate .band-row + .band-row { border-top-color: var(--hairline); }
+
 /* trait figure: a parametric engraving in the house palette */
 .trait-figure { display: block; }
 .trait-figure .ring { fill: none; stroke: var(--hairline-soft); stroke-width: 0.75; }
