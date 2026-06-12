@@ -12,14 +12,20 @@ export function RarityLine({ profile, topName }: { profile: Profile; topName?: s
   const rare = distinctiveness(z);
   const base = topName ? ARCHETYPE_BASE_RATES[topName] : undefined;
   return (
-    <p className="prose" style={{ marginTop: "var(--s-6)" }}>
-      This six-trait combination is more distinctive than{" "}
-      <strong className="num">{rare.pct}%</strong> of people
-      {rare.oneIn >= 2 && <> — roughly <strong className="num">1 in {Math.round(rare.oneIn)}</strong></>}
-      {base != null && (
-        <>; about <strong className="num">{base}%</strong> of a norm population lands nearest {topName}</>
-      )}
-      . Estimated from meta-analytic trait correlations and provisional norms — method, not mysticism.
-    </p>
+    <>
+      <p className="prose" style={{ marginTop: "var(--s-6)" }}>
+        This combination of traits is rarer than{" "}
+        <strong className="num">{rare.pct}%</strong> of people&apos;s
+        {rare.oneIn >= 2 && <> — roughly <strong className="num">1 in {Math.round(rare.oneIn)}</strong></>}
+        {base != null && (
+          <>. About <strong className="num">{base}%</strong> of people land nearest {topName}</>
+        )}
+        .
+      </p>
+      <p className="footnote" style={{ marginTop: "var(--s-2)" }}>
+        Estimated via Mahalanobis distance under meta-analytic trait correlations,
+        against provisional norms — method, not mysticism.
+      </p>
+    </>
   );
 }

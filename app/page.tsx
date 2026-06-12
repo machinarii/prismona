@@ -13,16 +13,19 @@ export default function Home() {
           Character, measured with the honesty science demands.
         </h1>
         <p className="prose" style={{ fontSize: "var(--t-lg)", lineHeight: 1.5, maxWidth: "46ch" }}>
-          Built only on instruments that survive peer review — the Big Five and
-          HEXACO Honesty-Humility — with uncertainty shown on every score and a
-          citation behind every claim.
+          Five minutes of honest answers becomes a portrait of how you&apos;re
+          wired — and what it means for love, work, and the people you build
+          with. Every score shows its margin of error; every claim shows
+          its receipt.
         </p>
         <div style={{ display: "flex", gap: "var(--s-3)", flexWrap: "wrap", marginTop: "var(--s-12)" }}>
           <Link href="/assess?tier=quick" className="btn solid">Begin · 5 minutes</Link>
           <Link href="/assess?tier=full" className="btn">Full Index · 126 items</Link>
         </div>
         <p className="footnote" style={{ marginTop: "var(--s-6)" }}>
-          No account. No tracking. Your answers never leave this browser.
+          No account. No tracking. Your answers never leave this browser.<br />
+          Built only on peer-reviewed, public-domain instruments: the Big Five
+          (Mini-IPIP / IPIP-NEO-120) and HEXACO Honesty-Humility scales.
         </p>
       </section>
 
@@ -48,9 +51,12 @@ export default function Home() {
                 <div className="footnote num">26 items · ~5 min</div>
               </td>
               <td className="prose" style={{ fontSize: "var(--t-sm)", lineHeight: 1.65 }}>
-                Mini-IPIP Big Five screening scales (Donnellan et al., 2006) with the
-                IPIP Honesty-Humility markers. A calibrated first reading — precise
-                enough to orient, honest about its limits.
+                Five minutes of first instincts — a calibrated first reading of all
+                six traits, sharp enough to see the shape of you, honest about
+                its limits.
+                <span className="footnote" style={{ display: "block", marginTop: "6px" }}>
+                  Mini-IPIP (Donnellan et al., 2006) + IPIP Honesty-Humility markers.
+                </span>
               </td>
               <td className="prose" style={{ fontSize: "var(--t-sm)", lineHeight: 1.65 }}>
                 Archetype blend, six trait percentiles with uncertainty bands,
@@ -64,9 +70,12 @@ export default function Home() {
                 <div className="footnote num">126 items · ~20 min</div>
               </td>
               <td className="prose" style={{ fontSize: "var(--t-sm)", lineHeight: 1.65 }}>
-                The IPIP-NEO-120 (Johnson, 2014) — thirty facets beneath the five
-                domains, validated on six hundred thousand protocols — plus the
-                Honesty-Humility scale.
+                Twenty minutes for the full-resolution portrait — thirty distinct
+                facets beneath the six traits, where two people with equal scores
+                stop looking alike.
+                <span className="footnote" style={{ display: "block", marginTop: "6px" }}>
+                  IPIP-NEO-120 (Johnson, 2014), validated on 600,000+ protocols, + Honesty-Humility.
+                </span>
               </td>
               <td className="prose" style={{ fontSize: "var(--t-sm)", lineHeight: 1.65 }}>
                 Everything in Quick, with thirty-facet resolution — where equal
@@ -116,9 +125,9 @@ export default function Home() {
           <div>
             <dt>Confidence</dt>
             <dd>
-              Response pace, timeouts, straight-lining and within-construct consistency
-              roll into a stated confidence in your own profile. We tell you when not to
-              trust us.
+              How carefully you answered — your pace, your consistency, any signs of
+              rushing — rolls into a stated confidence in your own profile. We tell
+              you when not to trust us.
             </dd>
           </div>
         </dl>
@@ -150,15 +159,19 @@ export default function Home() {
           <h2>What we refuse to claim</h2>
         </div>
         <p className="prose">
-          Personality predicts real outcomes at modest effect sizes — and the best
-          single study of couples shows relationship-specific perceptions outpredict
-          individual traits entirely (Joel et al., 2020). So we do not predict your
-          marriage, your startup, or your worth. We measure carefully, show our
-          uncertainty, and structure the conversations the numbers point to.
-          Every result screen links its evidence.
+          Personality shapes real outcomes — modestly. And the best research on
+          couples found that how partners <em>see each other</em> predicts more than
+          either partner&apos;s traits do. So we will not predict your marriage, your
+          startup, or your worth. We measure carefully, show our uncertainty, and
+          structure the conversations the numbers point to.
+        </p>
+        <p className="footnote" style={{ marginTop: "var(--s-4)" }}>
+          Effect sizes r ≈ .2–.3 for the strongest trait–outcome links (Roberts et al.,
+          2007); relationship perceptions outpredict traits (Joel et al., 2020).
+          Every result screen cites its evidence.
         </p>
         <div style={{ marginTop: "var(--s-8)" }}>
-          <Link href="/method" className="cite">Read the full method →</Link>
+          <Link href="/method" className="cite">Read the full methodology →</Link>
         </div>
       </section>
     </main>
