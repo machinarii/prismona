@@ -50,5 +50,25 @@
 
 **Status (2026-06-11, later):** four more shipped the same day (spec: `superpowers/specs/2026-06-11-profile-value-expansion-design.md`): **"Working with me" manual** at `/manual` (B.5's solo-profile core — generated first-person one-pager, printable); **career-pivot direction layer** via the O*NET Mini-IP RIASEC inventory at `/interests` (interests × traits in the career reading); **client-side retest timeline** (feature 12, partial); and the **portable AI context block** (frontier item's zero-backend MVP — copyable personality context for any AI assistant). Print-to-PDF shipped for all report surfaces.
 
+## E. Prioritized expansion backlog (2026-06-12)
+*From the portability + data-collection brainstorms. Ranked by impact ÷ feasibility under the standing constraints: client-side-first, consent-only, no licensing blockers where avoidable.*
+
+**Tier 0 — unblock:** link the `prismona-contrib` Blob store (contributions are "paused" until then; every data feature below rides that pipeline).
+
+**Tier 1 — platform play (days each):**
+1. Open codec package + spec (`@prismona/codec`) — prerequisite for everything; makes the share code a standard.
+2. MCP server, local/stdio (`prismona-mcp`) — tools: decode_profile, compare_dyad, team_composition, working_with_me, agent_persona. The "identity layer for AI" frontier item, zero infra.
+3. Compatible AI agent persona generator — complement personas from trait tiers (structure for low C, calm anchor for low ES, challenger for high A); the killer MCP tool.
+4. JSON export + published schema — the lingua franca for HRIS/org/automation tools.
+
+**Tier 2 — growth loops + best science per item (~week each):**
+5. "Predict their profile" game — viral, and collects relationship-perception data (the most predictive variable; Joel 2020).
+6. Informant mini-360 via observer codes — best validity booster in the literature; the "self-insight gap" output; serverless.
+7. `/team` composition (N codes → diversity, coverage, single-point-of-failure, gates) + export + MCP tool — unlocks org/roster/VC verticals.
+
+**Tier 3 — moat data + distribution (small, compounding):** outcome follow-ups at retest (validity loop), context fields + state check-ins, QR-on-PDF, Slack/signature embed snippets, /compare deep links, standards crosswalk page.
+
+**Tier 4 — instrument expansion (bigger lifts / external blockers):** SJT scenarios; forced-choice tier; remote MCP + therapist export; client-side language analysis (exploratory); behavioral micro-tasks; **values PVQ-RR and attachment ECR-R (licensing — start inquiries early)**.
+
 ## C. Design direction
 Elevated to high-end/exclusive: near-black ground, ivory typography, champagne-gold accents, editorial serif display (Cormorant), hairline rules, roman-numeral pacing, restrained motion. Tone: private research institute — "measured, not gamified."
