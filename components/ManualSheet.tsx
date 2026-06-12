@@ -4,15 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { buildManual } from "@/lib/manual";
 import { profileUrl } from "@/lib/shareview";
+import { longDate } from "@/lib/dates";
 import type { Profile } from "@/lib/types";
-
-const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-// "2026-06-11" → "June 11, 2026" (string parts only — no Date, no timezone drift)
-function longDate(iso: string): string {
-  const [y, m, d] = iso.split("-").map(Number);
-  return `${MONTHS[(m ?? 1) - 1]} ${d}, ${y}`;
-}
 
 function CopyManualLink({ profile }: { profile: Profile }) {
   const [copied, setCopied] = useState(false);
@@ -40,7 +33,7 @@ export function ManualSheet({ profile, showBack = true }: { profile: Profile; sh
       <div className="print-only print-head">
         <span className="label gold">Working with me — Prismona</span>
         <span className="num" style={{ fontSize: "var(--t-sm)", color: "var(--ivory-faint)" }}>
-          {profile.date} · prismona.vercel.app
+          {longDate(profile.date)} · prismona.vercel.app
         </span>
       </div>
 

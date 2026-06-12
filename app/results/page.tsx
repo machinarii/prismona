@@ -10,6 +10,7 @@ import { agentPersona } from "@/lib/persona";
 import { buildProfileExport } from "@/lib/export";
 import { INTERESTS_CITE, interestsCareerNote, type InterestProfile, type RiasecKey } from "@/lib/interests";
 import { RIASEC_LABELS } from "@/lib/data/riasec";
+import { longDate } from "@/lib/dates";
 import { decodeShareCode, encodeShareCode } from "@/lib/codec";
 import { profileUrl, sameShareCode } from "@/lib/shareview";
 import { RarityLine } from "@/components/RarityLine";
@@ -122,7 +123,7 @@ function InterestsBlock({ interests }: { interests: InterestProfile | null }) {
     .sort((a, b) => interests.scores[b].mean - interests.scores[a].mean);
   return (
     <div className="interests-plate">
-      <span className="label gold num">Vocational interests · {interests.date}</span>
+      <span className="label gold num">Vocational interests · {longDate(interests.date)}</span>
       <div className="ip-code num">{interests.code}</div>
       <p className="ip-names">
         {interests.top.map((k) => RIASEC_LABELS[k].name).join(" · ")} — which work you
@@ -172,14 +173,14 @@ function Report({ profile, drift, interests }: {
       <div className="print-only print-head">
         <span className="label gold">Prismona — Personality Profile</span>
         <span className="num" style={{ fontSize: "var(--t-sm)", color: "var(--ivory-faint)" }}>
-          {profile.tier === "full" ? "Full Index" : "Quick Profile"} · {profile.date} · prismona.vercel.app
+          {profile.tier === "full" ? "Full Index" : "Quick Profile"} · {longDate(profile.date)} · prismona.vercel.app
         </span>
       </div>
 
       {/* I — archetype */}
       <section className="arch-display">
         <p className="label gold num">
-          {profile.tier === "full" ? "Full Index" : "Quick Profile"} · {profile.date} ·
+          {profile.tier === "full" ? "Full Index" : "Quick Profile"} · {longDate(profile.date)} ·
           primary archetype
         </p>
         <div className="arch-figure-row">
@@ -226,7 +227,7 @@ function Report({ profile, drift, interests }: {
         {drift && (
           <div style={{ marginTop: "var(--s-8)" }}>
             <span className="label gold num">
-              Trajectory · {drift.n} measurements · {drift.from} → {drift.to}
+              Trajectory · {drift.n} measurements · {longDate(drift.from)} → {longDate(drift.to)}
             </span>
             <div className="flags" style={{ marginTop: "var(--s-4)" }}>
               {TRAIT_ORDER.map((k) => {

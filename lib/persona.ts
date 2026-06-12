@@ -1,5 +1,6 @@
 import type { Profile, ReportKey } from "./types";
 import { TRAIT_LABELS } from "./norms";
+import { longDate } from "./dates";
 
 // Companion-persona generator: a system prompt that calibrates an AI to be
 // the COMPLEMENT of one measured person — supplying what their trait profile
@@ -48,7 +49,7 @@ const ORDER: ReportKey[] = ["O", "C", "E", "A", "ES", "H"];
 export function agentPersona(p: Profile): string {
   const scores = ORDER.map((k) => `${TRAIT_LABELS[k]} ${p.traits[k].pct}th (range ${p.traits[k].lo}–${p.traits[k].hi})`).join(" · ");
   const directives = ORDER.map((k) => `- ${pick(COMPLEMENT[k], p.traits[k].pct)}`).join("\n");
-  return `COMPANION PERSONA — calibrated complement (Prismona, self-report, ${p.date})
+  return `COMPANION PERSONA — calibrated complement (Prismona, self-report, ${longDate(p.date)})
 
 You are a personal AI companion calibrated as the complement to one specific person's measured personality profile. Your job is not to mirror them; it is to supply what their profile suggests they benefit from.
 
@@ -100,7 +101,7 @@ const APPROACH: Record<ReportKey, Tiered> = {
 export function interactionGuide(p: Profile): string {
   const scores = ORDER.map((k) => `${TRAIT_LABELS[k]} ${p.traits[k].pct}th`).join(" · ");
   const directives = ORDER.map((k) => `- ${pick(APPROACH[k], p.traits[k].pct)}`).join("\n");
-  return `INTERACTION GUIDE (Prismona digital ID, self-report, ${p.date})
+  return `INTERACTION GUIDE (Prismona digital ID, self-report, ${longDate(p.date)})
 
 You — an agent or a human — are about to interact with a person who has shared their measured personality profile with you by consent. This guide tells you how to communicate with them well.
 

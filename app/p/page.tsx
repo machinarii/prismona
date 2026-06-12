@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { interactionGuide } from "@/lib/persona";
+import { longDate } from "@/lib/dates";
 import Link from "next/link";
 import { archetypeByName, trustNote } from "@/lib/archetypes";
 import { buildInsights } from "@/lib/insights";
@@ -64,13 +65,13 @@ function SharedReport({ profile }: { profile: Profile }) {
       <div className="print-only print-head">
         <span className="label gold">Prismona — Shared Profile</span>
         <span className="num" style={{ fontSize: "var(--t-sm)", color: "var(--ivory-faint)" }}>
-          {profile.tier === "full" ? "Full Index" : "Quick Profile"} · {profile.date} · prismona.vercel.app
+          {profile.tier === "full" ? "Full Index" : "Quick Profile"} · {longDate(profile.date)} · prismona.vercel.app
         </span>
       </div>
 
       <section className="arch-display">
         <p className="label gold num">
-          Shared profile · {profile.tier === "full" ? "Full Index" : "Quick Profile"} · {profile.date}
+          Shared profile · {profile.tier === "full" ? "Full Index" : "Quick Profile"} · {longDate(profile.date)}
         </p>
         <div className="arch-figure-row">
           <div>

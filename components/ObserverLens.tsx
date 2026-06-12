@@ -5,6 +5,7 @@ import { decodeShareCode } from "@/lib/codec";
 import { selfOtherGap } from "@/lib/observe";
 import { loadObserverCodes, saveObserverCode } from "@/lib/storage";
 import { TRAIT_LABELS } from "@/lib/norms";
+import { longDate } from "@/lib/dates";
 import type { Profile, ReportKey } from "@/lib/types";
 
 const KEYS: ReportKey[] = ["O", "C", "E", "A", "ES", "H"];
@@ -53,7 +54,7 @@ export function ObserverLens({ profile }: { profile: Profile }) {
         const gap = selfOtherGap(profile, share.z);
         return (
           <div key={c} style={{ marginTop: "var(--s-8)" }}>
-            <span className="label num">Observer {i + 1} · {share.date} · mean gap {gap.meanGap} points</span>
+            <span className="label num">Observer {i + 1} · {longDate(share.date)} · mean gap {gap.meanGap} points</span>
             <div className="flags" style={{ marginTop: "var(--s-3)" }}>
               {KEYS.map((k) => {
                 const t = gap.perTrait[k];
