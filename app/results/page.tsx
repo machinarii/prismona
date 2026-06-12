@@ -5,8 +5,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { archetypeByName, trustNote } from "@/lib/archetypes";
 import { buildInsights } from "@/lib/insights";
-import { aiContextBlock } from "@/lib/portable";
-import { agentPersona } from "@/lib/persona";
 import { buildProfileExport } from "@/lib/export";
 import { INTERESTS_CITE, interestsCareerNote, type InterestProfile, type RiasecKey } from "@/lib/interests";
 import { RIASEC_LABELS } from "@/lib/data/riasec";
@@ -18,6 +16,7 @@ import { TraitFigure } from "@/components/TraitFigure";
 import { Contribute } from "@/components/Contribute";
 import { ObserverLens } from "@/components/ObserverLens";
 import { ManualSheet } from "@/components/ManualSheet";
+import { AiSheet } from "@/components/AiSheet";
 import { CitationList, CiteMarks } from "@/components/Citations";
 import { buildCitationIndex } from "@/lib/citations";
 import { TRAIT_LABELS } from "@/lib/norms";
@@ -75,37 +74,6 @@ function CopyCode({ code, profile }: { code: string; profile: Profile }) {
         {copied === "link" ? "Copied" : "Copy profile link"}
       </button>
     </div>
-  );
-}
-
-function CopyBlock({ summary, action, text }: { summary: string; action: string; text: string }) {
-  const [copied, setCopied] = useState(false);
-  return (
-    <details open style={{ marginBottom: "var(--s-8)" }}>
-      <summary className="btn quiet" style={{ listStyle: "none", cursor: "pointer", display: "inline-block" }}>
-        {summary}
-      </summary>
-      <pre
-        className="footnote num"
-        style={{
-          whiteSpace: "pre-wrap", border: "1px dashed var(--hairline)",
-          padding: "var(--s-4) var(--s-6)", margin: "var(--s-4) 0", letterSpacing: 0,
-        }}
-      >
-        {text}
-      </pre>
-      <button
-        className="btn quiet"
-        onClick={() => {
-          navigator.clipboard?.writeText(text).then(() => {
-            setCopied(true);
-            setTimeout(() => setCopied(false), 1800);
-          });
-        }}
-      >
-        {copied ? "Copied" : action}
-      </button>
-    </details>
   );
 }
 
@@ -411,32 +379,6 @@ const VIEWS = [
   { key: "manual" as const, name: "Working with me", desc: "The one-pager, for others" },
   { key: "ai" as const, name: "For my AI", desc: "Context & companion persona" },
 ];
-
-function AiSheet({ profile }: { profile: Profile }) {
-  return (
-    <>
-      <section className="arch-display">
-        <p className="label gold">Take your profile to your AI</p>
-        <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "12px 0 16px" }}>
-          An agent that knows you.
-        </h1>
-        <p className="prose">
-          Two blocks to paste into Claude, ChatGPT, or any assistant: the{" "}
-          <em>context</em> teaches it who you are; the <em>persona</em> calibrates it
-          to complement you. You copy them — nothing is sent.
-        </p>
-      </section>
-      <section className="report-section">
-        <CopyBlock summary="AI context" action="Copy AI context" text={aiContextBlock(profile)} />
-        <CopyBlock summary="Companion persona" action="Copy companion persona" text={agentPersona(profile)} />
-        <p className="footnote" style={{ marginTop: "var(--s-6)" }}>
-          Agents can also connect live — your share code works with the{" "}
-          <Link href="/mcp" className="cite" style={{ color: "var(--ivory-dim)" }}>MCP endpoint</Link>.
-        </p>
-      </section>
-    </>
-  );
-}
 
 function ProfileViews({ profile, drift, interests }: {
   profile: Profile; drift: DriftReport | null; interests: InterestProfile | null;
