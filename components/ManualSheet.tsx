@@ -6,6 +6,14 @@ import { buildManual } from "@/lib/manual";
 import { profileUrl } from "@/lib/shareview";
 import type { Profile } from "@/lib/types";
 
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+// "2026-06-11" → "June 11, 2026" (string parts only — no Date, no timezone drift)
+function longDate(iso: string): string {
+  const [y, m, d] = iso.split("-").map(Number);
+  return `${MONTHS[(m ?? 1) - 1]} ${d}, ${y}`;
+}
+
 function CopyManualLink({ profile }: { profile: Profile }) {
   const [copied, setCopied] = useState(false);
   return (
@@ -42,10 +50,10 @@ export function ManualSheet({ profile, showBack = true }: { profile: Profile; sh
           Working with me
         </h1>
         <p className="prose">
-          Generated from my assessed personality profile ({profile.tier === "full" ? "Full Index" : "Quick Profile"},
-          {" "}{profile.date}) — how I communicate, decide, take feedback, and what you can
-          count on. Self-report is one side of the story; treat this as my honest opening
-          bid, not a contract.
+          Generated from my {profile.tier === "full" ? "full" : "quick"} personality
+          profile on {longDate(profile.date)} — how I communicate, decide, take
+          feedback, and what you can count on. Self-report is one side of the story;
+          treat this as my honest opening bid, not a contract.
         </p>
       </section>
 
