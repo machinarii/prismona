@@ -172,6 +172,7 @@ function SharedReport({ profile }: { profile: Profile }) {
           <Link href="/assess?tier=quick" className="btn solid">Measure yourself · 5 minutes</Link>
           <Link href="/compare" className="btn">Compare with this profile</Link>
           <Link href={`/manual#${encodeShareCode(profile)}`} className="btn quiet">Their working-with-me manual</Link>
+          <Link href={`/predict#${encodeShareCode(profile)}`} className="btn quiet">Test how well you see them</Link>
           <button className="btn quiet" onClick={() => window.print()}>Save as PDF</button>
         </div>
       </section>
