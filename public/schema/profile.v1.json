@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://prismona.vercel.app/schema/profile.v1.json",
+  "title": "Prismona Profile Export v1",
+  "description": "Canonical machine-readable personality profile exported by its subject from prismona.vercel.app. Carried by consent; the disclaimer field is part of the payload and must be preserved by consumers.",
+  "type": "object",
+  "required": ["$schema", "version", "generator", "instrument", "date", "tier", "shareCode", "traits", "archetypes", "quality", "disclaimer"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "version": { "const": 1 },
+    "generator": { "const": "Prismona" },
+    "instrument": { "type": "string" },
+    "date": { "type": "string", "format": "date" },
+    "tier": { "enum": ["quick", "full"] },
+    "shareCode": { "type": "string", "pattern": "^PRSM-[A-Za-z0-9_-]{16}$", "description": "Compact bearer token: decodes to the six domain z-scores via the open PRSM codec." },
+    "traits": {
+      "type": "object",
+      "required": ["O", "C", "E", "A", "ES", "H"],
+      "additionalProperties": {
+        "type": "object",
+        "required": ["label", "percentile", "range", "z"],
+        "properties": {
+          "label": { "type": "string" },
+          "percentile": { "type": "integer", "minimum": 1, "maximum": 99 },
+          "range": { "type": "array", "items": { "type": "integer" }, "minItems": 2, "maxItems": 2, "description": "±1 SEM percentile band [lo, hi]" },
+          "z": { "type": "number" }
+        }
+      }
+    },
+    "facets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["domain", "name", "percentile", "range"],
+        "properties": {
+          "domain": { "enum": ["O", "C", "E", "A", "ES", "H"] },
+          "name": { "type": "string" },
+          "percentile": { "type": "integer" },
+          "range": { "type": "array", "items": { "type": "integer" } }
+        }
+      }
+    },
+    "archetypes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "match"],
+        "properties": { "name": { "type": "string" }, "match": { "type": "integer" } }
+      }
+    },
+    "interests": {
+      "type": "object",
+      "required": ["hollandCode", "date", "scales"],
+      "properties": {
+        "hollandCode": { "type": "string", "pattern": "^[RIASEC]{3}$" },
+        "date": { "type": "string", "format": "date" },
+        "scales": { "type": "object", "additionalProperties": { "type": "number" } }
+      }
+    },
+    "quality": {
+      "type": "object",
+      "required": ["consistency", "answered", "total"],
+      "properties": {
+        "consistency": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "answered": { "type": "integer" },
+        "total": { "type": "integer" }
+      }
+    },
+    "disclaimer": { "type": "string" }
+  }
+}
