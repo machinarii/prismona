@@ -1,0 +1,26 @@
+{
+  "name": "prismona-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for Prismona personality profiles: decode share codes, generate readings, compare dyads, read team composition, and produce companion personas / interaction guides \u2014 entirely locally over stdio.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "prismona-mcp": "dist/server.mjs"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "esbuild src/server.ts --bundle --platform=node --format=esm --outfile=dist/server.mjs --banner:js='#!/usr/bin/env node'"
+  },
+  "homepage": "https://prismona.vercel.app/method",
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "typescript": "^5.9.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^3.25.0"
+  }
+}
