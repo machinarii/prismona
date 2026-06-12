@@ -68,7 +68,7 @@
 
 **Tier 3 — moat data + distribution (small, compounding):** outcome follow-ups at retest (validity loop), context fields + state check-ins, QR-on-PDF, Slack/signature embed snippets, /compare deep links, standards crosswalk page.
 
-**Tier 4 — instrument expansion (bigger lifts / external blockers):** SJT scenarios; forced-choice tier; remote MCP + therapist export; client-side language analysis (exploratory); behavioral micro-tasks; **values PVQ-RR and attachment ECR-R (licensing — start inquiries early)**.
+**Tier 4 — instrument expansion (bigger lifts / external blockers):** SJT scenarios; forced-choice tier; ~~remote MCP~~ (✅ pulled forward — hosted endpoint live at /api/mcp since 2026-06-12, docs at /mcp); therapist export; client-side language analysis (exploratory); behavioral micro-tasks; **values PVQ-RR and attachment ECR-R (licensing — start inquiries early)**.
 
 ## C. Design direction
 Elevated to high-end/exclusive: near-black ground, ivory typography, champagne-gold accents, editorial serif display (Cormorant), hairline rules, roman-numeral pacing, restrained motion. Tone: private research institute — "measured, not gamified."
