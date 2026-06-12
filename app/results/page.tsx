@@ -16,6 +16,7 @@ import { RarityLine } from "@/components/RarityLine";
 import { TraitFigure } from "@/components/TraitFigure";
 import { Contribute } from "@/components/Contribute";
 import { ObserverLens } from "@/components/ObserverLens";
+import { ManualSheet } from "@/components/ManualSheet";
 import { CitationList, CiteMarks } from "@/components/Citations";
 import { buildCitationIndex } from "@/lib/citations";
 import { TRAIT_LABELS } from "@/lib/norms";
@@ -381,7 +382,6 @@ function Report({ profile, drift, interests }: {
             ? <Link href="/assess?tier=full" className="btn">Take the Full Index</Link>
             : <Link href="/assess?tier=quick" className="btn quiet">Retake Quick Profile</Link>}
           <Link href={`/assess?tier=${profile.tier}`} className="btn quiet">Retake</Link>
-          <Link href="/manual" className="btn quiet">Working-with-me manual</Link>
           <button className="btn quiet" onClick={() => window.print()}>Save as PDF</button>
           <button
             className="btn quiet"
@@ -434,7 +434,49 @@ function ResultsInner() {
 
   if (profile === undefined) return null; // first paint, before storage read
   if (profile === null) return <EmptyState />;
-  return <Report profile={profile} drift={drift} interests={interests} />;
+  return <ProfileViews profile={profile} drift={drift} interests={interests} />;
+}
+
+const VIEWS = [
+  {
+    key: "breakdown" as const,
+    name: "My breakdown",
+    desc: "The full report, for you: traits, interests, readings, confidence.",
+  },
+  {
+    key: "manual" as const,
+    name: "Working with me",
+    desc: "The one-pager, for others: how to collaborate with you well.",
+  },
+];
+
+function ProfileViews({ profile, drift, interests }: {
+  profile: Profile; drift: DriftReport | null; interests: InterestProfile | null;
+}) {
+  const [view, setView] = useState<"breakdown" | "manual">("breakdown");
+  return (
+    <>
+      <div className="shell no-print" style={{ paddingTop: "var(--s-8)" }}>
+        <div className="purpose-row" role="tablist" aria-label="Profile views" style={{ maxWidth: "720px" }}>
+          {VIEWS.map((v) => (
+            <button
+              key={v.key}
+              role="tab"
+              aria-selected={view === v.key}
+              aria-pressed={view === v.key}
+              onClick={() => setView(v.key)}
+            >
+              <span className="p-name">{v.name}</span>
+              <span className="p-desc">{v.desc}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+      {view === "breakdown"
+        ? <Report profile={profile} drift={drift} interests={interests} />
+        : <main className="shell reveal"><ManualSheet profile={profile} showBack={false} /></main>}
+    </>
+  );
 }
 
 export default function ResultsPage() {
