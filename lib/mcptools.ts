@@ -10,6 +10,7 @@ import { agentPersona, interactionGuide } from "./persona";
 import { compareDyad } from "./dyad";
 import { teamReport } from "./team";
 import { distinctiveness } from "./rarity";
+import { managementStyle } from "./management";
 import { ARCHETYPE_BASE_RATES } from "./data/baserates";
 import type { ReportKey, ShareProfile } from "./types";
 
@@ -125,6 +126,56 @@ export function registerPrismonaTools(server: McpServer): void {
       const share = decodeShareCode(code);
       if (!share) return fail("invalid share code");
       return ok(agentPersona(profileFromShare(share)));
+    },
+  );
+
+  const FEEDBACK_API = "https://prismona.vercel.app/api/feedback";
+
+  server.registerTool(
+    "management_style",
+    {
+      title: "Management style (default + field notes)",
+      description: "How this person runs work and wants collaboration run: a default generated from their questionnaire, plus the weekly digest of field notes reported by agents that actually worked with them — the field notes outrank the default wherever they disagree.",
+      inputSchema: { code: z.string().describe(CODE_DESC) },
+    },
+    async ({ code }) => {
+      const share = decodeShareCode(code);
+      if (!share) return fail("invalid share code");
+      const style = managementStyle(profileFromShare(share));
+      let fieldNotes: unknown = null;
+      try {
+        const res = await fetch(`${FEEDBACK_API}?code=${encodeURIComponent(code)}`);
+        if (res.ok) fieldNotes = await res.json();
+      } catch { /* digest unavailable — default still stands */ }
+      return ok({ default: style, fieldNotes });
+    },
+  );
+
+  server.registerTool(
+    "report_collaboration",
+    {
+      title: "Report collaboration field notes",
+      description: "After working with this person, report what worked and what didn't (short bullets, max 5 each). Notes fold into a weekly digest on their profile and refine the questionnaire default of their management style. Observations about collaboration only — never evaluations of the person.",
+      inputSchema: {
+        code: z.string().describe(CODE_DESC),
+        worked: z.array(z.string()).max(5).optional().describe("What worked well (short bullets)"),
+        didnt: z.array(z.string()).max(5).optional().describe("What didn't work (short bullets)"),
+        agent: z.string().optional().describe("Identifier of the reporting agent"),
+      },
+    },
+    async ({ code, worked, didnt, agent }) => {
+      try {
+        const res = await fetch(FEEDBACK_API, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code, worked, didnt, agent }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) return fail(typeof data?.error === "string" ? data.error : `feedback rejected (${res.status})`);
+        return ok({ ok: true, note: "Recorded. Notes fold into the owner's weekly digest." });
+      } catch {
+        return fail("could not reach the feedback endpoint");
+      }
     },
   );
 

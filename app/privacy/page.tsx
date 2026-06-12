@@ -103,6 +103,15 @@ export default function PrivacyPage() {
           also means we cannot selectively delete one; that is the trade the anonymity
           buys, and it is why the choice is yours each time.
         </p>
+        <p className="prose" style={{ marginTop: "var(--s-4)" }}>
+          A second optional inbound channel exists for <em>collaboration field notes</em>:
+          an agent or person who holds your share code can report short observations
+          about what worked and didn&apos;t while collaborating with you, which appear
+          as a weekly digest on your own AI tab. Notes are stored pseudonymously against
+          a hash of the code — no name, no IP, no identity — and are readable only by
+          someone who holds the code. Sharing your code is what enables this; treat the
+          code accordingly.
+        </p>
       </section>
 
       <section className="section">

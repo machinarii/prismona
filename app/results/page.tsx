@@ -380,6 +380,26 @@ const VIEWS = [
   { key: "ai" as const, name: "For my AI", desc: "Context & companion persona" },
 ];
 
+function CopyCodeChip({ profile }: { profile: Profile }) {
+  const [copied, setCopied] = useState(false);
+  const code = encodeShareCode(profile);
+  return (
+    <button
+      className="num"
+      title="Copy your share code"
+      style={{ letterSpacing: "0.08em", textTransform: "none" }}
+      onClick={() => {
+        navigator.clipboard?.writeText(code).then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1800);
+        });
+      }}
+    >
+      {copied ? "Copied" : code}
+    </button>
+  );
+}
+
 function ProfileViews({ profile, drift, interests }: {
   profile: Profile; drift: DriftReport | null; interests: InterestProfile | null;
 }) {
@@ -403,6 +423,7 @@ function ProfileViews({ profile, drift, interests }: {
             ))}
           </div>
           <div className="view-actions">
+            <CopyCodeChip profile={profile} />
             {profile.tier === "quick"
               ? <Link href="/assess?tier=full" className="va-primary">Take the Full Index</Link>
               : <Link href="/assess?tier=quick">Retake Quick</Link>}
