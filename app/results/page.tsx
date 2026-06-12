@@ -80,7 +80,7 @@ function CopyCode({ code, profile }: { code: string; profile: Profile }) {
 function CopyBlock({ summary, action, text }: { summary: string; action: string; text: string }) {
   const [copied, setCopied] = useState(false);
   return (
-    <details style={{ marginBottom: "var(--s-4)" }}>
+    <details open style={{ marginBottom: "var(--s-8)" }}>
       <summary className="btn quiet" style={{ listStyle: "none", cursor: "pointer", display: "inline-block" }}>
         {summary}
       </summary>
@@ -449,8 +449,8 @@ function AiSheet({ profile }: { profile: Profile }) {
         </p>
       </section>
       <section className="report-section">
-        <CopyBlock summary="Preview AI context" action="Copy AI context" text={aiContextBlock(profile)} />
-        <CopyBlock summary="Preview companion persona" action="Copy companion persona" text={agentPersona(profile)} />
+        <CopyBlock summary="AI context" action="Copy AI context" text={aiContextBlock(profile)} />
+        <CopyBlock summary="Companion persona" action="Copy companion persona" text={agentPersona(profile)} />
         <p className="footnote" style={{ marginTop: "var(--s-6)" }}>
           Agents can also connect live — your share code works with the{" "}
           <Link href="/mcp" className="cite" style={{ color: "var(--ivory-dim)" }}>MCP endpoint</Link>.
