@@ -68,6 +68,23 @@ export function loadAgeBand(): AgeBand | null {
   } catch { return null; }
 }
 
+// The desired self (Becoming tab) — local like everything else.
+export function saveDesired(d: import("./aspire").DesiredSelf | null): void {
+  try {
+    if (d) localStorage.setItem("prismona.desired", JSON.stringify(d));
+    else localStorage.removeItem("prismona.desired");
+  } catch { /* ignore */ }
+}
+
+export function loadDesired(): import("./aspire").DesiredSelf | null {
+  try {
+    const raw = localStorage.getItem("prismona.desired");
+    if (!raw) return null;
+    const d = JSON.parse(raw);
+    return d && d.v === 1 && d.targets ? d : null;
+  } catch { return null; }
+}
+
 // Observer codes from the informant mini-360 (kept as raw codes; max 3).
 export function saveObserverCode(code: string): void {
   try {

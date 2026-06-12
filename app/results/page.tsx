@@ -17,6 +17,7 @@ import { Contribute } from "@/components/Contribute";
 import { ObserverLens } from "@/components/ObserverLens";
 import { ManualSheet } from "@/components/ManualSheet";
 import { AiSheet } from "@/components/AiSheet";
+import { BecomingSheet } from "@/components/BecomingSheet";
 import { CitationList, CiteMarks } from "@/components/Citations";
 import { buildCitationIndex } from "@/lib/citations";
 import { TRAIT_LABELS } from "@/lib/norms";
@@ -378,6 +379,7 @@ const VIEWS = [
   { key: "breakdown" as const, name: "My breakdown", desc: "The full report, for you" },
   { key: "manual" as const, name: "Working with me", desc: "The one-pager, for others" },
   { key: "ai" as const, name: "For my AI", desc: "Context & companion persona" },
+  { key: "becoming" as const, name: "Becoming", desc: "Desired self vs. measured self" },
 ];
 
 function CopyCodeChip({ profile }: { profile: Profile }) {
@@ -403,7 +405,7 @@ function CopyCodeChip({ profile }: { profile: Profile }) {
 function ProfileViews({ profile, drift, interests }: {
   profile: Profile; drift: DriftReport | null; interests: InterestProfile | null;
 }) {
-  const [view, setView] = useState<"breakdown" | "manual" | "ai">("breakdown");
+  const [view, setView] = useState<"breakdown" | "manual" | "ai" | "becoming">("breakdown");
   return (
     <>
       <div className="shell no-print" style={{ paddingTop: "var(--s-8)" }}>
@@ -450,6 +452,7 @@ function ProfileViews({ profile, drift, interests }: {
       {view === "breakdown" && <Report profile={profile} drift={drift} interests={interests} />}
       {view === "manual" && <main className="shell reveal"><ManualSheet profile={profile} showBack={false} /></main>}
       {view === "ai" && <main className="shell reveal"><AiSheet profile={profile} /></main>}
+      {view === "becoming" && <main className="shell reveal"><BecomingSheet profile={profile} /></main>}
     </>
   );
 }
