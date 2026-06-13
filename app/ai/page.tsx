@@ -10,7 +10,7 @@ import type { Profile } from "@/lib/types";
 
 function EmptyState() {
   return (
-    <main className="shell" style={{ padding: "var(--s-24) 0" }}>
+    <main className="shell" style={{ paddingTop: "var(--s-24)", paddingBottom: "var(--s-24)" }}>
       <p className="label gold">For my AI</p>
       <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "16px 0 24px", maxWidth: "18ch" }}>
         No profile to write from.
