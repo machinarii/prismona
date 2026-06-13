@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { aiContextBlock } from "@/lib/portable";
-import { agentPersona } from "@/lib/persona";
+import { agentPersona, PERSONA_FLAVORS, PERSONA_ROLES, type FlavorKey, type RoleKey } from "@/lib/persona";
 import { profileUrl } from "@/lib/shareview";
 import { managementStyle, type FeedbackDigest } from "@/lib/management";
 import { encodeShareCode } from "@/lib/codec";
@@ -101,6 +101,25 @@ function FieldNotes({ profile }: { profile: Profile }) {
 // /ai#code — its own distinct share link.
 export function AiSheet({ profile }: { profile: Profile }) {
   const style = managementStyle(profile);
+  const [flavor, setFlavor] = useState<FlavorKey | null>(null);
+  const [role, setRole] = useState<RoleKey | null>(null);
+  useEffect(() => {
+    try {
+      const f = localStorage.getItem("prismona.flavor") as FlavorKey | null;
+      const r = localStorage.getItem("prismona.role") as RoleKey | null;
+      if (f && PERSONA_FLAVORS[f]) setFlavor(f);
+      if (r && PERSONA_ROLES[r]) setRole(r);
+    } catch { /* ignore */ }
+  }, []);
+  const pickFlavor = (f: FlavorKey | null) => {
+    setFlavor(f);
+    try { f ? localStorage.setItem("prismona.flavor", f) : localStorage.removeItem("prismona.flavor"); } catch { /* ignore */ }
+  };
+  const pickRole = (r: RoleKey | null) => {
+    setRole(r);
+    try { r ? localStorage.setItem("prismona.role", r) : localStorage.removeItem("prismona.role"); } catch { /* ignore */ }
+  };
+  const personaText = agentPersona(profile, { flavor: flavor ?? undefined, role: role ?? undefined });
   return (
     <>
       <section className="arch-display">
@@ -116,7 +135,40 @@ export function AiSheet({ profile }: { profile: Profile }) {
       </section>
       <section className="report-section">
         <CopyBlock summary="AI context" action="Copy AI context" text={aiContextBlock(profile)} />
-        <CopyBlock summary="Companion persona" action="Copy companion persona" text={agentPersona(profile)} />
+
+        <div style={{ margin: "var(--s-4) 0 var(--s-6)" }}>
+          <span className="label">Voice flavor · optional</span>
+          <div className="flags" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
+            <button className="flag" aria-pressed={flavor === null}
+              style={flavor === null ? { borderColor: "var(--gold)", color: "var(--gold)" } : undefined}
+              onClick={() => pickFlavor(null)}>Default</button>
+            {(Object.keys(PERSONA_FLAVORS) as FlavorKey[]).map((f) => (
+              <button key={f} className="flag" aria-pressed={flavor === f}
+                title={PERSONA_FLAVORS[f].blurb}
+                style={flavor === f ? { borderColor: "var(--gold)", color: "var(--gold)" } : undefined}
+                onClick={() => pickFlavor(f)}>{PERSONA_FLAVORS[f].name}</button>
+            ))}
+          </div>
+          <span className="label">Professional role · optional</span>
+          <div className="flags" style={{ marginTop: "var(--s-3)" }}>
+            <button className="flag" aria-pressed={role === null}
+              style={role === null ? { borderColor: "var(--gold)", color: "var(--gold)" } : undefined}
+              onClick={() => pickRole(null)}>Default</button>
+            {(Object.keys(PERSONA_ROLES) as RoleKey[]).map((r) => (
+              <button key={r} className="flag" aria-pressed={role === r}
+                style={role === r ? { borderColor: "var(--gold)", color: "var(--gold)" } : undefined}
+                onClick={() => pickRole(r)}>{PERSONA_ROLES[r].name}</button>
+            ))}
+          </div>
+          <p className="footnote" style={{ marginTop: "var(--s-3)" }}>
+            Tuning modulates, never replaces: the complement calibration always wins on
+            conflict. Role archetypes distill observed practitioners — Belbin&apos;s team
+            roles, Merrill &amp; Reid&apos;s Social Styles, Kelley&apos;s Ten Faces of
+            Innovation, DeMarco &amp; Lister&apos;s Peopleware.
+          </p>
+        </div>
+
+        <CopyBlock summary="Companion persona" action="Copy companion persona" text={personaText} />
         <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-4)", flexWrap: "wrap" }}>
           <CopyAiLink profile={profile} />
         </div>

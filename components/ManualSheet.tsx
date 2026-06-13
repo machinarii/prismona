@@ -43,7 +43,7 @@ export function ManualSheet({ profile, showBack = true }: { profile: Profile; sh
           Working with me
         </h1>
         <p className="prose">
-          Generated from my {profile.tier === "full" ? "full" : "quick"} personality
+          Generated from my {profile.tier} personality
           profile on {longDate(profile.date)} — how I communicate, decide, take
           feedback, and what you can count on. Self-report is one side of the story;
           treat this as my honest opening bid, not a contract.
