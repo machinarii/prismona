@@ -124,7 +124,7 @@ function ReportView({ report, me, them }: { report: DyadReport; me: ShareProfile
           predict relationship satisfaction (Malouff et al., 2010); complementary founder
           trait mixes predict startup success (McCarthy et al., 2023); Honesty-Humility is
           the best predictor of workplace integrity (Pletzer et al., 2019). Relationship-specific
-          perceptions outpredict any trait profile (Joel et al., 2020) — which is why every
+          perceptions outpredict any trait blueprint (Joel et al., 2020) — which is why every
           friction ships with a conversation, not a conclusion.
         </p>
       </section>
@@ -154,7 +154,7 @@ export default function ComparePage() {
 
   return (
     <main className="shell" style={{ paddingTop: "var(--s-16)" }}>
-      <p className="label gold">Compare two profiles</p>
+      <p className="label gold">Compare two blueprints</p>
       <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "16px 0 24px", maxWidth: "16ch" }}>
         Are we compatible — for this?
       </h1>
@@ -179,7 +179,7 @@ export default function ComparePage() {
           />
           {!me && myCode.trim() === "" && (
             <p className="footnote" style={{ marginTop: "var(--s-2)" }}>
-              No profile in this browser yet — <Link href="/assess?tier=quick" className="cite" style={{ color: "var(--ivory-dim)" }}>take the assessment</Link> or paste a code.
+              No blueprint in this browser yet — <Link href="/assess?tier=quick" className="cite" style={{ color: "var(--ivory-dim)" }}>take the assessment</Link> or paste a code.
             </p>
           )}
           {!me && myCode.trim() !== "" && (

@@ -63,7 +63,7 @@ export default function AccountPage() {
       body: JSON.stringify({ v: 1, profile, interests: loadInterests(), export: buildProfileExport(profile, loadInterests()) }),
     });
     setBusy(false);
-    setNote(res.ok ? "Profile saved to your account." : "Could not save.");
+    setNote(res.ok ? "Blueprint saved to your account." : "Could not save.");
   };
 
   const syncDown = async () => {
@@ -74,7 +74,7 @@ export default function AccountPage() {
     const d = await res.json() as { profile: Profile; interests: InterestProfile | null };
     saveProfile(d.profile);
     if (d.interests) saveInterests(d.interests);
-    setNote("Profile loaded into this browser.");
+    setNote("Blueprint loaded into this browser.");
   };
 
   if (stage === "loading") return null;
@@ -89,7 +89,7 @@ export default function AccountPage() {
       {stage !== "in" && (
         <>
           <p className="prose">
-            An account does exactly one thing: it lets you carry your profile between
+            An account does exactly one thing: it lets you carry your blueprint between
             devices, when you choose to. No password — we email you a six-digit code.
             Your email is the only thing we ever ask for: no name, no other personal
             information.
@@ -133,11 +133,11 @@ export default function AccountPage() {
         <>
           <p className="prose">
             <span className="num">{whoami}</span> — your account holds at most one thing:
-            the profile bundle you explicitly save to it. Nothing syncs on its own.
+            the blueprint bundle you explicitly save to it. Nothing syncs on its own.
           </p>
           <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-8)", flexWrap: "wrap" }}>
-            <button className="btn" disabled={busy} onClick={syncUp}>Save this browser&apos;s profile</button>
-            <button className="btn quiet" disabled={busy} onClick={syncDown}>Load profile here</button>
+            <button className="btn" disabled={busy} onClick={syncUp}>Save this browser&apos;s blueprint</button>
+            <button className="btn quiet" disabled={busy} onClick={syncDown}>Load blueprint here</button>
             <button className="btn quiet" onClick={signOut}>Sign out</button>
           </div>
           {note && <p style={{ marginTop: "var(--s-4)" }}><span className="flag">{note}</span></p>}

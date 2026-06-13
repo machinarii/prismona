@@ -13,10 +13,10 @@ function EmptyState() {
     <main className="shell" style={{ paddingTop: "var(--s-24)", paddingBottom: "var(--s-24)" }}>
       <p className="label gold">Working with me</p>
       <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "16px 0 24px", maxWidth: "18ch" }}>
-        No profile to write from.
+        No blueprint to write from.
       </h1>
       <p className="prose">
-        The manual is generated from your measured profile. Take the assessment
+        The manual is generated from your measured blueprint. Take the assessment
         first — five minutes of first instincts is all the quick test asks.
       </p>
       <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-12)", flexWrap: "wrap" }}>

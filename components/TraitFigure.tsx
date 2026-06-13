@@ -13,7 +13,7 @@ export function TraitFigure({ profile, size = 280 }: { profile: Profile; size?: 
       height={size}
       viewBox={`0 0 ${size} ${size}`}
       role="img"
-      aria-label="Trait figure: a six-axis engraving of this profile's percentiles and uncertainty bands"
+      aria-label="Trait figure: a six-axis engraving of this blueprint's percentiles and uncertainty bands"
     >
       {g.rings.map((r) => (
         <circle key={r} cx={c} cy={c} r={r} className="ring" />

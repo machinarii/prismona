@@ -43,7 +43,7 @@ export function RelationshipSheet({ profile, showBack = false }: { profile: Prof
           Relationship with me
         </h1>
         <p className="prose">
-          Generated from my {profile.tier} personality profile on {longDate(profile.date)} —
+          Generated from my {profile.tier} personality blueprint on {longDate(profile.date)} —
           how I show love, handle conflict, and what I need to feel close. The strongest
           finding in couples research is that how partners treat each other predicts more
           than either one&apos;s traits, so treat this as my honest opening bid, not a forecast.
@@ -75,7 +75,7 @@ export function RelationshipSheet({ profile, showBack = false }: { profile: Prof
         <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-8)", flexWrap: "wrap" }}>
           <button className="btn" onClick={() => window.print()}>Save as PDF</button>
           <CopyRelationshipLink profile={profile} />
-          {showBack && <Link href="/blueprint" className="btn quiet">Back to profile</Link>}
+          {showBack && <Link href="/blueprint" className="btn quiet">Back to blueprint</Link>}
         </div>
       </section>
     </>

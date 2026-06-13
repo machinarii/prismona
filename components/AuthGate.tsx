@@ -59,7 +59,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
         One email, one code.
       </h1>
       <p className="prose">
-        Your profile is tied to your account, so taking the test starts with a quick
+        Your blueprint is tied to your account, so taking the test starts with a quick
         sign-in. No password — we email you a six-digit code.
       </p>
       <div style={{ margin: "var(--s-8) 0", maxWidth: "440px", display: "grid", gap: "var(--s-3)" }}>

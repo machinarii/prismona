@@ -33,12 +33,12 @@ const FACET_DOMAIN_ORDER: ReportKey[] = ["O", "C", "E", "A", "ES", "H"];
 function EmptyState() {
   return (
     <main className="shell" style={{ paddingTop: "var(--s-16)", paddingBottom: "var(--s-24)" }}>
-      <p className="label gold">Your profile</p>
+      <p className="label gold">Your blueprint</p>
       <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "16px 0 24px", maxWidth: "18ch" }}>
         Nothing measured yet.
       </h1>
       <p className="prose">
-        Your profile is produced by the assessment and lives only in this browser —
+        Your blueprint is produced by the assessment and lives only in this browser —
         we could not show you someone else&apos;s results if we wanted to. Five minutes
         of first instincts is all the quick test asks.
       </p>
@@ -147,7 +147,7 @@ function Report({ profile, drift, interests }: {
     <main className="shell reveal">
       {/* print-only document header */}
       <div className="print-only print-head">
-        <span className="label gold">Prismona — Personality Profile</span>
+        <span className="label gold">Prismona — Personality Blueprint</span>
         <span className="num" style={{ fontSize: "var(--t-sm)", color: "var(--ivory-faint)" }}>
           {TIER_LABELS[profile.tier]} · {longDate(profile.date)} · prismona.vercel.app
         </span>
@@ -155,7 +155,7 @@ function Report({ profile, drift, interests }: {
 
       {/* I — archetype */}
       <section className="arch-display">
-        <p className="label gold num">
+        <p className="label gold">
           Archetype based on {profile.tier} test · {longDate(profile.date)}
         </p>
         <div className="arch-figure-row">
@@ -179,7 +179,7 @@ function Report({ profile, drift, interests }: {
 
       {/* II — dimensions */}
       <section className="report-section">
-        <span className="label"><span className="roman" style={{ fontSize: "1em" }}>II</span> &nbsp;·&nbsp; Trait profile</span>
+        <span className="label"><span className="roman" style={{ fontSize: "1em" }}>II</span> &nbsp;·&nbsp; Trait blueprint</span>
         <div>
           {TRAIT_ORDER.map((k) => (
             <BandBar
@@ -258,7 +258,7 @@ function Report({ profile, drift, interests }: {
             <div><dt>What you value</dt><dd>{top.value}</dd></div>
             <div><dt>How you solve</dt><dd>{top.solve}</dd></div>
             <div><dt>Blind spots</dt><dd>{top.blind}</dd></div>
-            <div><dt>Trust profile</dt><dd>{trustNote(profile.traits.H.pct)}</dd></div>
+            <div><dt>Trust blueprint</dt><dd>{trustNote(profile.traits.H.pct)}</dd></div>
           </dl>
         </section>
       )}
@@ -266,7 +266,7 @@ function Report({ profile, drift, interests }: {
       {/* V — applied readings */}
       <section className="report-section">
         <span className="label"><span className="roman" style={{ fontSize: "1em" }}>{profile.facets.length ? "V" : "IV"}</span> &nbsp;·&nbsp; Applied readings</span>
-        <p className="prose" style={{ margin: "var(--s-4) 0 var(--s-10)" }}>
+        <p className="prose" style={{ margin: "var(--s-4) 0 var(--s-16)" }}>
           Six readings of the same six scores — generated from your actual percentiles,
           not your archetype label. Each carries its evidence inline and states its limits.
         </p>
@@ -329,7 +329,7 @@ function Report({ profile, drift, interests }: {
           {q.attn && (q.attn.passed < q.attn.total
             ? <span className="flag warn num">{q.attn.total - q.attn.passed} of {q.attn.total} attention checks missed</span>
             : <span className="flag ok num">attention checks {q.attn.passed}/{q.attn.total}</span>)}
-          {cleanPace && q.consistency >= 60 && <span className="flag ok">profile confidence: good</span>}
+          {cleanPace && q.consistency >= 60 && <span className="flag ok">blueprint confidence: good</span>}
         </div>
         <p className="footnote" style={{ marginTop: "var(--s-4)" }}>
           Consistency is a person-fit heuristic: how coherently you answered items
@@ -338,7 +338,7 @@ function Report({ profile, drift, interests }: {
         <p className="footnote" style={{ maxWidth: "72ch", marginTop: "var(--s-4)" }}>
           This {profile.tier === "full" ? "instrument estimates traits with good precision (120 scored items), yet personality" : profile.tier === "standard" ? "facet-balanced edition estimates traits with solid precision (36 scored items), and personality" : "short screening estimates broad traits with real but limited precision (26 items). Personality"}{" "}
           predicts life outcomes at modest effect sizes (r ≈ .2–.3 for the strongest links).
-          Use this profile to structure better conversations and decisions — never as a
+          Use this blueprint to structure better conversations and decisions — never as a
           verdict on yourself or anyone else. Full evidence on the{" "}
           <Link href="/methodology" className="cite" style={{ color: "var(--ivory-dim)" }}>Method page</Link>.
         </p>
@@ -429,7 +429,7 @@ function ProfileViews({ profile, drift, interests }: {
     <>
       <div className="shell no-print" style={{ paddingTop: "var(--s-16)" }}>
         <div className="view-bar">
-          <div className="view-tabs" role="tablist" aria-label="Profile views">
+          <div className="view-tabs" role="tablist" aria-label="Blueprint views">
             {VIEWS.map((v) => (
               <Link
                 key={v.key}

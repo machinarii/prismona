@@ -120,7 +120,7 @@ export default function ObservePage() {
           </button>
         </div>
         <p className="prose" style={{ margin: "var(--s-12) 0 var(--s-4)" }}>
-          Curious what your own profile looks like?
+          Curious what your own blueprint looks like?
         </p>
         <Link href="/assess?tier=quick" className="btn">Measure yourself · 5 minutes</Link>
       </main>
