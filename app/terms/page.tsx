@@ -52,8 +52,8 @@ export default function TermsPage() {
         <div className="section-head"><span className="roman">III.</span><h2>Acceptable use</h2></div>
         <p className="prose">
           Take the assessment for yourself, honestly, and share your results with whom
-          you choose. Do not impersonate another person to generate a profile of them;
-          do not pressure anyone to share a profile or share code; do not use Prismona
+          you choose. Do not impersonate another person to generate a blueprint of them;
+          do not pressure anyone to share a blueprint or share code; do not use Prismona
           to profile a person without their knowledge and consent. Consent-only
           assessment is an ethical boundary of this product, not a suggestion. Do not
           attempt to disrupt, probe, or overload the service.
@@ -65,7 +65,7 @@ export default function TermsPage() {
         <p className="prose">
           Share codes encode quantized trait scores, a date, and a checksum — no name,
           no answers, no identity. When you give someone your code, you consent to them
-          running comparisons that include your profile. We cannot revoke a code once
+          running comparisons that include your blueprint. We cannot revoke a code once
           shared; treat it like any other personal disclosure.
         </p>
       </section>

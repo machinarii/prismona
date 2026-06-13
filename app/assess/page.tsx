@@ -85,7 +85,7 @@ function Brief({ tier, onBegin }: { tier: Tier; onBegin: () => void }) {
         <p>
           Rate how accurately each statement describes you, on a scale from
           <em> very inaccurate</em> to <em>very accurate</em>. There are no good or bad
-          profiles — only accurate and inaccurate ones.
+          blueprints — only accurate and inaccurate ones.
         </p>
         <p>
           Each statement allows <strong>twenty seconds</strong>. First instincts are more

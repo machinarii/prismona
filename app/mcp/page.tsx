@@ -4,19 +4,19 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "MCP — Prismona",
   description:
-    "Connect any AI agent to a Prismona personality profile over the Model Context Protocol: hosted endpoint, seven tools, consent carried by share codes.",
+    "Connect any AI agent to a Prismona personality blueprint over the Model Context Protocol: hosted endpoint, seven tools, consent carried by share codes.",
 };
 
 const ENDPOINT = "https://prismona.vercel.app/api/mcp";
 
 const TOOLS: Array<[string, string]> = [
   ["usage_guide", "The agent-facing markdown guide: which tool for which job, worked examples, binding rules — agents should call this first"],
-  ["decode_profile", "Full structured profile from a share code: percentiles, uncertainty ranges, archetype blend, distinctiveness"],
+  ["decode_profile", "Full structured blueprint from a share code: percentiles, uncertainty ranges, archetype blend, distinctiveness"],
   ["profile_readings", "The six applied readings — relationships, career, work style, leadership, integrity, cofounder"],
   ["compare_dyad", "Pairing report for two codes: fit gauge, strengths, frictions with conversation prompts"],
   ["team_composition", "Two or more codes: trait diversity, role coverage, gaps, single points of failure, gates"],
   ["compose_team", "Forward composition: project outcome + Team Topologies shape + headcount → seat-by-seat archetype plan"],
-  ["compose_agents", "An agent bench that complements one person: roles + voice flavors staffed around their measured profile"],
+  ["compose_agents", "An agent bench that complements one person: roles + voice flavors staffed around their measured blueprint"],
   ["working_with_me", "The first-person collaboration one-pager"],
   ["agent_persona", "Complement-calibrated system prompt, tunable by voice flavor and professional role archetype"],
   ["interaction_guide", "Third-person guidance for communicating with the person behind a code"],
@@ -42,7 +42,7 @@ export default function McpPage() {
         Plug your personality blueprint into your agent.
       </h1>
       <p className="prose">
-        A Prismona profile is a personality blueprint, and this server is how
+        A Prismona blueprint encodes your personality, and this server is how
         AIs and other systems read it. Plugging in means two things:
       </p>
       <dl className="ledger" style={{ margin: "var(--s-6) 0" }}>
@@ -51,7 +51,7 @@ export default function McpPage() {
           <dd>
             Hand your own assistant your code and it takes on a personality calibrated
             to suit yours — supplying the structure, calm, candor, or grounding your
-            profile suggests you benefit from, instead of a one-size-fits-all voice.
+            blueprint suggests you benefit from, instead of a one-size-fits-all voice.
           </dd>
         </div>
         <div>
@@ -104,7 +104,7 @@ export default function McpPage() {
             <dt>Fully offline</dt>
             <dd>
               The same tools ship as a local stdio server (<span className="num">packages/mcp</span> in
-              the repository) for setups where profile codes should never leave the machine —
+              the repository) for setups where blueprint codes should never leave the machine —
               the hosted endpoint is stateless either way.
             </dd>
           </div>

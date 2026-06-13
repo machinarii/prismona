@@ -44,7 +44,7 @@ export function ManualSheet({ profile, showBack = true }: { profile: Profile; sh
         </h1>
         <p className="prose">
           Generated from my {profile.tier} personality
-          profile on {longDate(profile.date)} — how I communicate, decide, take
+          blueprint on {longDate(profile.date)} — how I communicate, decide, take
           feedback, and what you can count on. Self-report is one side of the story;
           treat this as my honest opening bid, not a contract.
         </p>
@@ -75,7 +75,7 @@ export function ManualSheet({ profile, showBack = true }: { profile: Profile; sh
         <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-8)", flexWrap: "wrap" }}>
           <button className="btn" onClick={() => window.print()}>Save as PDF</button>
           <CopyManualLink profile={profile} />
-          {showBack && <Link href="/blueprint" className="btn quiet">Back to profile</Link>}
+          {showBack && <Link href="/blueprint" className="btn quiet">Back to blueprint</Link>}
         </div>
       </section>
     </>

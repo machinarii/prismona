@@ -21,12 +21,12 @@ const TRAIT_ORDER: ReportKey[] = ["O", "C", "E", "A", "ES", "H"];
 function Invalid() {
   return (
     <main className="shell" style={{ paddingTop: "var(--s-24)", paddingBottom: "var(--s-24)" }}>
-      <p className="label gold">Shared profile</p>
+      <p className="label gold">Shared blueprint</p>
       <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "16px 0 24px", maxWidth: "20ch" }}>
-        This link carries no readable profile.
+        This link carries no readable blueprint.
       </h1>
       <p className="prose">
-        A profile link looks like <span className="num">prismona.vercel.app/p#PRSM-…</span> —
+        A blueprint link looks like <span className="num">prismona.vercel.app/p#PRSM-…</span> —
         the code after the <span className="num">#</span> is the entire payload: six trait
         scores, a date, a consistency index. Nothing is stored on a server, so a truncated
         or mistyped link cannot be recovered. Ask for the link again, or paste the code
@@ -63,7 +63,7 @@ function SharedReport({ profile }: { profile: Profile }) {
   return (
     <main className="shell reveal">
       <div className="print-only print-head">
-        <span className="label gold">Prismona — Shared Profile</span>
+        <span className="label gold">Prismona — Shared Blueprint</span>
         <span className="num" style={{ fontSize: "var(--t-sm)", color: "var(--ivory-faint)" }}>
           {TIER_LABELS[profile.tier]} · {longDate(profile.date)} · prismona.vercel.app
         </span>
@@ -71,7 +71,7 @@ function SharedReport({ profile }: { profile: Profile }) {
 
       <section className="arch-display">
         <p className="label gold num">
-          Shared profile · {TIER_LABELS[profile.tier]} · {longDate(profile.date)}
+          Shared blueprint · {TIER_LABELS[profile.tier]} · {longDate(profile.date)}
         </p>
         <div className="arch-figure-row">
           <div>
@@ -96,7 +96,7 @@ function SharedReport({ profile }: { profile: Profile }) {
       </section>
 
       <section className="report-section">
-        <span className="label"><span className="roman" style={{ fontSize: "1em" }}>II</span> &nbsp;·&nbsp; Trait profile</span>
+        <span className="label"><span className="roman" style={{ fontSize: "1em" }}>II</span> &nbsp;·&nbsp; Trait blueprint</span>
         <div>
           {TRAIT_ORDER.map((k) => (
             <BandBar
@@ -124,7 +124,7 @@ function SharedReport({ profile }: { profile: Profile }) {
             <div><dt>What they value</dt><dd>{top.value}</dd></div>
             <div><dt>How they solve</dt><dd>{top.solve}</dd></div>
             <div><dt>Blind spots</dt><dd>{top.blind}</dd></div>
-            <div><dt>Trust profile</dt><dd>{trustNote(profile.traits.H.pct)}</dd></div>
+            <div><dt>Trust blueprint</dt><dd>{trustNote(profile.traits.H.pct)}</dd></div>
           </dl>
         </section>
       )}
@@ -158,9 +158,9 @@ function SharedReport({ profile }: { profile: Profile }) {
         <div className="no-print" style={{ marginBottom: "var(--s-10)" }}>
           <span className="label gold">Interacting with this person?</span>
           <p className="prose" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
-            This profile is a consented personality blueprint. Copy the interaction guide below
+            This is a consented personality blueprint. Copy the interaction guide below
             into your own AI assistant — or read it yourself — to communicate with
-            them the way their measured profile suggests works best.
+            them the way their measured blueprint suggests works best.
           </p>
           <CopyGuide profile={profile} />
         </div>
@@ -171,7 +171,7 @@ function SharedReport({ profile }: { profile: Profile }) {
         </p>
         <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-8)", flexWrap: "wrap" }}>
           <Link href="/assess?tier=quick" className="btn solid">Measure yourself · 5 minutes</Link>
-          <Link href="/compare" className="btn">Compare with this profile</Link>
+          <Link href="/compare" className="btn">Compare with this blueprint</Link>
           <Link href={`/manual#${encodeShareCode(profile)}`} className="btn quiet">Their working-with-me manual</Link>
           <Link href={`/predict#${encodeShareCode(profile)}`} className="btn quiet">Test how well you see them</Link>
           <button className="btn quiet" onClick={() => window.print()}>Save as PDF</button>

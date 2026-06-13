@@ -54,7 +54,7 @@ function Result({ ip }: { ip: InterestProfile }) {
           interests, travel from traits.
         </p>
         <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-8)", flexWrap: "wrap" }}>
-          <Link href="/blueprint" className="btn solid">See it in your profile</Link>
+          <Link href="/blueprint" className="btn solid">See it in your blueprint</Link>
           <button className="btn quiet" onClick={() => { location.href = "/interests?retake=1"; }}>Retake</button>
         </div>
       </section>
