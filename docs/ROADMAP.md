@@ -66,7 +66,7 @@
 6. Informant mini-360 via observer codes — best validity booster in the literature; the "self-insight gap" output; serverless.
 7. `/team` composition (N codes → diversity, coverage, single-point-of-failure, gates) + export + MCP tool — unlocks org/roster/VC verticals.
 
-**Tier 3 — moat data + distribution (small, compounding):** outcome follow-ups at retest (validity loop), context fields + state check-ins, QR-on-PDF, Slack/signature embed snippets, /compare deep links, standards crosswalk page.
+**Tier 3 — moat data + distribution (small, compounding):** outcome follow-ups at retest (validity loop), context fields + state check-ins, QR-on-PDF, Slack/signature embed snippets, /compare deep links, standards crosswalk page, **Claude Connector** (register the hosted MCP endpoint as a Claude custom connector — "Add to Claude" one-click + OAuth 2.1/PKCE for authenticated private-profile access; planned, layered on the existing endpoint — see `research/MCP-AND-CLAUDE-CONNECTOR.md`).
 
 **Future integration — cultural values/norms:** cross-cultural norm sets and value-framework integration (trait distributions and reading calibrations vary by culture). The optional self-reported continent field (quiz brief, 2026-06-13) is collected now precisely to support this later; pairs with the values module below.
 
