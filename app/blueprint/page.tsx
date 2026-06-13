@@ -151,6 +151,39 @@ function PastResults({ current }: { current: Profile }) {
   );
 }
 
+// Phase 4 — annual recalibration. The measured layer (trait percentiles) only
+// moves when the Full Test is retaken; the observed layer drifts daily. Once the
+// measured anchor is ~a year old, nudge a re-anchor so the two layers don't
+// silently diverge.
+const RECALIBRATE_AFTER_DAYS = 330;
+
+function daysSince(isoDate: string): number {
+  const t = Date.parse(isoDate);
+  if (Number.isNaN(t)) return 0;
+  return Math.floor((Date.now() - t) / 86_400_000);
+}
+
+function RecalibratePrompt({ profile }: { profile: Profile }) {
+  const age = daysSince(profile.date);
+  if (age < RECALIBRATE_AFTER_DAYS) return null;
+  const months = Math.round(age / 30);
+  const isFull = profile.tier === "full";
+  return (
+    <section className="report-section no-print">
+      <span className="label gold">Time to recalibrate</span>
+      <p className="prose" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
+        Your measured layer was last anchored {months} month{months === 1 ? "" : "s"} ago
+        {isFull ? "" : " — and on a quick test, not the full instrument"}. The observed layer keeps
+        up day to day, but trait percentiles only re-anchor when you sit the Full Test. Taking it
+        once a year keeps the measured and observed sides honest to each other.
+      </p>
+      <Link href="/assess?tier=full" className="btn solid" style={{ display: "block", maxWidth: "480px", textAlign: "center" }}>
+        Recalibrate · Full Test
+      </Link>
+    </section>
+  );
+}
+
 function Report({ profile, drift, interests }: {
   profile: Profile; drift: DriftReport | null; interests: InterestProfile | null;
 }) {
@@ -338,6 +371,8 @@ function Report({ profile, drift, interests }: {
       </section>
 
       <ObservedLayer profile={profile} />
+
+      <RecalibratePrompt profile={profile} />
 
       {/* confidence */}
       <section className="report-section">
