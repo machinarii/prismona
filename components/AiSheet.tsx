@@ -116,9 +116,9 @@ export function AiSheet({ profile }: { profile: Profile }) {
   return (
     <>
       <section className="arch-display">
-        <p className="label gold">Take your profile to your AI</p>
+        <p className="label gold">Take your blueprint to your agent</p>
         <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "12px 0 16px" }}>
-          An agent that knows you.
+          Working with my AI
         </h1>
         <p className="prose">
           Two blocks to paste into Claude, ChatGPT, or any assistant: the{" "}

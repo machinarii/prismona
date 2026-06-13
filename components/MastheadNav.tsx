@@ -4,12 +4,12 @@ import { useState } from "react";
 import Link from "next/link";
 
 const LINKS: Array<[string, string]> = [
-  ["/profile", "Profile"],
+  ["/blueprint", "Blueprint"],
   ["/validate", "Validate"],
   ["/compare", "Compare"],
   ["/team", "Team"],
   ["/mcp", "MCP"],
-  ["/account", "My account"],
+  ["/account", "Account"],
 ];
 
 // Primary navigation: inline links on wide screens, a hamburger-toggled

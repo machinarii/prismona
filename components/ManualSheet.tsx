@@ -38,7 +38,7 @@ export function ManualSheet({ profile, showBack = true }: { profile: Profile; sh
       </div>
 
       <section className="arch-display">
-        <p className="label gold">A one-page manual, measured</p>
+        <p className="label gold">Concise manual for coworkers</p>
         <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "12px 0 16px" }}>
           Working with me
         </h1>
@@ -75,7 +75,7 @@ export function ManualSheet({ profile, showBack = true }: { profile: Profile; sh
         <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-8)", flexWrap: "wrap" }}>
           <button className="btn" onClick={() => window.print()}>Save as PDF</button>
           <CopyManualLink profile={profile} />
-          {showBack && <Link href="/profile" className="btn quiet">Back to profile</Link>}
+          {showBack && <Link href="/blueprint" className="btn quiet">Back to profile</Link>}
         </div>
       </section>
     </>

@@ -328,8 +328,8 @@ dl.ledger dd { color: var(--ivory-dim); max-width: var(--measure); }
 .doc-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--s-2) var(--s-4);
-  align-items: baseline;
+  gap: var(--s-3);
+  align-items: center;
   margin-top: var(--s-6);
 }
 .doc-actions a, .doc-actions button {
@@ -337,14 +337,26 @@ dl.ledger dd { color: var(--ivory-dim); max-width: var(--measure); }
   font-size: var(--t-xs);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--ivory-faint);
-  transition: color 0.2s ease;
+  color: var(--ivory-dim);
+  border: 1px solid var(--hairline);
+  border-radius: 3px;
+  padding: 9px 16px;
+  background: transparent;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
 }
-.doc-actions a:hover, .doc-actions button:hover { color: var(--gold); }
-.doc-actions .va-primary { color: var(--gold-deep); }
-.doc-actions .va-primary:hover { color: var(--gold); }
-.doc-actions .da-code { font-size: var(--t-xs); color: var(--ivory-dim); letter-spacing: 0.06em; }
-.doc-actions .da-sep { color: var(--hairline); }
+.doc-actions a:hover, .doc-actions button:hover { color: var(--gold); border-color: var(--gold-deep); }
+.doc-actions .va-primary { color: var(--gold); border-color: var(--gold-deep); }
+.doc-actions .va-primary:hover { color: var(--ground-deep); background: var(--gold); border-color: var(--gold); }
+.doc-actions .da-code {
+  font-size: var(--t-xs);
+  color: var(--ivory-dim);
+  letter-spacing: 0.06em;
+  border: 1px solid var(--hairline);
+  border-radius: 3px;
+  padding: 9px 16px;
+}
+.doc-actions .da-sep { display: none; }
 .view-tab {
   position: relative;
   display: grid;

@@ -38,7 +38,7 @@ export function RelationshipSheet({ profile, showBack = false }: { profile: Prof
       </div>
 
       <section className="arch-display">
-        <p className="label gold">A concise report, for a partner</p>
+        <p className="label gold">Concise manual for partner</p>
         <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "12px 0 16px" }}>
           Relationship with me
         </h1>
@@ -75,7 +75,7 @@ export function RelationshipSheet({ profile, showBack = false }: { profile: Prof
         <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-8)", flexWrap: "wrap" }}>
           <button className="btn" onClick={() => window.print()}>Save as PDF</button>
           <CopyRelationshipLink profile={profile} />
-          {showBack && <Link href="/profile" className="btn quiet">Back to profile</Link>}
+          {showBack && <Link href="/blueprint" className="btn quiet">Back to profile</Link>}
         </div>
       </section>
     </>

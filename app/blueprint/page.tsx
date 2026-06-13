@@ -56,35 +56,6 @@ function EmptyState() {
   );
 }
 
-function CopyCode({ code, profile }: { code: string; profile: Profile }) {
-  const [copied, setCopied] = useState<"code" | "link" | null>(null);
-  const copy = (text: string, kind: "code" | "link") => {
-    navigator.clipboard?.writeText(text).then(() => {
-      setCopied(kind);
-      setTimeout(() => setCopied(null), 1800);
-    });
-  };
-  return (
-    <div className="share-code">
-      <span className="num">{code}</span>
-      <button
-        className="btn quiet"
-        style={{ padding: "8px 18px" }}
-        onClick={() => copy(code, "code")}
-      >
-        {copied === "code" ? "Copied" : "Copy code"}
-      </button>
-      <button
-        className="btn quiet"
-        style={{ padding: "8px 18px" }}
-        onClick={() => copy(profileUrl(profile, location.origin), "link")}
-      >
-        {copied === "link" ? "Copied" : "Copy profile link"}
-      </button>
-    </div>
-  );
-}
-
 function InterestsBlock({ interests }: { interests: InterestProfile | null }) {
   if (!interests) {
     return (
@@ -331,17 +302,23 @@ function Report({ profile, drift, interests }: {
           else: no answers, no identity. The profile link is the same code carried in
           a URL fragment, which browsers never transmit — even we couldn&apos;t log it.
         </p>
-        <CopyCode code={code} profile={profile} />
         <div style={{ marginTop: "var(--s-6)" }}>
-          <Link href="/compare" className="btn">Compare with someone</Link>
+          <span className="label gold" style={{ display: "block", marginBottom: "var(--s-3)" }}>Compatibility</span>
+          <Link href="/compare" className="btn">Check Compatibility</Link>
         </div>
 
       </section>
 
-      {/* VI — confidence */}
+      {/* optional: validate with others + contribute to norms */}
       <section className="report-section">
-        <span className="label"><span className="roman" style={{ fontSize: "1em" }}>{profile.facets.length ? "VI" : "V"}</span> &nbsp;·&nbsp; Profile confidence</span>
-        <div className="flags">
+        <ObserverLens profile={profile} />
+        <Contribute profile={profile} />
+      </section>
+
+      {/* confidence */}
+      <section className="report-section">
+        <span className="label gold">Blueprint confidence</span>
+        <div className="flags" style={{ marginTop: "var(--s-3)" }}>
           <span className="flag num">{q.answered}/{q.total} answered</span>
           <span className="flag num">median response {(q.medLat / 1000).toFixed(1)}s</span>
           <span className="flag num">consistency {q.consistency}/100</span>
@@ -359,13 +336,7 @@ function Report({ profile, drift, interests }: {
           Consistency is a person-fit heuristic: how coherently you answered items
           measuring the same construct (Meade &amp; Craig, 2012).
         </p>
-        <ObserverLens profile={profile} />
-        <Contribute profile={profile} />
-      </section>
-
-      {/* read this */}
-      <section className="report-section">
-        <p className="footnote" style={{ maxWidth: "72ch" }}>
+        <p className="footnote" style={{ maxWidth: "72ch", marginTop: "var(--s-4)" }}>
           <strong style={{ color: "var(--ivory)" }}>Read this before acting on results.</strong>{" "}
           This {profile.tier === "full" ? "instrument estimates traits with good precision (120 scored items), yet personality" : profile.tier === "standard" ? "facet-balanced edition estimates traits with solid precision (36 scored items), and personality" : "short screening estimates broad traits with real but limited precision (26 items). Personality"}{" "}
           predicts life outcomes at modest effect sizes (r ≈ .2–.3 for the strongest links).
@@ -423,11 +394,11 @@ function ResultsInner() {
 }
 
 const VIEWS = [
-  { key: "breakdown" as const, name: "My blueprint", desc: "Full report for you" },
-  { key: "manual" as const, name: "Working with me", desc: "Concise manual for coworkers" },
-  { key: "ai" as const, name: "Working with my AI", desc: "Agent context & persona" },
-  { key: "relationship" as const, name: "Relationship with me", desc: "Concise manual for partner" },
-  { key: "becoming" as const, name: "Calibration", desc: "Desired qualities" },
+  { key: "breakdown" as const, name: "My complete blueprint" },
+  { key: "manual" as const, name: "Working with me" },
+  { key: "ai" as const, name: "Working with my AI" },
+  { key: "relationship" as const, name: "Relationship with me" },
+  { key: "becoming" as const, name: "Calibration" },
 ];
 
 function CodeActions({ profile }: { profile: Profile }) {
@@ -456,7 +427,7 @@ function ProfileViews({ profile, drift, interests }: {
   const view = VIEWS.some((v) => v.key === viewParam) ? viewParam! : "breakdown";
   const tier = params.get("tier");
   const tabHref = (key: string) =>
-    `/profile?view=${key}${tier ? `&tier=${tier}` : ""}#${encodeShareCode(profile)}`;
+    `/blueprint?view=${key}${tier ? `&tier=${tier}` : ""}#${encodeShareCode(profile)}`;
   return (
     <>
       <div className="shell no-print" style={{ paddingTop: "var(--s-16)" }}>
@@ -472,7 +443,6 @@ function ProfileViews({ profile, drift, interests }: {
                 aria-selected={view === v.key}
               >
                 <span className="vt-name">{v.name}</span>
-                <span className="vt-desc">{v.desc}</span>
               </Link>
             ))}
           </div>
