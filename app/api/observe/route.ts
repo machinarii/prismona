@@ -1,5 +1,6 @@
 import { decodeShareCode, encodeShareCode } from "@/lib/codec";
 import { validateObservation } from "@/lib/observation";
+import { synthesizeObservations } from "@/lib/observed";
 import { loadObservations, observeConfigured, saveObservation } from "@/lib/server/observestore";
 
 // Behavioral observations from agents — the daily "observed" layer of the
@@ -28,5 +29,6 @@ export async function GET(req: Request): Promise<Response> {
   if (!observeConfigured()) return Response.json({ error: "observations paused" }, { status: 503 });
   const code = canonical(new URL(req.url).searchParams.get("code"));
   if (!code) return Response.json({ error: "invalid share code" }, { status: 400 });
-  return Response.json({ observations: await loadObservations(code) });
+  const entries = await loadObservations(code);
+  return Response.json({ overlay: synthesizeObservations(entries), count: entries.length });
 }
