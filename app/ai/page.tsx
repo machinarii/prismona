@@ -20,7 +20,10 @@ function EmptyState() {
         Take the assessment first, or open an AI link that carries a share code.
       </p>
       <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-12)", flexWrap: "wrap" }}>
-        <Link href="/assess?tier=quick" className="btn solid">Begin · 5 minutes</Link>
+        <Link href="/assess?tier=quick" className="btn solid">
+          Quick Test
+          <span style={{ display: "block", fontSize: "0.72em", opacity: 0.7, marginTop: "3px" }}>5min</span>
+        </Link>
       </div>
     </main>
   );
