@@ -125,8 +125,6 @@ function InterestsBlock({ interests }: { interests: InterestProfile | null }) {
 function DocActions({ profile, interests }: { profile: Profile; interests: InterestProfile | null }) {
   return (
     <div className="doc-actions no-print">
-      <CodeActions profile={profile} />
-      <span className="da-sep" aria-hidden>·</span>
       {profile.tier !== "full"
         ? <Link href={profile.tier === "quick" ? "/assess?tier=standard" : "/assess?tier=full"} className="va-primary">
             {profile.tier === "quick" ? "Take standard test" : "Take full test"}
@@ -149,6 +147,8 @@ function DocActions({ profile, interests }: { profile: Profile; interests: Inter
       >
         Download JSON
       </button>
+      <span className="da-sep" aria-hidden>·</span>
+      <CodeActions profile={profile} />
     </div>
   );
 }
