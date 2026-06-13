@@ -10,7 +10,7 @@ import type { Profile, ReportKey } from "@/lib/types";
 
 const KEYS: ReportKey[] = ["O", "C", "E", "A", "ES", "H"];
 
-// The self-insight gap: paste codes produced by /observe and see where
+// The self-insight gap: paste codes produced by /validate and see where
 // informants' views agree with the self-report — and where they don't.
 export function ObserverLens({ profile }: { profile: Profile }) {
   const [codes, setCodes] = useState<string[]>([]);
@@ -38,7 +38,7 @@ export function ObserverLens({ profile }: { profile: Profile }) {
       <span className="label gold">Observer lens · optional</span>
       <p className="prose" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
         Self-report is one witness. Send someone who knows you to{" "}
-        <span className="num">prismona.vercel.app/observe</span> — they rate you in two
+        <span className="num">prismona.vercel.app/validate</span> — they rate you in two
         minutes and get a code to send back. Paste it here to see your self-insight
         gap: where their view and yours agree, and where they part ways.
       </p>

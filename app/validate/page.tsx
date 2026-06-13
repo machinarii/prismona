@@ -53,7 +53,7 @@ export default function ObservePage() {
       <main className="shell" style={{ paddingTop: "var(--s-16)" }}>
         <p className="label gold">Observer rating</p>
         <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "16px 0 24px", maxWidth: "20ch" }}>
-          Rate them as you actually see them.
+          Get validation from people you know.
         </h1>
         <div className="prose" style={{ display: "grid", gap: "var(--s-4)" }}>
           <p>
