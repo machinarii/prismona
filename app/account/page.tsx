@@ -91,6 +91,8 @@ export default function AccountPage() {
           <p className="prose">
             An account does exactly one thing: it lets you carry your profile between
             devices, when you choose to. No password — we email you a six-digit code.
+            Your email is the only thing we ever ask for: no name, no other personal
+            information.
           </p>
           <div style={{ margin: "var(--s-8) 0", maxWidth: "440px", display: "grid", gap: "var(--s-3)" }}>
             {stage === "email" && (
