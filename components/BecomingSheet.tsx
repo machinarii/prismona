@@ -106,11 +106,6 @@ export function BecomingSheet({ profile }: { profile: Profile }) {
           people hold trait change goals; and the goals work when tied to small weekly
           behaviors rather than intention.
         </p>
-        <p className="footnote" style={{ marginTop: "var(--s-4)" }}>
-          Self-discrepancy: Higgins (1987) · possible selves: Markus &amp; Nurius (1986) ·
-          volitional trait change: Hudson &amp; Fraley (2015). Full references on the{" "}
-          <Link href="/methodology" className="cite" style={{ color: "var(--ivory-dim)" }}>Methodology page</Link>.
-        </p>
       </section>
 
       {(!desired || editing) && (
@@ -179,6 +174,11 @@ export function BecomingSheet({ profile }: { profile: Profile }) {
           </section>
         </>
       )}
+      <p className="footnote" style={{ marginTop: "var(--s-8)" }}>
+        Self-discrepancy: Higgins (1987) · possible selves: Markus &amp; Nurius (1986) ·
+        volitional trait change: Hudson &amp; Fraley (2015). Full references on the{" "}
+        <Link href="/methodology" className="cite" style={{ color: "var(--ivory-dim)" }}>Methodology page</Link>.
+      </p>
     </>
   );
 }

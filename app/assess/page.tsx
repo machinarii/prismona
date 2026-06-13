@@ -98,8 +98,8 @@ function Brief({ tier, onBegin }: { tier: Tier; onBegin: () => void }) {
       </div>
       <AgeBandRow />
       <div style={{ marginTop: "var(--s-12)", display: "flex", gap: "var(--s-3)", alignItems: "center", flexWrap: "wrap" }}>
-        <button className="btn solid" onClick={onBegin}>Begin the assessment</button>
-        {tier === "quick" && <Link className="cite" href="/assess?tier=full">or take the full test · facet resolution →</Link>}
+        <button className="btn solid" onClick={onBegin}>Begin the Test</button>
+        {tier === "quick" && <Link className="cite" href="/assess?tier=full">Or take the Full Test →</Link>}
       </div>
     </div>
   );

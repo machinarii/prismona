@@ -35,7 +35,7 @@ export function ObserverLens({ profile }: { profile: Profile }) {
 
   return (
     <div className="no-print" style={{ marginTop: "var(--s-12)" }}>
-      <span className="label gold">Observer lens · optional</span>
+      <span className="label gold">Validate profile from others · optional</span>
       <p className="prose" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
         Self-report is one witness. Send someone who knows you to{" "}
         <span className="num">prismona.vercel.app/validate</span> — they rate you in two
