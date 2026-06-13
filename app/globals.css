@@ -352,6 +352,9 @@ dl.ledger dd { color: var(--ivory-dim); max-width: var(--measure); }
   justify-items: start;
   text-align: left;
   padding: 0 0 var(--s-4);
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }
 .view-tab::after {
   content: "";
