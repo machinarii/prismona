@@ -10,7 +10,7 @@ import { INTERESTS_CITE, interestsCareerNote, type InterestProfile, type RiasecK
 import { RIASEC_LABELS } from "@/lib/data/riasec";
 import { longDate } from "@/lib/dates";
 import { decodeShareCode, encodeShareCode } from "@/lib/codec";
-import { profileUrl, sameShareCode } from "@/lib/shareview";
+import { sameShareCode } from "@/lib/shareview";
 import { RarityLine } from "@/components/RarityLine";
 import { TraitFigure } from "@/components/TraitFigure";
 import { Contribute } from "@/components/Contribute";
@@ -414,7 +414,6 @@ function CodeActions({ profile }: { profile: Profile }) {
     <>
       <span className="num da-code" title="Your share code">{code}</span>
       <button onClick={() => copy(code, "code")}>{copied === "code" ? "Code copied" : "Copy code"}</button>
-      <button onClick={() => copy(profileUrl(profile, location.origin), "link")}>{copied === "link" ? "Link copied" : "Copy link"}</button>
     </>
   );
 }
