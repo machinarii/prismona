@@ -10,6 +10,7 @@ import { encodeShareCode } from "@/lib/codec";
 import { loadAgeBand, loadContinent, saveAgeBand, saveContinent, saveProfile } from "@/lib/storage";
 import { AGE_BANDS, CONTINENTS, type AgeBand, type Continent } from "@/lib/contrib";
 import { TimerRing } from "@/components/TimerRing";
+import { AuthGate } from "@/components/AuthGate";
 import type { Answer, Tier } from "@/lib/types";
 
 const LIKERT: Array<[string, string]> = [
@@ -221,10 +222,12 @@ function AssessInner() {
 
 export default function AssessPage() {
   return (
-    <main className="runner">
-      <Suspense fallback={null}>
-        <AssessInner />
-      </Suspense>
-    </main>
+    <AuthGate>
+      <main className="runner">
+        <Suspense fallback={null}>
+          <AssessInner />
+        </Suspense>
+      </main>
+    </AuthGate>
   );
 }

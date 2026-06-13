@@ -137,6 +137,7 @@ export default function ComparePage() {
   const [theirCode, setTheirCode] = useState("");
   const [purpose, setPurpose] = useState<Purpose | null>(null);
   const [attempted, setAttempted] = useState(false);
+  const [show, setShow] = useState(false);
 
   // Prefill from the locally saved profile, if any.
   useEffect(() => {
@@ -215,7 +216,7 @@ export default function ComparePage() {
               <button
                 key={p.key}
                 aria-pressed={purpose === p.key}
-                onClick={() => { setPurpose(p.key); setAttempted(true); }}
+                onClick={() => setPurpose(p.key)}
               >
                 <span className="p-name">{p.name}</span>
                 <span className="p-desc">{p.desc}</span>
@@ -225,13 +226,19 @@ export default function ComparePage() {
         </div>
       </div>
 
-      {attempted && purpose && (!me || !them) && (
-        <p className="footnote" style={{ marginTop: "var(--s-8)", color: "var(--claret)" }}>
-          Both codes need to be valid before the report can be drawn.
+      <div style={{ marginTop: "var(--s-8)" }}>
+        <button className="btn solid" onClick={() => { setAttempted(true); setShow(true); }}>
+          Check compatibility
+        </button>
+      </div>
+
+      {attempted && !report && (
+        <p className="footnote" style={{ marginTop: "var(--s-6)", color: "var(--claret)" }}>
+          Add two valid codes and pick a purpose, then check.
         </p>
       )}
 
-      {report && me && them && <ReportView report={report} me={me} them={them} />}
+      {show && report && me && them && <ReportView report={report} me={me} them={them} />}
     </main>
   );
 }

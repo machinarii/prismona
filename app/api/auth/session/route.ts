@@ -1,11 +1,14 @@
-import { SESSION_COOKIE, sessionFrom } from "@/lib/server/authstore";
+import { SESSION_COOKIE, authConfigured, sessionFrom } from "@/lib/server/authstore";
 
 // GET: who am I (from the httpOnly cookie). DELETE: sign out.
+// `enabled` is the feature flag: false when the auth secrets aren't configured,
+// which keeps the login gate transparent so test-taking still works.
 
 export async function GET(req: Request): Promise<Response> {
+  const enabled = authConfigured();
   const session = sessionFrom(req);
-  if (!session) return Response.json({ signedIn: false }, { status: 200 });
-  return Response.json({ signedIn: true, email: session.email });
+  if (!session) return Response.json({ signedIn: false, enabled }, { status: 200 });
+  return Response.json({ signedIn: true, email: session.email, enabled });
 }
 
 export async function DELETE(): Promise<Response> {
