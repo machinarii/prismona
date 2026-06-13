@@ -4,7 +4,8 @@ const nextConfig = {
   outputFileTracingRoot: import.meta.dirname,
   async redirects() {
     return [
-      { source: "/results", destination: "/profile", permanent: true },
+      { source: "/results", destination: "/blueprint", permanent: true },
+      { source: "/profile", destination: "/blueprint", permanent: true },
       { source: "/method", destination: "/methodology", permanent: true },
       { source: "/observe", destination: "/validate", permanent: true },
     ];

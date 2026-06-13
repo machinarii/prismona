@@ -122,7 +122,7 @@ function Runner({ tier }: { tier: Tier }) {
     saveProfile(profile);
     // Land on results already at the profile's unique URL — the address bar
     // is the share link from the first paint.
-    router.push(`/profile?tier=${tier}#${encodeShareCode(profile)}`);
+    router.push(`/blueprint?tier=${tier}#${encodeShareCode(profile)}`);
   }, [items, tier, router]);
 
   const advance = useCallback((a: Answer) => {

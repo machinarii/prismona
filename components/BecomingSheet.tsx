@@ -95,7 +95,7 @@ export function BecomingSheet({ profile }: { profile: Profile }) {
   return (
     <>
       <section className="arch-display">
-        <p className="label gold">Becoming</p>
+        <p className="label gold">Desired qualities</p>
         <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "12px 0 16px", maxWidth: "16ch" }}>
           What do you want to improve?
         </h1>

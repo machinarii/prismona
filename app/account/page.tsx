@@ -83,7 +83,7 @@ export default function AccountPage() {
     <main className="shell" style={{ paddingTop: "var(--s-16)", paddingBottom: "var(--s-24)" }}>
       <p className="label gold">Account</p>
       <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "16px 0 24px", maxWidth: "20ch" }}>
-        {stage === "in" ? "Signed in." : "One email, one code."}
+        {stage === "in" ? "Signed in." : "Save your blueprint."}
       </h1>
 
       {stage !== "in" && (
@@ -91,7 +91,6 @@ export default function AccountPage() {
           <p className="prose">
             An account does exactly one thing: it lets you carry your profile between
             devices, when you choose to. No password — we email you a six-digit code.
-            Everything else works without one.
           </p>
           <div style={{ margin: "var(--s-8) 0", maxWidth: "440px", display: "grid", gap: "var(--s-3)" }}>
             {stage === "email" && (
