@@ -66,8 +66,8 @@ export default function McpPage() {
         </div>
       </dl>
       <p className="prose">
-        Connect any MCP-capable assistant — Claude, Cursor, your own agent — to the
-        live endpoint below, and it negotiates the rest.
+        Connect any MCP-capable assistant — Claude, ChatGPT, Cursor, OpenClaw, Hermes,
+        Ollama and more — to the live endpoint below, and it negotiates the rest.
       </p>
 
       <section className="section">
