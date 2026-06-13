@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { OBSERVER_ITEMS, observerShare, scoreObserver, selfOtherGap } from "../observe";
+import { OBSERVER_ITEMS, observerShare, scoreObserver, selfOtherGap, subjectTag, bindObserverCode, splitObserverCode } from "../observe";
 import { decodeShareCode, encodeShareCode } from "../codec";
 import { toPct } from "../scoring";
 import type { Profile, ReportKey } from "../types";
@@ -93,5 +93,44 @@ describe("selfOtherGap", () => {
     const self = profile({ A: 0.5 });
     const obs = { O: 0, C: 0, E: 0, A: -0.5, ES: 0, H: 0 };
     expect(selfOtherGap(self, obs)).toEqual(selfOtherGap(self, obs));
+  });
+});
+
+describe("subject binding", () => {
+  const subj = profile({ O: 0.8, C: -0.4, E: 1.1, A: 0, ES: -0.6, H: 0.3 });
+  const subjZ = { O: 0.8, C: -0.4, E: 1.1, A: 0, ES: -0.6, H: 0.3 };
+  const subjectCode = encodeShareCode(subj);
+  const observerCode = encodeShareCode(observerShare(scoreObserver(answersReportLevel(4)), "2026-06-12"));
+
+  it("subjectTag is a deterministic 3-char fingerprint", () => {
+    const t = subjectTag(subjZ);
+    expect(t).toHaveLength(3);
+    expect(subjectTag(subjZ)).toBe(t);
+  });
+
+  it("a subject and an observer holding the subject's code derive the same tag", () => {
+    const fromProfile = subjectTag(subjZ);
+    const fromCode = subjectTag(decodeShareCode(subjectCode)!.z);
+    expect(fromCode).toBe(fromProfile);
+  });
+
+  it("different subjects yield different tags", () => {
+    expect(subjectTag({ O: -1, C: 1, E: -1, A: 1, ES: 1, H: -1 })).not.toBe(subjectTag(subjZ));
+  });
+
+  it("binds an observer code with the subject tag, recoverable by split", () => {
+    const bound = bindObserverCode(observerCode, subjectCode);
+    const { code, tag } = splitObserverCode(bound);
+    expect(code).toBe(observerCode);
+    expect(tag).toBe(subjectTag(subjZ));
+    expect(decodeShareCode(code)).not.toBeNull();
+  });
+
+  it("leaves the observer code unchanged when the subject code is invalid", () => {
+    expect(bindObserverCode(observerCode, "not-a-code")).toBe(observerCode);
+  });
+
+  it("splits an untagged code to a null tag", () => {
+    expect(splitObserverCode(observerCode)).toEqual({ code: observerCode, tag: null });
   });
 });
