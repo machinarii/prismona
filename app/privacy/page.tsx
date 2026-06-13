@@ -157,7 +157,7 @@ export default function PrivacyPage() {
           new effective date, and any new collection will be opt-in — sections V and VI
           are the additions so far, each made under exactly that rule. Questions can be
           directed to Sensing Apparatus LLC. See the{" "}
-          <Link href="/method">Method page</Link> for the scientific and ethical
+          <Link href="/methodology">Method page</Link> for the scientific and ethical
           commitments that sit alongside this policy, and the{" "}
           <Link href="/terms">Terms of Service</Link> for the rest of the agreement.
         </p>

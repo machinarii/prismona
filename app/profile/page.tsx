@@ -31,7 +31,7 @@ const FACET_DOMAIN_ORDER: ReportKey[] = ["O", "C", "E", "A", "ES", "H"];
 
 function EmptyState() {
   return (
-    <main className="shell" style={{ paddingTop: "var(--s-24)", paddingBottom: "var(--s-24)" }}>
+    <main className="shell" style={{ paddingTop: "clamp(64px, 12vh, 140px)", paddingBottom: "var(--s-24)" }}>
       <p className="label gold">Your profile</p>
       <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "16px 0 24px", maxWidth: "18ch" }}>
         Nothing measured yet.
@@ -276,7 +276,7 @@ function Report({ profile, drift, interests }: {
           <p className="footnote" style={{ marginTop: "var(--s-4)" }}>
             Facets are four-item scales — wider bands, by honesty. Stability facets are
             reported in the Emotional Stability direction; original IPIP scale names are
-            on the <Link href="/method" className="cite" style={{ color: "var(--ivory-dim)" }}>Method page</Link>.
+            on the <Link href="/methodology" className="cite" style={{ color: "var(--ivory-dim)" }}>Method page</Link>.
           </p>
         </section>
       )}
@@ -375,7 +375,7 @@ function Report({ profile, drift, interests }: {
           predicts life outcomes at modest effect sizes (r ≈ .2–.3 for the strongest links).
           Use this profile to structure better conversations and decisions — never as a
           verdict on yourself or anyone else. Full evidence on the{" "}
-          <Link href="/method" className="cite" style={{ color: "var(--ivory-dim)" }}>Method page</Link>.
+          <Link href="/methodology" className="cite" style={{ color: "var(--ivory-dim)" }}>Method page</Link>.
         </p>
       </section>
 
@@ -445,7 +445,7 @@ function ProfileViews({ profile, drift, interests }: {
   const [view, setView] = useState<"breakdown" | "manual" | "ai" | "becoming">("breakdown");
   return (
     <>
-      <div className="shell no-print" style={{ paddingTop: "var(--s-8)" }}>
+      <div className="shell no-print" style={{ paddingTop: "clamp(64px, 12vh, 140px)" }}>
         <div className="view-bar">
           <div className="view-tabs" role="tablist" aria-label="Profile views">
             {VIEWS.map((v) => (

@@ -101,7 +101,7 @@ export default function TermsPage() {
           effective date on this page, and continued use constitutes acceptance.
           Questions about these terms can be directed to Sensing Apparatus LLC.
           See also the <Link href="/privacy">Privacy Policy</Link> and the{" "}
-          <Link href="/method">Method page</Link>, which together describe how the
+          <Link href="/methodology">Method page</Link>, which together describe how the
           instrument works and what happens to your data (in short: it stays with you).
         </p>
       </section>

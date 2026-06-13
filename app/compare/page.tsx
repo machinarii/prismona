@@ -12,9 +12,14 @@ const TRAIT_ORDER: ReportKey[] = ["O", "C", "E", "A", "ES", "H"];
 
 const PURPOSES: Array<{ key: Purpose; name: string; desc: string }> = [
   {
-    key: "romantic",
-    name: "Romantic",
-    desc: "Partner effects on satisfaction — stability, warmth, reliability — plus the gaps that surface in daily life.",
+    key: "colleague",
+    name: "Colleague",
+    desc: "Handoffs, standards, communication under pressure — the working-pair frictions worth naming early.",
+  },
+  {
+    key: "manager",
+    name: "Manager/IC",
+    desc: "A reporting line: oversight calibration, feedback that lands, autonomy vs. direction, and the trust the asymmetry demands.",
   },
   {
     key: "cofounder",
@@ -22,9 +27,9 @@ const PURPOSES: Array<{ key: Purpose; name: string; desc: string }> = [
     desc: "Complementarity, the trust gate, the execution floor, and a conflict-mode forecast for the company you'd run.",
   },
   {
-    key: "colleague",
-    name: "Colleague",
-    desc: "Handoffs, standards, communication under pressure — the working-pair frictions worth naming early.",
+    key: "romantic",
+    name: "Romantic",
+    desc: "Partner effects on satisfaction — stability, warmth, reliability — plus the gaps that surface in daily life.",
   },
 ];
 

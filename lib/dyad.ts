@@ -34,6 +34,7 @@ export function compareDyad(me: ShareProfile, them: ShareProfile, purpose: Purpo
     case "romantic": return romantic(a, b);
     case "cofounder": return cofounder(a, b);
     case "colleague": return colleague(a, b);
+    case "manager": return manager(a, b);
   }
 }
 
@@ -47,7 +48,7 @@ function finish(purpose: Purpose, score: number, strengths: string[], candidates
 }
 
 function headline(purpose: Purpose, score: number, nFrictions: number): string {
-  const noun = purpose === "romantic" ? "pairing" : purpose === "cofounder" ? "founding pair" : "working pair";
+  const noun = purpose === "romantic" ? "pairing" : purpose === "cofounder" ? "founding pair" : purpose === "manager" ? "reporting line" : "working pair";
   if (score >= 75) return `A well-resourced ${noun} — the evidence-based risk factors are largely absent. The frictions below are maintenance items, not structural faults.`;
   if (score >= 55) return `A workable ${noun} with named frictions. None are disqualifying; all of them compound if left unspoken. Run the conversations below early, not after the first conflict.`;
   if (score >= 38) return `A demanding ${noun}. The friction load here is real and will tax both of you; it is manageable only with explicit agreements and honest review. Treat the prompts below as required, not optional.`;
@@ -279,4 +280,71 @@ function colleague(a: Z, b: Z): DyadReport {
   }
 
   return finish("colleague", clampScore(score), strengths, candidates);
+}
+
+// ------------------------------------------------------------------ manager/IC
+
+function manager(a: Z, b: Z): DyadReport {
+  // A reporting line runs on shared standards, a safe feedback climate, and
+  // steadiness under load. The codes are role-agnostic — the frictions apply
+  // to the pair regardless of who manages whom.
+  const reliability = mean(a.C, b.C);
+  const warmth = mean(a.A, b.A);
+  const stability = mean(a.ES, b.ES);
+  let score = zToGauge(0.4 * reliability + 0.3 * warmth + 0.3 * stability);
+
+  const strengths: string[] = [];
+  const candidates: Candidate[] = [];
+
+  if (reliability > 0.4) strengths.push("Shared standards: expectations about what 'done' and 'on time' mean will mostly align, so delegation won't need constant correction.");
+  if (warmth > 0.4) strengths.push("A generous feedback climate — corrections and pushback read as help rather than threat, in both directions.");
+  if (stability > 0.4) strengths.push("Both steady under load: hard reviews and missed targets won't spiral into defensiveness.");
+  if (Math.min(a.H, b.H) > 0.3) strengths.push("High mutual integrity: credit flows to whoever earned it, and 1:1s stay candid rather than performative.");
+  if (!strengths.length) strengths.push("No standout shared resource on the measured traits; this reporting line will run on explicit agreements more than natural rapport.");
+
+  const cGap = gap(a.C, b.C);
+  if (cGap > 1.2) {
+    candidates.push({
+      severity: 2.4 + cGap,
+      title: "Oversight calibration",
+      body: "A large conscientiousness gap across a reporting line is the classic micromanage / under-deliver trap: one wants checkpoints the other reads as distrust, or one assumes autonomy the other isn't ready to grant. It's a calibration problem, not a character flaw.",
+      prompt: "Agree a check-in cadence per workstream up front — which deliverables get reviewed at draft, which only at done. Revisit after three weeks. 15 minutes.",
+    });
+  }
+  if (Math.min(a.A, b.A) < -0.5) {
+    candidates.push({
+      severity: 2.6,
+      title: "Feedback that stings",
+      body: "At least one of you is blunt and competitive. Direct feedback up or down a reporting line lands harder than between peers, because it's tied to evaluation — and tone gets read at its worst.",
+      prompt: "Separate the channels: real-time corrections stay factual and short; the evaluative conversation happens in a scheduled 1:1, never in passing. Name which is which now. 10 minutes.",
+    });
+    score -= 5;
+  }
+  if (gap(a.O, b.O) > 1.4) {
+    candidates.push({
+      severity: 1.8,
+      title: "Autonomy vs. direction",
+      body: "A wide openness gap shows up as a tug over latitude: one wants to try the new approach, the other wants the proven path followed. Across a reporting line that reads as 'reckless' or 'controlling' fast.",
+      prompt: "Define the sandbox: name the one stream where experimentation is explicitly sanctioned, and the streams that run on the playbook. Review monthly. 10 minutes.",
+    });
+  }
+  if (Math.min(a.ES, b.ES) < -0.7) {
+    candidates.push({
+      severity: 2.0,
+      title: "Pressure amplification",
+      body: "At least one of you runs anxious under load. On a reporting line this inflates urgency — everything marked critical — which trains the other to discount real alarms or to over-escalate.",
+      prompt: "Adopt a three-level urgency vocabulary (today / this week / when you can) and use the words literally. Agree it now; hold each other to it for a month. 10 minutes.",
+    });
+  }
+  if (Math.min(a.H, b.H) < -0.6) {
+    candidates.push({
+      severity: 2.4,
+      title: "Credit and trust",
+      body: "One of you scores low on Honesty-Humility; on a reporting line that pattern correlates with credit capture and selective information flow — corrosive precisely because the relationship is already asymmetric in power.",
+      prompt: "Make the work visible by default: decisions and contributions written where both (and others) can see them. Frame it as clarity, rely on it as protection. 10 minutes.",
+    });
+    score -= 5;
+  }
+
+  return finish("manager", clampScore(score), strengths, candidates);
 }
