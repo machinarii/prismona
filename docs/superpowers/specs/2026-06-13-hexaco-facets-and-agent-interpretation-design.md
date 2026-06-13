@@ -76,7 +76,7 @@ Exposed automatically via the existing **`management_style`** MCP tool (no tool 
 Two new `report-section` cards on the blueprint page, rendered from the same structures so the user sees exactly what agents/teammates receive:
 - **"How to communicate with me"** — renders the comms-relevant manual entries (or a compact projection of `interactionGuide`).
 - **"How to manage up to me"** — renders the new `managingUp` section.
-- Placement: in the agent-facing region of the report (near the existing "working with me" / ObservedLayer area). `no-print` optional — likely keep printable since it's manual content.
+- Placement: in the agent-facing region of the report (near the existing "working with me" / ObservedLayer area). **Printable** (no `no-print`) — they are manual content and belong in the printed handout.
 
 ### A2.4 — MCP guide
 Update `mcpguide.ts` (currently 0 H-refs): mention Honesty-Humility in the decode/readings description, and note that `interaction_guide` and `management_style` now carry candor and managing-up guidance. No new tools.
