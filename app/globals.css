@@ -330,6 +330,7 @@ dl.ledger dd { color: var(--ivory-dim); max-width: var(--measure); }
   flex-wrap: wrap;
   gap: var(--s-3);
   align-items: center;
+  justify-content: flex-end;
   margin-top: var(--s-6);
 }
 .doc-actions a, .doc-actions button {
