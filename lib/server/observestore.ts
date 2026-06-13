@@ -1,5 +1,5 @@
 import { createHmac } from "crypto";
-import { get, list, put } from "@vercel/blob";
+import { del, get, list, put } from "@vercel/blob";
 import type { ObservationEntry } from "../observation";
 
 // Behavioral observations, keyed pseudonymously by share code (HMAC — the code
@@ -36,4 +36,9 @@ export async function loadObservations(canonicalCode: string): Promise<Observati
     }),
   );
   return entries.filter((e): e is ObservationEntry => Boolean(e && e.date));
+}
+
+export async function deleteObservations(canonicalCode: string): Promise<void> {
+  const { blobs } = await list({ prefix: `obs/${codeKey(canonicalCode)}/`, limit: MAX_ENTRIES });
+  await Promise.all(blobs.map((b) => del(b.url).catch(() => {})));
 }
