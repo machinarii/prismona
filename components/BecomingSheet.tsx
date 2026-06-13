@@ -140,6 +140,10 @@ export function BecomingSheet({ profile }: { profile: Profile }) {
               })}
             </div>
             <p className="prose" style={{ marginTop: "var(--s-4)" }}>{report.note}</p>
+            <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-6)", flexWrap: "wrap" }}>
+              <button className="btn quiet" onClick={() => setEditing(true)}>Adjust desired self</button>
+              <button className="btn quiet" onClick={() => { saveDesired(null); setDesired(null); }}>Clear</button>
+            </div>
           </section>
 
           {report.focus && (
