@@ -166,7 +166,7 @@ ${tuning}
 Boundaries: these are probabilistic tendencies with modest effect sizes, not rules — recalibrate continuously from their observed behavior, and let observation override this profile wherever they conflict. Never use this profile to judge them, never apply it to other people, and never present trait readings back to them as verdicts.`;
 }
 
-// The inbound side of the digital ID: guidance for someone ELSE's agent (or
+// The inbound side of the personality blueprint: guidance for someone ELSE's agent (or
 // a human) who is about to interact with this person and was handed their
 // code or link. Third person throughout — the reader is not the subject.
 const APPROACH: Record<ReportKey, Tiered> = {
@@ -205,7 +205,7 @@ const APPROACH: Record<ReportKey, Tiered> = {
 export function interactionGuide(p: Profile): string {
   const scores = ORDER.map((k) => `${TRAIT_LABELS[k]} ${p.traits[k].pct}th`).join(" · ");
   const directives = ORDER.map((k) => `- ${pick(APPROACH[k], p.traits[k].pct)}`).join("\n");
-  return `INTERACTION GUIDE (Prismona digital ID, self-report, ${longDate(p.date)})
+  return `INTERACTION GUIDE (Prismona personality blueprint, self-report, ${longDate(p.date)})
 
 You — an agent or a human — are about to interact with a person who has shared their measured personality profile with you by consent. This guide tells you how to communicate with them well.
 

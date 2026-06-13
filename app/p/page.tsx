@@ -158,7 +158,7 @@ function SharedReport({ profile }: { profile: Profile }) {
         <div className="no-print" style={{ marginBottom: "var(--s-10)" }}>
           <span className="label gold">Interacting with this person?</span>
           <p className="prose" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
-            This profile is a consented digital ID. Copy the interaction guide below
+            This profile is a consented personality blueprint. Copy the interaction guide below
             into your own AI assistant — or read it yourself — to communicate with
             them the way their measured profile suggests works best.
           </p>
