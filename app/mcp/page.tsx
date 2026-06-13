@@ -22,6 +22,7 @@ const TOOLS: Array<[string, string]> = [
   ["interaction_guide", "Third-person guidance for communicating with the person behind a code"],
   ["management_style", "Questionnaire default + the weekly field-notes digest reported by agents who worked with them"],
   ["report_collaboration", "Submit what worked / didn't after collaborating — folds into the owner's weekly digest"],
+  ["submit_observation", "Submit a behavioral summary (communication, work style, strategies, quirks) — feeds the owner's living observed layer, never their measured scores"],
 ];
 
 function Snippet({ children }: { children: string }) {
