@@ -39,12 +39,11 @@ function EmptyState() {
       <p className="prose">
         Your profile is produced by the assessment and lives only in this browser —
         we could not show you someone else&apos;s results if we wanted to. Five minutes
-        of first instincts is all the Quick Profile asks.
+        of first instincts is all the quick test asks.
       </p>
       <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-12)", flexWrap: "wrap" }}>
         <Link href="/assess?tier=quick" className="btn solid">Begin · 5 minutes</Link>
-        <Link href="/assess?tier=standard" className="btn">Standard · 8 minutes</Link>
-        <Link href="/assess?tier=full" className="btn quiet">Full Profile · facet detail</Link>
+        <Link href="/assess?tier=full" className="btn">Full test · facet detail</Link>
       </div>
     </main>
   );
@@ -127,7 +126,7 @@ function DocActions({ profile, interests }: { profile: Profile; interests: Inter
     <div className="doc-actions no-print">
       {profile.tier !== "full"
         ? <Link href="/assess?tier=full" className="va-primary">Take full profile</Link>
-        : <Link href="/assess?tier=quick">Retake quick profile</Link>}
+        : <Link href="/assess?tier=quick">Retake quick test</Link>}
       <Link href={`/assess?tier=${profile.tier}`}>Retake</Link>
       <button onClick={() => window.print()}>Save as PDF</button>
       <button

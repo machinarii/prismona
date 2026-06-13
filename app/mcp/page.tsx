@@ -10,13 +10,18 @@ export const metadata: Metadata = {
 const ENDPOINT = "https://prismona.vercel.app/api/mcp";
 
 const TOOLS: Array<[string, string]> = [
+  ["usage_guide", "The agent-facing markdown guide: which tool for which job, worked examples, binding rules — agents should call this first"],
   ["decode_profile", "Full structured profile from a share code: percentiles, uncertainty ranges, archetype blend, distinctiveness"],
   ["profile_readings", "The six applied readings — relationships, career, work style, leadership, integrity, cofounder"],
   ["compare_dyad", "Pairing report for two codes: fit gauge, strengths, frictions with conversation prompts"],
   ["team_composition", "Two or more codes: trait diversity, role coverage, gaps, single points of failure, gates"],
+  ["compose_team", "Forward composition: project outcome + Team Topologies shape + headcount → seat-by-seat archetype plan"],
+  ["compose_agents", "An agent bench that complements one person: roles + voice flavors staffed around their measured profile"],
   ["working_with_me", "The first-person collaboration one-pager"],
-  ["agent_persona", "A system prompt calibrating an AI to be the profile owner's complement"],
+  ["agent_persona", "Complement-calibrated system prompt, tunable by voice flavor and professional role archetype"],
   ["interaction_guide", "Third-person guidance for communicating with the person behind a code"],
+  ["management_style", "Questionnaire default + the weekly field-notes digest reported by agents who worked with them"],
+  ["report_collaboration", "Submit what worked / didn't after collaborating — folds into the owner's weekly digest"],
 ];
 
 function Snippet({ children }: { children: string }) {

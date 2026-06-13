@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { decodeShareCode } from "@/lib/codec";
 import { teamReport, type TeamReport } from "@/lib/team";
+import { composeTeam, PROJECT_TYPES, TOPOLOGIES } from "@/lib/compose";
 import { TRAIT_LABELS } from "@/lib/norms";
 import { BandBar } from "@/components/BandBar";
 import type { ReportKey } from "@/lib/types";
@@ -60,6 +61,16 @@ export default function TeamPage() {
           {error && <span className="flag warn">{error}</span>}
         </div>
       </div>
+
+      <section className="section">
+        <div className="section-head"><span className="roman">II.</span><h2>Compose a team</h2></div>
+        <p className="prose">
+          The reverse direction: pick the outcome, the team shape, and the headcount —
+          and get the seat-by-seat personality composition the evidence favors, in
+          priority order.
+        </p>
+        <Composer />
+      </section>
 
       {report && (
         <div className="reveal">
@@ -139,5 +150,54 @@ export default function TeamPage() {
         </div>
       )}
     </main>
+  );
+}
+
+function Composer() {
+  const [projectType, setProjectType] = useState("launch");
+  const [topology, setTopology] = useState("streamAligned");
+  const [size, setSize] = useState(4);
+  const plan = useMemo(() => composeTeam({ projectType, topology, size }), [projectType, topology, size]);
+  return (
+    <div style={{ marginTop: "var(--s-6)" }}>
+      <span className="label">Project outcome</span>
+      <div className="flags" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
+        {Object.entries(PROJECT_TYPES).map(([k, p]) => (
+          <button key={k} className="flag" aria-pressed={projectType === k}
+            title={p.blurb}
+            style={projectType === k ? { borderColor: "var(--gold)", color: "var(--gold)" } : undefined}
+            onClick={() => setProjectType(k)}>{p.name}</button>
+        ))}
+      </div>
+      <span className="label">Team topology</span>
+      <div className="flags" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
+        {Object.entries(TOPOLOGIES).map(([k, t]) => (
+          <button key={k} className="flag" aria-pressed={topology === k}
+            title={t.blurb}
+            style={topology === k ? { borderColor: "var(--gold)", color: "var(--gold)" } : undefined}
+            onClick={() => setTopology(k)}>{t.name}</button>
+        ))}
+      </div>
+      <span className="label">Members</span>
+      <div className="flags" style={{ margin: "var(--s-3) 0 var(--s-6)" }}>
+        {[2, 3, 4, 5, 6, 7, 8].map((n) => (
+          <button key={n} className="flag num" aria-pressed={size === n}
+            style={size === n ? { borderColor: "var(--gold)", color: "var(--gold)" } : undefined}
+            onClick={() => setSize(n)}>{n}</button>
+        ))}
+      </div>
+      <p className="prose" style={{ marginBottom: "var(--s-4)" }}>{plan.headline}</p>
+      <dl className="ledger">
+        {plan.seats.map((seat, i) => (
+          <div key={seat.title}>
+            <dt><span className="num">{i + 1}</span> · {seat.title}</dt>
+            <dd><strong>{seat.archetype}.</strong> {seat.rationale}</dd>
+          </div>
+        ))}
+      </dl>
+      {plan.notes.map((n, i) => (
+        <p key={i} className="footnote" style={{ marginTop: "var(--s-4)" }}>{n}</p>
+      ))}
+    </div>
   );
 }

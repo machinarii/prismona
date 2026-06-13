@@ -7,8 +7,8 @@ import { itemsForTier } from "@/lib/items";
 import { TIME_LIMIT_MS } from "@/lib/norms";
 import { scoreTest } from "@/lib/scoring";
 import { encodeShareCode } from "@/lib/codec";
-import { loadAgeBand, saveAgeBand, saveProfile } from "@/lib/storage";
-import { AGE_BANDS, type AgeBand } from "@/lib/contrib";
+import { loadAgeBand, loadContinent, saveAgeBand, saveContinent, saveProfile } from "@/lib/storage";
+import { AGE_BANDS, CONTINENTS, type AgeBand, type Continent } from "@/lib/contrib";
 import { TimerRing } from "@/components/TimerRing";
 import type { Answer, Tier } from "@/lib/types";
 
@@ -22,7 +22,8 @@ const LIKERT: Array<[string, string]> = [
 
 function AgeBandRow() {
   const [band, setBand] = useState<AgeBand | null>(null);
-  useEffect(() => { setBand(loadAgeBand()); }, []);
+  const [continent, setContinent] = useState<Continent | null>(null);
+  useEffect(() => { setBand(loadAgeBand()); setContinent(loadContinent()); }, []);
   return (
     <div style={{ marginTop: "var(--s-8)" }}>
       <span className="label">Age range · optional</span>
@@ -43,10 +44,28 @@ function AgeBandRow() {
           </button>
         ))}
       </div>
+      <span className="label" style={{ display: "block", marginTop: "var(--s-6)" }}>Continent you&apos;re from · optional</span>
+      <div className="flags" style={{ marginTop: "var(--s-3)" }}>
+        {CONTINENTS.map((c) => (
+          <button
+            key={c}
+            className="flag"
+            aria-pressed={continent === c}
+            style={continent === c ? { borderColor: "var(--gold)", color: "var(--gold)" } : undefined}
+            onClick={() => {
+              const next = continent === c ? null : c;
+              setContinent(next);
+              saveContinent(next);
+            }}
+          >
+            {c}
+          </button>
+        ))}
+      </div>
       <p className="footnote" style={{ marginTop: "var(--s-3)" }}>
         Never required, never sent anywhere on its own. Used only if you later choose,
         on your results page, to contribute anonymized scores to our norms — and even
-        then only as this coarse band.
+        then only as these coarse selections.
       </p>
     </div>
   );
@@ -57,7 +76,7 @@ function Brief({ tier, onBegin }: { tier: Tier; onBegin: () => void }) {
   void quick;
   return (
     <div className="reveal">
-      <p className="label gold">{tier === "quick" ? "Quick Profile · 26 statements · ~5 minutes" : tier === "standard" ? "Standard Profile · 38 statements · ~8 minutes" : "Full Profile · 128 statements · ~20 minutes"}</p>
+      <p className="label gold">{tier === "quick" ? "Quick Test · 26 statements · ~5 minutes" : tier === "standard" ? "Standard Test · 38 statements · ~8 minutes" : "Full Test · 128 statements · ~20 minutes"}</p>
       <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "16px 0 24px", maxWidth: "18ch" }}>
         Answer as you are, not as you wish to be.
       </h1>
@@ -80,8 +99,7 @@ function Brief({ tier, onBegin }: { tier: Tier; onBegin: () => void }) {
       <AgeBandRow />
       <div style={{ marginTop: "var(--s-12)", display: "flex", gap: "var(--s-3)", alignItems: "center", flexWrap: "wrap" }}>
         <button className="btn solid" onClick={onBegin}>Begin the assessment</button>
-        {tier === "quick" && <Link className="cite" href="/assess?tier=standard">or the Standard Profile · 8 minutes →</Link>}
-        {tier === "standard" && <Link className="cite" href="/assess?tier=full">or the Full Profile · facet resolution →</Link>}
+        {tier === "quick" && <Link className="cite" href="/assess?tier=full">or take the full test · facet resolution →</Link>}
       </div>
     </div>
   );

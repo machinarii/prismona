@@ -11,6 +11,8 @@ import { compareDyad } from "./dyad";
 import { teamReport } from "./team";
 import { distinctiveness } from "./rarity";
 import { managementStyle } from "./management";
+import { composeAgents, composeTeam, PROJECT_TYPES, TOPOLOGIES } from "./compose";
+import { MCP_GUIDE } from "./mcpguide";
 import { ARCHETYPE_BASE_RATES } from "./data/baserates";
 import type { ReportKey, ShareProfile } from "./types";
 
@@ -30,7 +32,19 @@ const fail = (msg: string) => ({
 
 const CODE_DESC = "A PRSM share code (PRSM-…), the consent-carried profile token";
 
+export const SERVER_INSTRUCTIONS = "Prismona personality tools. Inputs are consent-carried PRSM share codes. Call usage_guide first for the full markdown guide with worked examples and binding rules (no verdicts, no screening, uncertainty quoted, observation overrides profile).";
+
 export function registerPrismonaTools(server: McpServer): void {
+  server.registerTool(
+    "usage_guide",
+    {
+      title: "How to use these tools (read first)",
+      description: "Returns the full markdown usage guide: which tool for which job, worked examples (companion setup, inbound communication, cofounder diligence, staffing), and the rules that bind any agent using Prismona data.",
+      inputSchema: {},
+    },
+    async () => ok(MCP_GUIDE),
+  );
+
   server.registerTool(
     "decode_profile",
     {
@@ -130,6 +144,38 @@ export function registerPrismonaTools(server: McpServer): void {
       const share = decodeShareCode(code);
       if (!share) return fail("invalid share code");
       return ok(agentPersona(profileFromShare(share), { flavor, role }));
+    },
+  );
+
+  server.registerTool(
+    "compose_team",
+    {
+      title: "Compose a team for an outcome",
+      description: "Forward composition: given a project outcome, a Team Topologies shape (Skelton & Pais, 2019), and a headcount (2-8), returns the seat-by-seat personality composition the evidence favors, in priority order, with the trust/execution gates applied.",
+      inputSchema: {
+        projectType: z.enum(Object.keys(PROJECT_TYPES) as [string, ...string[]]).describe("Project outcome"),
+        topology: z.enum(Object.keys(TOPOLOGIES) as [string, ...string[]]).describe("Team Topologies shape"),
+        size: z.number().min(2).max(8).describe("Number of members"),
+      },
+    },
+    async ({ projectType, topology, size }) => ok(composeTeam({ projectType, topology, size })),
+  );
+
+  server.registerTool(
+    "compose_agents",
+    {
+      title: "Compose an agent bench around a person",
+      description: "Given a person's share code, a project outcome, and a bench size (2-5), staffs agent roles + voice flavors that complement them: the seat their own profile covers is skipped, and anchor agents are staffed first where their traits run low. Generate each agent's full persona via agent_persona with the role/flavor returned.",
+      inputSchema: {
+        code: z.string().describe(CODE_DESC),
+        projectType: z.enum(Object.keys(PROJECT_TYPES) as [string, ...string[]]).describe("Project outcome"),
+        size: z.number().min(2).max(5).describe("Number of agents"),
+      },
+    },
+    async ({ code, projectType, size }) => {
+      const share = decodeShareCode(code);
+      if (!share) return fail("invalid share code");
+      return ok(composeAgents({ projectType, size }, profileFromShare(share)));
     },
   );
 

@@ -19,8 +19,8 @@ export default function Home() {
           its receipt.
         </p>
         <div style={{ display: "flex", gap: "var(--s-3)", flexWrap: "wrap", marginTop: "var(--s-12)" }}>
-          <Link href="/assess?tier=quick" className="btn solid">Begin · 5 minutes</Link>
-          <Link href="/assess?tier=full" className="btn">Full Profile · 126 items</Link>
+          <Link href="/assess?tier=quick" className="btn solid">Quick test · 5 minutes</Link>
+          <Link href="/assess?tier=full" className="btn">Full test · 126 items</Link>
         </div>
         <p className="footnote" style={{ marginTop: "var(--s-6)" }}>
           No account. No tracking. Your answers never leave this browser.<br />
@@ -33,7 +33,7 @@ export default function Home() {
       <section className="section">
         <div className="section-head">
           <span className="roman">I.</span>
-          <h2>Three editions of one instrument</h2>
+          <h2>Two tests, one instrument</h2>
         </div>
         <table className="tiers">
           <thead>
@@ -47,7 +47,7 @@ export default function Home() {
           <tbody>
             <tr>
               <td>
-                <span className="display" style={{ fontSize: "var(--t-lg)" }}>Quick Profile</span>
+                <span className="display" style={{ fontSize: "var(--t-lg)" }}>Quick Test</span>
                 <div className="footnote num">26 items · ~5 min</div>
               </td>
               <td className="prose" style={{ fontSize: "var(--t-sm)", lineHeight: 1.65 }}>
@@ -59,32 +59,14 @@ export default function Home() {
                 </span>
               </td>
               <td className="prose" style={{ fontSize: "var(--t-sm)", lineHeight: 1.65 }}>
-                Archetype blend, six trait percentiles with uncertainty bands,
-                trust profile, compatibility notes.
+                Your quick profile: archetype blend, six trait percentiles with
+                uncertainty bands, trust profile, compatibility notes.
               </td>
               <td><Link className="btn quiet" href="/assess?tier=quick">Begin</Link></td>
             </tr>
             <tr>
               <td>
-                <span className="display" style={{ fontSize: "var(--t-lg)" }}>Standard Profile</span>
-                <div className="footnote num">38 items · ~8 min</div>
-              </td>
-              <td className="prose" style={{ fontSize: "var(--t-sm)", lineHeight: 1.65 }}>
-                Eight minutes, noticeably sharper: one question from each facet of every
-                trait, so no two consecutive questions feel alike — accuracy without the
-                fatigue.
-                <span className="footnote" style={{ display: "block", marginTop: "6px" }}>
-                  IPIP-NEO-120 facet-balanced selection + Honesty-Humility; α ≈ .80 per domain.
-                </span>
-              </td>
-              <td className="prose" style={{ fontSize: "var(--t-sm)", lineHeight: 1.65 }}>
-                Everything in Quick, with tighter uncertainty bands on every score.
-              </td>
-              <td><Link className="btn quiet" href="/assess?tier=standard">Begin</Link></td>
-            </tr>
-            <tr>
-              <td>
-                <span className="display" style={{ fontSize: "var(--t-lg)" }}>Full Profile</span>
+                <span className="display" style={{ fontSize: "var(--t-lg)" }}>Full Test</span>
                 <div className="footnote num">126 items · ~20 min</div>
               </td>
               <td className="prose" style={{ fontSize: "var(--t-sm)", lineHeight: 1.65 }}>
@@ -96,8 +78,8 @@ export default function Home() {
                 </span>
               </td>
               <td className="prose" style={{ fontSize: "var(--t-sm)", lineHeight: 1.65 }}>
-                Everything in Quick, with thirty-facet resolution — where equal
-                scores stop hiding different people.
+                Your full profile: everything in Quick, with thirty-facet
+                resolution — where equal scores stop hiding different people.
               </td>
               <td><Link className="btn quiet" href="/assess?tier=full">Begin</Link></td>
             </tr>

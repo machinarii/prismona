@@ -6,6 +6,7 @@ import { aiContextBlock } from "@/lib/portable";
 import { agentPersona, PERSONA_FLAVORS, PERSONA_ROLES, type FlavorKey, type RoleKey } from "@/lib/persona";
 import { profileUrl } from "@/lib/shareview";
 import { managementStyle, type FeedbackDigest } from "@/lib/management";
+import { composeAgents, PROJECT_TYPES } from "@/lib/compose";
 import { encodeShareCode } from "@/lib/codec";
 import type { Profile } from "@/lib/types";
 
@@ -180,6 +181,16 @@ export function AiSheet({ profile }: { profile: Profile }) {
       </section>
 
       <section className="report-section">
+        <span className="label gold">Compose your agent team</span>
+        <p className="prose" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
+          Pick a project outcome and a bench size, and get the agent roles that
+          complement you — staffed around the seat your own profile already covers,
+          process-anchors first where you run low.
+        </p>
+        <AgentComposer profile={profile} />
+      </section>
+
+      <section className="report-section">
         <span className="label gold">Management style</span>
         <p className="prose" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
           {style.headline} Agents that work with you can refine it: the MCP tool{" "}
@@ -215,5 +226,42 @@ export function AiSheet({ profile }: { profile: Profile }) {
         </div>
       </section>
     </>
+  );
+}
+
+function AgentComposer({ profile }: { profile: Profile }) {
+  const [projectType, setProjectType] = useState("launch");
+  const [size, setSize] = useState(3);
+  const plan = composeAgents({ projectType, size }, profile);
+  return (
+    <div>
+      <div className="flags" style={{ marginBottom: "var(--s-3)" }}>
+        {Object.entries(PROJECT_TYPES).map(([k, p]) => (
+          <button key={k} className="flag" aria-pressed={projectType === k}
+            title={p.blurb}
+            style={projectType === k ? { borderColor: "var(--gold)", color: "var(--gold)" } : undefined}
+            onClick={() => setProjectType(k)}>{p.name}</button>
+        ))}
+      </div>
+      <div className="flags" style={{ marginBottom: "var(--s-4)" }}>
+        {[2, 3, 4, 5].map((n) => (
+          <button key={n} className="flag num" aria-pressed={size === n}
+            style={size === n ? { borderColor: "var(--gold)", color: "var(--gold)" } : undefined}
+            onClick={() => setSize(n)}>{n} agents</button>
+        ))}
+      </div>
+      <p className="footnote" style={{ marginBottom: "var(--s-4)" }}>{plan.youCover}</p>
+      <dl className="ledger">
+        {plan.agents.map((a) => (
+          <div key={a.seat}>
+            <dt>{a.seat}</dt>
+            <dd>
+              <span className="num">{PERSONA_ROLES[a.role].name} · {PERSONA_FLAVORS[a.flavor].name}</span> — {a.charter}
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <p className="footnote" style={{ marginTop: "var(--s-4)" }}>{plan.note}</p>
+    </div>
   );
 }

@@ -68,6 +68,8 @@
 
 **Tier 3 — moat data + distribution (small, compounding):** outcome follow-ups at retest (validity loop), context fields + state check-ins, QR-on-PDF, Slack/signature embed snippets, /compare deep links, standards crosswalk page.
 
+**Future integration — cultural values/norms:** cross-cultural norm sets and value-framework integration (trait distributions and reading calibrations vary by culture). The optional self-reported continent field (quiz brief, 2026-06-13) is collected now precisely to support this later; pairs with the values module below.
+
 **Tier 4 — instrument expansion (bigger lifts / external blockers):** SJT scenarios; forced-choice tier; ~~remote MCP~~ (✅ pulled forward — hosted endpoint live at /api/mcp since 2026-06-12, docs at /mcp); therapist export; client-side language analysis (exploratory); behavioral micro-tasks; **values PVQ-RR and attachment ECR-R (licensing — start inquiries early)**.
 
 ## C. Design direction

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { AGE_BANDS, normalizeCountry, validateContribution } from "../contrib";
+import { AGE_BANDS, CONTINENTS, normalizeCountry, validateContribution } from "../contrib";
 import { encodeShareCode } from "../codec";
 import { toPct } from "../scoring";
 import type { Profile, ReportKey } from "../types";
@@ -40,6 +40,11 @@ describe("validateContribution", () => {
   it("accepts a known age band and nothing else", () => {
     expect(validateContribution({ code: validCode, ageBand: AGE_BANDS[1] })!.ageBand).toBe(AGE_BANDS[1]);
     expect(validateContribution({ code: validCode, ageBand: "37" })).toBeNull();
+  });
+
+  it("accepts a known continent and rejects free-text", () => {
+    expect(validateContribution({ code: validCode, continent: CONTINENTS[0] })!.continent).toBe(CONTINENTS[0]);
+    expect(validateContribution({ code: validCode, continent: "Atlantis" })).toBeNull();
   });
 
   it("rejects invalid codes and malformed bodies without throwing", () => {

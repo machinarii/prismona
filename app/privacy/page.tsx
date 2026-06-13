@@ -92,8 +92,8 @@ export default function PrivacyPage() {
           If, and only if, you press <em>Contribute anonymously</em>, we receive exactly
           three things: the contents of your share code (six quantized trait scores,
           edition, date, and consistency index — the same payload you could text to a
-          friend); the age range you optionally selected before the assessment, as a
-          coarse band only; and a two-letter country code derived from the network
+          friend); the age range and continent you optionally selected before the assessment, as
+          coarse selections only; and a two-letter country code derived from the network
           request at our edge, stored without the IP address it came from. We never ask
           your device for its location, never store precise location, and never attach
           names, identifiers, cookies, or user agents to a contribution. The purpose is

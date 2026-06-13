@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { hasContributed, loadAgeBand, markContributed } from "@/lib/storage";
+import { hasContributed, loadAgeBand, loadContinent, markContributed } from "@/lib/storage";
 import type { Profile } from "@/lib/types";
 import { encodeShareCode } from "@/lib/codec";
 
@@ -26,7 +26,7 @@ export function Contribute({ profile }: { profile: Profile }) {
       const res = await fetch("/api/contribute", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(ageBand ? { code, ageBand } : { code }),
+        body: JSON.stringify({ code, ...(ageBand ? { ageBand } : {}), ...(loadContinent() ? { continent: loadContinent() } : {}) }),
       });
       if (res.status === 503) { setState("paused"); return; }
       if (!res.ok) { setState("error"); return; }

@@ -17,7 +17,7 @@ function EmptyState() {
       </h1>
       <p className="prose">
         The manual is generated from your measured profile. Take the assessment
-        first — five minutes of first instincts is all the Quick Profile asks.
+        first — five minutes of first instincts is all the quick test asks.
       </p>
       <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-12)", flexWrap: "wrap" }}>
         <Link href="/assess?tier=quick" className="btn solid">Begin · 5 minutes</Link>
