@@ -57,7 +57,7 @@ function Brief({ tier, onBegin }: { tier: Tier; onBegin: () => void }) {
   void quick;
   return (
     <div className="reveal">
-      <p className="label gold">{tier === "quick" ? "Quick Profile · 26 statements · ~5 minutes" : tier === "standard" ? "Standard Profile · 38 statements · ~8 minutes" : "Full Index · 128 statements · ~20 minutes"}</p>
+      <p className="label gold">{tier === "quick" ? "Quick Profile · 26 statements · ~5 minutes" : tier === "standard" ? "Standard Profile · 38 statements · ~8 minutes" : "Full Profile · 128 statements · ~20 minutes"}</p>
       <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "16px 0 24px", maxWidth: "18ch" }}>
         Answer as you are, not as you wish to be.
       </h1>
@@ -81,7 +81,7 @@ function Brief({ tier, onBegin }: { tier: Tier; onBegin: () => void }) {
       <div style={{ marginTop: "var(--s-12)", display: "flex", gap: "var(--s-3)", alignItems: "center", flexWrap: "wrap" }}>
         <button className="btn solid" onClick={onBegin}>Begin the assessment</button>
         {tier === "quick" && <Link className="cite" href="/assess?tier=standard">or the Standard Profile · 8 minutes →</Link>}
-        {tier === "standard" && <Link className="cite" href="/assess?tier=full">or the Full Index · facet resolution →</Link>}
+        {tier === "standard" && <Link className="cite" href="/assess?tier=full">or the Full Profile · facet resolution →</Link>}
       </div>
     </div>
   );

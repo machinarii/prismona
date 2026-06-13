@@ -20,7 +20,7 @@ export default function Home() {
         </p>
         <div style={{ display: "flex", gap: "var(--s-3)", flexWrap: "wrap", marginTop: "var(--s-12)" }}>
           <Link href="/assess?tier=quick" className="btn solid">Begin · 5 minutes</Link>
-          <Link href="/assess?tier=full" className="btn">Full Index · 126 items</Link>
+          <Link href="/assess?tier=full" className="btn">Full Profile · 126 items</Link>
         </div>
         <p className="footnote" style={{ marginTop: "var(--s-6)" }}>
           No account. No tracking. Your answers never leave this browser.<br />
@@ -84,7 +84,7 @@ export default function Home() {
             </tr>
             <tr>
               <td>
-                <span className="display" style={{ fontSize: "var(--t-lg)" }}>Full Index</span>
+                <span className="display" style={{ fontSize: "var(--t-lg)" }}>Full Profile</span>
                 <div className="footnote num">126 items · ~20 min</div>
               </td>
               <td className="prose" style={{ fontSize: "var(--t-sm)", lineHeight: 1.65 }}>
