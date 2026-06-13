@@ -1,5 +1,6 @@
 import type { Profile, Snapshot, Tier } from "./types";
 import { pushSnapshot, snapshotOf } from "./timeline";
+import { encodeShareCode } from "./codec";
 import type { InterestProfile } from "./interests";
 import { AGE_BANDS, CONTINENTS, type AgeBand, type Continent } from "./contrib";
 
@@ -7,12 +8,34 @@ import { AGE_BANDS, CONTINENTS, type AgeBand, type Continent } from "./contrib";
 const key = (tier: Tier) => `prismona.profile.${tier}`;
 const HISTORY_KEY = "prismona.history";
 const INTERESTS_KEY = "prismona.interests";
+const ARCHIVE_KEY = "prismona.archive";
+const ARCHIVE_CAP = 12;
+
+// Full prior results, kept in their entirety (not just snapshots) so a retake
+// never loses a past blueprint. Deduped by share code — identical results
+// merge, distinct ones (even same day) are all kept, capped at ARCHIVE_CAP.
+export function loadArchive(): Profile[] {
+  try {
+    const raw = localStorage.getItem(ARCHIVE_KEY);
+    const a = raw ? (JSON.parse(raw) as Profile[]) : [];
+    return Array.isArray(a) ? a.filter((p) => p && p.v === 1) : [];
+  } catch { return []; }
+}
+
+function archiveProfile(p: Profile): void {
+  try {
+    const code = encodeShareCode(p);
+    const kept = loadArchive().filter((q) => encodeShareCode(q) !== code);
+    localStorage.setItem(ARCHIVE_KEY, JSON.stringify([...kept, p].slice(-ARCHIVE_CAP)));
+  } catch { /* ignore */ }
+}
 
 export function saveProfile(p: Profile): void {
   try {
     localStorage.setItem(key(p.tier), JSON.stringify(p));
     localStorage.setItem("prismona.latest", p.tier);
     localStorage.setItem(HISTORY_KEY, JSON.stringify(pushSnapshot(loadHistory(), snapshotOf(p))));
+    archiveProfile(p);
   } catch { /* storage unavailable (private mode etc.) — session-only */ }
 }
 
@@ -127,9 +150,11 @@ export function hasContributed(code: string): boolean {
 export function clearProfiles(): void {
   try {
     localStorage.removeItem(key("quick"));
+    localStorage.removeItem(key("standard"));
     localStorage.removeItem(key("full"));
     localStorage.removeItem("prismona.latest");
     localStorage.removeItem(HISTORY_KEY);
     localStorage.removeItem(INTERESTS_KEY);
+    localStorage.removeItem(ARCHIVE_KEY);
   } catch { /* ignore */ }
 }

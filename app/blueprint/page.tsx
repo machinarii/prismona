@@ -22,7 +22,7 @@ import { RelationshipSheet } from "@/components/RelationshipSheet";
 import { CitationList, CiteMarks } from "@/components/Citations";
 import { buildCitationIndex } from "@/lib/citations";
 import { TIER_LABELS, TRAIT_LABELS } from "@/lib/norms";
-import { loadHistory, loadInterests, loadLatest, loadProfile } from "@/lib/storage";
+import { loadArchive, loadHistory, loadInterests, loadLatest, loadProfile } from "@/lib/storage";
 import { traitDrift, type DriftReport } from "@/lib/timeline";
 import { BandBar } from "@/components/BandBar";
 import type { Profile, ReportKey } from "@/lib/types";
@@ -124,6 +124,29 @@ function DocActions({ profile, interests }: { profile: Profile; interests: Inter
         Download JSON
       </button>
     </div>
+  );
+}
+
+function PastResults({ current }: { current: Profile }) {
+  const [archive, setArchive] = useState<Profile[]>([]);
+  useEffect(() => { setArchive(loadArchive()); }, []);
+  const currentCode = encodeShareCode(current);
+  const past = archive.filter((p) => encodeShareCode(p) !== currentCode).reverse();
+  if (!past.length) return null;
+  return (
+    <section className="report-section no-print">
+      <span className="label">Past results</span>
+      <p className="footnote" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
+        Every blueprint you&apos;ve taken is kept here in full — open any to view it.
+      </p>
+      <div className="flags">
+        {past.map((p) => (
+          <Link key={encodeShareCode(p)} href={`/p#${encodeShareCode(p)}`} className="flag num" style={{ textDecoration: "none" }}>
+            {longDate(p.date)} · {p.tier}
+          </Link>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -342,6 +365,8 @@ function Report({ profile, drift, interests }: {
           <Link href="/methodology" className="cite" style={{ color: "var(--ivory-dim)" }}>Method page</Link>.
         </p>
       </section>
+
+      <PastResults current={profile} />
 
       <section className="report-section">
         <span className="label">Notes</span>
