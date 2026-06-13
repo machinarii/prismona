@@ -5,6 +5,7 @@ import Link from "next/link";
 
 const LINKS: Array<[string, string]> = [
   ["/results", "Profile"],
+  ["/observe", "Observe"],
   ["/compare", "Compare 1:1"],
   ["/team", "Team Composition"],
   ["/mcp", "MCP"],
