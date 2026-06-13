@@ -3,20 +3,19 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { aiContextBlock } from "@/lib/portable";
-import { agentPersona, PERSONA_FLAVORS, PERSONA_ROLES, type FlavorKey } from "@/lib/persona";
+import { agentPersona, PERSONA_FLAVORS, type FlavorKey } from "@/lib/persona";
 import { profileUrl } from "@/lib/shareview";
 import { managementStyle, type FeedbackDigest } from "@/lib/management";
-import { composeAgents, PROJECT_TYPES } from "@/lib/compose";
 import { encodeShareCode } from "@/lib/codec";
 import type { Profile } from "@/lib/types";
 
 function CopyBlock({ summary, action, text }: { summary: string; action: string; text: string }) {
   const [copied, setCopied] = useState(false);
   return (
-    <details open style={{ marginBottom: "var(--s-8)" }}>
-      <summary className="btn quiet" style={{ listStyle: "none", cursor: "pointer", display: "inline-block" }}>
+    <div style={{ marginBottom: "var(--s-8)" }}>
+      <span className="label gold" style={{ display: "block", marginBottom: "var(--s-3)" }}>
         {summary}
-      </summary>
+      </span>
       <pre
         className="footnote num"
         style={{
@@ -37,7 +36,7 @@ function CopyBlock({ summary, action, text }: { summary: string; action: string;
       >
         {copied ? "Copied" : action}
       </button>
-    </details>
+    </div>
   );
 }
 
@@ -124,11 +123,12 @@ export function AiSheet({ profile }: { profile: Profile }) {
         <p className="prose">
           Two blocks to paste into Claude, ChatGPT, or any assistant: the{" "}
           <em>context</em> teaches it who you are; the <em>persona</em> calibrates it
-          to complement you. You copy them — nothing is sent.
+          to complement you.
         </p>
       </section>
       <section className="report-section">
-        <CopyBlock summary="AI context" action="Copy AI context" text={aiContextBlock(profile)} />
+        <CopyBlock summary="Agent context" action="Copy Agent context" text={aiContextBlock(profile)} />
+        <CopyBlock summary="Agent persona" action="Copy Agent persona" text={personaText} />
 
         <div style={{ margin: "var(--s-4) 0 var(--s-6)" }}>
           <span className="label">Voice flavor · optional</span>
@@ -149,7 +149,6 @@ export function AiSheet({ profile }: { profile: Profile }) {
           </p>
         </div>
 
-        <CopyBlock summary="Companion persona" action="Copy companion persona" text={personaText} />
         <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-4)", flexWrap: "wrap" }}>
           <CopyAiLink profile={profile} />
         </div>
@@ -195,53 +194,6 @@ export function AiSheet({ profile }: { profile: Profile }) {
           </div>
         </div>
       </section>
-
-      <section className="report-section">
-        <span className="label gold">Compose your agent team</span>
-        <p className="prose" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
-          Pick a project outcome and a bench size, and get the agent roles that
-          complement you — staffed around the seat your own profile already covers,
-          process-anchors first where you run low.
-        </p>
-        <AgentComposer profile={profile} />
-      </section>
     </>
-  );
-}
-
-function AgentComposer({ profile }: { profile: Profile }) {
-  const [projectType, setProjectType] = useState("launch");
-  const [size, setSize] = useState(3);
-  const plan = composeAgents({ projectType, size }, profile);
-  return (
-    <div>
-      <div className="flags" style={{ marginBottom: "var(--s-3)" }}>
-        {Object.entries(PROJECT_TYPES).map(([k, p]) => (
-          <button key={k} className="flag" aria-pressed={projectType === k}
-            title={p.blurb}
-            style={projectType === k ? { borderColor: "var(--gold)", color: "var(--gold)" } : undefined}
-            onClick={() => setProjectType(k)}>{p.name}</button>
-        ))}
-      </div>
-      <div className="flags" style={{ marginBottom: "var(--s-4)" }}>
-        {[2, 3, 4, 5].map((n) => (
-          <button key={n} className="flag num" aria-pressed={size === n}
-            style={size === n ? { borderColor: "var(--gold)", color: "var(--gold)" } : undefined}
-            onClick={() => setSize(n)}>{n} agents</button>
-        ))}
-      </div>
-      <p className="footnote" style={{ marginBottom: "var(--s-4)" }}>{plan.youCover}</p>
-      <dl className="ledger">
-        {plan.agents.map((a) => (
-          <div key={a.seat}>
-            <dt>{a.seat}</dt>
-            <dd>
-              <span className="num">{PERSONA_ROLES[a.role].name} · {PERSONA_FLAVORS[a.flavor].name}</span> — {a.charter}
-            </dd>
-          </div>
-        ))}
-      </dl>
-      <p className="footnote" style={{ marginTop: "var(--s-4)" }}>{plan.note}</p>
-    </div>
   );
 }

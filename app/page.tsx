@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <main className="shell">
       {/* ------------------------------------------------ hero */}
-      <section style={{ padding: "clamp(64px, 12vh, 140px) 0 0" }}>
+      <section style={{ padding: "var(--s-16) 0 0" }}>
         <p className="label gold">A research-grade personality instrument</p>
         <h1
           className="display"

@@ -231,7 +231,7 @@ export default function MethodPage() {
         </ol>
         <p className="footnote" style={{ marginTop: "var(--s-8)" }}>
           The full 65-paper annotated bibliography lives in the project repository.
-          Ready to be measured? <Link href="/assess?tier=quick" className="cite" style={{ color: "var(--ivory-dim)" }}>Begin the assessment</Link>.
+          Ready to be measured? <Link href="/assess?tier=quick" className="cite" style={{ color: "var(--ivory-dim)" }}>Begin the Test</Link>.
         </p>
       </section>
     </main>

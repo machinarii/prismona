@@ -18,6 +18,7 @@ import { ObserverLens } from "@/components/ObserverLens";
 import { ManualSheet } from "@/components/ManualSheet";
 import { AiSheet } from "@/components/AiSheet";
 import { BecomingSheet } from "@/components/BecomingSheet";
+import { RelationshipSheet } from "@/components/RelationshipSheet";
 import { CitationList, CiteMarks } from "@/components/Citations";
 import { buildCitationIndex } from "@/lib/citations";
 import { TIER_LABELS, TRAIT_LABELS } from "@/lib/norms";
@@ -31,7 +32,7 @@ const FACET_DOMAIN_ORDER: ReportKey[] = ["O", "C", "E", "A", "ES", "H"];
 
 function EmptyState() {
   return (
-    <main className="shell" style={{ paddingTop: "clamp(64px, 12vh, 140px)", paddingBottom: "var(--s-24)" }}>
+    <main className="shell" style={{ paddingTop: "var(--s-16)", paddingBottom: "var(--s-24)" }}>
       <p className="label gold">Your profile</p>
       <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "16px 0 24px", maxWidth: "18ch" }}>
         Nothing measured yet.
@@ -184,8 +185,7 @@ function Report({ profile, drift, interests }: {
       {/* I — archetype */}
       <section className="arch-display">
         <p className="label gold num">
-          {TIER_LABELS[profile.tier]} · {longDate(profile.date)} ·
-          primary archetype
+          Archetype based on {profile.tier} test · {longDate(profile.date)}
         </p>
         <div className="arch-figure-row">
           <div>
@@ -203,10 +203,6 @@ function Report({ profile, drift, interests }: {
           <TraitFigure profile={profile} />
         </div>
         <RarityLine profile={profile} topName={top?.name} />
-        <p className="footnote" style={{ marginTop: "var(--s-6)" }}>
-          You are the percentages, not the label: archetypes narrate your dimensional
-          scores below, never replace them (Gerlach et al., 2018).
-        </p>
         <DocActions profile={profile} interests={interests} />
       </section>
 
@@ -379,6 +375,18 @@ function Report({ profile, drift, interests }: {
         </p>
       </section>
 
+      <section className="report-section">
+        <span className="label gold">Notes</span>
+        <p className="footnote" style={{ marginTop: "var(--s-3)" }}>
+          Estimated via Mahalanobis distance under meta-analytic trait correlations,
+          against provisional norms — method, not mysticism.
+        </p>
+        <p className="footnote" style={{ marginTop: "var(--s-3)" }}>
+          You are the percentages, not the label: archetypes narrate your dimensional
+          scores above, never replace them (Gerlach et al., 2018).
+        </p>
+      </section>
+
       <CitationList refs={citations.refs} />
     </main>
   );
@@ -415,10 +423,11 @@ function ResultsInner() {
 }
 
 const VIEWS = [
-  { key: "breakdown" as const, name: "My breakdown", desc: "The full report, for you" },
-  { key: "manual" as const, name: "Working with me", desc: "The one-pager, for others" },
-  { key: "ai" as const, name: "For my AI", desc: "Context & companion persona" },
-  { key: "becoming" as const, name: "Becoming", desc: "Desired self vs. measured self" },
+  { key: "breakdown" as const, name: "My breakdown", desc: "Full report for you" },
+  { key: "manual" as const, name: "Working with me", desc: "Concise report for others" },
+  { key: "relationship" as const, name: "Relationship with me", desc: "Concise report for lover" },
+  { key: "ai" as const, name: "For my AI", desc: "Agent context & persona" },
+  { key: "becoming" as const, name: "Calibration", desc: "Desired qualities" },
 ];
 
 function CodeActions({ profile }: { profile: Profile }) {
@@ -433,8 +442,8 @@ function CodeActions({ profile }: { profile: Profile }) {
   return (
     <>
       <span className="num da-code" title="Your share code">{code}</span>
-      <button onClick={() => copy(code, "code")}>{copied === "code" ? "Copied" : "Copy code"}</button>
-      <button onClick={() => copy(profileUrl(profile, location.origin), "link")}>{copied === "link" ? "Copied" : "Copy link"}</button>
+      <button onClick={() => copy(code, "code")}>{copied === "code" ? "Code copied" : "Copy code"}</button>
+      <button onClick={() => copy(profileUrl(profile, location.origin), "link")}>{copied === "link" ? "Link copied" : "Copy link"}</button>
     </>
   );
 }
@@ -442,10 +451,10 @@ function CodeActions({ profile }: { profile: Profile }) {
 function ProfileViews({ profile, drift, interests }: {
   profile: Profile; drift: DriftReport | null; interests: InterestProfile | null;
 }) {
-  const [view, setView] = useState<"breakdown" | "manual" | "ai" | "becoming">("breakdown");
+  const [view, setView] = useState<"breakdown" | "manual" | "relationship" | "ai" | "becoming">("breakdown");
   return (
     <>
-      <div className="shell no-print" style={{ paddingTop: "clamp(64px, 12vh, 140px)" }}>
+      <div className="shell no-print" style={{ paddingTop: "var(--s-16)" }}>
         <div className="view-bar">
           <div className="view-tabs" role="tablist" aria-label="Profile views">
             {VIEWS.map((v) => (
@@ -465,6 +474,7 @@ function ProfileViews({ profile, drift, interests }: {
       </div>
       {view === "breakdown" && <Report profile={profile} drift={drift} interests={interests} />}
       {view === "manual" && <main className="shell reveal"><ManualSheet profile={profile} showBack={false} /></main>}
+      {view === "relationship" && <main className="shell reveal"><RelationshipSheet profile={profile} showBack={false} /></main>}
       {view === "ai" && <main className="shell reveal"><AiSheet profile={profile} /></main>}
       {view === "becoming" && <main className="shell reveal"><BecomingSheet profile={profile} /></main>}
     </>
