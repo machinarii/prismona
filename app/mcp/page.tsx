@@ -37,7 +37,7 @@ function Snippet({ children }: { children: string }) {
 export default function McpPage() {
   return (
     <main className="shell" style={{ paddingTop: "var(--s-16)" }}>
-      <p className="label gold">Model Context Protocol</p>
+      <p className="label gold">Connector between you and AI</p>
       <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "16px 0 24px", maxWidth: "20ch" }}>
         Plug your personality blueprint into your agent.
       </h1>
