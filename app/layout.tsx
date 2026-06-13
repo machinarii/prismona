@@ -35,7 +35,7 @@ export const viewport: Viewport = { themeColor: "#16140f" };
 function PrismMark() {
   return (
     <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
-      <path d="M9 1.8 16.4 16H1.6L9 1.8Z" fill="none" stroke="currentColor" strokeWidth="1" />
+      <path d="M9 1.8 16.4 16H1.6L9 1.8Z" fill="none" stroke="currentColor" strokeWidth="1.34" />
     </svg>
   );
 }
@@ -69,7 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <p className="footnote">
               Instruments: Mini-IPIP (Donnellan et al., 2006) · IPIP-NEO-120 (Johnson, 2014) ·
               IPIP HEXACO Honesty-Humility (Ashton, Lee &amp; Goldberg, 2007). Public domain via
-              the International Personality Item Pool. <Link href="/method">Full method &amp; citations</Link>.
+              the International Personality Item Pool. <Link href="/methodology">Full method &amp; citations</Link>.
             </p>
             <p className="footnote">
               Prismona is made by Sensing Apparatus LLC. © 2026 Sensing Apparatus LLC.

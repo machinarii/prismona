@@ -51,7 +51,7 @@ export default function ObservePage() {
   if (stage === "brief") {
     return (
       <main className="shell" style={{ paddingTop: "var(--s-16)" }}>
-        <p className="label gold">Observer rating · 12 statements · ~2 minutes</p>
+        <p className="label gold">Observer rating</p>
         <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "16px 0 24px", maxWidth: "20ch" }}>
           Rate them as you actually see them.
         </h1>
@@ -84,7 +84,10 @@ export default function ObservePage() {
           {codeErr && <span className="flag warn" style={{ display: "inline-block", marginTop: "var(--s-3)" }}>{codeErr}</span>}
         </div>
         <div style={{ marginTop: "var(--s-8)" }}>
-          <button className="btn solid" onClick={begin}>Begin</button>
+          <button className="btn solid" onClick={begin} style={{ textAlign: "center" }}>
+            Quick Survey
+            <span style={{ display: "block", fontSize: "0.72em", opacity: 0.7, marginTop: "3px" }}>2min</span>
+          </button>
         </div>
       </main>
     );

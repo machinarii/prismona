@@ -85,11 +85,11 @@ export function registerPrismonaTools(server: McpServer): void {
     "compare_dyad",
     {
       title: "Compare two profiles",
-      description: "Evidence-aligned pairing report for two share codes: 0–100 fit gauge, strengths, and top frictions with structured conversation prompts. Purpose-specific (romantic / cofounder / colleague). Never a binary verdict.",
+      description: "Evidence-aligned pairing report for two share codes: 0–100 fit gauge, strengths, and top frictions with structured conversation prompts. Purpose-specific (romantic / cofounder / colleague / manager). Never a binary verdict.",
       inputSchema: {
         codeA: z.string().describe(CODE_DESC),
         codeB: z.string().describe("The second person's PRSM share code"),
-        purpose: z.enum(["romantic", "cofounder", "colleague"]).describe("Which pairing lens to apply"),
+        purpose: z.enum(["romantic", "cofounder", "colleague", "manager"]).describe("Which pairing lens to apply"),
       },
     },
     async ({ codeA, codeB, purpose }) => {

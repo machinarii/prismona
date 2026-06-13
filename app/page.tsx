@@ -10,7 +10,7 @@ export default function Home() {
           className="display"
           style={{ fontSize: "var(--t-hero)", maxWidth: "20ch", margin: "20px 0 28px" }}
         >
-          Carry your personality blueprint to people and agents.
+          Portable personality blueprint for people and agents.
         </h1>
         <p className="prose" style={{ fontSize: "var(--t-lg)", lineHeight: 1.5, maxWidth: "46ch" }}>
           Five minutes of honest answers becomes a portrait of how you&apos;re
@@ -177,7 +177,7 @@ export default function Home() {
           Every result screen cites its evidence.
         </p>
         <div style={{ marginTop: "var(--s-8)" }}>
-          <Link href="/method" className="cite">Read the full methodology →</Link>
+          <Link href="/methodology" className="cite">Read the full methodology →</Link>
         </div>
       </section>
     </main>
