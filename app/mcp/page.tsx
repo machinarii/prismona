@@ -137,7 +137,7 @@ export default function McpPage() {
           are decoded in-process, nothing is stored, and no identity is attached.
           Outputs are probabilistic readings with stated limits — never verdicts, and
           never a basis for screening anyone.{" "}
-          <Link href="/method" className="cite">Methodology</Link> ·{" "}
+          <Link href="/methodology" className="cite">Methodology</Link> ·{" "}
           <Link href="/privacy" className="cite">Privacy Policy</Link>
         </p>
       </section>

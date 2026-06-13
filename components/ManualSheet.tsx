@@ -68,7 +68,7 @@ export function ManualSheet({ profile, showBack = true }: { profile: Profile; sh
         <p className="footnote" style={{ maxWidth: "72ch" }}>
           Trait–workplace links draw on Barrick &amp; Mount (1991), Judge et al. (2002),
           and Bell (2007); the full evidence base is on the{" "}
-          <Link href="/method" className="cite" style={{ color: "var(--ivory-dim)" }}>Methodology page</Link>.
+          <Link href="/methodology" className="cite" style={{ color: "var(--ivory-dim)" }}>Methodology page</Link>.
           Personality describes tendencies at modest effect sizes — update this manual
           with what colleagues actually observe.
         </p>

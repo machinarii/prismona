@@ -32,7 +32,7 @@ export function CitationList({ refs }: { refs: string[] }) {
       </ol>
       <p className="footnote" style={{ marginTop: "var(--s-4)" }}>
         The complete evidence base, including instrument validation, is on the{" "}
-        <Link href="/method" className="cite" style={{ color: "var(--ivory-dim)" }}>Method page</Link>.
+        <Link href="/methodology" className="cite" style={{ color: "var(--ivory-dim)" }}>Method page</Link>.
       </p>
     </section>
   );

@@ -40,5 +40,5 @@ Prismona profiles are consent-carried personality IDs. Every tool here takes a *
 4. \`report_collaboration\` takes observations about collaboration only — never evaluations of the person.
 5. Behavior you observe overrides the profile wherever they conflict.
 
-Methodology and full citations: https://prismona.vercel.app/method
+Methodology and full citations: https://prismona.vercel.app/methodology
 `;

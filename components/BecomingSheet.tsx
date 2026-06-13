@@ -109,7 +109,7 @@ export function BecomingSheet({ profile }: { profile: Profile }) {
         <p className="footnote" style={{ marginTop: "var(--s-4)" }}>
           Self-discrepancy: Higgins (1987) · possible selves: Markus &amp; Nurius (1986) ·
           volitional trait change: Hudson &amp; Fraley (2015). Full references on the{" "}
-          <Link href="/method" className="cite" style={{ color: "var(--ivory-dim)" }}>Methodology page</Link>.
+          <Link href="/methodology" className="cite" style={{ color: "var(--ivory-dim)" }}>Methodology page</Link>.
         </p>
       </section>
 

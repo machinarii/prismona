@@ -3,7 +3,10 @@ const nextConfig = {
   reactStrictMode: true,
   outputFileTracingRoot: import.meta.dirname,
   async redirects() {
-    return [{ source: "/results", destination: "/profile", permanent: true }];
+    return [
+      { source: "/results", destination: "/profile", permanent: true },
+      { source: "/method", destination: "/methodology", permanent: true },
+    ];
   },
 };
 export default nextConfig;

@@ -55,7 +55,7 @@ export interface Profile {
   quality: Quality;
 }
 
-export type Purpose = "romantic" | "cofounder" | "colleague";
+export type Purpose = "romantic" | "cofounder" | "colleague" | "manager";
 
 export interface Friction {
   title: string;

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Method — Prismona",
+  title: "Methodology — Prismona",
   description:
     "Instruments, scoring mathematics, quality control, archetype discipline, dyad evidence, and full citations behind Prismona.",
 };
@@ -47,7 +47,7 @@ const ES_FACET_MAP: Array<[string, string]> = [
 export default function MethodPage() {
   return (
     <main className="shell" style={{ paddingTop: "var(--s-16)" }}>
-      <p className="label gold">Method</p>
+      <p className="label gold">Science backed methodology</p>
       <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "16px 0 24px", maxWidth: "18ch" }}>
         Every claim, with its receipt.
       </h1>
