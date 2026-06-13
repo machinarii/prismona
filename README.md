@@ -10,7 +10,8 @@ A research-grade personality & compatibility platform — the scientific honesty
 |---|---|
 | `/` | Editorial landing — the two editions, what you receive, claims discipline |
 | `/assess?tier=quick` | Quick Profile: 26 items (Mini-IPIP + H), 20 s/question timer |
-| `/assess?tier=full` | Full Index: 126 items (IPIP-NEO-120 + H), 30-facet resolution |
+| `/assess?tier=standard` | Standard Profile: 38 items, facet-balanced and domain-interleaved (fatigue-aware), α ≈ .80 |
+| `/assess?tier=full` | Full Index: 126 scored items (IPIP-NEO-120 + H) + 2 attention checks, 30-facet resolution |
 | `/results` | Two views behind a folio tab — **My breakdown** (archetype blend, trait figure, percentiles with ±1 SEM bands, trajectory, interests plate, facets, distillation, applied readings, rarity, share/AI blocks, confidence) and **Working with me** (the manual, inline) |
 | `/interests` | RIASEC inventory runner (O*NET Mini-IP, 30 items, untimed) — results render inside the profile; reached from there, not the nav |
 | `/manual` | The working-with-me one-pager as a standalone, code-addressable route (`/manual#PRSM-…`) |
