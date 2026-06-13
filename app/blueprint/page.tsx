@@ -104,7 +104,7 @@ function DocActions({ profile, interests }: { profile: Profile; interests: Inter
     <div className="doc-actions no-print">
       {profile.tier !== "full"
         ? <Link href="/assess?tier=full" className="va-primary">Take full test</Link>
-        : <Link href="/assess?tier=quick">Retake quick test</Link>}
+        : <Link href="/assess?tier=quick" className="va-primary">Retake quick test</Link>}
       <Link href={`/assess?tier=${profile.tier}`}>Retake</Link>
       <button onClick={() => window.print()}>Save as PDF</button>
       <button

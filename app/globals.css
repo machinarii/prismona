@@ -352,9 +352,6 @@ dl.ledger dd { color: var(--ivory-dim); max-width: var(--measure); }
   font-size: var(--t-xs);
   color: var(--ivory-dim);
   letter-spacing: 0.06em;
-  border: 1px solid var(--hairline);
-  border-radius: 3px;
-  padding: 9px 16px;
 }
 .doc-actions .da-sep { display: none; }
 .view-tab {
