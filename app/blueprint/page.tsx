@@ -308,7 +308,7 @@ function Report({ profile, drift, interests }: {
             together, and the frictions most worth a conversation, with the conversation
             included.
           </p>
-          <Link href="/compare" className="btn">Check Compatibility</Link>
+          <Link href="/compare" className="btn quiet" style={{ display: "block", maxWidth: "480px", textAlign: "center" }}>Check Compatibility</Link>
         </div>
         <ObserverLens profile={profile} />
         <Contribute profile={profile} />
