@@ -106,6 +106,7 @@ function DocActions({ profile, interests }: { profile: Profile; interests: Inter
         ? <Link href="/assess?tier=full" className="va-primary">Take full test</Link>
         : <Link href="/assess?tier=quick" className="va-primary">Retake quick test</Link>}
       <Link href={`/assess?tier=${profile.tier}`}>Retake</Link>
+      <CodeActions profile={profile} />
       <button onClick={() => window.print()}>Save as PDF</button>
       <button
         onClick={() => {
@@ -115,15 +116,13 @@ function DocActions({ profile, interests }: { profile: Profile; interests: Inter
           );
           const a = document.createElement("a");
           a.href = URL.createObjectURL(blob);
-          a.download = `prismona-profile-${profile.date}.json`;
+          a.download = `prismona-blueprint-${profile.date}.json`;
           a.click();
           URL.revokeObjectURL(a.href);
         }}
       >
         Download JSON
       </button>
-      <span className="da-sep" aria-hidden>·</span>
-      <CodeActions profile={profile} />
     </div>
   );
 }
