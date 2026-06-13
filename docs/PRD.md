@@ -76,7 +76,7 @@ A personality assessment people take as seriously as a credit score and enjoy as
 Accounts + profile persistence; invite flow on top of the existing share-code dyad compare; shareable archetype cards (growth engine); norms recomputed from own user base. (IPIP-NEO-120 facet tier and dyad reports already shipped in MVP — see §6.1.)
 
 ### 6.3 v2 (months 6–12)
-Schwartz PVQ-RR values module + value-congruence scoring; ECR-R attachment module (romance vertical); cofounder team report (3+ people, diversity index); hiring/role-fit module **only after** criterion validation study + legal review (EEOC adverse-impact analysis, AERA/APA/NCME Standards).
+Schwartz PVQ-RR values module + value-congruence scoring; ECR-R attachment module (romance vertical); cofounder team report (3+ people, diversity index); **Claude Connector** distribution (hosted MCP endpoint registered as a Claude custom connector — one-click add + OAuth 2.1/PKCE for authenticated private-profile access; layered on the shipped endpoint, see `research/MCP-AND-CLAUDE-CONNECTOR.md`); hiring/role-fit module **only after** criterion validation study + legal review (EEOC adverse-impact analysis, AERA/APA/NCME Standards).
 
 ## 7. Compatibility engine (design notes)
 
