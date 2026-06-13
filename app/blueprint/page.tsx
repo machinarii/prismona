@@ -296,28 +296,27 @@ function Report({ profile, drift, interests }: {
             <p className="footnote" style={{ marginTop: "var(--s-3)" }}>{s.caveat}</p>
           </div>
         ))}
-        <p className="prose" style={{ margin: "var(--s-8) 0 var(--s-4)" }}>
-          For a pairing read against the evidence — not notes, but your two actual
-          profiles — exchange share codes. Yours encodes six trait scores and nothing
-          else: no answers, no identity. The profile link is the same code carried in
-          a URL fragment, which browsers never transmit — even we couldn&apos;t log it.
-        </p>
-        <div style={{ marginTop: "var(--s-6)" }}>
-          <span className="label gold" style={{ display: "block", marginBottom: "var(--s-3)" }}>Compatibility</span>
-          <Link href="/compare" className="btn">Check Compatibility</Link>
-        </div>
-
       </section>
 
-      {/* optional: validate with others + contribute to norms */}
+      {/* compare + optional: validate + contribute to norms */}
       <section className="report-section">
+        <div>
+          <span className="label gold" style={{ display: "block", marginBottom: "var(--s-3)" }}>Compare</span>
+          <p className="prose" style={{ marginBottom: "var(--s-4)" }}>
+            Exchange share codes with a partner, cofounder, or coworker and Prismona reads
+            the pairing against the evidence for that purpose — a fit gauge, your strengths
+            together, and the frictions most worth a conversation, with the conversation
+            included.
+          </p>
+          <Link href="/compare" className="btn">Check Compatibility</Link>
+        </div>
         <ObserverLens profile={profile} />
         <Contribute profile={profile} />
       </section>
 
       {/* confidence */}
       <section className="report-section">
-        <span className="label gold">Blueprint confidence</span>
+        <span className="label">Blueprint confidence</span>
         <div className="flags" style={{ marginTop: "var(--s-3)" }}>
           <span className="flag num">{q.answered}/{q.total} answered</span>
           <span className="flag num">median response {(q.medLat / 1000).toFixed(1)}s</span>
@@ -337,7 +336,6 @@ function Report({ profile, drift, interests }: {
           measuring the same construct (Meade &amp; Craig, 2012).
         </p>
         <p className="footnote" style={{ maxWidth: "72ch", marginTop: "var(--s-4)" }}>
-          <strong style={{ color: "var(--ivory)" }}>Read this before acting on results.</strong>{" "}
           This {profile.tier === "full" ? "instrument estimates traits with good precision (120 scored items), yet personality" : profile.tier === "standard" ? "facet-balanced edition estimates traits with solid precision (36 scored items), and personality" : "short screening estimates broad traits with real but limited precision (26 items). Personality"}{" "}
           predicts life outcomes at modest effect sizes (r ≈ .2–.3 for the strongest links).
           Use this profile to structure better conversations and decisions — never as a
@@ -347,7 +345,7 @@ function Report({ profile, drift, interests }: {
       </section>
 
       <section className="report-section">
-        <span className="label gold">Notes</span>
+        <span className="label">Notes</span>
         <p className="footnote" style={{ marginTop: "var(--s-3)" }}>
           Estimated via Mahalanobis distance under meta-analytic trait correlations,
           against provisional norms — method, not mysticism.
