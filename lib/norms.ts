@@ -34,7 +34,7 @@ export const FAST_MS = 800;
 export const TIER_LABELS: Record<string, string> = {
   quick: "Quick Profile",
   standard: "Standard Profile",
-  full: "Full Index",
+  full: "Full Profile",
 };
 
 export const TRAIT_LABELS: Record<string, string> = {
