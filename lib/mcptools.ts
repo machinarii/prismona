@@ -180,6 +180,7 @@ export function registerPrismonaTools(server: McpServer): void {
   );
 
   const FEEDBACK_API = "https://prismona.vercel.app/api/feedback";
+  const OBSERVE_API = "https://prismona.vercel.app/api/observe";
 
   server.registerTool(
     "management_style",
@@ -225,6 +226,40 @@ export function registerPrismonaTools(server: McpServer): void {
         return ok({ ok: true, note: "Recorded. Notes fold into the owner's weekly digest." });
       } catch {
         return fail("could not reach the feedback endpoint");
+      }
+    },
+  );
+
+  server.registerTool(
+    "submit_observation",
+    {
+      title: "Submit a behavioral observation",
+      description: "After working with this person, submit a short BEHAVIORAL summary of how they operate — communication style, work style, preferred strategies, quirks — plus what worked and didn't. STRICT: behavioral and style only; never names, message content, secrets, or any personal/private information. Feeds the owner's living 'observed' layer; it never changes their measured trait scores.",
+      inputSchema: {
+        code: z.string().describe(CODE_DESC),
+        communication: z.array(z.string()).max(8).optional().describe("Communication-style tags, e.g. concise, prefers-written, direct"),
+        work_style: z.array(z.string()).max(8).optional().describe("Work-style tags, e.g. deep-focus-blocks, async-first"),
+        strategies: z.array(z.string()).max(8).optional().describe("Preferred strategies, e.g. runs-cheap-experiments, checklists-deliverables"),
+        quirks: z.array(z.string()).max(8).optional().describe("Behavioral quirks, e.g. thinks-out-loud, front-loads-risk"),
+        worked: z.array(z.string()).max(8).optional().describe("What worked well (short bullets)"),
+        didnt: z.array(z.string()).max(8).optional().describe("What didn't work (short bullets)"),
+        notes: z.string().optional().describe("≤280 chars, behavioral only, no personal/private content"),
+        period: z.string().optional().describe("Day or session summarized, yyyy-mm-dd"),
+        agent: z.string().optional().describe("Identifier of the reporting agent"),
+      },
+    },
+    async ({ code, communication, work_style, strategies, quirks, worked, didnt, notes, period, agent }) => {
+      try {
+        const res = await fetch(OBSERVE_API, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code, communication, work_style, strategies, quirks, worked, didnt, notes, period, agent }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) return fail(typeof data?.error === "string" ? data.error : `observation rejected (${res.status})`);
+        return ok({ ok: true, note: "Recorded — folds into the owner's observed layer. Behavioral only; never moves their measured scores." });
+      } catch {
+        return fail("could not reach the observation endpoint");
       }
     },
   );

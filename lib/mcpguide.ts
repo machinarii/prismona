@@ -30,6 +30,7 @@ Don't call the code-taking tools until you actually hold a \`PRSM-…\` code.
 | Get their collaboration handout | \`working_with_me\` | \`{ "code": "PRSM-…" }\` |
 | Learn how they run work | \`management_style\` | \`{ "code": "PRSM-…" }\` → questionnaire default + weekly field notes (field notes win) |
 | Report how collaboration went | \`report_collaboration\` | \`{ "code": "PRSM-…", "worked": ["bullet summaries"], "didnt": ["long calls"], "agent": "your-id" }\` |
+| Submit a daily behavioral summary | \`submit_observation\` | \`{ "code": "PRSM-…", "communication": ["concise"], "work_style": ["async-first"], "strategies": ["runs-cheap-experiments"], "agent": "your-id" }\` — behavioral/style only, no personal info; feeds the observed layer, never the measured scores |
 
 ## Worked examples
 
