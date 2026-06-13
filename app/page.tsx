@@ -58,8 +58,8 @@ export default function Home() {
                 </span>
               </td>
               <td className="prose" style={{ fontSize: "var(--t-sm)", lineHeight: 1.65 }}>
-                Your quick profile: archetype blend, six trait percentiles with
-                uncertainty bands, trust profile, compatibility notes.
+                Your quick blueprint: archetype blend, six trait percentiles with
+                uncertainty bands, trust blueprint, compatibility notes.
               </td>
               <td><Link className="btn quiet" href="/assess?tier=quick">Begin</Link></td>
             </tr>
@@ -77,7 +77,7 @@ export default function Home() {
                 </span>
               </td>
               <td className="prose" style={{ fontSize: "var(--t-sm)", lineHeight: 1.65 }}>
-                Your full profile: everything in Quick, with thirty-facet
+                Your full blueprint: everything in Quick, with thirty-facet
                 resolution — where equal scores stop hiding different people.
               </td>
               <td><Link className="btn quiet" href="/assess?tier=full">Begin</Link></td>
@@ -95,7 +95,7 @@ export default function Home() {
       <section className="section">
         <div className="section-head">
           <span className="roman">II.</span>
-          <h2>A profile, not a horoscope</h2>
+          <h2>A blueprint, not a horoscope</h2>
         </div>
         <dl className="ledger">
           <div>
@@ -118,14 +118,14 @@ export default function Home() {
             <dt>Distillation</dt>
             <dd>
               How you think, act, decide and what you value — plus blind spots and a
-              trust profile grounded in the strongest finding in integrity research.
+              trust blueprint grounded in the strongest finding in integrity research.
             </dd>
           </div>
           <div>
             <dt>Confidence</dt>
             <dd>
               How carefully you answered — your pace, your consistency, any signs of
-              rushing — rolls into a stated confidence in your own profile. We tell
+              rushing — rolls into a stated confidence in your own blueprint. We tell
               you when not to trust us.
             </dd>
           </div>
@@ -140,14 +140,14 @@ export default function Home() {
         </div>
         <p className="prose">
           &ldquo;Are we compatible?&rdquo; is an incomplete question — compatible <em>for what</em>?
-          A profile produces a share code; exchange codes with a partner, cofounder or
+          A blueprint produces a share code; exchange codes with a partner, cofounder or
           colleague and Prismona reads the pairing against the evidence for that purpose:
           partner effects for romance, complementarity and trust gates for founding teams.
           You receive a fit gauge, your strengths as a pair, and the three frictions most
           worth a structured conversation — with the conversation included.
         </p>
         <div style={{ marginTop: "var(--s-8)" }}>
-          <Link href="/compare" className="btn">Compare two profiles</Link>
+          <Link href="/compare" className="btn">Compare two blueprints</Link>
         </div>
       </section>
 

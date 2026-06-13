@@ -44,12 +44,12 @@ export default function PredictPage() {
 
   return (
     <main className="shell" style={{ paddingTop: "var(--s-16)" }}>
-      <p className="label gold">Predict their profile</p>
+      <p className="label gold">Predict their blueprint</p>
       <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "16px 0 24px", maxWidth: "20ch" }}>
         How well do you actually see them?
       </h1>
       <p className="prose">
-        Before you read someone&apos;s shared profile, commit to a guess. How accurately
+        Before you read someone&apos;s shared blueprint, commit to a guess. How accurately
         people perceive each other is among the most predictive relationship variables
         on record — more than the traits themselves. Guess all six, then see where
         your picture and their self-report part ways.
@@ -72,7 +72,7 @@ export default function PredictPage() {
 
       {target && !result && (
         <div className="reveal" style={{ margin: "var(--s-8) 0" }}>
-          <p className="footnote">Profile measured {longDate(target.date)}. Set each slider to the percentile you believe they&apos;d score — 50 is exactly average.</p>
+          <p className="footnote">Blueprint measured {longDate(target.date)}. Set each slider to the percentile you believe they&apos;d score — 50 is exactly average.</p>
           {KEYS.map((k) => (
             <div className="band-row" key={k}>
               <span className="name">{TRAIT_LABELS[k]}<br /><span className="footnote">{HINTS[k]}</span></span>
@@ -87,7 +87,7 @@ export default function PredictPage() {
           ))}
           <div style={{ marginTop: "var(--s-6)" }}>
             <button className="btn solid" onClick={() => setResult(scorePrediction(guesses, target))}>
-              Reveal their profile
+              Reveal their blueprint
             </button>
           </div>
         </div>

@@ -167,7 +167,7 @@ export default function MethodPage() {
           and a sharp critique shows such types may be neither robust nor exhaustive
           (Freudenstein et al., 2019). We honor both findings: eight narrative archetypes
           are matched by distance in six-trait z-space and always reported as a gradient
-          blend over your dimensional profile. You are the percentages, not the label.
+          blend over your dimensional blueprint. You are the percentages, not the label.
           This is the explicit antithesis of type-first instruments, whose bimodality the
           evidence does not support.
         </p>
@@ -206,14 +206,14 @@ export default function MethodPage() {
         <div className="section-head"><span className="roman">VI.</span><h2>Privacy &amp; ethics</h2></div>
         <p className="prose">
           Personality data is sensitive, so the architecture is the policy: no account,
-          no server-side scoring, no analytics on answers, nothing transmitted. Profiles
+          no server-side scoring, no analytics on answers, nothing transmitted. Blueprints
           live in your browser&apos;s local storage and die with it. The one exception is
           explicit and opt-in: the results page offers an anonymous norms contribution —
           the share-code payload, an optional coarse age band, and a network-level
           country code, no IP stored — so percentiles can eventually rest on our own
           published norms and trait distributions can be compared across countries in
           aggregate (details in the Privacy Policy, §V). We will never sell
-          profiles or assess anyone without their consent — inferred profiles of third
+          blueprints or assess anyone without their consent — inferred blueprints of third
           parties are an ethical boundary, not a roadmap item. Any future hiring module
           ships only after criterion validation and adverse-impact analysis under the
           AERA/APA/NCME Standards.

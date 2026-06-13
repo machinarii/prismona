@@ -35,10 +35,10 @@ export function ObserverLens({ profile }: { profile: Profile }) {
 
   return (
     <div className="no-print" style={{ marginTop: "var(--s-12)" }}>
-      <span className="label gold">Validate profile from others · optional</span>
+      <span className="label gold">Validate blueprint from others · optional</span>
       <p className="prose" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
         Self-report is one witness. Send someone who knows you to{" "}
-        <span className="num">prismona.vercel.app/validate</span> — they rate you in two
+        <span className="num">prismona.io/validate</span> — they rate you in two
         minutes and get a code to send back. Paste it here to see your self-insight
         gap: where their view and yours agree, and where they part ways.
       </p>
@@ -66,7 +66,7 @@ export function ObserverLens({ profile }: { profile: Profile }) {
               <span className="flag ok num" style={{ marginLeft: "var(--s-3)" }}>rated for you</span>
             )}
             {boundFor === false && (
-              <span className="flag warn num" style={{ marginLeft: "var(--s-3)" }}>stamped for a different profile</span>
+              <span className="flag warn num" style={{ marginLeft: "var(--s-3)" }}>stamped for a different blueprint</span>
             )}
             <div className="flags" style={{ marginTop: "var(--s-3)" }}>
               {KEYS.map((k) => {

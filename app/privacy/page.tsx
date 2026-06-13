@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Privacy Policy — Prismona",
   description:
-    "Prismona's privacy policy: the architecture is the policy. Answers never leave your browser; no analytics on responses; accounts are optional, minimal, and exist only for profile sync.",
+    "Prismona's privacy policy: the architecture is the policy. Answers never leave your browser; no analytics on responses; accounts are optional, minimal, and exist only for blueprint sync.",
 };
 
 export default function PrivacyPage() {
@@ -25,7 +25,7 @@ export default function PrivacyPage() {
       <section className="section">
         <div className="section-head"><span className="roman">I.</span><h2>What we never collect</h2></div>
         <p className="prose">
-          Your answers, your facet profile, your dyad reports — the raw material of the
+          Your answers, your facet blueprint, your dyad reports — the raw material of the
           assessment — are computed and stored only on your device. They are not
           transmitted to us or to anyone else, not stored on a server, not used for
           advertising, and not sold — ever. No account is required for anything. Trait
@@ -38,30 +38,30 @@ export default function PrivacyPage() {
       <section className="section">
         <div className="section-head"><span className="roman">II.</span><h2>Where your data lives</h2></div>
         <p className="prose">
-          Completed profiles are saved in your browser&apos;s local storage so your
+          Completed blueprints are saved in your browser&apos;s local storage so your
           results survive a page reload. The same local storage holds everything else
           the product remembers: your retest history (compact per-assessment snapshots
           for the trajectory view), your interest-inventory result, the age range you
           optionally selected, and a flag noting whether you already contributed a
-          given profile to our norms. All of it remains until you clear it — from the
+          given blueprint to our norms. All of it remains until you clear it — from the
           results page or by clearing your browser&apos;s site data — and it dies with
-          the browser profile it lives in. If you use a shared or public computer,
+          the browser blueprint it lives in. If you use a shared or public computer,
           clear your results before leaving it.
         </p>
       </section>
 
       <section className="section">
-        <div className="section-head"><span className="roman">III.</span><h2>Share codes, profile links, and exports</h2></div>
+        <div className="section-head"><span className="roman">III.</span><h2>Share codes, blueprint links, and exports</h2></div>
         <p className="prose">
           A share code carries six quantized trait scores, a date, and a checksum —
           twenty-one characters, no name, no identity, no individual answers. Codes are
           generated and decoded in the browser; comparing two codes never sends either
-          one anywhere. A profile link (or manual link) is the same code carried in the
+          one anywhere. A blueprint link (or manual link) is the same code carried in the
           URL after the <span className="num">#</span> — a fragment, which browsers do
           not transmit in requests, so even our hosting provider&apos;s logs never see
           it. Sharing a code or link is your choice and your disclosure: anyone who
           holds it can view the domain-level report and run comparisons that include
-          your trait profile. The copyable AI-context block works the same way — you
+          your trait blueprint. The copyable AI-context block works the same way — you
           copy it, nothing is sent by us — but once you paste it into a third-party
           assistant, that service&apos;s privacy terms govern what happens to it.
         </p>
@@ -72,11 +72,11 @@ export default function PrivacyPage() {
         <p className="prose">
           The site is static pages served from a hosting provider, plus a handful of
           narrow server endpoints: the opt-in norms contribution (section V), the
-          optional sign-in and profile sync (section VI), and the MCP endpoint, which
+          optional sign-in and blueprint sync (section VI), and the MCP endpoint, which
           is stateless and stores nothing. Like virtually all web hosting,
           the provider records standard access logs (IP address, requested page, user
           agent, timestamp) for delivery and abuse prevention; these logs contain no
-          assessment content, because assessment content is never sent — and profile
+          assessment content, because assessment content is never sent — and blueprint
           links keep their payload in the URL fragment, which never reaches a server.
           Fonts are bundled with the site at build time, so no request is made to a
           font service. We run no advertising trackers and no analytics on answers or
@@ -120,7 +120,7 @@ export default function PrivacyPage() {
           You can use all of Prismona with no account. If you choose to sign in (email
           plus a six-digit emailed code — no password), an account stores exactly two
           things in private storage: your email address, and — only when you press{" "}
-          <em>Save this browser&apos;s profile</em> — the profile bundle you chose to
+          <em>Save this browser&apos;s blueprint</em> — the blueprint bundle you chose to
           sync, so you can load it on another device. Sign-in codes are stored only as
           salted hashes and expire in ten minutes; the session lives in a single
           httpOnly cookie. Nothing syncs automatically, your email is never used for
