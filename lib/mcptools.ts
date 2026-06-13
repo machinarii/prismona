@@ -6,7 +6,7 @@ import { profileFromShare } from "./shareview";
 import { buildProfileExport } from "./export";
 import { buildInsights } from "./insights";
 import { buildManual } from "./manual";
-import { agentPersona, interactionGuide } from "./persona";
+import { agentPersona, interactionGuide, PERSONA_FLAVORS, PERSONA_ROLES, type FlavorKey, type RoleKey } from "./persona";
 import { compareDyad } from "./dyad";
 import { teamReport } from "./team";
 import { distinctiveness } from "./rarity";
@@ -119,13 +119,17 @@ export function registerPrismonaTools(server: McpServer): void {
     "agent_persona",
     {
       title: "Companion persona (for the profile's owner)",
-      description: "A system prompt that calibrates an AI to be this person's COMPLEMENT — supplying the structure, calm, candor, or grounding their measured profile suggests they benefit from. Intended for the profile owner's own assistant.",
-      inputSchema: { code: z.string().describe(CODE_DESC) },
+      description: "A system prompt that calibrates an AI to be this person's COMPLEMENT — supplying the structure, calm, candor, or grounding their measured profile suggests they benefit from. Optional tuning: a voice flavor and/or a professional role archetype (distilled from observed practitioners; Belbin, Merrill & Reid, Kelley, DeMarco & Lister) that modulate but never replace the calibration.",
+      inputSchema: {
+        code: z.string().describe(CODE_DESC),
+        flavor: z.enum(Object.keys(PERSONA_FLAVORS) as [FlavorKey, ...FlavorKey[]]).optional().describe("Voice register"),
+        role: z.enum(Object.keys(PERSONA_ROLES) as [RoleKey, ...RoleKey[]]).optional().describe("Professional role archetype"),
+      },
     },
-    async ({ code }) => {
+    async ({ code, flavor, role }) => {
       const share = decodeShareCode(code);
       if (!share) return fail("invalid share code");
-      return ok(agentPersona(profileFromShare(share)));
+      return ok(agentPersona(profileFromShare(share), { flavor, role }));
     },
   );
 

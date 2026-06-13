@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { agentPersona, interactionGuide } from "../persona";
+import { agentPersona, interactionGuide, PERSONA_FLAVORS, PERSONA_ROLES, type FlavorKey, type RoleKey } from "../persona";
 import { toPct } from "../scoring";
 import type { Profile, ReportKey } from "../types";
 
@@ -64,6 +64,57 @@ describe("agentPersona", () => {
 
   it("is deterministic", () => {
     expect(agentPersona(p)).toBe(agentPersona(p));
+  });
+});
+
+describe("persona flavors and roles — tuning that modulates, never replaces", () => {
+  const p = profile({ C: -1.0, ES: -0.8 });
+
+  it("offers six flavors and at least six roles, each with a name and blurb", () => {
+    expect(Object.keys(PERSONA_FLAVORS).length).toBe(6);
+    expect(Object.keys(PERSONA_ROLES).length).toBeGreaterThanOrEqual(6);
+    Object.values(PERSONA_FLAVORS).forEach((f) => {
+      expect(f.name.length).toBeGreaterThan(2);
+      expect(f.blurb.length).toBeGreaterThan(10);
+      expect(f.directives.length).toBeGreaterThan(60);
+    });
+    Object.values(PERSONA_ROLES).forEach((r) => {
+      expect(r.name.length).toBeGreaterThan(2);
+      expect(r.directives.length).toBeGreaterThan(80);
+      expect(r.source.length).toBeGreaterThan(10); // observed-worker literature
+    });
+  });
+
+  it("no options yields exactly the base persona", () => {
+    expect(agentPersona(p)).toBe(agentPersona(p, {}));
+  });
+
+  it("a flavor adds its register and states that the calibration wins on conflict", () => {
+    const flavored = agentPersona(p, { flavor: "debater" });
+    expect(flavored).toContain(agentPersona(p).split("Boundaries:")[0].trim().slice(0, 80));
+    expect(flavored).toMatch(/Debater/);
+    expect(flavored).toMatch(/calibration .*(wins|takes precedence)|complement calibration above/i);
+  });
+
+  it("a role adds the observed-worker archetype with its source", () => {
+    const eng = agentPersona(p, { role: "engineer" });
+    expect(eng).toMatch(/Engineer/i);
+    expect(eng).toMatch(/Belbin|Peopleware|DeMarco/);
+  });
+
+  it("flavor and role compose", () => {
+    const both = agentPersona(p, { flavor: "logician", role: "dataScientist" });
+    expect(both).toMatch(/Logician/);
+    expect(both).toMatch(/Data Scientist/i);
+  });
+
+  it("every flavor and role generates deterministically", () => {
+    (Object.keys(PERSONA_FLAVORS) as FlavorKey[]).forEach((f) => {
+      expect(agentPersona(p, { flavor: f })).toBe(agentPersona(p, { flavor: f }));
+    });
+    (Object.keys(PERSONA_ROLES) as RoleKey[]).forEach((r) => {
+      expect(agentPersona(p, { role: r }).length).toBeGreaterThan(800);
+    });
   });
 });
 

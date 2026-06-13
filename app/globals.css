@@ -324,26 +324,32 @@ dl.ledger dd { color: var(--ivory-dim); max-width: var(--measure); }
   display: flex;
   gap: clamp(28px, 7vw, 72px);
 }
-/* document actions: quiet label-style links on the tab bar's right edge */
-.view-actions {
+/* document actions: one quiet utility line beneath the tab bar */
+.doc-actions {
   display: flex;
-  gap: var(--s-6);
-  align-items: baseline;
   flex-wrap: wrap;
-  margin-left: auto;
-  padding-bottom: var(--s-4);
+  gap: var(--s-2) var(--s-4);
+  align-items: baseline;
+  justify-content: flex-end;
+  margin-top: var(--s-3);
 }
-.view-actions a, .view-actions button {
+.doc-actions a, .doc-actions button {
   font-family: var(--font-label), system-ui, sans-serif;
   font-size: var(--t-xs);
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ivory-faint);
   transition: color 0.2s ease;
 }
-.view-actions a:hover, .view-actions button:hover { color: var(--gold); }
-.view-actions .va-primary { color: var(--gold); }
-.view-actions .va-primary:hover { color: var(--ivory); }
+.doc-actions a:hover, .doc-actions button:hover { color: var(--gold); }
+.doc-actions .va-primary { color: var(--gold-deep); }
+.doc-actions .va-primary:hover { color: var(--gold); }
+.doc-actions .da-code { font-size: var(--t-xs); color: var(--ivory-dim); letter-spacing: 0.06em; }
+.doc-actions .da-sep { color: var(--hairline); }
+@media (max-width: 640px) {
+  .doc-actions { justify-content: flex-start; }
+}
+
 .view-tab {
   position: relative;
   display: grid;

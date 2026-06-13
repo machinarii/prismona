@@ -386,23 +386,21 @@ const VIEWS = [
   { key: "becoming" as const, name: "Becoming", desc: "Desired self vs. measured self" },
 ];
 
-function CopyCodeChip({ profile }: { profile: Profile }) {
-  const [copied, setCopied] = useState(false);
+function CodeActions({ profile }: { profile: Profile }) {
+  const [copied, setCopied] = useState<"code" | "link" | null>(null);
   const code = encodeShareCode(profile);
+  const copy = (text: string, kind: "code" | "link") => {
+    navigator.clipboard?.writeText(text).then(() => {
+      setCopied(kind);
+      setTimeout(() => setCopied(null), 1800);
+    });
+  };
   return (
-    <button
-      className="num"
-      title="Copy your share code"
-      style={{ letterSpacing: "0.08em", textTransform: "none" }}
-      onClick={() => {
-        navigator.clipboard?.writeText(code).then(() => {
-          setCopied(true);
-          setTimeout(() => setCopied(false), 1800);
-        });
-      }}
-    >
-      {copied ? "Copied" : code}
-    </button>
+    <>
+      <span className="num da-code" title="Your share code">{code}</span>
+      <button onClick={() => copy(code, "code")}>{copied === "code" ? "Copied" : "Copy code"}</button>
+      <button onClick={() => copy(profileUrl(profile, location.origin), "link")}>{copied === "link" ? "Copied" : "Copy link"}</button>
+    </>
   );
 }
 
@@ -428,31 +426,32 @@ function ProfileViews({ profile, drift, interests }: {
               </button>
             ))}
           </div>
-          <div className="view-actions">
-            <CopyCodeChip profile={profile} />
-            {profile.tier !== "full"
-              ? <Link href={profile.tier === "quick" ? "/assess?tier=standard" : "/assess?tier=full"} className="va-primary">
-                  {profile.tier === "quick" ? "Take the Standard" : "Take the Full Index"}
-                </Link>
-              : <Link href="/assess?tier=quick">Retake Quick</Link>}
-            <Link href={`/assess?tier=${profile.tier}`}>Retake</Link>
-            <button onClick={() => window.print()}>Save as PDF</button>
-            <button
-              onClick={() => {
-                const blob = new Blob(
-                  [JSON.stringify(buildProfileExport(profile, interests), null, 2)],
-                  { type: "application/json" },
-                );
-                const a = document.createElement("a");
-                a.href = URL.createObjectURL(blob);
-                a.download = `prismona-profile-${profile.date}.json`;
-                a.click();
-                URL.revokeObjectURL(a.href);
-              }}
-            >
-              Download JSON
-            </button>
-          </div>
+        </div>
+        <div className="doc-actions">
+          <CodeActions profile={profile} />
+          <span className="da-sep" aria-hidden>·</span>
+          {profile.tier !== "full"
+            ? <Link href={profile.tier === "quick" ? "/assess?tier=standard" : "/assess?tier=full"} className="va-primary">
+                {profile.tier === "quick" ? "Take standard test" : "Take full test"}
+              </Link>
+            : <Link href="/assess?tier=quick">Retake quick</Link>}
+          <Link href={`/assess?tier=${profile.tier}`}>Retake</Link>
+          <button onClick={() => window.print()}>Save as PDF</button>
+          <button
+            onClick={() => {
+              const blob = new Blob(
+                [JSON.stringify(buildProfileExport(profile, interests), null, 2)],
+                { type: "application/json" },
+              );
+              const a = document.createElement("a");
+              a.href = URL.createObjectURL(blob);
+              a.download = `prismona-profile-${profile.date}.json`;
+              a.click();
+              URL.revokeObjectURL(a.href);
+            }}
+          >
+            Download JSON
+          </button>
         </div>
       </div>
       {view === "breakdown" && <Report profile={profile} drift={drift} interests={interests} />}
