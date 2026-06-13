@@ -1,9 +1,28 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { buildRelationship } from "@/lib/relationship";
+import { profileUrl } from "@/lib/shareview";
 import { longDate } from "@/lib/dates";
 import type { Profile } from "@/lib/types";
+
+function CopyRelationshipLink({ profile }: { profile: Profile }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      className="btn quiet"
+      onClick={() => {
+        navigator.clipboard?.writeText(profileUrl(profile, location.origin, "/relationship")).then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1800);
+        });
+      }}
+    >
+      {copied ? "Copied" : "Copy share link"}
+    </button>
+  );
+}
 
 // "Relationship with me": a concise, partner-facing one-pager for a romantic
 // context, rendered as a face of the profile page.
@@ -55,6 +74,7 @@ export function RelationshipSheet({ profile, showBack = false }: { profile: Prof
         </p>
         <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-8)", flexWrap: "wrap" }}>
           <button className="btn" onClick={() => window.print()}>Save as PDF</button>
+          <CopyRelationshipLink profile={profile} />
           {showBack && <Link href="/profile" className="btn quiet">Back to profile</Link>}
         </div>
       </section>
