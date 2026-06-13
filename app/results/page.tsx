@@ -122,6 +122,37 @@ function InterestsBlock({ interests }: { interests: InterestProfile | null }) {
   );
 }
 
+function DocActions({ profile, interests }: { profile: Profile; interests: InterestProfile | null }) {
+  return (
+    <div className="doc-actions no-print">
+      <CodeActions profile={profile} />
+      <span className="da-sep" aria-hidden>·</span>
+      {profile.tier !== "full"
+        ? <Link href={profile.tier === "quick" ? "/assess?tier=standard" : "/assess?tier=full"} className="va-primary">
+            {profile.tier === "quick" ? "Take standard test" : "Take full test"}
+          </Link>
+        : <Link href="/assess?tier=quick">Retake quick</Link>}
+      <Link href={`/assess?tier=${profile.tier}`}>Retake</Link>
+      <button onClick={() => window.print()}>Save as PDF</button>
+      <button
+        onClick={() => {
+          const blob = new Blob(
+            [JSON.stringify(buildProfileExport(profile, interests), null, 2)],
+            { type: "application/json" },
+          );
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = `prismona-profile-${profile.date}.json`;
+          a.click();
+          URL.revokeObjectURL(a.href);
+        }}
+      >
+        Download JSON
+      </button>
+    </div>
+  );
+}
+
 function Report({ profile, drift, interests }: {
   profile: Profile; drift: DriftReport | null; interests: InterestProfile | null;
 }) {
@@ -173,6 +204,7 @@ function Report({ profile, drift, interests }: {
           You are the percentages, not the label: archetypes narrate your dimensional
           scores below, never replace them (Gerlach et al., 2018).
         </p>
+        <DocActions profile={profile} interests={interests} />
       </section>
 
       {/* II — dimensions */}
@@ -426,32 +458,6 @@ function ProfileViews({ profile, drift, interests }: {
               </button>
             ))}
           </div>
-        </div>
-        <div className="doc-actions">
-          <CodeActions profile={profile} />
-          <span className="da-sep" aria-hidden>·</span>
-          {profile.tier !== "full"
-            ? <Link href={profile.tier === "quick" ? "/assess?tier=standard" : "/assess?tier=full"} className="va-primary">
-                {profile.tier === "quick" ? "Take standard test" : "Take full test"}
-              </Link>
-            : <Link href="/assess?tier=quick">Retake quick</Link>}
-          <Link href={`/assess?tier=${profile.tier}`}>Retake</Link>
-          <button onClick={() => window.print()}>Save as PDF</button>
-          <button
-            onClick={() => {
-              const blob = new Blob(
-                [JSON.stringify(buildProfileExport(profile, interests), null, 2)],
-                { type: "application/json" },
-              );
-              const a = document.createElement("a");
-              a.href = URL.createObjectURL(blob);
-              a.download = `prismona-profile-${profile.date}.json`;
-              a.click();
-              URL.revokeObjectURL(a.href);
-            }}
-          >
-            Download JSON
-          </button>
         </div>
       </div>
       {view === "breakdown" && <Report profile={profile} drift={drift} interests={interests} />}

@@ -330,8 +330,7 @@ dl.ledger dd { color: var(--ivory-dim); max-width: var(--measure); }
   flex-wrap: wrap;
   gap: var(--s-2) var(--s-4);
   align-items: baseline;
-  justify-content: flex-end;
-  margin-top: var(--s-3);
+  margin-top: var(--s-6);
 }
 .doc-actions a, .doc-actions button {
   font-family: var(--font-label), system-ui, sans-serif;
@@ -346,10 +345,6 @@ dl.ledger dd { color: var(--ivory-dim); max-width: var(--measure); }
 .doc-actions .va-primary:hover { color: var(--gold); }
 .doc-actions .da-code { font-size: var(--t-xs); color: var(--ivory-dim); letter-spacing: 0.06em; }
 .doc-actions .da-sep { color: var(--hairline); }
-@media (max-width: 640px) {
-  .doc-actions { justify-content: flex-start; }
-}
-
 .view-tab {
   position: relative;
   display: grid;
