@@ -8,8 +8,18 @@ import type { CodeRecord } from "../auth";
 // itself appears only inside the account record, where it is the account).
 // Everything here is server-only.
 
-export const authConfigured = () =>
+// Real email auth needs Blob (storage), AUTH_SECRET (signing) and Resend (delivery).
+const realAuthConfigured = () =>
   Boolean(process.env.BLOB_READ_WRITE_TOKEN && process.env.AUTH_SECRET && process.env.RESEND_API_KEY);
+
+// Placeholder mode: a fixed dev sign-in code that works without Resend or Blob,
+// so the login gate can be exercised anywhere. Set AUTH_SECRET + AUTH_DEV_CODE
+// (a 6-digit code). Do NOT set AUTH_DEV_CODE in real production.
+export const placeholderMode = () =>
+  Boolean(process.env.AUTH_SECRET && process.env.AUTH_DEV_CODE);
+export const devCode = () => process.env.AUTH_DEV_CODE ?? "";
+
+export const authConfigured = () => realAuthConfigured() || placeholderMode();
 
 export const secret = () => process.env.AUTH_SECRET ?? "";
 

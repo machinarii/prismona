@@ -26,11 +26,6 @@ export default function Home() {
             <span style={{ display: "block", fontSize: "0.72em", opacity: 0.7, marginTop: "3px" }}>20min</span>
           </Link>
         </div>
-        <p className="footnote" style={{ marginTop: "var(--s-6)" }}>
-          No account. No tracking. Your answers never leave this browser.<br />
-          Built only on peer-reviewed, public-domain instruments: the Big Five
-          (Mini-IPIP / IPIP-NEO-120) and HEXACO Honesty-Humility scales.
-        </p>
       </section>
 
       {/* ------------------------------------------------ I — the instrument */}

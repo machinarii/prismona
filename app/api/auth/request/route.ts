@@ -1,5 +1,5 @@
 import { CODE_TTL_MS, generateCode, hashCode, normalizeEmail } from "@/lib/auth";
-import { authConfigured, loadCode, saveCode, secret, sendCodeEmail } from "@/lib/server/authstore";
+import { authConfigured, loadCode, placeholderMode, saveCode, secret, sendCodeEmail } from "@/lib/server/authstore";
 
 // Step one of sign-in: email in, six-digit code out by email. Response is
 // identical whether or not the address has an account — no enumeration.
@@ -9,6 +9,9 @@ export async function POST(req: Request): Promise<Response> {
   const body = await req.json().catch(() => null);
   const email = normalizeEmail(typeof body?.email === "string" ? body.email : "");
   if (!email) return Response.json({ error: "invalid email" }, { status: 400 });
+
+  // Placeholder mode: nothing is emailed — the tester enters the fixed dev code.
+  if (placeholderMode()) return Response.json({ ok: true, placeholder: true });
 
   const existing = await loadCode(email);
   if (existing && Date.now() < existing.resendAfter) {

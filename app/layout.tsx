@@ -65,7 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               Prismona is made by Sensing Apparatus LLC. © 2026 Sensing Apparatus LLC.
               All rights reserved. <Link href="/terms">Terms of Service</Link> ·{" "}
               <Link href="/privacy">Privacy Policy</Link> ·{" "}
-              <Link href="/account">Account</Link>
+              <Link href="/methodology">Methodology</Link>
             </p>
           </div>
         </footer>

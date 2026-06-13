@@ -9,7 +9,7 @@ const LINKS: Array<[string, string]> = [
   ["/compare", "Compare"],
   ["/team", "Team"],
   ["/mcp", "MCP"],
-  ["/methodology", "Methodology"],
+  ["/account", "My account"],
 ];
 
 // Primary navigation: inline links on wide screens, a hamburger-toggled
