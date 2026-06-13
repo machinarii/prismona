@@ -36,7 +36,6 @@ function PrismMark() {
   return (
     <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
       <path d="M9 1.8 16.4 16H1.6L9 1.8Z" fill="none" stroke="currentColor" strokeWidth="1" />
-      <path d="M9 1.8V16" stroke="currentColor" strokeWidth="0.6" opacity="0.6" />
     </svg>
   );
 }
