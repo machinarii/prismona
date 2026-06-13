@@ -29,12 +29,18 @@ function TagRow({ label, tags }: { label: string; tags: OverlayTag[] }) {
 export function ObservedLayer({ profile }: { profile: Profile }) {
   const [overlay, setOverlay] = useState<ObservedOverlay | null | undefined>(undefined);
   const [paused, setPaused] = useState(false);
+  const [agentIds, setAgentIds] = useState<string[]>([]);
+  const [pausedAgents, setPausedAgents] = useState<string[]>([]);
   const code = encodeShareCode(profile);
 
   useEffect(() => {
     fetch(`/api/observe?code=${encodeURIComponent(code)}`)
       .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
-      .then((d) => setOverlay((d.overlay ?? null) as ObservedOverlay | null))
+      .then((d) => {
+        setOverlay((d.overlay ?? null) as ObservedOverlay | null);
+        setAgentIds(Array.isArray(d.agentIds) ? d.agentIds : []);
+        setPausedAgents(Array.isArray(d.paused) ? d.paused : []);
+      })
       .catch((s) => { if (s === 503) setPaused(true); else setOverlay(null); });
   }, [code]);
 
@@ -43,6 +49,30 @@ export function ObservedLayer({ profile }: { profile: Profile }) {
       .then(() => setOverlay(null))
       .catch(() => { /* ignore */ });
   };
+
+  const setPausedList = (next: string[]) => {
+    setPausedAgents(next); // optimistic
+    fetch(`/api/observe`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code, paused: next }),
+    })
+      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then((d) => { if (Array.isArray(d.paused)) setPausedAgents(d.paused); })
+      .catch(() => { /* keep optimistic state */ });
+  };
+
+  const toggleAgent = (agent: string) => {
+    setPausedList(
+      pausedAgents.includes(agent)
+        ? pausedAgents.filter((a) => a !== agent)
+        : [...pausedAgents, agent],
+    );
+  };
+
+  // Agents that have been paused may no longer appear in agentIds (their newer
+  // submissions were dropped), so union the two so a paused agent is always listed.
+  const manageable = [...new Set([...agentIds, ...pausedAgents])];
 
   if (overlay === undefined && !paused) return null; // still loading
 
@@ -78,7 +108,34 @@ export function ObservedLayer({ profile }: { profile: Profile }) {
             {overlay.agents || "your"} agent{overlay.agents === 1 ? "" : "s"} · updated {longDate(overlay.updated)}.
             Confidence rises with agreement across agents and recency.
           </p>
-          <div className="no-print" style={{ marginTop: "var(--s-6)" }}>
+
+          {manageable.length > 0 && (
+            <div className="no-print" style={{ marginTop: "var(--s-6)" }}>
+              <span className="label num">Contributing agents</span>
+              <p className="footnote" style={{ margin: "var(--s-3) 0 var(--s-3)" }}>
+                Pause any agent to stop folding in its observations. Paused agents&rsquo; future
+                submissions are dropped at the door; already-recorded ones fade out with recency.
+              </p>
+              <div className="flags">
+                {manageable.map((agent) => {
+                  const isPaused = pausedAgents.includes(agent);
+                  return (
+                    <button
+                      key={agent}
+                      className={`flag ${isPaused ? "" : "ok"}`}
+                      style={{ cursor: "pointer", opacity: isPaused ? 0.55 : 1 }}
+                      onClick={() => toggleAgent(agent)}
+                      title={isPaused ? "Paused — click to resume" : "Active — click to pause"}
+                    >
+                      {agent}{isPaused ? " · paused" : ""}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          <div className="no-print" style={{ marginTop: "var(--s-5)" }}>
             <button className="btn quiet" onClick={clearAll}>Clear observations</button>
           </div>
         </>
