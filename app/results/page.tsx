@@ -42,8 +42,14 @@ function EmptyState() {
         of first instincts is all the quick test asks.
       </p>
       <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-12)", flexWrap: "wrap" }}>
-        <Link href="/assess?tier=quick" className="btn solid">Begin · 5 minutes</Link>
-        <Link href="/assess?tier=full" className="btn">Full test · facet detail</Link>
+        <Link href="/assess?tier=quick" className="btn solid">
+          Quick Test
+          <span style={{ display: "block", fontSize: "0.72em", opacity: 0.7, marginTop: "3px" }}>5min</span>
+        </Link>
+        <Link href="/assess?tier=full" className="btn">
+          Full Test
+          <span style={{ display: "block", fontSize: "0.72em", opacity: 0.7, marginTop: "3px" }}>20min</span>
+        </Link>
       </div>
     </main>
   );

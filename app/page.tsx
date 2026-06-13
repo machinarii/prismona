@@ -8,9 +8,9 @@ export default function Home() {
         <p className="label gold">A research-grade personality instrument</p>
         <h1
           className="display"
-          style={{ fontSize: "var(--t-hero)", maxWidth: "16ch", margin: "20px 0 28px" }}
+          style={{ fontSize: "var(--t-hero)", maxWidth: "20ch", margin: "20px 0 28px" }}
         >
-          Character, measured with the honesty science demands.
+          Carry your personality blueprint to everyone you interact with &mdash; human and AI.
         </h1>
         <p className="prose" style={{ fontSize: "var(--t-lg)", lineHeight: 1.5, maxWidth: "46ch" }}>
           Five minutes of honest answers becomes a portrait of how you&apos;re
@@ -19,8 +19,14 @@ export default function Home() {
           its receipt.
         </p>
         <div style={{ display: "flex", gap: "var(--s-3)", flexWrap: "wrap", marginTop: "var(--s-12)" }}>
-          <Link href="/assess?tier=quick" className="btn solid">Quick test · 5 minutes</Link>
-          <Link href="/assess?tier=full" className="btn">Full test · 126 items</Link>
+          <Link href="/assess?tier=quick" className="btn solid">
+            Quick Test
+            <span style={{ display: "block", fontSize: "0.72em", opacity: 0.7, marginTop: "3px" }}>5min</span>
+          </Link>
+          <Link href="/assess?tier=full" className="btn">
+            Full Test
+            <span style={{ display: "block", fontSize: "0.72em", opacity: 0.7, marginTop: "3px" }}>20min</span>
+          </Link>
         </div>
         <p className="footnote" style={{ marginTop: "var(--s-6)" }}>
           No account. No tracking. Your answers never leave this browser.<br />
