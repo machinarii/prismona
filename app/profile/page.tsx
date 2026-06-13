@@ -423,7 +423,7 @@ function ResultsInner() {
 }
 
 const VIEWS = [
-  { key: "breakdown" as const, name: "My personality blueprint", desc: "Full report for you" },
+  { key: "breakdown" as const, name: "My blueprint", desc: "Full report for you" },
   { key: "manual" as const, name: "Working with me", desc: "Concise manual for coworkers" },
   { key: "ai" as const, name: "Working with my AI", desc: "Agent context & persona" },
   { key: "relationship" as const, name: "Relationship with me", desc: "Concise manual for partner" },

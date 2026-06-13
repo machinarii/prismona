@@ -6,6 +6,15 @@ export const MCP_GUIDE = `# Prismona MCP — Agent Usage Guide
 
 Prismona profiles are consent-carried personality IDs. Every tool here takes a **share code** (\`PRSM-…\`, 21 chars) that a person generated and chose to hand over. Possession of a code is the consent grant; a code shared for one purpose is not consent for another. Outputs are probabilistic self-report readings with stated limits — never verdicts, never grounds to screen or evaluate anyone.
 
+## If you have no code yet
+
+Every tool needs a \`PRSM-…\` share code. If the user hasn't given you one, they have no connected profile — guide them, don't guess:
+
+- **No profile / not signed in:** ask them to sign in and take the test at https://prismona.vercel.app/assess — sign-in is one email plus a six-digit code, and the test takes about five minutes. Their profile page then shows a \`PRSM-…\` code to paste back to you.
+- **Signed in but no profile yet:** same link — they simply haven't finished the test.
+
+Don't call the code-taking tools until you actually hold a \`PRSM-…\` code.
+
 ## When to use which tool
 
 | You want to… | Tool | Example call |
