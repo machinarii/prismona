@@ -164,11 +164,6 @@ export default function Home() {
           startup, or your worth. We measure carefully, show our uncertainty, and
           structure the conversations the numbers point to.
         </p>
-        <p className="footnote" style={{ marginTop: "var(--s-4)" }}>
-          Effect sizes r ≈ .2–.3 for the strongest trait–outcome links (Roberts et al.,
-          2007); relationship perceptions outpredict traits (Joel et al., 2020).
-          Every result screen cites its evidence.
-        </p>
         <div style={{ marginTop: "var(--s-8)" }}>
           <Link href="/methodology" className="cite">Read the full methodology →</Link>
         </div>
