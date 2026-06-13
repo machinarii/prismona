@@ -15,6 +15,7 @@ import { RarityLine } from "@/components/RarityLine";
 import { TraitFigure } from "@/components/TraitFigure";
 import { Contribute } from "@/components/Contribute";
 import { ObserverLens } from "@/components/ObserverLens";
+import { ObservedLayer } from "@/components/ObservedLayer";
 import { ManualSheet } from "@/components/ManualSheet";
 import { AiSheet } from "@/components/AiSheet";
 import { BecomingSheet } from "@/components/BecomingSheet";
@@ -335,6 +336,8 @@ function Report({ profile, drift, interests }: {
         <ObserverLens profile={profile} />
         <Contribute profile={profile} />
       </section>
+
+      <ObservedLayer profile={profile} />
 
       {/* confidence */}
       <section className="report-section">
