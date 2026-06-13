@@ -31,7 +31,7 @@ const FACET_DOMAIN_ORDER: ReportKey[] = ["O", "C", "E", "A", "ES", "H"];
 
 function EmptyState() {
   return (
-    <main className="shell" style={{ padding: "var(--s-24) 0" }}>
+    <main className="shell" style={{ paddingTop: "var(--s-24)", paddingBottom: "var(--s-24)" }}>
       <p className="label gold">Your profile</p>
       <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "16px 0 24px", maxWidth: "18ch" }}>
         Nothing measured yet.
@@ -41,12 +41,12 @@ function EmptyState() {
         we could not show you someone else&apos;s results if we wanted to. Five minutes
         of first instincts is all the quick test asks.
       </p>
-      <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-12)", flexWrap: "wrap" }}>
-        <Link href="/assess?tier=quick" className="btn solid">
+      <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-12)", flexWrap: "wrap", maxWidth: "440px" }}>
+        <Link href="/assess?tier=quick" className="btn solid" style={{ flex: "1 1 0", textAlign: "center" }}>
           Quick Test
           <span style={{ display: "block", fontSize: "0.72em", opacity: 0.7, marginTop: "3px" }}>5min</span>
         </Link>
-        <Link href="/assess?tier=full" className="btn">
+        <Link href="/assess?tier=full" className="btn" style={{ flex: "1 1 0", textAlign: "center" }}>
           Full Test
           <span style={{ display: "block", fontSize: "0.72em", opacity: 0.7, marginTop: "3px" }}>20min</span>
         </Link>

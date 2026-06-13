@@ -20,7 +20,7 @@ const TRAIT_ORDER: ReportKey[] = ["O", "C", "E", "A", "ES", "H"];
 
 function Invalid() {
   return (
-    <main className="shell" style={{ padding: "var(--s-24) 0" }}>
+    <main className="shell" style={{ paddingTop: "var(--s-24)", paddingBottom: "var(--s-24)" }}>
       <p className="label gold">Shared profile</p>
       <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "16px 0 24px", maxWidth: "20ch" }}>
         This link carries no readable profile.

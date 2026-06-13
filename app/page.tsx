@@ -10,7 +10,7 @@ export default function Home() {
           className="display"
           style={{ fontSize: "var(--t-hero)", maxWidth: "20ch", margin: "20px 0 28px" }}
         >
-          Carry your personality blueprint to people and AI.
+          Carry your personality blueprint to people and agents.
         </h1>
         <p className="prose" style={{ fontSize: "var(--t-lg)", lineHeight: 1.5, maxWidth: "46ch" }}>
           Five minutes of honest answers becomes a portrait of how you&apos;re
@@ -18,12 +18,12 @@ export default function Home() {
           with. Every score shows its margin of error; every claim shows
           its receipt.
         </p>
-        <div style={{ display: "flex", gap: "var(--s-3)", flexWrap: "wrap", marginTop: "var(--s-12)" }}>
-          <Link href="/assess?tier=quick" className="btn solid">
+        <div style={{ display: "flex", gap: "var(--s-3)", flexWrap: "wrap", marginTop: "var(--s-12)", maxWidth: "440px" }}>
+          <Link href="/assess?tier=quick" className="btn solid" style={{ flex: "1 1 0", textAlign: "center" }}>
             Quick Test
             <span style={{ display: "block", fontSize: "0.72em", opacity: 0.7, marginTop: "3px" }}>5min</span>
           </Link>
-          <Link href="/assess?tier=full" className="btn">
+          <Link href="/assess?tier=full" className="btn" style={{ flex: "1 1 0", textAlign: "center" }}>
             Full Test
             <span style={{ display: "block", fontSize: "0.72em", opacity: 0.7, marginTop: "3px" }}>20min</span>
           </Link>
