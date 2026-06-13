@@ -39,15 +39,15 @@ export default function McpPage() {
     <main className="shell" style={{ paddingTop: "var(--s-16)" }}>
       <p className="label gold">Model Context Protocol</p>
       <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "16px 0 24px", maxWidth: "20ch" }}>
-        Plug your AI into a personality.
+        Plug your personality blueprint into your agent.
       </h1>
       <p className="prose">
-        A Prismona profile is a digital ID for personality, and this server is how
+        A Prismona profile is a personality blueprint, and this server is how
         AIs and other systems read it. Plugging in means two things:
       </p>
       <dl className="ledger" style={{ margin: "var(--s-6) 0" }}>
         <div>
-          <dt>Your AI becomes your complement</dt>
+          <dt>Your AI agent becomes your complement</dt>
           <dd>
             Hand your own assistant your code and it takes on a personality calibrated
             to suit yours — supplying the structure, calm, candor, or grounding your

@@ -75,7 +75,7 @@ export function ManualSheet({ profile, showBack = true }: { profile: Profile; sh
         <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-8)", flexWrap: "wrap" }}>
           <button className="btn" onClick={() => window.print()}>Save as PDF</button>
           <CopyManualLink profile={profile} />
-          {showBack && <Link href="/results" className="btn quiet">Back to profile</Link>}
+          {showBack && <Link href="/profile" className="btn quiet">Back to profile</Link>}
         </div>
       </section>
     </>
