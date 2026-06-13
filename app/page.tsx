@@ -10,7 +10,7 @@ export default function Home() {
           className="display"
           style={{ fontSize: "var(--t-hero)", maxWidth: "20ch", margin: "20px 0 28px" }}
         >
-          Carry your personality blueprint to everyone you interact with &mdash; human and AI.
+          Carry your personality blueprint to people and AI.
         </h1>
         <p className="prose" style={{ fontSize: "var(--t-lg)", lineHeight: 1.5, maxWidth: "46ch" }}>
           Five minutes of honest answers becomes a portrait of how you&apos;re
