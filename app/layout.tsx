@@ -58,8 +58,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="shell">
             <span className="label">Prismona</span>
             <p className="footnote">
-              Private by architecture: the assessment, scoring and reports run entirely in
-              your browser. Nothing you answer is transmitted, stored remotely, or sold — ever.
+              A research-grade personality instrument. Prismona measures the Big Five and
+              HEXACO Honesty-Humility on peer-reviewed, public-domain scales, shows the
+              margin of error on every score, and turns the result into a portable
+              blueprint you can share with the people — and AI agents — you work with.
             </p>
             <p className="footnote">
               Prismona is made by Sensing Apparatus LLC. © 2026 Sensing Apparatus LLC.

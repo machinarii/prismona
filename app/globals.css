@@ -266,7 +266,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .report-section > .label { display: block; margin-bottom: var(--s-6); }
 
 .arch-display { padding: var(--s-12) 0 var(--s-8); }
-.arch-name { font-size: var(--t-display); color: var(--gold); margin: var(--s-3) 0 var(--s-4); }
+.arch-name { font-size: var(--t-display); color: var(--ivory); margin: var(--s-3) 0 var(--s-4); }
 .arch-tag { font-size: var(--t-lg); font-style: italic; color: var(--ivory-dim); max-width: 34ch; line-height: 1.4; font-family: var(--font-display), Georgia, serif; }
 
 .blend { display: flex; gap: var(--s-8); margin-top: var(--s-8); flex-wrap: wrap; }
