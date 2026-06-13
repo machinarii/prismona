@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { decodeShareCode } from "@/lib/codec";
-import { selfOtherGap } from "@/lib/observe";
+import { selfOtherGap, splitObserverCode, subjectTag } from "@/lib/observe";
 import { loadObserverCodes, saveObserverCode } from "@/lib/storage";
 import { TRAIT_LABELS } from "@/lib/norms";
 import { longDate } from "@/lib/dates";
@@ -19,8 +19,13 @@ export function ObserverLens({ profile }: { profile: Profile }) {
 
   useEffect(() => { setCodes(loadObserverCodes()); }, []);
 
+  const myTag = subjectTag(
+    Object.fromEntries(KEYS.map((k) => [k, profile.traits[k].z])) as Record<ReportKey, number>,
+  );
+
   const add = () => {
-    const decoded = decodeShareCode(input);
+    const { code } = splitObserverCode(input);
+    const decoded = decodeShareCode(code);
     if (!decoded) { setError("That code didn't decode."); return; }
     setError(null);
     saveObserverCode(input.trim());
@@ -49,12 +54,20 @@ export function ObserverLens({ profile }: { profile: Profile }) {
         {error && <span className="flag warn">{error}</span>}
       </div>
       {codes.map((c, i) => {
-        const share = decodeShareCode(c);
+        const { code, tag } = splitObserverCode(c);
+        const share = decodeShareCode(code);
         if (!share) return null;
         const gap = selfOtherGap(profile, share.z);
+        const boundFor = tag == null ? null : tag === myTag;
         return (
           <div key={c} style={{ marginTop: "var(--s-8)" }}>
             <span className="label num">Observer {i + 1} · {longDate(share.date)} · mean gap {gap.meanGap} points</span>
+            {boundFor === true && (
+              <span className="flag ok num" style={{ marginLeft: "var(--s-3)" }}>rated for you</span>
+            )}
+            {boundFor === false && (
+              <span className="flag warn num" style={{ marginLeft: "var(--s-3)" }}>stamped for a different profile</span>
+            )}
             <div className="flags" style={{ marginTop: "var(--s-3)" }}>
               {KEYS.map((k) => {
                 const t = gap.perTrait[k];

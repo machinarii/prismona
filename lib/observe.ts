@@ -1,5 +1,6 @@
 import type { Domain, Profile, ReportKey, ShareProfile } from "./types";
 import { NORMS, TRAIT_LABELS } from "./norms";
+import { decodeShareCode } from "./codec";
 
 // Informant mini-360: a 12-item third-person rating (two markers per domain,
 // reworded from the public-domain Mini-IPIP and IPIP HEXACO items) that an
@@ -50,6 +51,41 @@ export function scoreObserver(answers: number[]): Record<ReportKey, number> {
 
 export function observerShare(z: Record<ReportKey, number>, date: string): ShareProfile {
   return { v: 1, tier: "quick", date, z, consistency: 50 }; // 2 items/scale: precision is honest-low
+}
+
+// Subject binding: an observer pastes the code of the person who invited them,
+// and the rating they send back carries a short fingerprint of that subject.
+// The subject's results page recomputes the same fingerprint from their own
+// profile and confirms the rating was meant for them. The fingerprint is a soft
+// confirmation, not a secret — the share code itself stays untouched.
+
+const TAG_SEP = "~";
+const TAG_B64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+
+// Deterministic 3-char fingerprint of a profile's z-scores, quantized exactly
+// as the share codec quantizes — so a subject and an observer holding the
+// subject's code derive the identical tag.
+export function subjectTag(z: Record<ReportKey, number>): string {
+  let h = 0;
+  KEYS.forEach((k) => {
+    const q = Math.max(-63, Math.min(63, Math.round((z[k] ?? 0) * 20))) + 128;
+    h = (h * 131 + q) & 0xffff;
+  });
+  return TAG_B64[(h >> 12) & 63] + TAG_B64[(h >> 6) & 63] + TAG_B64[h & 63];
+}
+
+// Append the subject fingerprint to an observer code, given the subject's code.
+// Returns the observer code unchanged if the subject code doesn't decode.
+export function bindObserverCode(observerCode: string, subjectCode: string): string {
+  const subj = decodeShareCode(subjectCode);
+  return subj ? `${observerCode}${TAG_SEP}${subjectTag(subj.z)}` : observerCode;
+}
+
+// Split a stored observer code into its share code and optional subject tag.
+export function splitObserverCode(input: string): { code: string; tag: string | null } {
+  const i = input.indexOf(TAG_SEP);
+  if (i < 0) return { code: input.trim(), tag: null };
+  return { code: input.slice(0, i).trim(), tag: input.slice(i + 1).trim() || null };
 }
 
 export interface TraitGap {

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { aiContextBlock } from "@/lib/portable";
-import { agentPersona, PERSONA_FLAVORS, PERSONA_ROLES, type FlavorKey, type RoleKey } from "@/lib/persona";
+import { agentPersona, PERSONA_FLAVORS, PERSONA_ROLES, type FlavorKey } from "@/lib/persona";
 import { profileUrl } from "@/lib/shareview";
 import { managementStyle, type FeedbackDigest } from "@/lib/management";
 import { composeAgents, PROJECT_TYPES } from "@/lib/compose";
@@ -103,24 +103,17 @@ function FieldNotes({ profile }: { profile: Profile }) {
 export function AiSheet({ profile }: { profile: Profile }) {
   const style = managementStyle(profile);
   const [flavor, setFlavor] = useState<FlavorKey | null>(null);
-  const [role, setRole] = useState<RoleKey | null>(null);
   useEffect(() => {
     try {
       const f = localStorage.getItem("prismona.flavor") as FlavorKey | null;
-      const r = localStorage.getItem("prismona.role") as RoleKey | null;
       if (f && PERSONA_FLAVORS[f]) setFlavor(f);
-      if (r && PERSONA_ROLES[r]) setRole(r);
     } catch { /* ignore */ }
   }, []);
   const pickFlavor = (f: FlavorKey | null) => {
     setFlavor(f);
     try { f ? localStorage.setItem("prismona.flavor", f) : localStorage.removeItem("prismona.flavor"); } catch { /* ignore */ }
   };
-  const pickRole = (r: RoleKey | null) => {
-    setRole(r);
-    try { r ? localStorage.setItem("prismona.role", r) : localStorage.removeItem("prismona.role"); } catch { /* ignore */ }
-  };
-  const personaText = agentPersona(profile, { flavor: flavor ?? undefined, role: role ?? undefined });
+  const personaText = agentPersona(profile, { flavor: flavor ?? undefined });
   return (
     <>
       <section className="arch-display">
@@ -150,22 +143,9 @@ export function AiSheet({ profile }: { profile: Profile }) {
                 onClick={() => pickFlavor(f)}>{PERSONA_FLAVORS[f].name}</button>
             ))}
           </div>
-          <span className="label">Professional role · optional</span>
-          <div className="flags" style={{ marginTop: "var(--s-3)" }}>
-            <button className="flag" aria-pressed={role === null}
-              style={role === null ? { borderColor: "var(--gold)", color: "var(--gold)" } : undefined}
-              onClick={() => pickRole(null)}>Default</button>
-            {(Object.keys(PERSONA_ROLES) as RoleKey[]).map((r) => (
-              <button key={r} className="flag" aria-pressed={role === r}
-                style={role === r ? { borderColor: "var(--gold)", color: "var(--gold)" } : undefined}
-                onClick={() => pickRole(r)}>{PERSONA_ROLES[r].name}</button>
-            ))}
-          </div>
           <p className="footnote" style={{ marginTop: "var(--s-3)" }}>
             Tuning modulates, never replaces: the complement calibration always wins on
-            conflict. Role archetypes distill observed practitioners — Belbin&apos;s team
-            roles, Merrill &amp; Reid&apos;s Social Styles, Kelley&apos;s Ten Faces of
-            Innovation, DeMarco &amp; Lister&apos;s Peopleware.
+            conflict.
           </p>
         </div>
 
@@ -181,17 +161,7 @@ export function AiSheet({ profile }: { profile: Profile }) {
       </section>
 
       <section className="report-section">
-        <span className="label gold">Compose your agent team</span>
-        <p className="prose" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
-          Pick a project outcome and a bench size, and get the agent roles that
-          complement you — staffed around the seat your own profile already covers,
-          process-anchors first where you run low.
-        </p>
-        <AgentComposer profile={profile} />
-      </section>
-
-      <section className="report-section">
-        <span className="label gold">Management style</span>
+        <span className="label gold">My management style for agents</span>
         <p className="prose" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
           {style.headline} Agents that work with you can refine it: the MCP tool{" "}
           <span className="num">report_collaboration</span> records what worked and what
@@ -224,6 +194,16 @@ export function AiSheet({ profile }: { profile: Profile }) {
             <FieldNotes profile={profile} />
           </div>
         </div>
+      </section>
+
+      <section className="report-section">
+        <span className="label gold">Compose your agent team</span>
+        <p className="prose" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
+          Pick a project outcome and a bench size, and get the agent roles that
+          complement you — staffed around the seat your own profile already covers,
+          process-anchors first where you run low.
+        </p>
+        <AgentComposer profile={profile} />
       </section>
     </>
   );

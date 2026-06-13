@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { OBSERVER_ITEMS, observerShare, scoreObserver } from "@/lib/observe";
-import { encodeShareCode } from "@/lib/codec";
+import { OBSERVER_ITEMS, observerShare, scoreObserver, bindObserverCode } from "@/lib/observe";
+import { encodeShareCode, decodeShareCode } from "@/lib/codec";
 
 const SCALE = ["Very inaccurate", "Somewhat inaccurate", "Neither", "Somewhat accurate", "Very accurate"];
 
@@ -13,18 +13,30 @@ export default function ObservePage() {
   const [answers, setAnswers] = useState<number[]>([]);
   const [code, setCode] = useState("");
   const [copied, setCopied] = useState(false);
+  const [subjectCode, setSubjectCode] = useState("");
+  const [codeErr, setCodeErr] = useState<string | null>(null);
 
   const answer = useCallback((v: number) => {
     const next = [...answers, v];
     if (next.length === OBSERVER_ITEMS.length) {
       const z = scoreObserver(next);
-      setCode(encodeShareCode(observerShare(z, new Date().toISOString().slice(0, 10))));
+      const base = encodeShareCode(observerShare(z, new Date().toISOString().slice(0, 10)));
+      setCode(subjectCode.trim() ? bindObserverCode(base, subjectCode) : base);
       setStage("done");
     } else {
       setAnswers(next);
       setIdx(next.length);
     }
-  }, [answers]);
+  }, [answers, subjectCode]);
+
+  const begin = () => {
+    if (subjectCode.trim() && !decodeShareCode(subjectCode)) {
+      setCodeErr("That code didn't decode — check it, or leave it blank.");
+      return;
+    }
+    setCodeErr(null);
+    setStage("items");
+  };
 
   useEffect(() => {
     if (stage !== "items") return;
@@ -55,8 +67,24 @@ export default function ObservePage() {
             nothing about you, and nothing is transmitted anywhere by this page.
           </p>
         </div>
-        <div style={{ marginTop: "var(--s-12)" }}>
-          <button className="btn solid" onClick={() => setStage("items")}>Begin</button>
+        <div style={{ marginTop: "var(--s-12)", maxWidth: "460px" }}>
+          <span className="label">Their code · optional</span>
+          <p className="prose" style={{ margin: "var(--s-3) 0 var(--s-4)", fontSize: "var(--t-sm)" }}>
+            Paste the code from the person who invited you. It never leaves this page —
+            it only stamps your rating so they can confirm it was meant for them.
+          </p>
+          <input
+            className="code-input"
+            style={{ width: "100%", maxWidth: "360px" }}
+            placeholder="Their code · PRSM-…"
+            value={subjectCode}
+            onChange={(e) => { setSubjectCode(e.target.value); setCodeErr(null); }}
+            onKeyDown={(e) => { if (e.key === "Enter") begin(); }}
+          />
+          {codeErr && <span className="flag warn" style={{ display: "inline-block", marginTop: "var(--s-3)" }}>{codeErr}</span>}
+        </div>
+        <div style={{ marginTop: "var(--s-8)" }}>
+          <button className="btn solid" onClick={begin}>Begin</button>
         </div>
       </main>
     );
