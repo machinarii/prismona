@@ -14,9 +14,7 @@ export default function Home() {
         </h1>
         <p className="prose" style={{ fontSize: "var(--t-lg)", lineHeight: 1.5, maxWidth: "46ch" }}>
           Five minutes of honest answers becomes a portrait of how you&apos;re
-          wired — and what it means for love, work, and the people you build
-          with. Every score shows its margin of error; every claim shows
-          its receipt.
+          wired — how you prefer to interact, communicate, and be treated.
         </p>
         <div style={{ display: "flex", gap: "var(--s-3)", flexWrap: "wrap", marginTop: "var(--s-12)", maxWidth: "440px" }}>
           <Link href="/assess?tier=quick" className="btn solid" style={{ flex: "1 1 0", textAlign: "center" }}>

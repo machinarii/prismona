@@ -6,6 +6,7 @@ const nextConfig = {
     return [
       { source: "/results", destination: "/profile", permanent: true },
       { source: "/method", destination: "/methodology", permanent: true },
+      { source: "/observe", destination: "/validate", permanent: true },
     ];
   },
 };
