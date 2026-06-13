@@ -5,8 +5,8 @@ import Link from "next/link";
 
 const LINKS: Array<[string, string]> = [
   ["/profile", "Profile"],
-  ["/validate", "Observe"],
-  ["/compare", "Compare 1:1"],
+  ["/validate", "Validate"],
+  ["/compare", "Compare"],
   ["/team", "Team"],
   ["/mcp", "MCP"],
   ["/methodology", "Methodology"],

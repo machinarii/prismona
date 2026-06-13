@@ -22,10 +22,6 @@ export function RarityLine({ profile, topName }: { profile: Profile; topName?: s
         )}
         .
       </p>
-      <p className="footnote" style={{ marginTop: "var(--s-2)" }}>
-        Estimated via Mahalanobis distance under meta-analytic trait correlations,
-        against provisional norms — method, not mysticism.
-      </p>
     </>
   );
 }

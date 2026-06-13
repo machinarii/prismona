@@ -58,18 +58,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="shell">
             <span className="label">Prismona</span>
             <p className="footnote">
-              Personality explains a meaningful minority of variance in life outcomes
-              (r ≈ .2–.3 for the best-evidenced links). We report effect sizes honestly,
-              show uncertainty on every score, and never issue verdicts about people.
-            </p>
-            <p className="footnote">
               Private by architecture: the assessment, scoring and reports run entirely in
               your browser. Nothing you answer is transmitted, stored remotely, or sold — ever.
-            </p>
-            <p className="footnote">
-              Instruments: Mini-IPIP (Donnellan et al., 2006) · IPIP-NEO-120 (Johnson, 2014) ·
-              IPIP HEXACO Honesty-Humility (Ashton, Lee &amp; Goldberg, 2007). Public domain via
-              the International Personality Item Pool. <Link href="/methodology">Full method &amp; citations</Link>.
             </p>
             <p className="footnote">
               Prismona is made by Sensing Apparatus LLC. © 2026 Sensing Apparatus LLC.
