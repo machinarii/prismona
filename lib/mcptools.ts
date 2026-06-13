@@ -233,7 +233,7 @@ export function registerPrismonaTools(server: McpServer): void {
     "interaction_guide",
     {
       title: "Interaction guide (for everyone else)",
-      description: "Third-person guidance for an agent or human about to interact with the person who shared this code: how to communicate with them well, given their measured profile. The inbound side of the personality digital ID.",
+      description: "Third-person guidance for an agent or human about to interact with the person who shared this code: how to communicate with them well, given their measured profile. The inbound side of the personality blueprint.",
       inputSchema: { code: z.string().describe(CODE_DESC) },
     },
     async ({ code }) => {

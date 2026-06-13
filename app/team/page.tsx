@@ -38,7 +38,7 @@ export default function TeamPage() {
     <main className="shell" style={{ paddingTop: "var(--s-16)" }}>
       <p className="label gold">Team composition</p>
       <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "16px 0 24px", maxWidth: "20ch" }}>
-        Paste the codes. Read the team.
+        Paste the codes. Understand team chemistry.
       </h1>
       <p className="prose">
         Two or more share codes — cofounders, a project squad, a leadership team —

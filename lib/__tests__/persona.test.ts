@@ -118,7 +118,7 @@ describe("persona flavors and roles — tuning that modulates, never replaces", 
   });
 });
 
-describe("interactionGuide — the inbound side of the digital ID", () => {
+describe("interactionGuide — the inbound side of the personality blueprint", () => {
   const p = profile({ E: -1.1, A: -0.9, ES: -0.8 });
   const guide = interactionGuide(p);
 

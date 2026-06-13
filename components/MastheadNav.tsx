@@ -4,10 +4,10 @@ import { useState } from "react";
 import Link from "next/link";
 
 const LINKS: Array<[string, string]> = [
-  ["/results", "Profile"],
+  ["/profile", "Profile"],
   ["/observe", "Observe"],
   ["/compare", "Compare 1:1"],
-  ["/team", "Team Composition"],
+  ["/team", "Team"],
   ["/mcp", "MCP"],
   ["/method", "Methodology"],
 ];
