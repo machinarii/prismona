@@ -42,7 +42,7 @@ function Sliders({ profile, initial, onSave }: {
         </div>
       ))}
       <div style={{ marginTop: "var(--s-6)" }}>
-        <button className="btn solid" onClick={() => onSave(targets)}>Set my desired self</button>
+        <button className="btn solid" onClick={() => onSave(targets)}>Set desired improvements</button>
       </div>
     </div>
   );
@@ -97,7 +97,7 @@ export function BecomingSheet({ profile }: { profile: Profile }) {
       <section className="arch-display">
         <p className="label gold">Becoming</p>
         <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "12px 0 16px", maxWidth: "16ch" }}>
-          Who do you want to be?
+          What do you want to improve?
         </h1>
         <p className="prose">
           Your report measures who you are. This page holds who you&apos;re aiming to

@@ -423,10 +423,10 @@ function ResultsInner() {
 }
 
 const VIEWS = [
-  { key: "breakdown" as const, name: "My breakdown", desc: "Full report for you" },
-  { key: "manual" as const, name: "Working with me", desc: "Concise report for others" },
-  { key: "relationship" as const, name: "Relationship with me", desc: "Concise report for lover" },
-  { key: "ai" as const, name: "For my AI", desc: "Agent context & persona" },
+  { key: "breakdown" as const, name: "My personality blueprint", desc: "Full report for you" },
+  { key: "manual" as const, name: "Working with me", desc: "Concise manual for coworkers" },
+  { key: "ai" as const, name: "Working with my AI", desc: "Agent context & persona" },
+  { key: "relationship" as const, name: "Relationship with me", desc: "Concise manual for partner" },
   { key: "becoming" as const, name: "Calibration", desc: "Desired qualities" },
 ];
 
@@ -451,31 +451,37 @@ function CodeActions({ profile }: { profile: Profile }) {
 function ProfileViews({ profile, drift, interests }: {
   profile: Profile; drift: DriftReport | null; interests: InterestProfile | null;
 }) {
-  const [view, setView] = useState<"breakdown" | "manual" | "relationship" | "ai" | "becoming">("breakdown");
+  const params = useSearchParams();
+  const viewParam = params.get("view");
+  const view = VIEWS.some((v) => v.key === viewParam) ? viewParam! : "breakdown";
+  const tier = params.get("tier");
+  const tabHref = (key: string) =>
+    `/profile?view=${key}${tier ? `&tier=${tier}` : ""}#${encodeShareCode(profile)}`;
   return (
     <>
       <div className="shell no-print" style={{ paddingTop: "var(--s-16)" }}>
         <div className="view-bar">
           <div className="view-tabs" role="tablist" aria-label="Profile views">
             {VIEWS.map((v) => (
-              <button
+              <Link
                 key={v.key}
+                href={tabHref(v.key)}
+                scroll={false}
                 className="view-tab"
                 role="tab"
                 aria-selected={view === v.key}
-                onClick={() => setView(v.key)}
               >
                 <span className="vt-name">{v.name}</span>
                 <span className="vt-desc">{v.desc}</span>
-              </button>
+              </Link>
             ))}
           </div>
         </div>
       </div>
       {view === "breakdown" && <Report profile={profile} drift={drift} interests={interests} />}
       {view === "manual" && <main className="shell reveal"><ManualSheet profile={profile} showBack={false} /></main>}
-      {view === "relationship" && <main className="shell reveal"><RelationshipSheet profile={profile} showBack={false} /></main>}
       {view === "ai" && <main className="shell reveal"><AiSheet profile={profile} /></main>}
+      {view === "relationship" && <main className="shell reveal"><RelationshipSheet profile={profile} showBack={false} /></main>}
       {view === "becoming" && <main className="shell reveal"><BecomingSheet profile={profile} /></main>}
     </>
   );

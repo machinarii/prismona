@@ -19,7 +19,7 @@ function CopyManualLink({ profile }: { profile: Profile }) {
         });
       }}
     >
-      {copied ? "Copied" : "Copy manual link"}
+      {copied ? "Copied" : "Copy share link"}
     </button>
   );
 }
