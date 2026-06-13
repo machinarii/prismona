@@ -32,8 +32,9 @@ Next.js 15 App Router, all routes statically prerendered except one API route. A
 | `export.ts` | canonical JSON export (schema: `public/schema/profile.v1.json`) |
 | `portable.ts` | copyable AI context block |
 | `citations.ts` / `data/references.ts` | superscript numbering + full references (invariant test: every emitted cite must have a full reference) |
-| `contrib.ts` | contribution validation gate (the only thing the contribute route stores) |
-| `mcptools.ts` | the MCP tool registry (7 tools), shared by the hosted endpoint and the stdio package |
+| `contrib.ts` | contribution validation gate (code + optional age band + optional self-reported continent) |
+| `compose.ts` | forward team composition (project types x Team Topologies x size; trust gate applied) + complement-staffed agent benches |
+| `mcptools.ts` / `mcpguide.ts` | the MCP tool registry (12 tools incl. usage_guide, compose_team/compose_agents, management_style/report_collaboration) + the agent-facing markdown guide, shared by hosted endpoint and stdio package |
 | `storage.ts` | localStorage: profiles, history, interests, age band, observer codes, contribution flags |
 
 **`app/`** — pages: `/` `/assess` `/results` (two views behind a folio tab: breakdown + working-with-me) `/p` (shared profile via fragment) `/manual` `/interests` `/compare` `/team` `/predict` `/observe` `/mcp` (connection docs) `/method` `/privacy` `/terms` + two API routes: `api/contribute/route.ts` and `api/[transport]/route.ts` (the **hosted MCP endpoint** at `/api/mcp` — `mcp-handler`, Streamable HTTP, stateless, SSE disabled). Results/p/manual are client-rendered (data is local) — **their static HTML is intentionally empty; verify deployed changes via their `_next` JS chunks, not the HTML.** ⚠️ `mcp-handler@1.1.0` pins `@modelcontextprotocol/sdk` to exactly **1.26.0** — don't bump the SDK without checking.
@@ -55,7 +56,8 @@ Next.js 15 App Router, all routes statically prerendered except one API route. A
 2. **Consent-only**: the share code/link is the grant; one context's consent doesn't transfer. No profiling of non-consenting third parties, ever.
 3. **No hiring/screening claims**: the integrity reading and every export disclaim screening use; a hiring module requires criterion validation + adverse-impact analysis (AERA/APA/NCME) first.
 4. **Claims discipline**: modest effect sizes stated, Joel et al. 2020 caps relationship claims, archetypes always gradient-over-dimensions, norms labeled provisional.
-5. **Policy changes first**: any new collection updates `/privacy` *before* shipping (precedent: §V, the opt-in contribution).
+5. **Policy changes first**: any new collection updates `/privacy` *before* shipping (precedents: SV contribution + field notes, SVI accounts).
+6. **Nomenclature**: "quick/full test" for the act of taking it, "quick/full profile" for the result. The standard tier exists in code (items/codec/bands) but is **dormant** -- not linked anywhere in the UI.
 
 ## Open items
 
@@ -64,7 +66,8 @@ Next.js 15 App Router, all routes statically prerendered except one API route. A
 | **Blob store link (Tier 0)** | `prismona-contrib` (store_rfwBnGykMSs0hCmg, private, iad1) created but **not connected** → `/api/contribute` returns 503 "paused" by design | Dashboard → prismona → Storage → Connect; then redeploy and run an end-to-end contribution test |
 | **npm publish** | `@prismona/codec` + `prismona-mcp` ready (parity/smoke-tested) | `npm publish` both when the owner says so |
 | Tier 3 backlog | outcome follow-ups, context fields, QR-on-PDF, embed snippets, crosswalk | `docs/ROADMAP.md` §E |
-| Tier 4 | SJT, forced-choice, remote MCP, language analysis, values/attachment (**licensing inquiries not yet started**) | §E |
+| Tier 4 | SJT, forced-choice, language analysis, values/attachment (**licensing inquiries not started**) | §E |
+| Cultural values/norms | future integration; optional continent field already collected to support it | ROADMAP §E note |
 | Norms | provisional (published Mini-IPIP/IPIP samples) | re-estimate once contributions accumulate |
 
 ## Key documents

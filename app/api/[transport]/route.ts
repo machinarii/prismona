@@ -1,5 +1,5 @@
 import { createMcpHandler } from "mcp-handler";
-import { registerPrismonaTools } from "@/lib/mcptools";
+import { registerPrismonaTools, SERVER_INSTRUCTIONS } from "@/lib/mcptools";
 
 // The hosted Prismona MCP endpoint: any MCP-capable agent connects to
 // https://prismona.vercel.app/api/mcp (Streamable HTTP, stateless) and
@@ -11,7 +11,7 @@ import { registerPrismonaTools } from "@/lib/mcptools";
 
 const handler = createMcpHandler(
   (server) => { registerPrismonaTools(server); },
-  { serverInfo: { name: "prismona", version: "0.1.0" } },
+  { serverInfo: { name: "prismona", version: "0.1.0" }, instructions: SERVER_INSTRUCTIONS },
   { basePath: "/api", disableSse: true, maxDuration: 60 },
 );
 

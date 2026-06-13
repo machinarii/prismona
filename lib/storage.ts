@@ -1,7 +1,7 @@
 import type { Profile, Snapshot, Tier } from "./types";
 import { pushSnapshot, snapshotOf } from "./timeline";
 import type { InterestProfile } from "./interests";
-import { AGE_BANDS, type AgeBand } from "./contrib";
+import { AGE_BANDS, CONTINENTS, type AgeBand, type Continent } from "./contrib";
 
 // Privacy by default: profiles live only in this browser's localStorage.
 const key = (tier: Tier) => `prismona.profile.${tier}`;
@@ -82,6 +82,20 @@ export function loadDesired(): import("./aspire").DesiredSelf | null {
     if (!raw) return null;
     const d = JSON.parse(raw);
     return d && d.v === 1 && d.targets ? d : null;
+  } catch { return null; }
+}
+
+export function saveContinent(c: Continent | null): void {
+  try {
+    if (c) localStorage.setItem("prismona.continent", c);
+    else localStorage.removeItem("prismona.continent");
+  } catch { /* ignore */ }
+}
+
+export function loadContinent(): Continent | null {
+  try {
+    const v = localStorage.getItem("prismona.continent");
+    return v && (CONTINENTS as readonly string[]).includes(v) ? (v as Continent) : null;
   } catch { return null; }
 }
 
