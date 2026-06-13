@@ -16,11 +16,11 @@ Next.js 15 App Router, all routes statically prerendered except one API route. A
 |---|---|
 | `codec.ts` | PRSM share-code encode/decode (canonical; package parity-tested) |
 | `scoring.ts` | z-scores, percentiles (`toPct`), SEM bands (`band`), quality flags, consistency index |
-| `norms.ts` / `items.ts` / `data/ipip120.ts` | provisional norms, alphas, item banks (Mini-IPIP 26 / IPIP-NEO-120 126) |
+| `norms.ts` / `items.ts` / `data/ipip120.ts` | provisional norms, alphas, item banks: quick 26 / standard 38 (facet-balanced, domain-interleaved, fatigue-aware) / full 128 — standard+full embed 2 instructed attention checks (`chk`), excluded from scoring |
 | `archetypes.ts` | 8 prototypes, gradient matching, `trustNote()` |
 | `insights.ts` | six applied readings (relationships/career/work/leadership/integrity/cofounder), percentile-tiered (≥70/≥40/<40), facet-refined on full tier |
 | `manual.ts` | "Working with me" first-person one-pager |
-| `persona.ts` | `agentPersona()` (complement-calibrated AI for the owner) + `interactionGuide()` (for everyone else) |
+| `persona.ts` | `agentPersona(p, {flavor, role})`: complement calibration + optional voice flavors and observed-worker role archetypes (Belbin, Merrill & Reid, Kelley, Peopleware) + `interactionGuide()` |
 | `dyad.ts` | pairwise compatibility (romantic/cofounder/colleague) |
 | `team.ts` | N-code composition: diversity, coverage, gaps, single points, gates |
 | `predict.ts` | perception-accuracy scoring vs SEM bands (Joel 2020 framing) |
