@@ -88,4 +88,13 @@ describe("manual — personalization", () => {
   it("conflict section reflects emotional stability", () => {
     expect(text({ ES: 1.2 }, "conflict")).not.toBe(text({ ES: -1.2 }, "conflict"));
   });
+
+  it("communication candor reflects honesty-humility (high vs low)", () => {
+    expect(text({ H: 1.2 }, "communication")).not.toBe(text({ H: -1.2 }, "communication"));
+  });
+
+  it("communication has a Candor entry surfacing H", () => {
+    const comm = buildManual(profile()).find((s) => s.key === "communication")!;
+    expect(comm.entries.some((e) => e.title === "Candor")).toBe(true);
+  });
 });
