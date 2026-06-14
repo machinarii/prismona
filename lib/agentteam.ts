@@ -8,10 +8,18 @@ import type { FlavorKey, RoleKey } from "./persona";
 // published team code is the grant, exactly as with a profile share code.
 
 export interface TeamAgent { id: string; role: RoleKey; flavor?: FlavorKey }
-export interface AgentTeam { v: 1; anchor: string; agents: TeamAgent[] }
+// `id` is a STABLE team identifier, generated once and preserved across edits.
+// The learned-persona store keys by it (not by the content code), so editing
+// the roster and republishing keeps each agent's accumulated learning.
+export interface AgentTeam { v: 1; id: string; anchor: string; agents: TeamAgent[] }
 
 const PREFIX = "PRSM-TEAM-";
 const STORE_KEY = "prismona.agentteam";
+
+export const newTeamId = (): string =>
+  typeof crypto !== "undefined" && crypto.randomUUID
+    ? `t-${crypto.randomUUID().slice(0, 12)}`
+    : `t-${Date.now().toString(36)}`;
 
 const b64urlEncode = (s: string): string =>
   btoa(unescape(encodeURIComponent(s))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
@@ -29,7 +37,7 @@ export function decodeTeamCode(code: string): AgentTeam | null {
   if (!body) return null;
   try {
     const obj = JSON.parse(b64urlDecode(body)) as AgentTeam;
-    if (obj.v !== 1 || typeof obj.anchor !== "string" || !Array.isArray(obj.agents)) return null;
+    if (obj.v !== 1 || typeof obj.id !== "string" || typeof obj.anchor !== "string" || !Array.isArray(obj.agents)) return null;
     return obj;
   } catch {
     return null;
