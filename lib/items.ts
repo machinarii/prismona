@@ -40,6 +40,33 @@ export const H_ITEMS: Item[] = [
 
 export const QUICK_TEST: Item[] = [...QUICK_ITEMS, ...H_ITEMS];
 
+// Full-tier Honesty-Humility: four IPIP HEXACO facets × 4 public-domain markers
+// (Ashton, Lee & Goldberg, 2007), keying balanced per facet. Quick/standard keep
+// the 6 domain-level H_ITEMS above. NOTE: verify wording against ipip.ori.org
+// before final norming — these are the canonical IPIP HH facet markers.
+export const H_FULL: Item[] = [
+  // Sincerity
+  { t: "I wouldn't use flattery to get a raise or promotion, even if I thought it would work.", k: "H", f: "Sincerity", r: false },
+  { t: "I wouldn't pretend to like someone just to get favors out of them.", k: "H", f: "Sincerity", r: false },
+  { t: "I'll laugh at someone's worst jokes if I want something from them.", k: "H", f: "Sincerity", r: true },
+  { t: "I'm willing to be a little insincere with people to get what I want.", k: "H", f: "Sincerity", r: true },
+  // Fairness
+  { t: "I would never accept a bribe, even a large one.", k: "H", f: "Fairness", r: false },
+  { t: "I would never take things that aren't mine.", k: "H", f: "Fairness", r: false },
+  { t: "I'd be tempted to buy stolen property if money were tight.", k: "H", f: "Fairness", r: true },
+  { t: "I'd be willing to cut a few corners to get ahead.", k: "H", f: "Fairness", r: true },
+  // Greed-Avoidance
+  { t: "Having a lot of money is not especially important to me.", k: "H", f: "Greed-Avoidance", r: false },
+  { t: "I would get a lot of pleasure from owning expensive luxury goods.", k: "H", f: "Greed-Avoidance", r: true },
+  { t: "I'd like to be seen driving around in a very expensive car.", k: "H", f: "Greed-Avoidance", r: true },
+  { t: "I would enjoy belonging to an exclusive, high-status club.", k: "H", f: "Greed-Avoidance", r: true },
+  // Modesty
+  { t: "I am an ordinary person who is no better than others.", k: "H", f: "Modesty", r: false },
+  { t: "I wouldn't want people to treat me as more important than them.", k: "H", f: "Modesty", r: false },
+  { t: "I think I'm entitled to more respect than the average person.", k: "H", f: "Modesty", r: true },
+  { t: "I want people to know that I am someone of high status.", k: "H", f: "Modesty", r: true },
+];
+
 // ---------------------------------------------------------------------------
 // Instructed attention checks (Meade & Craig, 2012): excluded from scoring,
 // counted into quality. Quick stays clean — 26 items is short enough.
@@ -83,7 +110,7 @@ export const STANDARD_TEST: Item[] = buildStandard();
 // + the same 6 Honesty-Humility markers. 126 items total.
 // ---------------------------------------------------------------------------
 function buildFull(): Item[] {
-  const out: Item[] = [...IPIP120_ITEMS, ...H_ITEMS];
+  const out: Item[] = [...IPIP120_ITEMS, ...H_FULL];
   out.splice(45, 0, ATTN_LOW);
   out.splice(95, 0, ATTN_HIGH);
   return out;
