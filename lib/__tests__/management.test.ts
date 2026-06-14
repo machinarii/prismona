@@ -20,9 +20,9 @@ const profile = (z: Partial<Record<ReportKey, number>> = {}): Profile => {
 describe("managementStyle", () => {
   const style = managementStyle(profile({ C: -1.0, A: -0.9, E: 1.1, O: 1.2 }));
 
-  it("produces the six working-doc sections in order", () => {
+  it("produces the seven working-doc sections in order", () => {
     expect(style.sections.map((s) => s.key)).toEqual([
-      "core", "strengths", "communication", "environment", "friction", "moves",
+      "core", "strengths", "communication", "environment", "friction", "moves", "managingUp",
     ]);
     style.sections.forEach((sec) => {
       expect(sec.heading.length).toBeGreaterThan(3);
