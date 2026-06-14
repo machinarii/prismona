@@ -143,11 +143,16 @@ export function registerPrismonaTools(server: McpServer): void {
       const share = decodeShareCode(team.anchor);
       if (!share) return fail("team anchor profile is invalid");
       const profile = profileFromShare(share);
-      const agents = team.agents.map((a) => ({
-        id: a.id,
-        role: a.role,
-        flavor: a.flavor ?? null,
-        persona: agentPersona(profile, { role: a.role, flavor: a.flavor }),
+      const agents = await Promise.all(team.agents.map(async (a) => {
+        let persona = agentPersona(profile, { role: a.role, flavor: a.flavor });
+        try {
+          const res = await fetch(`${AGENTLEARN_API}?teamCode=${encodeURIComponent(teamCode)}&agentId=${encodeURIComponent(a.id)}`);
+          if (res.ok) {
+            const data = await res.json().catch(() => ({}));
+            if (data?.overlay?.note) persona += `\n\n${data.overlay.note}`;
+          }
+        } catch { /* offline / no learned layer — the seed persona stands */ }
+        return { id: a.id, role: a.role, flavor: a.flavor ?? null, persona };
       }));
       return ok({ count: agents.length, agents });
     },
@@ -205,6 +210,7 @@ export function registerPrismonaTools(server: McpServer): void {
 
   const FEEDBACK_API = "https://prismona.vercel.app/api/feedback";
   const OBSERVE_API = "https://prismona.vercel.app/api/observe";
+  const AGENTLEARN_API = "https://prismona.vercel.app/api/agentlearn";
 
   server.registerTool(
     "management_style",
@@ -284,6 +290,35 @@ export function registerPrismonaTools(server: McpServer): void {
         return ok({ ok: true, note: "Recorded — folds into the owner's observed layer. Behavioral only; never moves their measured scores." });
       } catch {
         return fail("could not reach the observation endpoint");
+      }
+    },
+  );
+
+  server.registerTool(
+    "tune_agent",
+    {
+      title: "Report what worked with the owner (tune an agent)",
+      description: "After working as one of the owner's team agents, report what landed and what to adjust. Behavioral/style only — no message content, names, or secrets. Folds into that agent's LEARNED persona overlay (team_personas returns it folded in), the continuous-tuning layer on top of the seed persona. Never changes the owner's measured scores.",
+      inputSchema: {
+        teamCode: z.string().describe("the PRSM-TEAM-… code of the team you belong to"),
+        agentId: z.string().describe("your agent id within the team (from team_personas)"),
+        worked: z.array(z.string()).max(8).optional().describe("registers/behaviors that landed, e.g. terse-bullets, lead-with-answer"),
+        adjust: z.array(z.string()).max(8).optional().describe("changes to make, e.g. less-hedging, more-examples"),
+        agent: z.string().optional().describe("identifier of the reporting agent"),
+      },
+    },
+    async ({ teamCode, agentId, worked, adjust, agent }) => {
+      try {
+        const res = await fetch(AGENTLEARN_API, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ teamCode, agentId, worked, adjust, agent }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) return fail(typeof data?.error === "string" ? data.error : `tuning rejected (${res.status})`);
+        return ok({ ok: true, note: "Recorded — folds into this agent's learned persona overlay; the seed persona stays the base." });
+      } catch {
+        return fail("could not reach the agent-learning endpoint");
       }
     },
   );
