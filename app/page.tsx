@@ -66,7 +66,7 @@ export default function Home() {
             <tr>
               <td>
                 <span className="display" style={{ fontSize: "var(--t-lg)" }}>Full Test</span>
-                <div className="footnote num">126 items · ~20 min</div>
+                <div className="footnote num">136 items · ~20 min</div>
               </td>
               <td className="prose" style={{ fontSize: "var(--t-sm)", lineHeight: 1.65 }}>
                 Twenty minutes for the full-resolution portrait — thirty distinct

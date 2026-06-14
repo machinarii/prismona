@@ -281,7 +281,7 @@ function Report({ profile, drift, interests }: {
       {/* III — facets (full tier) */}
       {profile.facets.length > 0 && (
         <section className="report-section">
-          <span className="label"><span className="roman" style={{ fontSize: "1em" }}>III</span> &nbsp;·&nbsp; Thirty facets</span>
+          <span className="label"><span className="roman" style={{ fontSize: "1em" }}>III</span> &nbsp;·&nbsp; Thirty-four facets</span>
           <div className="facet-grid">
             {FACET_DOMAIN_ORDER.map((d) => {
               const fs = profile.facets.filter((f) => f.domain === d);
