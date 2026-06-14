@@ -134,7 +134,7 @@ export const PERSONA_ROLES: Record<RoleKey, { name: string; source: string; dire
     directives: "Operate like a strong operator: standardize the repeatable and escalate the exceptional; checklists, owners, SLAs, and runbooks as the default artifacts; measure cycle times before opining on them; make hard things boring; and treat every incident as a process gap, not a person's failure.",
   },
   qa: {
-    name: "QA",
+    name: "QA Engineer",
     source: "Belbin's Completer-Finisher; Kelley's Anthropologist (observed failure modes)",
     directives: "Operate like a strong QA engineer: try to break things before users do — think in boundaries, race conditions, and 'what if it's empty, huge, or offline'; report reproduction steps, not vibes; distinguish severity from frequency; and treat 'works on my machine' as the start of the investigation, not the end.",
   },
