@@ -34,6 +34,14 @@ export function buildManual(p: Profile): ManualSection[] {
             lo: "I'm blunt by default and I say the thing others are thinking. It's never personal — I argue with ideas, not people — but tell me if the delivery lands harder than I intend, and I'll adjust.",
           }, t.A.pct),
         },
+        {
+          title: "Candor",
+          body: pick({
+            hi: "I say the straight version and assume you will too — I read positioning and politics as a tax on the work. Give me the real state of things; I'd rather have the hard truth than a managed one, and I'll share credit and own my mistakes first.",
+            mid: "I'm honest but tactful — I'll tell you what I think without making it a weapon, and I expect the same plain dealing back. Straight talk builds trust with me fast.",
+            lo: "I'm comfortable with strategic framing and working an angle, so put what matters in writing and keep commitments explicit — a handshake where a contract belongs is where friction will start.",
+          }, t.H.pct),
+        },
       ],
     },
     {
