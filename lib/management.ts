@@ -156,6 +156,35 @@ const TEXT: Record<string, Record<ReportKey, Record<Dir, string>>> = {
       lo: "Write the agreements down and align incentives explicitly, every time.",
     },
   },
+  // How an agent (the "report") should manage up to this person (the "boss").
+  // Gabarro & Kotter's four levers (expectations, information flow, dependability,
+  // time) + Drucker's reader-vs-listener (E) + LMX no-surprises trust.
+  managingUp: {
+    O: {
+      hi: "Bring the novel option, but pre-answer 'what's the boring version?' — I'll back the idea faster once I see you've stress-tested it.",
+      lo: "Lead with the proven option and the precedent; introduce anything novel only after the safe path is on the table.",
+    },
+    C: {
+      hi: "Put the important agreements in writing — who does what by when. I track commitments and I expect you to as well.",
+      lo: "Proactively restate what we've agreed and re-confirm deadlines; don't assume a verbal yes is logged.",
+    },
+    E: {
+      hi: "Talk it through first, then confirm in writing — I process out loud, and a cold memo reads as being managed.",
+      lo: "Send a tight brief before you ask for time — I'd rather read and reflect than be talked at.",
+    },
+    A: {
+      hi: "Name tension early and gently — I'll smooth over friction, so make it safe to surface the hard thing.",
+      lo: "Bring your reasoning, not your feelings — I argue with ideas and respect a direct, well-made case.",
+    },
+    ES: {
+      hi: "I stay level under pressure — raise hard news directly and expect a measured response.",
+      lo: "Don't negotiate with my first reaction — deliver hard news once, calmly, and give it an hour before you need a decision.",
+    },
+    H: {
+      hi: "No spin, ever — I hold a high integrity bar and read positioning as a cost. Be straight, share credit, and flag your own mistakes first.",
+      lo: "Keep commitments explicit and get the important things in writing — informal understandings are where trust will fray.",
+    },
+  },
 };
 
 const KEYS6: ReportKey[] = ["O", "C", "E", "A", "ES", "H"];
@@ -198,6 +227,11 @@ export function managementStyle(p: Profile): ManagementStyle {
         { body: "Calibrate against observation: with no strong trait signal, the field notes below are the real document.", strength: "light" as Strength },
       ];
 
+  const managingUpKeys = spiked.slice(0, 4);
+  const managingUp = managingUpKeys.length
+    ? managingUpKeys.map((k) => entry("managingUp", k))
+    : [{ body: "No spiked trait to key on — manage up by the universals: explicit expectations, no surprises, and bring decisions rather than status.", strength: "light" as Strength }];
+
   return {
     headline: "A working doc generated from the questionnaire — calibrate it against what actually happens.",
     sections: [
@@ -207,6 +241,7 @@ export function managementStyle(p: Profile): ManagementStyle {
       { key: "environment", heading: "The environment they create", entries: environment },
       { key: "friction", heading: "Friction & failure modes", entries: friction },
       { key: "moves", heading: "Best-practice moves", entries: moves },
+      { key: "managingUp", heading: "How to manage up to me", entries: managingUp },
     ],
     note: "This default is generated from self-report. Agents working with this person can report observations via MCP (report_collaboration); the weekly field notes outrank the questionnaire wherever they disagree.",
   };
