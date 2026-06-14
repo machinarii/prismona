@@ -77,7 +77,7 @@ function Brief({ tier, onBegin }: { tier: Tier; onBegin: () => void }) {
   void quick;
   return (
     <div className="reveal">
-      <p className="label gold">{tier === "quick" ? "Quick Test · 26 statements · ~5 minutes" : tier === "standard" ? "Standard Test · 38 statements · ~8 minutes" : "Full Test · 128 statements · ~20 minutes"}</p>
+      <p className="label gold">{tier === "quick" ? "Quick Test · 26 statements · ~5 minutes" : tier === "standard" ? "Standard Test · 38 statements · ~8 minutes" : "Full Test · 138 statements · ~20 minutes"}</p>
       <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "16px 0 24px", maxWidth: "18ch" }}>
         Answer as you are, not as you wish to be.
       </h1>
