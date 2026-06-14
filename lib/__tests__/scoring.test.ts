@@ -90,13 +90,14 @@ describe("scoreTest — quick tier", () => {
 });
 
 describe("scoreTest — full tier", () => {
-  it("produces 30 facets with ES-framed names for N facets", () => {
+  it("produces 34 facets (30 NEO + 4 H) with ES-framed names for N facets", () => {
     const ans = answersTargeting(FULL_TEST, {});
     const p = scoreTest(FULL_TEST, ans, "full");
-    expect(p.facets).toHaveLength(30);
+    expect(p.facets).toHaveLength(34);
     const esFacets = p.facets.filter((f) => f.domain === "ES");
     expect(esFacets).toHaveLength(6);
     expect(esFacets.map((f) => f.name)).toContain("Composure");
+    expect(p.facets.filter((f) => f.domain === "H")).toHaveLength(4);
     expect(p.facets.filter((f) => f.domain === "C")).toHaveLength(6);
   });
 
@@ -137,8 +138,8 @@ describe("norms sanity", () => {
   it("all domains have positive sd", () => {
     Object.values(NORMS).forEach((n) => expect(n.sd).toBeGreaterThan(0));
   });
-  it("full test is 128 items (126 + 2 attention checks), quick is 26", () => {
-    expect(FULL_TEST).toHaveLength(128);
+  it("full test is 138 items (136 + 2 attention checks), quick is 26", () => {
+    expect(FULL_TEST).toHaveLength(138);
     expect(QUICK_TEST).toHaveLength(26);
   });
 });
