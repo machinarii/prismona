@@ -121,9 +121,10 @@ Update the single caller of `systemPrompt(...)` to `await` it (it is already ins
 ## Phase B — Learning loop (outline)
 
 Close the loop so agents tune from real interaction:
-1. **Report:** after an agent turn (or on an explicit "this worked / adjust" affordance on the agent tile), POST behavioral tags to Prismona `tune_agent`. This requires a **stable key**; reuse `{ code, role }` as the identity.
-2. **Prismona-side dependency:** `tune_agent` + the learned fold are currently keyed by `(teamCode, agentId)` and folded by `team_personas`. To support the bridge path (which uses `agent_persona` per role, not a pre-built team), add a Prismona-side variant that keys learning by `(profileCode, role)` and folds it into `agent_persona` output — small change mirroring `team_personas`' fold. Track this as a Prismona follow-up before building Phase B.
+1. **Report:** after an agent turn (or on an explicit "this worked / adjust" affordance on the agent tile), call Prismona `tune_agent` with `{ code, role, worked, adjust }` — the same `(code, role)` identity the agent already uses for `agent_persona`.
+2. **Prismona-side dependency — DONE (2026-06-14):** `tune_agent` now accepts the `{ code, role }` identity, and `agent_persona` folds the learned overlay for `(code, role)` into its output (keyed by a stable profile-code scope). So the bridge path is fully supported with no further Prismona work: report via `tune_agent`, and the next `agent_persona` pull returns seed + learned.
 3. **Tile affordance:** a lightweight 👍 / "adjust…" on an agent reply maps to `worked`/`adjust` tags — keep it behavioral, never message content.
+4. **Caching note:** `prismonaPersona`'s 1h TTL (Phase A) means a just-reported tweak appears on the next cache refresh; lower the TTL or bust the cache entry on report if you want it immediate.
 
 ---
 

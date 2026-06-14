@@ -26,7 +26,7 @@ Don't call the code-taking tools until you actually hold a \`PRSM-…\` code.
 | Design a team for an outcome | \`compose_team\` | \`{ "projectType": "launch", "topology": "streamAligned", "size": 4 }\` → seat-by-seat archetype plan |
 | Staff agents around a person | \`compose_agents\` | \`{ "code": "PRSM-…", "projectType": "scale", "size": 3 }\` → roles + flavors that complement them |
 | Pull a published agent team's personas | \`team_personas\` | \`{ "teamCode": "PRSM-TEAM-…" }\` → each agent's role, voice, and calibrated persona (seed + learned); adopt yours |
-| Tune your agent from real interaction | \`tune_agent\` | \`{ "teamCode": "PRSM-TEAM-…", "agentId": "…", "worked": ["terse-bullets"], "adjust": ["less-hedging"] }\` — behavioral only; folds into your learned overlay |
+| Tune your agent from real interaction | \`tune_agent\` | \`{ "code": "PRSM-…", "role": "engineer", "worked": ["terse-bullets"], "adjust": ["less-hedging"] }\` (or \`{ "teamCode", "agentId", … }\`) — behavioral only; folds into your learned overlay (returned via \`agent_persona\`/\`team_personas\`) |
 | Become their calibrated companion | \`agent_persona\` | \`{ "code": "PRSM-…", "flavor": "logician", "role": "engineer" }\` → adopt the returned system prompt |
 | Communicate well with them | \`interaction_guide\` | \`{ "code": "PRSM-…" }\` → third-person guidance (channel, pacing, directness, **candor**); follow it |
 | Get their collaboration handout | \`working_with_me\` | \`{ "code": "PRSM-…" }\` |

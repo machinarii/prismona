@@ -172,7 +172,19 @@ export function registerPrismonaTools(server: McpServer): void {
     async ({ code, flavor, role }) => {
       const share = decodeShareCode(code);
       if (!share) return fail("invalid share code");
-      return ok(agentPersona(profileFromShare(share), { flavor, role }));
+      let persona = agentPersona(profileFromShare(share), { flavor, role });
+      // Fold the learned overlay for this (owner, role) — the continuous-tuning
+      // layer that agents accumulate via tune_agent (e.g. bridge agents).
+      if (role) {
+        try {
+          const res = await fetch(`${AGENTLEARN_API}?code=${encodeURIComponent(code)}&role=${encodeURIComponent(role)}`);
+          if (res.ok) {
+            const data = await res.json().catch(() => ({}));
+            if (data?.overlay?.note) persona += `\n\n${data.overlay.note}`;
+          }
+        } catch { /* offline / no learned layer — the seed persona stands */ }
+      }
+      return ok(persona);
     },
   );
 
@@ -298,21 +310,23 @@ export function registerPrismonaTools(server: McpServer): void {
     "tune_agent",
     {
       title: "Report what worked with the owner (tune an agent)",
-      description: "After working as one of the owner's team agents, report what landed and what to adjust. Behavioral/style only — no message content, names, or secrets. Folds into that agent's LEARNED persona overlay (team_personas returns it folded in), the continuous-tuning layer on top of the seed persona. Never changes the owner's measured scores.",
+      description: "After working with the owner, report what landed and what to adjust. Behavioral/style only — no message content, names, or secrets. Folds into your LEARNED persona overlay (returned folded into team_personas and agent_persona), the continuous-tuning layer on top of the seed persona. Never changes the owner's measured scores. Identify yourself either by { teamCode, agentId } (Composer team) or { code, role } (per-role, e.g. a bridge agent holding the owner's profile code).",
       inputSchema: {
-        teamCode: z.string().describe("the PRSM-TEAM-… code of the team you belong to"),
-        agentId: z.string().describe("your agent id within the team (from team_personas)"),
+        teamCode: z.string().optional().describe("PRSM-TEAM-… code (team path)"),
+        agentId: z.string().optional().describe("your agent id within the team (team path)"),
+        code: z.string().optional().describe("the owner's PRSM-… profile code (per-role path)"),
+        role: z.string().optional().describe("your role archetype, e.g. engineer (per-role path)"),
         worked: z.array(z.string()).max(8).optional().describe("registers/behaviors that landed, e.g. terse-bullets, lead-with-answer"),
         adjust: z.array(z.string()).max(8).optional().describe("changes to make, e.g. less-hedging, more-examples"),
         agent: z.string().optional().describe("identifier of the reporting agent"),
       },
     },
-    async ({ teamCode, agentId, worked, adjust, agent }) => {
+    async ({ teamCode, agentId, code, role, worked, adjust, agent }) => {
       try {
         const res = await fetch(AGENTLEARN_API, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ teamCode, agentId, worked, adjust, agent }),
+          body: JSON.stringify({ teamCode, agentId, code, role, worked, adjust, agent }),
         });
         const data = await res.json().catch(() => ({}));
         if (!res.ok) return fail(typeof data?.error === "string" ? data.error : `tuning rejected (${res.status})`);
