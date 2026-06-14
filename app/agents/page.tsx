@@ -8,7 +8,7 @@ import {
   agentPersona, PERSONA_ROLES, PERSONA_FLAVORS, type RoleKey, type FlavorKey,
 } from "@/lib/persona";
 import { composeAgents } from "@/lib/compose";
-import { encodeTeamCode, loadTeam, saveTeam, type TeamAgent } from "@/lib/agentteam";
+import { encodeTeamCode, loadTeam, saveTeam, newTeamId, type TeamAgent } from "@/lib/agentteam";
 import type { Profile } from "@/lib/types";
 
 // The Agent Team Composer (/agents): assemble a small bench of role + voice
@@ -75,6 +75,7 @@ export default function AgentsPage() {
   const [profile, setProfile] = useState<Profile | null | undefined>(undefined);
   const [agents, setAgents] = useState<TeamAgent[]>([]);
   const [published, setPublished] = useState<TeamAgent[]>([]);
+  const [teamId, setTeamId] = useState<string>(newTeamId);
 
   useEffect(() => {
     const p = loadLatest();
@@ -82,6 +83,7 @@ export default function AgentsPage() {
     if (p) {
       const saved = loadTeam();
       if (saved && saved.anchor === encodeShareCode(p)) {
+        if (saved.id) setTeamId(saved.id);
         setAgents(saved.agents);
         setPublished(saved.agents);
       }
@@ -112,8 +114,8 @@ export default function AgentsPage() {
 
   const anchor = encodeShareCode(profile);
   const dirty = JSON.stringify(agents) !== JSON.stringify(published);
-  const teamCode = encodeTeamCode({ v: 1, anchor, agents });
-  const publishedCode = encodeTeamCode({ v: 1, anchor, agents: published });
+  const teamCode = encodeTeamCode({ v: 1, id: teamId, anchor, agents });
+  const publishedCode = encodeTeamCode({ v: 1, id: teamId, anchor, agents: published });
   const publishedIds = new Set(published.map((a) => a.id));
 
   const update = (id: string, patch: Partial<TeamAgent>) =>
@@ -124,7 +126,7 @@ export default function AgentsPage() {
     const plan = composeAgents({ projectType: "launch", size: 4 }, profile);
     setAgents(plan.agents.map((s) => ({ id: newId(), role: s.role, flavor: s.flavor })));
   };
-  const publish = () => { saveTeam({ v: 1, anchor, agents }); setPublished(agents); };
+  const publish = () => { saveTeam({ v: 1, id: teamId, anchor, agents }); setPublished(agents); };
   const revert = () => setAgents(published);
 
   const personaFor = (a: TeamAgent) => agentPersona(profile, { role: a.role, flavor: a.flavor });
