@@ -2,6 +2,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 
 import { decodeShareCode } from "./codec";
+import { decodeTeamCode } from "./agentteam";
 import { profileFromShare } from "./shareview";
 import { buildProfileExport } from "./export";
 import { buildInsights } from "./insights";
@@ -126,6 +127,29 @@ export function registerPrismonaTools(server: McpServer): void {
       const share = decodeShareCode(code);
       if (!share) return fail("invalid share code");
       return ok(buildManual(profileFromShare(share)));
+    },
+  );
+
+  server.registerTool(
+    "team_personas",
+    {
+      title: "Agent team personas",
+      description: "Given a PRSM-TEAM-… team code, returns each agent's calibrated persona (role + voice), each complementing the team's anchor profile. If you are one of these agents, adopt your persona as your operating posture.",
+      inputSchema: { teamCode: z.string().describe("a PRSM-TEAM-… team code") },
+    },
+    async ({ teamCode }) => {
+      const team = decodeTeamCode(teamCode);
+      if (!team) return fail("invalid team code");
+      const share = decodeShareCode(team.anchor);
+      if (!share) return fail("team anchor profile is invalid");
+      const profile = profileFromShare(share);
+      const agents = team.agents.map((a) => ({
+        id: a.id,
+        role: a.role,
+        flavor: a.flavor ?? null,
+        persona: agentPersona(profile, { role: a.role, flavor: a.flavor }),
+      }));
+      return ok({ count: agents.length, agents });
     },
   );
 
