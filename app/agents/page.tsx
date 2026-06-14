@@ -43,6 +43,34 @@ function CopyButton({ text, label, copiedLabel = "Copied", primary = false }:
   );
 }
 
+// Phase 2: the learned overlay for one published agent — what its interactions
+// taught it, with a reset. Transparent + revertible; no silent persona drift.
+function LearnedRow({ teamCode, agentId }: { teamCode: string; agentId: string }) {
+  const [overlay, setOverlay] = useState<{ worked: string[]; adjust: string[]; reports: number } | null>(null);
+  useEffect(() => {
+    let live = true;
+    fetch(`/api/agentlearn?teamCode=${encodeURIComponent(teamCode)}&agentId=${encodeURIComponent(agentId)}`)
+      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then((d) => { if (live) setOverlay(d.overlay ?? null); })
+      .catch(() => { if (live) setOverlay(null); });
+    return () => { live = false; };
+  }, [teamCode, agentId]);
+  const reset = () => {
+    fetch(`/api/agentlearn?teamCode=${encodeURIComponent(teamCode)}&agentId=${encodeURIComponent(agentId)}`, { method: "DELETE" })
+      .then(() => setOverlay(null)).catch(() => { /* ignore */ });
+  };
+  if (!overlay) return null;
+  return (
+    <div className="footnote" style={{ marginTop: "var(--s-4)", borderTop: "1px solid var(--hairline-soft)", paddingTop: "var(--s-3)" }}>
+      <span className="num" style={{ color: "var(--gold)" }}>Learned</span> · {overlay.reports} report{overlay.reports === 1 ? "" : "s"}
+      {overlay.worked.length > 0 && <> · works: {overlay.worked.join(", ")}</>}
+      {overlay.adjust.length > 0 && <> · adjust: {overlay.adjust.join(", ")}</>}
+      {" · "}
+      <button onClick={reset} style={{ background: "none", border: 0, color: "var(--ivory-faint)", cursor: "pointer", textDecoration: "underline", padding: 0, font: "inherit" }}>reset</button>
+    </div>
+  );
+}
+
 export default function AgentsPage() {
   const [profile, setProfile] = useState<Profile | null | undefined>(undefined);
   const [agents, setAgents] = useState<TeamAgent[]>([]);
@@ -85,6 +113,8 @@ export default function AgentsPage() {
   const anchor = encodeShareCode(profile);
   const dirty = JSON.stringify(agents) !== JSON.stringify(published);
   const teamCode = encodeTeamCode({ v: 1, anchor, agents });
+  const publishedCode = encodeTeamCode({ v: 1, anchor, agents: published });
+  const publishedIds = new Set(published.map((a) => a.id));
 
   const update = (id: string, patch: Partial<TeamAgent>) =>
     setAgents((a) => a.map((x) => (x.id === id ? { ...x, ...patch } : x)));
@@ -166,6 +196,7 @@ export default function AgentsPage() {
                     onClick={() => update(a.id, { flavor: f })}>{PERSONA_FLAVORS[f].name}</button>
                 ))}
               </div>
+              {publishedIds.has(a.id) && !dirty && <LearnedRow teamCode={publishedCode} agentId={a.id} />}
             </div>
           ))}
         </div>
