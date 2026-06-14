@@ -18,6 +18,7 @@ const TOOLS: Array<[string, string]> = [
   ["compose_team", "Forward composition: project outcome + Team Topologies shape + headcount → seat-by-seat archetype plan"],
   ["compose_agents", "An agent bench that complements one person: roles + voice flavors staffed around their measured blueprint"],
   ["team_personas", "Every calibrated persona in a published agent team, from a PRSM-TEAM- code — the live pull for orchestrators"],
+  ["tune_agent", "Report what worked with the owner so a team agent's persona learns over time (behavioral only; folds into its learned overlay)"],
   ["working_with_me", "The first-person collaboration one-pager"],
   ["agent_persona", "Complement-calibrated system prompt, tunable by voice flavor and professional role archetype"],
   ["interaction_guide", "Third-person guidance for communicating with the person behind a code"],
