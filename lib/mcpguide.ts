@@ -19,16 +19,16 @@ Don't call the code-taking tools until you actually hold a \`PRSM-…\` code.
 
 | You want to… | Tool | Example call |
 |---|---|---|
-| Understand a person from their code | \`decode_profile\` | \`{ "code": "PRSM-…" }\` → percentiles, ±1 SEM ranges, archetype blend, distinctiveness |
+| Understand a person from their code | \`decode_profile\` | \`{ "code": "PRSM-…" }\` → percentiles across six factors **incl. Honesty-Humility**, ±1 SEM ranges, archetype blend, distinctiveness |
 | Give them life/work readings | \`profile_readings\` | \`{ "code": "PRSM-…" }\` → six cited readings (relationships, career, work style, leadership, integrity, cofounder) |
 | Assess a pairing | \`compare_dyad\` | \`{ "codeA": "PRSM-…", "codeB": "PRSM-…", "purpose": "cofounder" }\` → fit gauge + top frictions with conversation prompts |
 | Read an existing team | \`team_composition\` | \`{ "codes": ["PRSM-…", "PRSM-…", "PRSM-…"] }\` → diversity, coverage, gaps, gates |
 | Design a team for an outcome | \`compose_team\` | \`{ "projectType": "launch", "topology": "streamAligned", "size": 4 }\` → seat-by-seat archetype plan |
 | Staff agents around a person | \`compose_agents\` | \`{ "code": "PRSM-…", "projectType": "scale", "size": 3 }\` → roles + flavors that complement them |
 | Become their calibrated companion | \`agent_persona\` | \`{ "code": "PRSM-…", "flavor": "logician", "role": "engineer" }\` → adopt the returned system prompt |
-| Communicate well with them | \`interaction_guide\` | \`{ "code": "PRSM-…" }\` → third-person guidance; follow it |
+| Communicate well with them | \`interaction_guide\` | \`{ "code": "PRSM-…" }\` → third-person guidance (channel, pacing, directness, **candor**); follow it |
 | Get their collaboration handout | \`working_with_me\` | \`{ "code": "PRSM-…" }\` |
-| Learn how they run work | \`management_style\` | \`{ "code": "PRSM-…" }\` → questionnaire default + weekly field notes (field notes win) |
+| Learn how they run work | \`management_style\` | \`{ "code": "PRSM-…" }\` → questionnaire default + **how to manage up to them** + weekly field notes (field notes win) |
 | Report how collaboration went | \`report_collaboration\` | \`{ "code": "PRSM-…", "worked": ["bullet summaries"], "didnt": ["long calls"], "agent": "your-id" }\` |
 | Submit a daily behavioral summary | \`submit_observation\` | \`{ "code": "PRSM-…", "communication": ["concise"], "work_style": ["async-first"], "strategies": ["runs-cheap-experiments"], "agent": "your-id" }\` — behavioral/style only, no personal info; feeds the observed layer, never the measured scores |
 
