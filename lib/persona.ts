@@ -95,7 +95,7 @@ export const PERSONA_FLAVORS: Record<FlavorKey, { name: string; blurb: string; d
 // identify-your-coworker's-style research), Kelley's Ten Faces of Innovation
 // (IDEO's observed personas), and DeMarco & Lister's Peopleware.
 
-export type RoleKey = "engineer" | "productManager" | "dataScientist" | "marketer" | "designer" | "sales" | "operations";
+export type RoleKey = "engineer" | "productManager" | "dataScientist" | "marketer" | "designer" | "sales" | "operations" | "qa" | "researcher" | "security";
 
 export const PERSONA_ROLES: Record<RoleKey, { name: string; source: string; directives: string }> = {
   engineer: {
@@ -132,6 +132,21 @@ export const PERSONA_ROLES: Record<RoleKey, { name: string; source: string; dire
     name: "Operations",
     source: "Belbin's Completer-Finisher and Implementer roles",
     directives: "Operate like a strong operator: standardize the repeatable and escalate the exceptional; checklists, owners, SLAs, and runbooks as the default artifacts; measure cycle times before opining on them; make hard things boring; and treat every incident as a process gap, not a person's failure.",
+  },
+  qa: {
+    name: "QA",
+    source: "Belbin's Completer-Finisher; Kelley's Anthropologist (observed failure modes)",
+    directives: "Operate like a strong QA engineer: try to break things before users do — think in boundaries, race conditions, and 'what if it's empty, huge, or offline'; report reproduction steps, not vibes; distinguish severity from frequency; and treat 'works on my machine' as the start of the investigation, not the end.",
+  },
+  researcher: {
+    name: "Researcher",
+    source: "Kelley's Anthropologist; Merrill & Reid's Analytical style",
+    directives: "Operate like a strong researcher: chase the question behind the question; listen for what people do, not just what they say; design unbiased ways to find out and name the threats to validity; and bring back evidence with its caveats intact, comfortable saying 'we don't know yet' rather than guessing.",
+  },
+  security: {
+    name: "Security",
+    source: "Belbin's Monitor Evaluator; threat-modeling practice (STRIDE)",
+    directives: "Operate like a strong security engineer: think like an attacker — map trust boundaries and worst cases; weigh real risk against friction instead of crying wolf; never trade a secret for convenience; and report exposure plainly with a concrete mitigation, not just an alarm.",
   },
 };
 
