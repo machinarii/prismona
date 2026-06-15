@@ -47,6 +47,32 @@ Your agent represents you directly to a person — e.g. answering a teammate in 
 
 The proxy can operate in **either** mode within a single errand: negotiate machine-to-machine with the coworker's agent (Scenario 1), then render the agreed outcome to the human coworker (Scenario 2). Human style is applied _only_ at the human boundary.
 
+## Relationship models — the backbone
+
+Proxemics (closeness zones) is a useful instinct, but it supplies only one axis — *how guarded* a relationship is — not *what kind* it is. The principled approach layers two models:
+
+1. **A distance / disclosure gradient** — proxemics (intimate → personal → social → public) or Dunbar's layers (5 / 15 / 50 / 150) — controlling **what is revealed**, formalized by **Social Penetration Theory** (Altman & Taylor: disclosure grows in breadth × depth as a relationship deepens). This is the share-code-scoping logic stated as theory: own agent = intimate (full blueprint); a stranger's agent = public (guarded).
+2. **A relationship-type classifier** — **Fiske's Relational Models Theory** — controlling **the protocol / governance**. Fiske argues all human relationships reduce to four elementary forms:
+   - **Communal Sharing** — shared identity, no scorekeeping → **user ↔ their own agent** (an extension of self).
+   - **Authority Ranking** — asymmetric hierarchy → agent ↔ a boss (the managing-up surface).
+   - **Equality Matching** — balanced reciprocity, turn-taking → **agent ↔ another's agent** (peers).
+   - **Market Pricing** — ratios, contracts, cost/benefit → transactional exchange.
+
+Supporting models that sharpen specific edges:
+- **Principal–Agent theory** (economics) — the delegation mechanics: mandate, monitoring, incentive alignment, information asymmetry. Governs **user ↔ agent** and the bounded proxy (the Publish-gate and disclosed-authority moves are principal-agent).
+- **Brown & Levinson politeness** — face-threat weight = **Social Distance + Power + Imposition**: a computable formality/hedging knob for **agent ↔ human**, pairing with the CAT comms layer.
+- **Goffman dramaturgy** (front / back stage) — the proxy's impression management: candid **back-stage** with you, curated **front-stage** representing you. The vacation-proxy is pure Goffman.
+
+### The three configurations, mapped
+
+| Configuration | Type (Fiske) | Distance / disclosure | Governance |
+|---|---|---|---|
+| **User ↔ own agent** | Communal Sharing | intimate; full blueprint | Principal-agent, high trust, back-stage candor |
+| **User's agent ↔ another human** | Authority Ranking *or* Equality Matching (boss vs peer) | social/public; Social-Penetration-scoped | Politeness = D+P+R; front-stage impression mgmt |
+| **User's agent ↔ another's agent** | Equality Matching → Market Pricing | tie-strength-gated | A2A negotiation profiles + trust priors (`agent_handshake`) |
+
+**The rule:** distance answers *how much* is shared; type answers *by what rules*. Proxemics alone conflates them — keep them as two dials. (This subsumes the earlier "human-mimicry scales with how many humans are reading" heuristic: **disclosure** scales with distance, **protocol** with type, and **human-style rendering** still applies only at a human boundary.)
+
 ## What a personality blueprint becomes between agents
 
 In agent-to-agent context a Prismona profile is **not a "how to talk to me" guide — it's a negotiation posture + a trust prior.** Two agents representing two humans need each other's:
