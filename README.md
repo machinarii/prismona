@@ -49,6 +49,31 @@ The deeper point: a *measured, aligned, portable, honest* model of you is a fund
 
 ---
 
+## What you gain — and lose — by front-loading a persona
+
+For most of history you've learned who someone is *slowly*: in person, through shared experience, and through word of mouth. A blueprint front-loads a measured summary instead. That's a real change, with real trade-offs — and Prismona is honest about both.
+
+**What you gain**
+
+- **Speed.** Skip months of trial-and-error friction; start from a working understanding on day one.
+- **Fairness over first impressions.** A measured read beats a snap judgment shaped by charisma, looks, or a stranger's gossip.
+- **A level field for the quiet.** Introverts and slow-warmers get understood without having to perform; their silence reads as processing, not absence.
+- **Fewer misreads.** You know up front that the bluntness isn't hostility and the structure isn't rigidity.
+- **The only way AI can know you.** An agent has no shared history to draw on — a blueprint is its on-ramp.
+- **Self-authored, not talked-about.** You hand over your own measured model, not a reputation others narrate behind your back.
+
+**What you risk**
+
+- **Anchoring.** A summary read first can prime how you see everything after — confirmation bias, even self-fulfilling prophecy. A number can crowd out fresh observation.
+- **Lost discovery.** Part of knowing someone is the gradual unfolding; a spec sheet can flatten that. *Knowing about* a person is not *knowing* them.
+- **Context collapse.** No one is the same with everyone; a single profile can't capture how a person shifts across relationships and situations.
+- **Verdict-creep.** Treating the measurement as more authoritative than lived experience — "the test says you're low-Agreeableness, so…" — is exactly the misuse to guard against.
+- **Performance and boxing-in.** When personas become currency, people curate them — and a fixed label can quietly become a cage ("this is just who I am").
+
+**Prismona's stance.** A blueprint is an **honest opening bid and a faster on-ramp — not a replacement for knowing someone.** The design fights its own failure modes: archetypes as gradients (never a single type), uncertainty on every score, an explicit instruction to *let observed behavior override the profile wherever they conflict*, an observed layer and informant mini-360 so others' lived experience counts too, and a *Becoming* view that treats you as growing rather than fixed. Use it to start better conversations and skip avoidable friction — then actually get to know the person.
+
+---
+
 ## Features
 
 **The instrument**
