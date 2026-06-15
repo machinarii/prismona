@@ -90,7 +90,7 @@ Update `mcpguide.ts` (currently 0 H-refs): mention Honesty-Humility in the decod
 
 ## Out of scope (explicitly)
 - Schwartz **Values** module — **Spec B**, separate.
-- `agent_handshake` / agent-to-agent negotiation and the bounded-proxy mandate — **future Spec C**; see `docs/research/AGENT-TO-AGENT-INTERACTION.md`.
+- `agent_handshake` / agent-to-agent negotiation and the bounded-proxy mandate — **future Spec C**; see `docs/research/INTERACTION-MODEL.md`.
 - Re-norming from the user base (PRD §6) — unchanged; H facet norms stay provisional.
 
 ## Build order
