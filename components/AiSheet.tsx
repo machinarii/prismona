@@ -62,7 +62,7 @@ function CopyAiLink({ profile }: { profile: Profile }) {
         });
       }}
     >
-      {copied ? "Copied" : "Copy AI link"}
+      {copied ? "Copied" : "Copy link for AI"}
     </button>
   );
 }
@@ -153,18 +153,20 @@ export function AiSheet({ profile }: { profile: Profile }) {
                 {(Object.keys(PERSONA_FLAVORS) as FlavorKey[]).map((f) => {
                   const v = mods[f] ?? 0;
                   return (
-                    <div key={f} style={{ display: "grid", gridTemplateColumns: "minmax(90px, 1fr) 2fr 64px", alignItems: "center", gap: "var(--s-4)" }}>
-                      <span className="num" title={PERSONA_FLAVORS[f].blurb}
-                        style={{ fontSize: "var(--t-xs)", letterSpacing: "0.06em", color: v ? "var(--gold)" : "var(--ivory-dim)" }}>
-                        {PERSONA_FLAVORS[f].name}
-                      </span>
+                    <div key={f} style={{ display: "flex", flexDirection: "column", gap: "var(--s-2)" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                        <span className="num" title={PERSONA_FLAVORS[f].blurb}
+                          style={{ fontSize: "var(--t-xs)", letterSpacing: "0.06em", color: v ? "var(--gold)" : "var(--ivory-dim)" }}>
+                          {PERSONA_FLAVORS[f].name}
+                        </span>
+                        <span className="footnote num" style={{ color: v ? "var(--gold)" : "var(--ivory-faint)" }}>
+                          {v < 0 ? "less" : v > 0 ? "more" : "Default"}
+                        </span>
+                      </div>
                       <input type="range" min={-1} max={1} step={1} value={v}
                         onChange={(e) => setMod(f, Number(e.target.value))}
                         aria-label={`${PERSONA_FLAVORS[f].name} modulation`}
                         style={{ width: "100%", accentColor: "var(--gold)" }} />
-                      <span className="footnote num" style={{ textAlign: "right", color: v ? "var(--gold)" : "var(--ivory-faint)" }}>
-                        {v < 0 ? "less" : v > 0 ? "more" : "Default"}
-                      </span>
                     </div>
                   );
                 })}
