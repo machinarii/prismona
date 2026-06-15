@@ -8,6 +8,7 @@ import { profileUrl } from "@/lib/shareview";
 import { managementStyle, type FeedbackDigest } from "@/lib/management";
 import { encodeShareCode } from "@/lib/codec";
 import type { Profile } from "@/lib/types";
+import { ComportmentPanel } from "./ComportmentPanel";
 
 function CopyBlock({ summary, action, text, maxHeight, onNaturalHeight, extra }:
   { summary: string; action: string; text: string; maxHeight?: number | null; onNaturalHeight?: (h: number) => void; extra?: ReactNode }) {
@@ -149,7 +150,7 @@ export function AiSheet({ profile }: { profile: Profile }) {
           extra={
             <div style={{ margin: "0 0 var(--s-4)" }}>
               <span className="label">Persona Modulation · optional</span>
-              <div style={{ display: "flex", flexDirection: "column", gap: "var(--s-4)", border: "1px dashed var(--hairline)", padding: "var(--s-4) var(--s-6)", margin: "var(--s-4) 0" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "var(--s-4)", border: "1px dashed var(--hairline)", padding: "var(--s-4) var(--s-6)", margin: "var(--s-4) 0", maxWidth: "var(--measure)" }}>
                 {(Object.keys(PERSONA_FLAVORS) as FlavorKey[]).map((f) => {
                   const v = mods[f] ?? 0;
                   return (
@@ -187,6 +188,8 @@ export function AiSheet({ profile }: { profile: Profile }) {
           person who should set up your assistant. Agents can also connect live via the{" "}
           <Link href="/mcp" className="cite" style={{ color: "var(--ivory-dim)" }}>MCP endpoint</Link>.
         </p>
+
+        <ComportmentPanel />
       </section>
 
       <section className="report-section">
