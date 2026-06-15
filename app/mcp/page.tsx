@@ -12,6 +12,7 @@ const ENDPOINT = "https://prismona.vercel.app/api/mcp";
 const TOOLS: Array<[string, string]> = [
   ["usage_guide", "The agent-facing markdown guide: which tool for which job, worked examples, binding rules — agents should call this first"],
   ["decode_profile", "Full structured blueprint from a share code: percentiles, uncertainty ranges, archetype blend, distinctiveness"],
+  ["value_brief", "Core value priorities (Schwartz) from a PRSM-VAL- code — top/least values, the key tension, and how to weigh trade-offs for alignment"],
   ["profile_readings", "The six applied readings — relationships, career, work style, leadership, integrity, cofounder"],
   ["compare_dyad", "Pairing report for two codes: fit gauge, strengths, frictions with conversation prompts"],
   ["team_composition", "Two or more codes: trait diversity, role coverage, gaps, single points of failure, gates"],

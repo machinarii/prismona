@@ -20,6 +20,7 @@ Don't call the code-taking tools until you actually hold a \`PRSM-…\` code.
 | You want to… | Tool | Example call |
 |---|---|---|
 | Understand a person from their code | \`decode_profile\` | \`{ "code": "PRSM-…" }\` → percentiles across six factors **incl. Honesty-Humility**, ±1 SEM ranges, archetype blend, distinctiveness |
+| Read their core value priorities | \`value_brief\` | \`{ "valuesCode": "PRSM-VAL-…" }\` → most-important and least-emphasized values, key tension, how to weigh trade-offs (alignment) |
 | Give them life/work readings | \`profile_readings\` | \`{ "code": "PRSM-…" }\` → six cited readings (relationships, career, work style, leadership, integrity, cofounder) |
 | Assess a pairing | \`compare_dyad\` | \`{ "codeA": "PRSM-…", "codeB": "PRSM-…", "purpose": "cofounder" }\` → fit gauge + top frictions with conversation prompts |
 | Read an existing team | \`team_composition\` | \`{ "codes": ["PRSM-…", "PRSM-…", "PRSM-…"] }\` → diversity, coverage, gaps, gates |
