@@ -3,6 +3,7 @@ import { pushSnapshot, snapshotOf } from "./timeline";
 import { encodeShareCode } from "./codec";
 import type { InterestProfile } from "./interests";
 import { AGE_BANDS, CONTINENTS, type AgeBand, type Continent } from "./contrib";
+import type { ValuesProfile } from "./values";
 
 // Privacy by default: profiles live only in this browser's localStorage.
 const key = (tier: Tier) => `prismona.profile.${tier}`;
@@ -10,6 +11,7 @@ const HISTORY_KEY = "prismona.history";
 const INTERESTS_KEY = "prismona.interests";
 const ARCHIVE_KEY = "prismona.archive";
 const ARCHIVE_CAP = 12;
+const VALUES_KEY = "prismona.values";
 
 // Full prior results, kept in their entirety (not just snapshots) so a retake
 // never loses a past blueprint. Deduped by share code — identical results
@@ -73,6 +75,22 @@ export function loadInterests(): InterestProfile | null {
     if (!raw) return null;
     const ip = JSON.parse(raw) as InterestProfile;
     return ip && ip.v === 1 ? ip : null;
+  } catch { return null; }
+}
+
+// Core values (Schwartz best-worst) — local like everything else.
+export interface StoredValues { v: 1; date: string; profile: ValuesProfile }
+export function saveValues(profile: ValuesProfile): void {
+  try {
+    localStorage.setItem(VALUES_KEY, JSON.stringify({ v: 1, date: new Date().toISOString().slice(0, 10), profile }));
+  } catch { /* ignore */ }
+}
+export function loadValues(): StoredValues | null {
+  try {
+    const raw = localStorage.getItem(VALUES_KEY);
+    if (!raw) return null;
+    const s = JSON.parse(raw) as StoredValues;
+    return s && s.v === 1 && s.profile ? s : null;
   } catch { return null; }
 }
 
@@ -156,5 +174,6 @@ export function clearProfiles(): void {
     localStorage.removeItem(HISTORY_KEY);
     localStorage.removeItem(INTERESTS_KEY);
     localStorage.removeItem(ARCHIVE_KEY);
+    localStorage.removeItem(VALUES_KEY);
   } catch { /* ignore */ }
 }
