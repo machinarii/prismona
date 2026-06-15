@@ -1,5 +1,6 @@
 import type { Profile } from "./types";
 import type { ManualSection } from "./manual";
+import { valueLoveEntries, type ValuesProfile } from "./values";
 
 // "Relationship with me": a concise, partner-facing one-pager for a romantic
 // context, generated from trait percentiles. Same three-tier keying as the
@@ -11,9 +12,9 @@ import type { ManualSection } from "./manual";
 interface Tiered { hi: string; mid: string; lo: string }
 const pick = (t: Tiered, pct: number) => (pct >= 70 ? t.hi : pct >= 40 ? t.mid : t.lo);
 
-export function buildRelationship(p: Profile): ManualSection[] {
+export function buildRelationship(p: Profile, values?: ValuesProfile | null): ManualSection[] {
   const t = p.traits;
-  return [
+  const sections: ManualSection[] = [
     {
       key: "closeness",
       heading: "How I show love",
@@ -95,4 +96,6 @@ export function buildRelationship(p: Profile): ManualSection[] {
       ],
     },
   ];
+  if (values) sections.push({ key: "values", heading: "What I care about most", entries: valueLoveEntries(values) });
+  return sections;
 }

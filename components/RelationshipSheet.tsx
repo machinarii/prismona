@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { buildRelationship } from "@/lib/relationship";
+import { loadValues } from "@/lib/storage";
+import type { ValuesProfile } from "@/lib/values";
 import { profileUrl } from "@/lib/shareview";
 import { longDate } from "@/lib/dates";
 import type { Profile } from "@/lib/types";
@@ -27,7 +29,9 @@ function CopyRelationshipLink({ profile }: { profile: Profile }) {
 // "Loving me": a concise, partner-facing one-pager for a romantic
 // context, rendered as a face of the profile page.
 export function RelationshipSheet({ profile, showBack = false }: { profile: Profile; showBack?: boolean }) {
-  const sections = buildRelationship(profile);
+  const [values, setValues] = useState<ValuesProfile | null>(null);
+  useEffect(() => { setValues(loadValues()?.profile ?? null); }, []);
+  const sections = buildRelationship(profile, values);
   return (
     <>
       <div className="print-only print-head">
