@@ -73,29 +73,35 @@ Supporting models that sharpen specific edges:
 
 **The rule:** distance answers *how much* is shared; type answers *by what rules*. Proxemics alone conflates them — keep them as two dials. (This subsumes the earlier "human-mimicry scales with how many humans are reading" heuristic: **disclosure** scales with distance, **protocol** with type, and **human-style rendering** still applies only at a human boundary.)
 
-## Stable self, adaptive surface
+## Persona vs. comportment
 
-The agent should be **one recognizable self that is socially fluent** — not a different person with everyone. Four things get conflated under "change personality"; only three should move:
+The agent is **one stable persona with adaptive comportment** — the same self carried differently depending on who is across the table. Two named layers, not "personality vs. not-personality":
 
-- **Register** (tone, formality, directness, pacing) — adapt (CAT convergence).
-- **Disclosure** (how much of the owner it reveals) — adapt (proxemics / Social Penetration).
-- **Protocol** (relational etiquette) — adapt (Fiske mode).
-- **Identity, values, loyalty, honesty** — **fixed; never adapt.**
+- **Persona** — stable disposition, voice, values; tuned to complement the owner. **Does not change per counterparty.** Driven by the owner's blueprint.
+- **Comportment** (sociolinguistic *register*; Goffman's *footing*) — how the agent carries itself: formality, deference, warmth, directness, disclosure, care. **Changes per counterparty**, driven by their status/power, the relationship type, and the stakes.
 
-Adapting the first three is competence; adapting the fourth is a chameleon — and a chameleon that "becomes what each person wants" is a manipulation engine, the low-Honesty-Humility pattern the instrument flags. So the **complement calibration (tuned to the owner) is the fixed core; a relational adapter tunes only register + disclosure.** Guardrail — **accommodate form, never fake substance:** soften delivery, match formality, reveal less; never flip a recommendation to please, never hide that it is representing the owner, never modulate the honesty floor.
+An assistant deferring more to a president than to a manager is **not a different personality — it is the same persona in a higher register.** That is the **status axis** of comportment (Brown & Levinson's *Power*; Fiske's *Authority Ranking* turned up): more power/stakes across the table → more deference, formality, care, hedging.
 
-### `relational_adapter` (future feature)
+| Layer | What it is | Changes per counterparty? | Driven by |
+|---|---|---|---|
+| **Persona** | stable disposition, voice, values (complement to the owner) | **No** | the owner's blueprint |
+| **Comportment** | formality, deference, warmth, directness, disclosure, care | **Yes** | counterparty status/power, relationship type, stakes |
 
-Given a counterparty (ideally their own code / `interaction_guide`) and the relationship's two dials, compute **default** surface settings:
-- distance → disclosure + formality (proxemics / Social Penetration / Brown–Levinson D+P+R)
+What must never shift is the **persona**. Becoming a different entity to please a counterparty is the chameleon/manipulation failure — the low-Honesty-Humility pattern the instrument flags. Guardrail — **adapt comportment, never fake substance:** soften delivery, match formality, reveal less; never flip a recommendation to please, never hide that it is representing the owner, never modulate the honesty floor.
+
+### `comportment_adapter` (future feature)
+
+Given a counterparty (ideally their own code / `interaction_guide`) and the relationship, compute the **default comportment**:
+- status/power + stakes → deference + formality (Brown–Levinson *P*; Fiske Authority Ranking)
+- distance → disclosure (proxemics / Social Penetration)
 - type → protocol (Fiske: Communal / Authority / Equality / Market)
 - counterparty read → register convergence (CAT, via their `interaction_guide`)
 
-These defaults are **not neutral** — they are positioned by who is on the other side (e.g. *with a boss*: more formal, more deference, guarded disclosure; *with a peer's agent*: terse, high disclosure of negotiation parameters).
+These defaults are **not neutral** — they are positioned by who is across the table (e.g. *with a president*: high deference, high formality and care, guarded disclosure; *with a peer's agent*: terse, high disclosure of negotiation parameters).
 
-**User modulation.** Expose each surface dimension as a scrubbing bar (the Persona-Modulation slider UI), with one twist: the bar's **anchor is the computed default for that relationship**, not center — a tick marks the default so the owner sees how far they've nudged it. Dimensions: formality, warmth, directness/candor, disclosure, brevity. Saved **per relationship (or per relationship-type)**, layered on the fixed persona. The honesty floor is not a slider.
+**Owner modulation.** Expose each comportment dimension as a scrubbing bar (the Persona-Modulation slider UI), with one twist: the bar's **anchor is the computed default for that relationship**, not center — a tick marks the default so the owner sees how far they have nudged it. Dimensions: formality, deference, warmth, directness, disclosure, brevity. Saved **per relationship (or per relationship-type)**, layered on the fixed persona. The honesty floor is not a slider.
 
-This keeps adaptation legible and in the owner's hands: the framework picks a sensible default for each relationship, the owner tunes it, and the core self never moves. It is the relationship-aware sibling of the global Persona Modulation on the AI tab.
+This keeps adaptation legible and owner-controlled: the framework sets a sensible comportment default for each relationship, the owner tunes it, and the **persona never moves**. It is the relationship-aware sibling of the global Persona Modulation on the AI tab.
 
 ## What a personality blueprint becomes between agents
 
