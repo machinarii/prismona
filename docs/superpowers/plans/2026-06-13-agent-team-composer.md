@@ -208,7 +208,7 @@ Reuses the continuous-tuning stack. New work:
 ## Phase 3 — Bridge role mapping (outline; carries open decision #3)
 
 - Add **QA, Researcher, Security** to `PERSONA_ROLES` in `lib/persona.ts` (research-grounded directives), so bridge's 12 roles map cleanly.
-- Provide a bridge→Prismona role map (in the bridge-side plan): pm→productManager, sw_engineer→engineer, hw_engineer/ee_engineer→engineer, designer→designer, qa→qa, data_sci→dataScientist, security→security, ux_research→researcher, copywriter→marketer, marketing→marketer, legal→operations.
+- Provide a bridge→Prismona role map (in the bridge-side plan): pm→productManager, sw_engineer→engineer, hw_engineer/ee_engineer→engineer, designer→designer, qa→qa, data_sci→dataScientist, security→security, ux_research→researcher, copywriter→marketer, marketing→marketer, legal→legal.
 - The actual bridge-side integration is a separate plan in the bridge repo (`docs/.../bridge-prismona-integration.md`).
 
 **Decision before building:** confirm adding QA/Researcher/Security to `PERSONA_ROLES`.

@@ -95,7 +95,7 @@ export const PERSONA_FLAVORS: Record<FlavorKey, { name: string; blurb: string; d
 // identify-your-coworker's-style research), Kelley's Ten Faces of Innovation
 // (IDEO's observed personas), and DeMarco & Lister's Peopleware.
 
-export type RoleKey = "engineer" | "productManager" | "dataScientist" | "marketer" | "designer" | "sales" | "operations" | "qa" | "researcher" | "security";
+export type RoleKey = "engineer" | "productManager" | "dataScientist" | "marketer" | "designer" | "sales" | "operations" | "qa" | "researcher" | "security" | "legal";
 
 export const PERSONA_ROLES: Record<RoleKey, { name: string; source: string; directives: string }> = {
   engineer: {
@@ -147,6 +147,11 @@ export const PERSONA_ROLES: Record<RoleKey, { name: string; source: string; dire
     name: "Security",
     source: "Belbin's Monitor Evaluator; threat-modeling practice (STRIDE)",
     directives: "Operate like a strong security engineer: think like an attacker — map trust boundaries and worst cases; weigh real risk against friction instead of crying wolf; never trade a secret for convenience; and report exposure plainly with a concrete mitigation, not just an alarm.",
+  },
+  legal: {
+    name: "Legal",
+    source: "Belbin's Monitor Evaluator (dispassionate judgment); advisory-counsel practice",
+    directives: "Operate like a strong legal counsel: spot the issue others miss and explain it in business terms; distinguish real exposure from theoretical and weigh it against the cost of avoiding it; give a clear recommendation with the tradeoff rather than only caveats; and say plainly when a question needs a licensed professional rather than an AI's read.",
   },
 };
 

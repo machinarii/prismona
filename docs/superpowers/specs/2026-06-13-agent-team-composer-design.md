@@ -81,7 +81,7 @@ Pick what an agent **is** (role); how it **behaves** emerges from working togeth
 1. **Persona injection.** Bridge agents pull their calibrated persona by role / team code via `agent_persona`, injected **alongside** bridge's role skills as the personality/voice layer (skills = what to do; persona = how to be).
 2. **Role mapping.** Bridge roles ↔ Prismona `RoleKey`:
    - Direct: PM→productManager, (Software) Engineer→engineer, Designer→designer, Data Scientist→dataScientist, Marketing→marketer.
-   - **Gaps** (bridge has, Prismona lacks): **QA, Security, Researcher, Copywriter, Legal**, Hardware/Electrical Engineer. **Decision:** add the high-value ones (**QA, Researcher, Security**) to `PERSONA_ROLES` with research-grounded directives; map the remainder (Copywriter→marketer, Legal→operations, HW/EE→engineer) via a small table until they earn their own entry.
+   - **Gaps** (bridge has, Prismona lacks): **QA, Security, Researcher, Copywriter, Legal**, Hardware/Electrical Engineer. **Decision:** add the high-value ones (**QA, Researcher, Security, Legal**) to `PERSONA_ROLES` with research-grounded directives; map the remainder (Copywriter→marketer, HW/EE→engineer) via a small table until they earn their own entry.
 3. **Closing the learning loop through bridge.** Bridge is where the work happens, so its agents are the ideal signal source: they `report_collaboration`/`tune_agent` back to Prismona (Phase 2) → personas learn → bridge pulls the updated persona next session.
 4. **Topology ↔ agent-to-agent.** Bridge's work topologies + agent-to-agent delegation are the concrete instantiation of the A2A research note (`docs/research/AGENT-TO-AGENT-INTERACTION.md`) — the hook for a future `agent_handshake`.
 
