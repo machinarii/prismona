@@ -39,7 +39,7 @@ export const VALUE_META: Record<ValueKey, { name: string; quadrant: Quadrant; bl
   universalism: { name: "Universalism", quadrant: "selfTranscendence", blurb: "fairness and welfare for all, and nature" },
 };
 
-const VALUE_ORDER: ValueKey[] = [
+export const VALUE_ORDER: ValueKey[] = [
   "selfDirection", "stimulation", "hedonism", "achievement", "power",
   "security", "conformity", "tradition", "benevolence", "universalism",
 ];
@@ -105,16 +105,9 @@ export interface ValuesProfile {
   tensions: [ValueKey, ValueKey][];
 }
 
-// Best-worst count scoring: each item earns +1 when chosen best, −1 when worst;
-// a value's score is the sum across its two items.
-export function scoreValues(responses: BWResponse[]): ValuesProfile {
-  const raw: Record<ValueKey, number> = Object.fromEntries(VALUE_ORDER.map((v) => [v, 0])) as Record<ValueKey, number>;
-  for (const r of responses) {
-    const best = ITEM_BY_ID[r.best];
-    const worst = ITEM_BY_ID[r.worst];
-    if (best) raw[best.value] += 1;
-    if (worst) raw[worst.value] -= 1;
-  }
+// Build the ranked profile from raw per-value scores. Shared by scoreValues
+// (from responses) and the values codec (from a decoded PRSM-VAL- code).
+export function profileFromRaw(raw: Record<ValueKey, number>): ValuesProfile {
   const vals = Object.values(raw);
   const min = Math.min(...vals), max = Math.max(...vals);
   const span = max - min || 1;
@@ -153,6 +146,19 @@ export function scoreValues(responses: BWResponse[]): ValuesProfile {
   }
 
   return { scores: ranked, quadrants, top, bottom, tensions };
+}
+
+// Best-worst count scoring: each item earns +1 when chosen best, −1 when worst;
+// a value's score is the sum across its two items.
+export function scoreValues(responses: BWResponse[]): ValuesProfile {
+  const raw: Record<ValueKey, number> = Object.fromEntries(VALUE_ORDER.map((v) => [v, 0])) as Record<ValueKey, number>;
+  for (const r of responses) {
+    const best = ITEM_BY_ID[r.best];
+    const worst = ITEM_BY_ID[r.worst];
+    if (best) raw[best.value] += 1;
+    if (worst) raw[worst.value] -= 1;
+  }
+  return profileFromRaw(raw);
 }
 
 const list = (vs: ValueKey[]) => vs.map((v) => VALUE_META[v].name).join(", ");

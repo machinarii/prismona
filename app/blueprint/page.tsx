@@ -164,11 +164,15 @@ function ValuesSection() {
       {vals ? (
         <div style={{ marginTop: "var(--s-4)" }}><ValuesView profile={vals} /></div>
       ) : (
-        <p className="prose" style={{ marginTop: "var(--s-3)" }}>
-          Add your <em>values</em> — what you&apos;re trying to achieve, captured by forced choice (~5 min).
-          It powers the value brief your AI uses to align with your priorities.{" "}
-          <Link href="/values" className="cite" style={{ color: "var(--ivory-dim)" }}>Discover your core values →</Link>
-        </p>
+        <>
+          <p className="prose" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
+            Add your <em>values</em> — what you&apos;re trying to achieve, captured by forced choice (~5 min).
+            It powers the value brief your AI uses to align with your priorities.
+          </p>
+          <Link href="/values" className="btn quiet" style={{ display: "block", maxWidth: "480px", textAlign: "center" }}>
+            Discover your core values
+          </Link>
+        </>
       )}
     </section>
   );
@@ -377,6 +381,8 @@ function Report({ profile, drift, interests }: {
         ))}
       </section>
 
+      <ValuesSection />
+
       {/* compare + optional: validate + contribute to norms */}
       <section className="report-section">
         <div>
@@ -392,8 +398,6 @@ function Report({ profile, drift, interests }: {
         <ObserverLens profile={profile} />
         <Contribute profile={profile} />
       </section>
-
-      <ValuesSection />
 
       <ObservedLayer profile={profile} />
 
