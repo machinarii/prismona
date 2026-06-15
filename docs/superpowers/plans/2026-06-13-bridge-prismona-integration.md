@@ -33,7 +33,7 @@ export const PRISMONA_ROLE = {
   ux_research: 'researcher',
   copywriter: 'marketer',
   marketing: 'marketer',
-  legal: 'operations',
+  legal: 'legal',
 };
 export const prismonaRole = (roleId) => PRISMONA_ROLE[roleId] || null;
 ```
