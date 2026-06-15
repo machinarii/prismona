@@ -149,7 +149,7 @@ export function AiSheet({ profile }: { profile: Profile }) {
           extra={
             <div style={{ margin: "0 0 var(--s-4)" }}>
               <span className="label">Persona Modulation · optional</span>
-              <div style={{ display: "flex", flexDirection: "column", gap: "var(--s-3)", margin: "var(--s-4) 0" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "var(--s-4)", border: "1px dashed var(--hairline)", padding: "var(--s-4) var(--s-6)", margin: "var(--s-4) 0" }}>
                 {(Object.keys(PERSONA_FLAVORS) as FlavorKey[]).map((f) => {
                   const v = mods[f] ?? 0;
                   return (
