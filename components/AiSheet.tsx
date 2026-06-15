@@ -153,7 +153,7 @@ export function AiSheet({ profile }: { profile: Profile }) {
                 {(Object.keys(PERSONA_FLAVORS) as FlavorKey[]).map((f) => {
                   const v = mods[f] ?? 0;
                   return (
-                    <div key={f} style={{ display: "grid", gridTemplateColumns: "minmax(90px, 1fr) 2fr 48px", alignItems: "center", gap: "var(--s-4)" }}>
+                    <div key={f} style={{ display: "grid", gridTemplateColumns: "minmax(90px, 1fr) 2fr 64px", alignItems: "center", gap: "var(--s-4)" }}>
                       <span className="num" title={PERSONA_FLAVORS[f].blurb}
                         style={{ fontSize: "var(--t-xs)", letterSpacing: "0.06em", color: v ? "var(--gold)" : "var(--ivory-dim)" }}>
                         {PERSONA_FLAVORS[f].name}
@@ -163,7 +163,7 @@ export function AiSheet({ profile }: { profile: Profile }) {
                         aria-label={`${PERSONA_FLAVORS[f].name} modulation`}
                         style={{ width: "100%", accentColor: "var(--gold)" }} />
                       <span className="footnote num" style={{ textAlign: "right", color: v ? "var(--gold)" : "var(--ivory-faint)" }}>
-                        {v < 0 ? "less" : v > 0 ? "more" : "—"}
+                        {v < 0 ? "less" : v > 0 ? "more" : "Default"}
                       </span>
                     </div>
                   );
