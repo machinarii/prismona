@@ -16,6 +16,8 @@ import { TraitFigure } from "@/components/TraitFigure";
 import { Contribute } from "@/components/Contribute";
 import { ObserverLens } from "@/components/ObserverLens";
 import { ObservedLayer } from "@/components/ObservedLayer";
+import { ValuesView } from "@/components/ValuesView";
+import type { ValuesProfile } from "@/lib/values";
 import { ManualSheet } from "@/components/ManualSheet";
 import { AiSheet } from "@/components/AiSheet";
 import { BecomingSheet } from "@/components/BecomingSheet";
@@ -23,7 +25,7 @@ import { RelationshipSheet } from "@/components/RelationshipSheet";
 import { CitationList, CiteMarks } from "@/components/Citations";
 import { buildCitationIndex } from "@/lib/citations";
 import { TIER_LABELS, TRAIT_LABELS } from "@/lib/norms";
-import { loadArchive, loadHistory, loadInterests, loadLatest, loadProfile } from "@/lib/storage";
+import { loadArchive, loadHistory, loadInterests, loadLatest, loadProfile, loadValues } from "@/lib/storage";
 import { traitDrift, type DriftReport } from "@/lib/timeline";
 import { BandBar } from "@/components/BandBar";
 import type { Profile, ReportKey } from "@/lib/types";
@@ -147,6 +149,27 @@ function PastResults({ current }: { current: Profile }) {
           </Link>
         ))}
       </div>
+    </section>
+  );
+}
+
+// Core values surface: shows the values profile if taken, else a CTA to /values.
+function ValuesSection() {
+  const [vals, setVals] = useState<ValuesProfile | null | undefined>(undefined);
+  useEffect(() => { setVals(loadValues()?.profile ?? null); }, []);
+  if (vals === undefined) return null;
+  return (
+    <section className="report-section">
+      <span className="label gold">Core values</span>
+      {vals ? (
+        <div style={{ marginTop: "var(--s-4)" }}><ValuesView profile={vals} /></div>
+      ) : (
+        <p className="prose" style={{ marginTop: "var(--s-3)" }}>
+          Add your <em>values</em> — what you&apos;re trying to achieve, captured by forced choice (~5 min).
+          It powers the value brief your AI uses to align with your priorities.{" "}
+          <Link href="/values" className="cite" style={{ color: "var(--ivory-dim)" }}>Discover your core values →</Link>
+        </p>
+      )}
     </section>
   );
 }
@@ -369,6 +392,8 @@ function Report({ profile, drift, interests }: {
         <ObserverLens profile={profile} />
         <Contribute profile={profile} />
       </section>
+
+      <ValuesSection />
 
       <ObservedLayer profile={profile} />
 

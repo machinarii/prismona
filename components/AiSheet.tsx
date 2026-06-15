@@ -4,6 +4,8 @@ import { type ReactNode, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { aiContextBlock } from "@/lib/portable";
 import { agentPersona, PERSONA_FLAVORS, type FlavorKey } from "@/lib/persona";
+import { loadValues } from "@/lib/storage";
+import { valueBrief } from "@/lib/values";
 import { profileUrl } from "@/lib/shareview";
 import { managementStyle, type FeedbackDigest } from "@/lib/management";
 import { encodeShareCode } from "@/lib/codec";
@@ -113,11 +115,14 @@ export function AiSheet({ profile }: { profile: Profile }) {
   const style = managementStyle(profile);
   const [mods, setMods] = useState<Partial<Record<FlavorKey, number>>>({});
   const [boxH, setBoxH] = useState<number | null>(null); // half the Agent-context natural height, shared by both boxes
+  const [vBrief, setVBrief] = useState("");
   useEffect(() => {
     try {
       const raw = localStorage.getItem("prismona.mods");
       if (raw) setMods(JSON.parse(raw) as Partial<Record<FlavorKey, number>>);
     } catch { /* ignore */ }
+    const v = loadValues();
+    if (v?.profile) setVBrief(valueBrief(v.profile));
   }, []);
   const setMod = (f: FlavorKey, v: number) => {
     setMods((prev) => {
@@ -142,7 +147,7 @@ export function AiSheet({ profile }: { profile: Profile }) {
         </p>
       </section>
       <section className="report-section">
-        <CopyBlock summary="Agent context" action="Copy Agent context" text={aiContextBlock(profile)}
+        <CopyBlock summary="Agent context" action="Copy Agent context" text={vBrief ? `${aiContextBlock(profile)}\n\n${vBrief}` : aiContextBlock(profile)}
           maxHeight={boxH} onNaturalHeight={(h) => setBoxH((prev) => prev ?? Math.round(h / 2))} />
 
         <CopyBlock summary="Agent persona" action="Copy Agent persona" text={personaText} maxHeight={boxH}
