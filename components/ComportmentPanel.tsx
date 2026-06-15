@@ -63,16 +63,7 @@ export function ComportmentPanel() {
   const resetAll = () => persist({ ...overrides, [preset]: {} });
 
   return (
-    <div style={{ marginTop: "var(--s-8)" }}>
-      <span className="label gold" style={{ display: "block", marginBottom: "var(--s-3)" }}>
-        Comportment · how my agent carries itself
-      </span>
-      <p className="footnote" style={{ margin: "0 0 var(--s-4)", maxWidth: "72ch" }}>
-        Your persona is fixed. <em>Comportment</em> is the register it adapts to the person it&apos;s
-        dealing with — more deference with a president than a manager. Pick a relationship; each bar
-        starts at the recommended default (tick), and you can nudge it. The honesty floor is never a slider.
-      </p>
-
+    <div>
       <div className="flags" style={{ marginBottom: "var(--s-5)" }}>
         {REL_PRESETS.map((r) => (
           <button key={r.key} className="flag" aria-pressed={preset === r.key}
