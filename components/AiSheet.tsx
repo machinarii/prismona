@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { aiContextBlock } from "@/lib/portable";
 import { agentPersona, PERSONA_FLAVORS, type FlavorKey } from "@/lib/persona";
@@ -9,18 +9,27 @@ import { managementStyle, type FeedbackDigest } from "@/lib/management";
 import { encodeShareCode } from "@/lib/codec";
 import type { Profile } from "@/lib/types";
 
-function CopyBlock({ summary, action, text }: { summary: string; action: string; text: string }) {
+function CopyBlock({ summary, action, text, maxHeight, onNaturalHeight }:
+  { summary: string; action: string; text: string; maxHeight?: number | null; onNaturalHeight?: (h: number) => void }) {
   const [copied, setCopied] = useState(false);
+  const preRef = useRef<HTMLPreElement>(null);
+  useEffect(() => {
+    // scrollHeight is the full content height even when maxHeight clips it,
+    // so the measured natural height stays stable after the cap is applied.
+    if (onNaturalHeight && preRef.current) onNaturalHeight(preRef.current.scrollHeight);
+  }, [text, onNaturalHeight]);
   return (
     <div style={{ marginBottom: "var(--s-8)" }}>
       <span className="label gold" style={{ display: "block", marginBottom: "var(--s-3)" }}>
         {summary}
       </span>
       <pre
+        ref={preRef}
         className="footnote num"
         style={{
           whiteSpace: "pre-wrap", border: "1px dashed var(--hairline)",
           padding: "var(--s-4) var(--s-6)", margin: "var(--s-4) 0", letterSpacing: 0,
+          ...(maxHeight ? { maxHeight: `${maxHeight}px`, overflow: "auto" } : {}),
         }}
       >
         {text}
@@ -102,6 +111,7 @@ function FieldNotes({ profile }: { profile: Profile }) {
 export function AiSheet({ profile }: { profile: Profile }) {
   const style = managementStyle(profile);
   const [flavor, setFlavor] = useState<FlavorKey | null>(null);
+  const [boxH, setBoxH] = useState<number | null>(null); // half the Agent-context natural height, shared by both boxes
   useEffect(() => {
     try {
       const f = localStorage.getItem("prismona.flavor") as FlavorKey | null;
@@ -127,7 +137,8 @@ export function AiSheet({ profile }: { profile: Profile }) {
         </p>
       </section>
       <section className="report-section">
-        <CopyBlock summary="Agent context" action="Copy Agent context" text={aiContextBlock(profile)} />
+        <CopyBlock summary="Agent context" action="Copy Agent context" text={aiContextBlock(profile)}
+          maxHeight={boxH} onNaturalHeight={(h) => setBoxH((prev) => prev ?? Math.round(h / 2))} />
 
         <div style={{ margin: "0 0 var(--s-6)" }}>
           <span className="label">Voice flavor · optional</span>
@@ -148,7 +159,7 @@ export function AiSheet({ profile }: { profile: Profile }) {
           </p>
         </div>
 
-        <CopyBlock summary="Agent persona" action="Copy Agent persona" text={personaText} />
+        <CopyBlock summary="Agent persona" action="Copy Agent persona" text={personaText} maxHeight={boxH} />
 
         <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-4)", flexWrap: "wrap" }}>
           <CopyAiLink profile={profile} />
