@@ -1,8 +1,8 @@
 # Prismona
 
-**Carry your personality blueprint to everyone you work with — human and AI.**
+**Carry your persona blueprint to everyone you work with — human and AI.**
 
-Prismona is a research-grade personality instrument that turns a one-time test into a **portable, living blueprint** — and the layer that carries it to the people *and* the AI agents you work with. Take a measured profile once; then any teammate can read a "how to work with me" manual from a share code, and any MCP-capable assistant can be calibrated to complement how you actually think, decide, and communicate — and keep learning as you work together.
+Prismona is a research-grade persona instrument that turns a spectrum of tests into a **portable, digital, living blueprint** — and the layer that carries it to the people *and* the AI agents you work with. Take a measured profile once; then any teammate can read a "how to work with me" manual from a share code, and any MCP-capable assistant can be calibrated to complement how you actually think, decide, and communicate — and keep learning as you work together.
 
 Built only on public-domain, peer-reviewed instruments (Mini-IPIP, IPIP-NEO-120, IPIP HEXACO Honesty-Humility), with an uncertainty band on every score and a citation behind every claim.
 
@@ -31,6 +31,21 @@ One measured blueprint, made portable and useful:
 - **Teams, cofounders, and managers** — compatibility, team chemistry, composition, and managing-up, from share codes.
 - **Agent builders & orchestration platforms** — consume calibrated personas over MCP (e.g. a multi-agent command center staffing role-typed agents).
 - **Anyone who wants credible self-understanding** without the junk-science baggage.
+
+---
+
+## Why not just use what Facebook already knows about you?
+
+Platforms like Facebook, Instagram, and Google hold enormous models of you. **Ownership isn't the only thing wrong with them** — a Prismona blueprint differs in kind:
+
+- **Measured, not inferred.** Your blueprint comes from a validated psychometric instrument with stated error bars and a citation behind every claim — you know exactly what it measures and how. A platform's model of you is a black box inferred from clicks and dwell-time, tuned to predict what you'll *tap next*, never shown to you, never validated, never explained.
+- **Built for you, not against you.** A surveillance profile exists to maximize the platform's ad revenue — it models your impulses to sell your attention, and it's most valuable when it exploits your weak moments (outrage, FOMO). Your blueprint exists to be *used by you*: to help the people and AI you choose work with you better. Aligned incentive vs. an adversarial one.
+- **Intent, not residue.** Your 2 a.m. doomscroll and the thing you rage-clicked are behavioral exhaust, not identity. Prismona captures your considered self-model (a deliberate self-report) plus, optionally, *summarized* behavioral signal you consent to share — who you mean to be, not what an algorithm caught you doing.
+- **Portable and usable, not captive.** A blueprint is a structured, machine-readable identity any teammate or AI agent can adopt to serve you, on any platform. A surveillance model is a captive ad-targeting segment that never leaves its walls and only serves advertisers.
+- **Honest about its limits.** Prismona states modest effect sizes, draws uncertainty on every score, and refuses screening/verdict uses. Surveillance psychographics are deployed for manipulation (see Cambridge Analytica) with neither disclosure nor consent.
+- **Minimal by design, not maximal.** Built from a consented test and opt-in, PII-filtered behavioral tags — not from total surveillance of everything you do.
+
+The deeper point: a *measured, aligned, portable, honest* model of you is a fundamentally different — and more useful — thing than a *surveilled, adversarial, captive, opaque* one, even when the platform's profile is "richer." Ownership is the floor, not the case.
 
 ---
 
