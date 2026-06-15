@@ -156,19 +156,28 @@ export const PERSONA_ROLES: Record<RoleKey, { name: string; source: string; dire
 };
 
 export interface PersonaOptions {
-  flavor?: FlavorKey;
+  flavor?: FlavorKey;                            // single flavor (legacy / MCP agent_persona)
+  flavors?: Partial<Record<FlavorKey, number>>;  // per-register modulation: -1 less, 0 off, +1 more
   role?: RoleKey;
 }
 
 export function agentPersona(p: Profile, opts: PersonaOptions = {}): string {
   const scores = ORDER.map((k) => `${TRAIT_LABELS[k]} ${p.traits[k].pct}th (range ${p.traits[k].lo}–${p.traits[k].hi})`).join(" · ");
   const directives = ORDER.map((k) => `- ${pick(COMPLEMENT[k], p.traits[k].pct)}`).join("\n");
-  const flavor = opts.flavor ? PERSONA_FLAVORS[opts.flavor] : null;
+  const mods: [FlavorKey, number][] = opts.flavors
+    ? (Object.entries(opts.flavors) as [FlavorKey, number][]).filter(([k, v]) => v !== 0 && PERSONA_FLAVORS[k])
+    : opts.flavor && PERSONA_FLAVORS[opts.flavor]
+      ? [[opts.flavor, 1]]
+      : [];
   const role = opts.role ? PERSONA_ROLES[opts.role] : null;
+  const flavorBlock = mods.length
+    ? `\nPersona modulation (chosen by the user — tune these registers; the complement calibration above wins on conflict):\n` +
+      mods.map(([k, v]) => v > 0
+        ? `- More ${PERSONA_FLAVORS[k].name}: ${PERSONA_FLAVORS[k].directives}`
+        : `- Less ${PERSONA_FLAVORS[k].name}: deliberately downplay this register.`).join("\n")
+    : "";
   const tuning = [
-    flavor
-      ? `\nVoice flavor — ${flavor.name} (chosen by the user):\n${flavor.directives}\nWhere this register conflicts with the complement calibration above, the calibration wins.`
-      : "",
+    flavorBlock,
     role
       ? `\nProfessional role — ${role.name} (chosen by the user; archetype distilled from observed practitioners — ${role.source}):\n${role.directives}\nThe role shapes your craft and vocabulary; the complement calibration above still governs how you treat this specific person.`
       : "",

@@ -111,19 +111,23 @@ function FieldNotes({ profile }: { profile: Profile }) {
 // /ai#code — its own distinct share link.
 export function AiSheet({ profile }: { profile: Profile }) {
   const style = managementStyle(profile);
-  const [flavor, setFlavor] = useState<FlavorKey | null>(null);
+  const [mods, setMods] = useState<Partial<Record<FlavorKey, number>>>({});
   const [boxH, setBoxH] = useState<number | null>(null); // half the Agent-context natural height, shared by both boxes
   useEffect(() => {
     try {
-      const f = localStorage.getItem("prismona.flavor") as FlavorKey | null;
-      if (f && PERSONA_FLAVORS[f]) setFlavor(f);
+      const raw = localStorage.getItem("prismona.mods");
+      if (raw) setMods(JSON.parse(raw) as Partial<Record<FlavorKey, number>>);
     } catch { /* ignore */ }
   }, []);
-  const pickFlavor = (f: FlavorKey | null) => {
-    setFlavor(f);
-    try { f ? localStorage.setItem("prismona.flavor", f) : localStorage.removeItem("prismona.flavor"); } catch { /* ignore */ }
+  const setMod = (f: FlavorKey, v: number) => {
+    setMods((prev) => {
+      const next = { ...prev };
+      if (v === 0) delete next[f]; else next[f] = v;
+      try { localStorage.setItem("prismona.mods", JSON.stringify(next)); } catch { /* ignore */ }
+      return next;
+    });
   };
-  const personaText = agentPersona(profile, { flavor: flavor ?? undefined });
+  const personaText = agentPersona(profile, { flavors: mods });
   return (
     <>
       <section className="arch-display">
@@ -144,20 +148,30 @@ export function AiSheet({ profile }: { profile: Profile }) {
         <CopyBlock summary="Agent persona" action="Copy Agent persona" text={personaText} maxHeight={boxH}
           extra={
             <div style={{ margin: "0 0 var(--s-4)" }}>
-              <span className="label">Voice flavor · optional</span>
-              <div className="flags" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
-                <button className="flag" aria-pressed={flavor === null}
-                  style={flavor === null ? { borderColor: "var(--gold)", color: "var(--gold)" } : undefined}
-                  onClick={() => pickFlavor(null)}>Default</button>
-                {(Object.keys(PERSONA_FLAVORS) as FlavorKey[]).map((f) => (
-                  <button key={f} className="flag" aria-pressed={flavor === f}
-                    title={PERSONA_FLAVORS[f].blurb}
-                    style={flavor === f ? { borderColor: "var(--gold)", color: "var(--gold)" } : undefined}
-                    onClick={() => pickFlavor(f)}>{PERSONA_FLAVORS[f].name}</button>
-                ))}
+              <span className="label">Persona Modulation · optional</span>
+              <div style={{ display: "flex", flexDirection: "column", gap: "var(--s-3)", margin: "var(--s-4) 0" }}>
+                {(Object.keys(PERSONA_FLAVORS) as FlavorKey[]).map((f) => {
+                  const v = mods[f] ?? 0;
+                  return (
+                    <div key={f} style={{ display: "grid", gridTemplateColumns: "minmax(90px, 1fr) 2fr 48px", alignItems: "center", gap: "var(--s-4)" }}>
+                      <span className="num" title={PERSONA_FLAVORS[f].blurb}
+                        style={{ fontSize: "var(--t-xs)", letterSpacing: "0.06em", color: v ? "var(--gold)" : "var(--ivory-dim)" }}>
+                        {PERSONA_FLAVORS[f].name}
+                      </span>
+                      <input type="range" min={-1} max={1} step={1} value={v}
+                        onChange={(e) => setMod(f, Number(e.target.value))}
+                        aria-label={`${PERSONA_FLAVORS[f].name} modulation`}
+                        style={{ width: "100%", accentColor: "var(--gold)" }} />
+                      <span className="footnote num" style={{ textAlign: "right", color: v ? "var(--gold)" : "var(--ivory-faint)" }}>
+                        {v < 0 ? "less" : v > 0 ? "more" : "—"}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
               <p className="footnote" style={{ marginTop: "var(--s-3)" }}>
-                Tuning modulates, never replaces: the complement calibration always wins on conflict.
+                Drag each register left (less) or right (more); center is off. Modulation tunes the
+                voice — the complement calibration always wins on conflict.
               </p>
             </div>
           }
