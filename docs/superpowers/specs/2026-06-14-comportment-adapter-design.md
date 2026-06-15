@@ -1,6 +1,6 @@
 # Spec — Comportment Adapter
 
-_Date: 2026-06-14. Status: design, pre-implementation. Background: `docs/research/AGENT-TO-AGENT-INTERACTION.md` (§ Persona vs. comportment)._
+_Date: 2026-06-14. Status: design, pre-implementation. Background: `docs/research/INTERACTION-MODEL.md` (§ Persona vs. comportment)._
 
 ## Overview
 
