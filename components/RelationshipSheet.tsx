@@ -24,14 +24,14 @@ function CopyRelationshipLink({ profile }: { profile: Profile }) {
   );
 }
 
-// "Relationship with me": a concise, partner-facing one-pager for a romantic
+// "Loving me": a concise, partner-facing one-pager for a romantic
 // context, rendered as a face of the profile page.
 export function RelationshipSheet({ profile, showBack = false }: { profile: Profile; showBack?: boolean }) {
   const sections = buildRelationship(profile);
   return (
     <>
       <div className="print-only print-head">
-        <span className="label gold">Relationship with me — Prismona</span>
+        <span className="label gold">Loving me — Prismona</span>
         <span className="num" style={{ fontSize: "var(--t-sm)", color: "var(--ivory-faint)" }}>
           {longDate(profile.date)} · prismona.vercel.app
         </span>
@@ -40,7 +40,7 @@ export function RelationshipSheet({ profile, showBack = false }: { profile: Prof
       <section className="arch-display">
         <p className="label gold">Concise manual for partner</p>
         <h1 className="display" style={{ fontSize: "var(--t-display)", margin: "12px 0 16px" }}>
-          Relationship with me
+          Loving me
         </h1>
         <p className="prose">
           Generated from my {profile.tier} personality blueprint on {longDate(profile.date)} —
