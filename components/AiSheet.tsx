@@ -8,7 +8,6 @@ import { profileUrl } from "@/lib/shareview";
 import { managementStyle, type FeedbackDigest } from "@/lib/management";
 import { encodeShareCode } from "@/lib/codec";
 import type { Profile } from "@/lib/types";
-import { ComportmentPanel } from "./ComportmentPanel";
 
 function CopyBlock({ summary, action, text, maxHeight, onNaturalHeight, extra }:
   { summary: string; action: string; text: string; maxHeight?: number | null; onNaturalHeight?: (h: number) => void; extra?: ReactNode }) {
@@ -188,8 +187,11 @@ export function AiSheet({ profile }: { profile: Profile }) {
           person who should set up your assistant. Agents can also connect live via the{" "}
           <Link href="/mcp" className="cite" style={{ color: "var(--ivory-dim)" }}>MCP endpoint</Link>.
         </p>
-
-        <ComportmentPanel />
+        <p className="footnote" style={{ marginTop: "var(--s-4)" }}>
+          Tune how your agent adapts its register to different people — a president vs. a teammate —
+          on the{" "}
+          <Link href="/comportment" className="cite" style={{ color: "var(--ivory-dim)" }}>comportment page</Link>.
+        </p>
       </section>
 
       <section className="report-section">
