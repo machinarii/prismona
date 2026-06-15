@@ -174,3 +174,29 @@ Least emphasized: ${list(p.bottom)}.
 ${tension}
 For you, the agent: optimize toward their top values; when a choice advances a top value at the cost of an opposed one, name the trade-off rather than deciding silently; flag options that cross their least-emphasized values. Values guide priorities, not facts — never override their stated decision.`;
 }
+
+const andList = (vs: ValueKey[]): string => {
+  const names = vs.map((v) => VALUE_META[v].name);
+  if (names.length <= 1) return names.join("");
+  return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
+};
+
+// First-person values entries for the working-with-me manual.
+export function valueWorkEntries(p: ValuesProfile): { title: string; body: string }[] {
+  return [
+    { title: "What drives me", body: `What I'm really working toward is ${andList(p.top)}. Connect a task to one of those and I'll own it — frame work in those terms and you'll get my best.` },
+    { title: "Where I'll push back", body: `I put the least weight on ${andList(p.bottom)}. Appeals that rest on those won't move me, so expect resistance rather than buy-in when a pitch leans there.` },
+  ];
+}
+
+// First-person values entries for the loving-me (partner) manual.
+export function valueLoveEntries(p: ValuesProfile): { title: string; body: string }[] {
+  const out = [
+    { title: "What I care about most", body: `At my core I'm guided by ${andList(p.top)}. We'll thrive where these line up between us, and the places they don't are worth an honest conversation early — not a slow surprise.` },
+  ];
+  if (p.tensions.length) {
+    out.push({ title: "My inner pull", body: `I genuinely pull between ${VALUE_META[p.tensions[0][0]].name} and ${VALUE_META[p.tensions[0][1]].name}. If I seem inconsistent there, it's a real internal tug, not flakiness — name it and we can work with it.` });
+  }
+  out.push({ title: "What I lean away from", body: `${andList(p.bottom)} sit low for me — not a flaw to fix, just don't expect them to be what moves me.` });
+  return out;
+}
