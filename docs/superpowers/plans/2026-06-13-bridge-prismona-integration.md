@@ -130,7 +130,7 @@ Close the loop so agents tune from real interaction:
 
 ## Out of scope
 - Bridge's `personaSeed` stays as the offline default when Prismona is unconfigured.
-- Topology-driven agent-to-agent negotiation (`agent_handshake`) — future, per Prismona's `docs/research/AGENT-TO-AGENT-INTERACTION.md`.
+- Topology-driven agent-to-agent negotiation (`agent_handshake`) — future, per Prismona's `docs/research/INTERACTION-MODEL.md`.
 
 ## Self-review
 - A1–A4 give exact files (`prismona-roles.js`, `prismona.js`, `orchestrator.js`) and runnable code; role map covers all 12 bridge roles.

@@ -83,7 +83,7 @@ Pick what an agent **is** (role); how it **behaves** emerges from working togeth
    - Direct: PM→productManager, (Software) Engineer→engineer, Designer→designer, Data Scientist→dataScientist, Marketing→marketer.
    - **Gaps** (bridge has, Prismona lacks): **QA, Security, Researcher, Copywriter, Legal**, Hardware/Electrical Engineer. **Decision:** add the high-value ones (**QA, Researcher, Security, Legal**) to `PERSONA_ROLES` with research-grounded directives; map the remainder (Copywriter→marketer, HW/EE→engineer) via a small table until they earn their own entry.
 3. **Closing the learning loop through bridge.** Bridge is where the work happens, so its agents are the ideal signal source: they `report_collaboration`/`tune_agent` back to Prismona (Phase 2) → personas learn → bridge pulls the updated persona next session.
-4. **Topology ↔ agent-to-agent.** Bridge's work topologies + agent-to-agent delegation are the concrete instantiation of the A2A research note (`docs/research/AGENT-TO-AGENT-INTERACTION.md`) — the hook for a future `agent_handshake`.
+4. **Topology ↔ agent-to-agent.** Bridge's work topologies + agent-to-agent delegation are the concrete instantiation of the A2A research note (`docs/research/INTERACTION-MODEL.md`) — the hook for a future `agent_handshake`.
 
 ### Integration shape
 - Lightweight: Prismona stays a standard MCP server; bridge connects as a client. No Prismona dependency on bridge internals. The only Prismona-side work for bridge specifically is the **role-mapping table + the added roles**; everything else is the generic MCP surface.
