@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { aiContextBlock } from "@/lib/portable";
 import { agentPersona, PERSONA_FLAVORS, type FlavorKey } from "@/lib/persona";
@@ -9,8 +9,8 @@ import { managementStyle, type FeedbackDigest } from "@/lib/management";
 import { encodeShareCode } from "@/lib/codec";
 import type { Profile } from "@/lib/types";
 
-function CopyBlock({ summary, action, text, maxHeight, onNaturalHeight }:
-  { summary: string; action: string; text: string; maxHeight?: number | null; onNaturalHeight?: (h: number) => void }) {
+function CopyBlock({ summary, action, text, maxHeight, onNaturalHeight, extra }:
+  { summary: string; action: string; text: string; maxHeight?: number | null; onNaturalHeight?: (h: number) => void; extra?: ReactNode }) {
   const [copied, setCopied] = useState(false);
   const preRef = useRef<HTMLPreElement>(null);
   useEffect(() => {
@@ -23,6 +23,7 @@ function CopyBlock({ summary, action, text, maxHeight, onNaturalHeight }:
       <span className="label gold" style={{ display: "block", marginBottom: "var(--s-3)" }}>
         {summary}
       </span>
+      {extra}
       <pre
         ref={preRef}
         className="footnote num"
@@ -140,26 +141,27 @@ export function AiSheet({ profile }: { profile: Profile }) {
         <CopyBlock summary="Agent context" action="Copy Agent context" text={aiContextBlock(profile)}
           maxHeight={boxH} onNaturalHeight={(h) => setBoxH((prev) => prev ?? Math.round(h / 2))} />
 
-        <div style={{ margin: "0 0 var(--s-6)" }}>
-          <span className="label">Voice flavor · optional</span>
-          <div className="flags" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
-            <button className="flag" aria-pressed={flavor === null}
-              style={flavor === null ? { borderColor: "var(--gold)", color: "var(--gold)" } : undefined}
-              onClick={() => pickFlavor(null)}>Default</button>
-            {(Object.keys(PERSONA_FLAVORS) as FlavorKey[]).map((f) => (
-              <button key={f} className="flag" aria-pressed={flavor === f}
-                title={PERSONA_FLAVORS[f].blurb}
-                style={flavor === f ? { borderColor: "var(--gold)", color: "var(--gold)" } : undefined}
-                onClick={() => pickFlavor(f)}>{PERSONA_FLAVORS[f].name}</button>
-            ))}
-          </div>
-          <p className="footnote" style={{ marginTop: "var(--s-3)" }}>
-            Tuning modulates, never replaces: the complement calibration always wins on
-            conflict.
-          </p>
-        </div>
-
-        <CopyBlock summary="Agent persona" action="Copy Agent persona" text={personaText} maxHeight={boxH} />
+        <CopyBlock summary="Agent persona" action="Copy Agent persona" text={personaText} maxHeight={boxH}
+          extra={
+            <div style={{ margin: "0 0 var(--s-4)" }}>
+              <span className="label">Voice flavor · optional</span>
+              <div className="flags" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
+                <button className="flag" aria-pressed={flavor === null}
+                  style={flavor === null ? { borderColor: "var(--gold)", color: "var(--gold)" } : undefined}
+                  onClick={() => pickFlavor(null)}>Default</button>
+                {(Object.keys(PERSONA_FLAVORS) as FlavorKey[]).map((f) => (
+                  <button key={f} className="flag" aria-pressed={flavor === f}
+                    title={PERSONA_FLAVORS[f].blurb}
+                    style={flavor === f ? { borderColor: "var(--gold)", color: "var(--gold)" } : undefined}
+                    onClick={() => pickFlavor(f)}>{PERSONA_FLAVORS[f].name}</button>
+                ))}
+              </div>
+              <p className="footnote" style={{ marginTop: "var(--s-3)" }}>
+                Tuning modulates, never replaces: the complement calibration always wins on conflict.
+              </p>
+            </div>
+          }
+        />
 
         <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-4)", flexWrap: "wrap" }}>
           <CopyAiLink profile={profile} />
