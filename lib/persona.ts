@@ -1,6 +1,7 @@
 import type { Profile, ReportKey } from "./types";
 import { TRAIT_LABELS } from "./norms";
 import { longDate } from "./dates";
+import { comportmentDirectives, type Comportment } from "./comportment";
 
 // Companion-persona generator: a system prompt that calibrates an AI to be
 // the COMPLEMENT of one measured person — supplying what their trait profile
@@ -159,6 +160,7 @@ export interface PersonaOptions {
   flavor?: FlavorKey;                            // single flavor (legacy / MCP agent_persona)
   flavors?: Partial<Record<FlavorKey, number>>;  // per-register modulation: -1 less, 0 off, +1 more
   role?: RoleKey;
+  comportment?: Comportment;                     // relationship-specific register (persona stays fixed)
 }
 
 export function agentPersona(p: Profile, opts: PersonaOptions = {}): string {
@@ -176,11 +178,13 @@ export function agentPersona(p: Profile, opts: PersonaOptions = {}): string {
         ? `- More ${PERSONA_FLAVORS[k].name}: ${PERSONA_FLAVORS[k].directives}`
         : `- Less ${PERSONA_FLAVORS[k].name}: deliberately downplay this register.`).join("\n")
     : "";
+  const compBlock = opts.comportment ? comportmentDirectives(opts.comportment) : "";
   const tuning = [
     flavorBlock,
     role
       ? `\nProfessional role — ${role.name} (chosen by the user; archetype distilled from observed practitioners — ${role.source}):\n${role.directives}\nThe role shapes your craft and vocabulary; the complement calibration above still governs how you treat this specific person.`
       : "",
+    compBlock ? `\n${compBlock}` : "",
   ].join("");
   return `COMPANION PERSONA — calibrated complement (Prismona, self-report, ${longDate(p.date)})
 
