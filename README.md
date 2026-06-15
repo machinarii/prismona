@@ -74,6 +74,22 @@ For most of history you've learned who someone is *slowly*: in person, through s
 
 ---
 
+## Why this isn't the Quantified Self movement (which stalled)
+
+A decade ago, "self-knowledge through numbers" promised to change how we understand ourselves — track your steps, sleep, mood, productivity, *everything*. It largely stalled into a drawer of abandoned wearables and dashboards no one reopened. It failed for **structural** reasons, and Prismona is built to invert each one:
+
+| | Quantified Self | Prismona |
+|---|---|---|
+| **Measures** | activity — behavioral residue (steps, calories, clicks) | **identity** — who you are and what you value |
+| **Cadence** | constant, high-friction self-tracking (so you quit) | **measured once**, re-anchored occasionally — no logging burden |
+| **Meaning** | raw data, no validated model — "so what?" | **validated psychometrics** with error bars, citations, applied readings |
+| **Audience** | a private dashboard, siloed | **portable and relational** — used by the people and AI you work with |
+| **Output** | contemplation; an optimization treadmill | **decisions and conversations** — how to work with me, align my AI, where we'll clash |
+
+The deeper diagnosis: QS tracked the **wrong thing** (what you *did*, not who you *are*), for the **wrong audience** (yourself, alone), at the **wrong cadence** (constantly), with **no meaning** attached to the numbers. Prismona measures the stable, consequential core *once*, interprets it honestly with stated limits, and then sends it somewhere useful — a teammate's "working with me" page, a partner's manual, an AI agent's calibration. It's self-knowledge that **does something and goes somewhere**, not a metric you collect and forget. The continuous part — the *observed* layer — is qualitative summaries from the agents you already work with, not a wearable you have to remember to charge.
+
+---
+
 ## Features
 
 **The instrument**
