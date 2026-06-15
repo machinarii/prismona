@@ -454,11 +454,11 @@ function ResultsInner() {
 }
 
 const VIEWS = [
-  { key: "breakdown" as const, name: "My complete blueprint" },
+  { key: "breakdown" as const, name: "Blueprint" },
   { key: "manual" as const, name: "Working with me" },
+  { key: "relationship" as const, name: "Loving me" },
   { key: "ai" as const, name: "Working with my AI" },
-  { key: "relationship" as const, name: "Relationship with me" },
-  { key: "becoming" as const, name: "Calibration" },
+  { key: "becoming" as const, name: "Becoming" },
 ];
 
 function CodeActions({ profile }: { profile: Profile }) {
