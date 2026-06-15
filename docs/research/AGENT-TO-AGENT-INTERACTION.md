@@ -70,6 +70,8 @@ Supporting models that sharpen specific edges:
 | **User ↔ own agent** | Communal Sharing | intimate; full blueprint | Principal-agent, high trust, back-stage candor |
 | **User's agent ↔ another human** | Authority Ranking *or* Equality Matching (boss vs peer) | social/public; Social-Penetration-scoped | Politeness = D+P+R; front-stage impression mgmt |
 | **User's agent ↔ another's agent** | Equality Matching → Market Pricing | tie-strength-gated | A2A negotiation profiles + trust priors (`agent_handshake`) |
+| **User's agent ↔ its own subagent** | Communal Sharing | intimate; full context shared | Same principal; Authority-Ranking task hierarchy; decomposition, not negotiation |
+| **User's agent ↔ a multi-agent collective / org** | Market Pricing *or* Authority Ranking (context) | set to the collective (least-trusted member) | Group-level trust prior; designated interface + binding commitments + audit |
 
 **The rule:** distance answers *how much* is shared; type answers *by what rules*. Proxemics alone conflates them — keep them as two dials. (This subsumes the earlier "human-mimicry scales with how many humans are reading" heuristic: **disclosure** scales with distance, **protocol** with type, and **human-style rendering** still applies only at a human boundary.)
 
@@ -102,6 +104,29 @@ These defaults are **not neutral** — they are positioned by who is across the 
 **Owner modulation.** Expose each comportment dimension as a scrubbing bar (the Persona-Modulation slider UI), with one twist: the bar's **anchor is the computed default for that relationship**, not center — a tick marks the default so the owner sees how far they have nudged it. Dimensions: formality, deference, warmth, directness, disclosure, brevity. Saved **per relationship (or per relationship-type)**, layered on the fixed persona. The honesty floor is not a slider.
 
 This keeps adaptation legible and owner-controlled: the framework sets a sensible comportment default for each relationship, the owner tunes it, and the **persona never moves**. It is the relationship-aware sibling of the global Persona Modulation on the AI tab.
+
+## Two more interaction types: subagents and collectives
+
+The 1:1 cases above don't cover two structurally different configurations.
+
+### User's agent ↔ its own subagent (intra-principal)
+
+The agent decomposes work to subagents that **serve the same owner**. This is **Communal Sharing**, not a relationship between parties: one mind split into tasks.
+- **No negotiation, no trust prior.** Same principal → full trust, full context. The subagent **inherits** the owner's persona, values, and honesty floor — it is a role-specialization of the same self, not a separate entity.
+- **Comportment overhead → near zero.** No human reading, same side: terse, structured, maximal disclosure between them. (This is Bridge's "agent delegates to a teammate," and the `peerAgent` register dialed all the way to internal.)
+- **Authority Ranking on tasks only.** The parent directs and synthesizes; the hierarchy is about task flow, not status. The risk to manage is *drift* — a subagent silently diverging from the owner's calibration — so the parent re-grounds subagents from the same blueprint and owns the final synthesis.
+- Contrast with `peerAgent` (different principals): that one *is* a negotiation with guarded disclosure and a trust prior; this one is not.
+
+### User's agent ↔ a multi-agent collective / organization
+
+The agent faces **many** agents operated by someone else — another person, an org, or a collective where several humans' agents are connected. This is **1:N**, and the group may have its own internal structure.
+- **Disclosure is set to the collective, not the member.** Assume shared memory: *share to one agent = share to all*. Calibrate disclosure to the **least-trusted member** / the group as a whole, never to the friendliest interlocutor.
+- **Trust is group-level.** Extend a trust prior to the **org/collective** (its reputation/credential), not to each agent. Honesty-Humility of *one* member doesn't vouch for the group.
+- **Power asymmetry shifts comportment.** N agents out-capacity your one — and an org often out-ranks you (Authority Ranking). Expect more formality, guarded disclosure, and insistence on **explicit, binding commitments** rather than informal understandings.
+- **Demand a designated interface + binding semantics + audit.** Know *who speaks for the collective* and whether their commitments bind the whole; keep a legible record. Without this, a collective can diffuse accountability ("no agent agreed to that").
+- **Relational type is context-dependent:** Market Pricing with a vendor org, Authority Ranking with a high-status institution, Equality Matching with a peer collective — classify it first, then set comportment.
+
+Both reuse the same machinery: persona fixed, comportment + disclosure set by the two dials. Subagents push *toward* intimate/communal (an internal extension); collectives push *toward* guarded/formal with group-level trust and hard commitments.
 
 ## What a personality blueprint becomes between agents
 
