@@ -61,7 +61,7 @@ A personality assessment people take as seriously as a credit score and enjoy as
 ## 6. Product scope
 
 ### 6.1 MVP — ✅ built and live (exceeds original scope)
-- **Test:** two tiers — Quick: 26 items (Mini-IPIP + 6 IPIP Honesty-Humility, ~5 min); Full Index: 126 items (IPIP-NEO-120 + H, 30 facets). 5-point Likert.
+- **Test:** two tiers — Quick: 26 items (Mini-IPIP + 6 IPIP Honesty-Humility, ~5 min); Full Index: 136 items (IPIP-NEO-120 + faceted IPIP HEXACO Honesty-Humility, 34 facets). 5-point Likert.
 - **Per-question timer:** 20s visible countdown; auto-advance on timeout (item marked unanswered); latency recorded per item.
 - **Quality flags:** % too-fast responses (<800ms), timeouts, straight-lining, person-fit consistency index; shown on results as a confidence indicator.
 - **Scoring:** reverse-keyed means → z-scores vs. published norms → percentiles with ±1 SEM bands. Client-side only; no account, no server (privacy by default).
