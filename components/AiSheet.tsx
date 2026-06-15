@@ -127,6 +127,8 @@ export function AiSheet({ profile }: { profile: Profile }) {
         </p>
       </section>
       <section className="report-section">
+        <CopyBlock summary="Agent context" action="Copy Agent context" text={aiContextBlock(profile)} />
+
         <div style={{ margin: "0 0 var(--s-6)" }}>
           <span className="label">Voice flavor · optional</span>
           <div className="flags" style={{ margin: "var(--s-3) 0 var(--s-4)" }}>
@@ -146,7 +148,6 @@ export function AiSheet({ profile }: { profile: Profile }) {
           </p>
         </div>
 
-        <CopyBlock summary="Agent context" action="Copy Agent context" text={aiContextBlock(profile)} />
         <CopyBlock summary="Agent persona" action="Copy Agent persona" text={personaText} />
 
         <div style={{ display: "flex", gap: "var(--s-3)", marginTop: "var(--s-4)", flexWrap: "wrap" }}>
