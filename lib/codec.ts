@@ -14,7 +14,7 @@ const EPOCH_MS = Date.UTC(2020, 0, 1);
 const KEYS: ReportKey[] = ["O", "C", "E", "A", "ES", "H"];
 const B64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 
-function toBase64url(bytes: number[]): string {
+export function toBase64url(bytes: number[]): string {
   let out = "";
   for (let i = 0; i < bytes.length; i += 3) {
     const b0 = bytes[i], b1 = bytes[i + 1], b2 = bytes[i + 2];
@@ -28,7 +28,7 @@ function toBase64url(bytes: number[]): string {
   return out;
 }
 
-function fromBase64url(s: string): number[] | null {
+export function fromBase64url(s: string): number[] | null {
   const vals: number[] = [];
   for (const ch of s) {
     const v = B64.indexOf(ch);

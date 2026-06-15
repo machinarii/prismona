@@ -3,6 +3,8 @@ import { z } from "zod";
 
 import { decodeShareCode } from "./codec";
 import { decodeTeamCode } from "./agentteam";
+import { decodeValuesCode } from "./valuescodec";
+import { valueBrief } from "./values";
 import { profileFromShare } from "./shareview";
 import { buildProfileExport } from "./export";
 import { buildInsights } from "./insights";
@@ -128,6 +130,20 @@ export function registerPrismonaTools(server: McpServer): void {
       const share = decodeShareCode(code);
       if (!share) return fail("invalid share code");
       return ok(buildManual(profileFromShare(share)));
+    },
+  );
+
+  server.registerTool(
+    "value_brief",
+    {
+      title: "Value brief (priorities for alignment)",
+      description: "Given a PRSM-VAL-… values code, returns the owner's value brief: their most-important and least-emphasized core values, the key tension between opposed values, and how to weigh trade-offs. Values guide priorities, not facts — optimize toward their top values and name trade-offs; never override a stated decision.",
+      inputSchema: { valuesCode: z.string().describe("a PRSM-VAL-… values code") },
+    },
+    async ({ valuesCode }) => {
+      const p = decodeValuesCode(valuesCode);
+      if (!p) return fail("invalid values code");
+      return ok(valueBrief(p));
     },
   );
 
