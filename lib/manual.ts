@@ -1,4 +1,5 @@
 import type { Profile } from "./types";
+import { valueWorkEntries, type ValuesProfile } from "./values";
 
 // "Working with me" manual: a first-person, shareable one-pager generated
 // from actual trait percentiles. Same three-tier keying as lib/insights.ts
@@ -11,9 +12,9 @@ export interface ManualSection { key: string; heading: string; entries: ManualEn
 interface Tiered { hi: string; mid: string; lo: string }
 const pick = (t: Tiered, pct: number) => (pct >= 70 ? t.hi : pct >= 40 ? t.mid : t.lo);
 
-export function buildManual(p: Profile): ManualSection[] {
+export function buildManual(p: Profile, values?: ValuesProfile | null): ManualSection[] {
   const t = p.traits;
-  return [
+  const sections: ManualSection[] = [
     {
       key: "communication",
       heading: "How I communicate",
@@ -131,4 +132,6 @@ export function buildManual(p: Profile): ManualSection[] {
       ],
     },
   ];
+  if (values) sections.push({ key: "values", heading: "What I value", entries: valueWorkEntries(values) });
+  return sections;
 }

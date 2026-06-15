@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { buildManual } from "@/lib/manual";
+import { loadValues } from "@/lib/storage";
+import type { ValuesProfile } from "@/lib/values";
 import { profileUrl } from "@/lib/shareview";
 import { longDate } from "@/lib/dates";
 import type { Profile } from "@/lib/types";
@@ -27,7 +29,9 @@ function CopyManualLink({ profile }: { profile: Profile }) {
 // The working-with-me one-pager, renderable standalone (/manual) or as the
 // second face of the profile page.
 export function ManualSheet({ profile, showBack = true }: { profile: Profile; showBack?: boolean }) {
-  const sections = buildManual(profile);
+  const [values, setValues] = useState<ValuesProfile | null>(null);
+  useEffect(() => { setValues(loadValues()?.profile ?? null); }, []);
+  const sections = buildManual(profile, values);
   return (
     <>
       <div className="print-only print-head">
