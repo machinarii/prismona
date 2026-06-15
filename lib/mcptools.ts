@@ -8,6 +8,7 @@ import { buildProfileExport } from "./export";
 import { buildInsights } from "./insights";
 import { buildManual } from "./manual";
 import { agentPersona, interactionGuide, PERSONA_FLAVORS, PERSONA_ROLES, type FlavorKey, type RoleKey } from "./persona";
+import { computeComportment, comportmentDirectives, REL_PRESETS, type RelPreset } from "./comportment";
 import { compareDyad } from "./dyad";
 import { teamReport } from "./team";
 import { distinctiveness } from "./rarity";
@@ -167,12 +168,18 @@ export function registerPrismonaTools(server: McpServer): void {
         code: z.string().describe(CODE_DESC),
         flavor: z.enum(Object.keys(PERSONA_FLAVORS) as [FlavorKey, ...FlavorKey[]]).optional().describe("Voice register"),
         role: z.enum(Object.keys(PERSONA_ROLES) as [RoleKey, ...RoleKey[]]).optional().describe("Professional role archetype"),
+        relationship: z.enum(REL_PRESETS.map((r) => r.key) as [RelPreset, ...RelPreset[]]).optional().describe("Relationship to the counterparty — sets the default comportment (register: formality, deference, disclosure…). The persona stays fixed."),
+        counterparty: z.string().optional().describe("The counterparty's PRSM share code, to converge register toward their style"),
+        stakes: z.enum(["low", "med", "high"]).optional().describe("Stakes of the interaction (raises formality/care when high)"),
       },
     },
-    async ({ code, flavor, role }) => {
+    async ({ code, flavor, role, relationship, counterparty, stakes }) => {
       const share = decodeShareCode(code);
       if (!share) return fail("invalid share code");
-      let persona = agentPersona(profileFromShare(share), { flavor, role });
+      const comportment = relationship
+        ? computeComportment({ preset: relationship, stakes }, counterparty ? (decodeShareCode(counterparty) ?? undefined) : undefined)
+        : undefined;
+      let persona = agentPersona(profileFromShare(share), { flavor, role, comportment });
       // Fold the learned overlay for this (owner, role) — the continuous-tuning
       // layer that agents accumulate via tune_agent (e.g. bridge agents).
       if (role) {
@@ -185,6 +192,26 @@ export function registerPrismonaTools(server: McpServer): void {
         } catch { /* offline / no learned layer — the seed persona stands */ }
       }
       return ok(persona);
+    },
+  );
+
+  server.registerTool(
+    "comportment_adapter",
+    {
+      title: "Comportment for a relationship (register only)",
+      description: "Given the relationship to a counterparty (and optionally their PRSM code and the stakes), returns the default COMPORTMENT — the register an agent should carry: formality, deference, warmth, directness, disclosure, brevity — plus a paste-ready directive block. The persona and the honesty floor are unchanged; this adapts how the agent carries itself, never what is true. Deferring more to a president than a manager is the same persona in a higher register, not a personality change.",
+      inputSchema: {
+        relationship: z.enum(REL_PRESETS.map((r) => r.key) as [RelPreset, ...RelPreset[]]).describe("Relationship to the counterparty (authority, manager, peer, report, client, peerAgent, communal)"),
+        counterparty: z.string().optional().describe("The counterparty's PRSM share code (converges register toward their style)"),
+        stakes: z.enum(["low", "med", "high"]).optional().describe("Stakes of the interaction"),
+      },
+    },
+    async ({ relationship, counterparty, stakes }) => {
+      const comportment = computeComportment(
+        { preset: relationship, stakes },
+        counterparty ? (decodeShareCode(counterparty) ?? undefined) : undefined,
+      );
+      return ok({ comportment, directives: comportmentDirectives(comportment) });
     },
   );
 
