@@ -79,7 +79,7 @@ Both sides are machines representing absent or busy principals with possibly mis
 
 - **Communication style: drop it.** No human reads the exchange; channel/pace/tone-matching is pure overhead — cosplay.
 - **What flows instead:** structured negotiation profiles — risk posture, value priorities, Honesty-Humility trust prior, conflict mode, commitment preferences.
-- **Output is the _coordination_**, plus a legible log each principal can later inspect. This is the `agent_handshake` surface (future).
+- **Output is the _coordination_**, plus a legible log each principal can later inspect. This is the `agent_handshake` surface (**built** — MCP tool).
 
 ### 3.4 User's agent ↔ its own subagent (intra-principal)
 
@@ -153,7 +153,8 @@ Mandate dimensions, made explicit (not inferred from the blueprint alone):
 
 - **Today:** `interaction_guide` (how a counterparty should communicate with this person), `agent_persona` (complement-calibrated, now comportment-tunable), `compare_dyad` (human-readable fit + frictions for two people).
 - **`comportment_adapter` (specّ'd, building):** given a counterparty (ideally their code / `interaction_guide`) and the relationship, compute a **default comportment** (status/power + stakes → deference + formality; distance → disclosure; type → protocol; counterparty read → CAT convergence). Defaults are **not neutral** — positioned by who is across the table. The owner tunes each dimension via a **scrubbing bar whose anchor is the computed default** (a tick marks it), saved per relationship, layered on the fixed persona. The honesty floor is not a slider. See `docs/superpowers/specs/2026-06-14-comportment-adapter-design.md`.
-- **`agent_handshake` (future):** the agent-to-agent version of `compare_dyad` — two agents exchange machine-readable negotiation profiles (risk posture, value priorities, trust prior, conflict mode, commitment preferences) and compute an **interaction protocol** (commitment formality, conflict-escalation path, value-tradeoff rules) before working. Consumed by machines, gated by legibility.
+- **`agent_handshake` (built):** the agent-to-agent version of `compare_dyad` — two agents exchange machine-readable negotiation profiles (risk posture, value priorities, trust prior, conflict mode, commitment preferences) and compute an **interaction protocol** (commitment formality, conflict-escalation path, value-tradeoff rules) before working. Consumed by machines, gated by legibility. MCP tool `agent_handshake`.
+- **`proxy_brief` (built):** the bounded-proxy mandate — an agent acting for an absent owner gets the act-vs-defer gate (from their decision style) plus the owner's explicit scope / stakes ceiling / reversibility / expiry, and the rule to disclose bounded authority and never silently impersonate. MCP tool `proxy_brief`.
 
 `compare_dyad` (human-read) → `comportment_adapter` (per-relationship register) → `agent_handshake` (machine-consumed, bounded, auditable).
 

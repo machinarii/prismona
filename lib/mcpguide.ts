@@ -23,6 +23,8 @@ Don't call the code-taking tools until you actually hold a \`PRSM-…\` code.
 | Read their core value priorities | \`value_brief\` | \`{ "valuesCode": "PRSM-VAL-…" }\` → most-important and least-emphasized values, key tension, how to weigh trade-offs (alignment) |
 | Give them life/work readings | \`profile_readings\` | \`{ "code": "PRSM-…" }\` → six cited readings (relationships, career, work style, leadership, integrity, cofounder) |
 | Assess a pairing | \`compare_dyad\` | \`{ "codeA": "PRSM-…", "codeB": "PRSM-…", "purpose": "cofounder" }\` → fit gauge + top frictions with conversation prompts |
+| Coordinate two agents (machine-to-machine) | \`agent_handshake\` | \`{ "codeA": "PRSM-…", "codeB": "PRSM-…" }\` (optional \`valuesCodeA/B\`) → negotiation profiles + protocol: commitments, conflict, trust |
+| Act as the owner's bounded proxy | \`proxy_brief\` | \`{ "code": "PRSM-…", "scope": "…", "maxStakes": "low", "expiry": "2026-07-01" }\` → act-vs-defer gate + disclose-don't-impersonate |
 | Read an existing team | \`team_composition\` | \`{ "codes": ["PRSM-…", "PRSM-…", "PRSM-…"] }\` → diversity, coverage, gaps, gates |
 | Design a team for an outcome | \`compose_team\` | \`{ "projectType": "launch", "topology": "streamAligned", "size": 4 }\` → seat-by-seat archetype plan |
 | Staff agents around a person | \`compose_agents\` | \`{ "code": "PRSM-…", "projectType": "scale", "size": 3 }\` → roles + flavors that complement them |
