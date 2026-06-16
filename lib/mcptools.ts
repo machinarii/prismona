@@ -5,6 +5,8 @@ import { decodeShareCode } from "./codec";
 import { decodeTeamCode } from "./agentteam";
 import { decodeValuesCode } from "./valuescodec";
 import { valueBrief } from "./values";
+import { agentHandshake } from "./handshake";
+import { proxyBrief } from "./proxy";
 import { profileFromShare } from "./shareview";
 import { buildProfileExport } from "./export";
 import { buildInsights } from "./insights";
@@ -187,9 +189,10 @@ export function registerPrismonaTools(server: McpServer): void {
         relationship: z.enum(REL_PRESETS.map((r) => r.key) as [RelPreset, ...RelPreset[]]).optional().describe("Relationship to the counterparty — sets the default comportment (register: formality, deference, disclosure…). The persona stays fixed."),
         counterparty: z.string().optional().describe("The counterparty's PRSM share code, to converge register toward their style"),
         stakes: z.enum(["low", "med", "high"]).optional().describe("Stakes of the interaction (raises formality/care when high)"),
+        valuesCode: z.string().optional().describe("the owner's PRSM-VAL-… values code — folds their value priorities (alignment brief) into the persona"),
       },
     },
-    async ({ code, flavor, role, relationship, counterparty, stakes }) => {
+    async ({ code, flavor, role, relationship, counterparty, stakes, valuesCode }) => {
       const share = decodeShareCode(code);
       if (!share) return fail("invalid share code");
       const comportment = relationship
@@ -207,7 +210,56 @@ export function registerPrismonaTools(server: McpServer): void {
           }
         } catch { /* offline / no learned layer — the seed persona stands */ }
       }
+      if (valuesCode) {
+        const vp = decodeValuesCode(valuesCode);
+        if (vp) persona += `\n\n${valueBrief(vp)}`;
+      }
       return ok(persona);
+    },
+  );
+
+  server.registerTool(
+    "agent_handshake",
+    {
+      title: "Agent handshake (two principals' agents coordinate)",
+      description: "Two agents representing two people exchange negotiation profiles (risk posture, trust prior, conflict mode, commitment preference, value priorities) and compute a coordination protocol before working together: commitment formality, conflict escalation, trust posture, and value notes. The machine-readable, agent-to-agent counterpart of compare_dyad. A coordination aid, never a verdict — let observed behavior override it.",
+      inputSchema: {
+        codeA: z.string().describe("first principal's PRSM share code"),
+        codeB: z.string().describe("second principal's PRSM share code"),
+        valuesCodeA: z.string().optional().describe("first principal's PRSM-VAL- values code (optional, adds value priorities)"),
+        valuesCodeB: z.string().optional().describe("second principal's PRSM-VAL- values code (optional)"),
+      },
+    },
+    async ({ codeA, codeB, valuesCodeA, valuesCodeB }) => {
+      const sa = decodeShareCode(codeA);
+      const sb = decodeShareCode(codeB);
+      if (!sa) return fail("invalid share code for A");
+      if (!sb) return fail("invalid share code for B");
+      return ok(agentHandshake(
+        { profile: profileFromShare(sa), values: valuesCodeA ? decodeValuesCode(valuesCodeA) : null },
+        { profile: profileFromShare(sb), values: valuesCodeB ? decodeValuesCode(valuesCodeB) : null },
+      ));
+    },
+  );
+
+  server.registerTool(
+    "proxy_brief",
+    {
+      title: "Bounded-proxy mandate (agent acting for an absent owner)",
+      description: "A BOUNDED-PROXY operating brief for an agent acting on the owner's behalf while they're away: the act-vs-defer gate (from their decision style), the owner's explicit scope / stakes ceiling / reversibility / expiry, and the rule to disclose bounded authority and never silently impersonate the owner or over-commit in their absence.",
+      inputSchema: {
+        code: z.string().describe(CODE_DESC),
+        scope: z.string().optional().describe("what the proxy may decide, in the owner's words"),
+        maxStakes: z.enum(["low", "med", "high"]).optional().describe("stakes ceiling the proxy may act under"),
+        reversibleOnly: z.boolean().optional().describe("act only on reversible decisions"),
+        expiry: z.string().optional().describe("ISO date the mandate ends"),
+        note: z.string().optional().describe("freeform owner instruction"),
+      },
+    },
+    async ({ code, scope, maxStakes, reversibleOnly, expiry, note }) => {
+      const share = decodeShareCode(code);
+      if (!share) return fail("invalid share code");
+      return ok(proxyBrief(profileFromShare(share), { scope, maxStakes, reversibleOnly, expiry, note }));
     },
   );
 

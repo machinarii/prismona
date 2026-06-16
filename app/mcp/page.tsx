@@ -15,6 +15,8 @@ const TOOLS: Array<[string, string]> = [
   ["value_brief", "Core value priorities (Schwartz) from a PRSM-VAL- code — top/least values, the key tension, and how to weigh trade-offs for alignment"],
   ["profile_readings", "The six applied readings — relationships, career, work style, leadership, integrity, cofounder"],
   ["compare_dyad", "Pairing report for two codes: fit gauge, strengths, frictions with conversation prompts"],
+  ["agent_handshake", "Two agents representing two people exchange negotiation profiles and compute a coordination protocol (commitments, conflict, trust) — the machine-to-machine counterpart of compare_dyad"],
+  ["proxy_brief", "A bounded-proxy operating brief for an agent acting for an absent owner: act-vs-defer gate, explicit scope/stakes/expiry, and disclose-don't-impersonate"],
   ["team_composition", "Two or more codes: trait diversity, role coverage, gaps, single points of failure, gates"],
   ["compose_team", "Forward composition: project outcome + Team Topologies shape + headcount → seat-by-seat archetype plan"],
   ["compose_agents", "An agent bench that complements one person: roles + voice flavors staffed around their measured blueprint"],
