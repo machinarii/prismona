@@ -21,6 +21,7 @@ Don't call the code-taking tools until you actually hold a \`PRSM-…\` code.
 |---|---|---|
 | Understand a person from their code | \`decode_profile\` | \`{ "code": "PRSM-…" }\` → percentiles across six factors **incl. Honesty-Humility**, ±1 SEM ranges, archetype blend, distinctiveness |
 | Read their core value priorities | \`value_brief\` | \`{ "valuesCode": "PRSM-VAL-…" }\` → most-important and least-emphasized values, key tension, how to weigh trade-offs (alignment) |
+| Value alignment of two people | \`compare_values\` | \`{ "valuesCodeA": "PRSM-VAL-…", "valuesCodeB": "PRSM-VAL-…" }\` → congruence score, shared priorities, friction points |
 | Give them life/work readings | \`profile_readings\` | \`{ "code": "PRSM-…" }\` → six cited readings (relationships, career, work style, leadership, integrity, cofounder) |
 | Assess a pairing | \`compare_dyad\` | \`{ "codeA": "PRSM-…", "codeB": "PRSM-…", "purpose": "cofounder" }\` → fit gauge + top frictions with conversation prompts |
 | Coordinate two agents (machine-to-machine) | \`agent_handshake\` | \`{ "codeA": "PRSM-…", "codeB": "PRSM-…" }\` (optional \`valuesCodeA/B\`) → negotiation profiles + protocol: commitments, conflict, trust |

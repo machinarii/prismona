@@ -7,6 +7,7 @@ import { decodeValuesCode } from "./valuescodec";
 import { valueBrief } from "./values";
 import { agentHandshake } from "./handshake";
 import { proxyBrief } from "./proxy";
+import { valueCongruence } from "./valuecongruence";
 import { profileFromShare } from "./shareview";
 import { buildProfileExport } from "./export";
 import { buildInsights } from "./insights";
@@ -146,6 +147,25 @@ export function registerPrismonaTools(server: McpServer): void {
       const p = decodeValuesCode(valuesCode);
       if (!p) return fail("invalid values code");
       return ok(valueBrief(p));
+    },
+  );
+
+  server.registerTool(
+    "compare_values",
+    {
+      title: "Value congruence for two people",
+      description: "Given two PRSM-VAL- values codes, returns how aligned two people's value priorities are: a congruence score, their shared priorities, and the friction points (where one prizes what the other puts last). The values counterpart of compare_dyad — a conversation aid, never a verdict.",
+      inputSchema: {
+        valuesCodeA: z.string().describe("first person's PRSM-VAL- values code"),
+        valuesCodeB: z.string().describe("second person's PRSM-VAL- values code"),
+      },
+    },
+    async ({ valuesCodeA, valuesCodeB }) => {
+      const a = decodeValuesCode(valuesCodeA);
+      const b = decodeValuesCode(valuesCodeB);
+      if (!a) return fail("invalid values code for A");
+      if (!b) return fail("invalid values code for B");
+      return ok(valueCongruence(a, b));
     },
   );
 

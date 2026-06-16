@@ -4,8 +4,10 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { decodeShareCode, encodeShareCode, sharePct } from "@/lib/codec";
 import { compareDyad } from "@/lib/dyad";
+import { decodeValuesCode, encodeValuesCode } from "@/lib/valuescodec";
+import { valueCongruence, type ValueCongruence } from "@/lib/valuecongruence";
 import { TRAIT_LABELS } from "@/lib/norms";
-import { loadLatest } from "@/lib/storage";
+import { loadLatest, loadValues } from "@/lib/storage";
 import type { DyadReport, Purpose, ReportKey, ShareProfile } from "@/lib/types";
 
 const TRAIT_ORDER: ReportKey[] = ["O", "C", "E", "A", "ES", "H"];
@@ -132,17 +134,39 @@ function ReportView({ report, me, them }: { report: DyadReport; me: ShareProfile
   );
 }
 
+function CongruenceView({ c }: { c: ValueCongruence }) {
+  return (
+    <section className="report-section">
+      <span className="label gold">Value congruence</span>
+      <div className="gauge" style={{ marginTop: "var(--s-6)" }}>
+        <span className="score num">{c.score}</span>
+        <span className="of">/ 100 · value-priority alignment, not a verdict</span>
+      </div>
+      <p className="prose" style={{ marginTop: "var(--s-6)" }}>{c.narrative}</p>
+      <p className="footnote" style={{ marginTop: "var(--s-4)", maxWidth: "72ch" }}>
+        Value (in)congruence predicts relationship and team satisfaction (Schwartz); shared priorities
+        are common ground, clashes are conversations worth having early. Self-reported priorities — let
+        behavior override, never a verdict.
+      </p>
+    </section>
+  );
+}
+
 export default function ComparePage() {
   const [myCode, setMyCode] = useState("");
   const [theirCode, setTheirCode] = useState("");
   const [purpose, setPurpose] = useState<Purpose | null>(null);
   const [attempted, setAttempted] = useState(false);
   const [show, setShow] = useState(false);
+  const [myValuesCode, setMyValuesCode] = useState("");
+  const [theirValuesCode, setTheirValuesCode] = useState("");
 
-  // Prefill from the locally saved profile, if any.
+  // Prefill from the locally saved profile / values, if any.
   useEffect(() => {
     const p = loadLatest();
     if (p) setMyCode(encodeShareCode(p));
+    const v = loadValues();
+    if (v?.profile) setMyValuesCode(encodeValuesCode(v.profile));
   }, []);
 
   const me = useMemo(() => decodeShareCode(myCode), [myCode]);
@@ -150,6 +174,12 @@ export default function ComparePage() {
   const report = useMemo(
     () => (me && them && purpose ? compareDyad(me, them, purpose) : null),
     [me, them, purpose],
+  );
+  const myVals = useMemo(() => decodeValuesCode(myValuesCode), [myValuesCode]);
+  const theirVals = useMemo(() => decodeValuesCode(theirValuesCode), [theirValuesCode]);
+  const congruence = useMemo(
+    () => (myVals && theirVals ? valueCongruence(myVals, theirVals) : null),
+    [myVals, theirVals],
   );
 
   return (
@@ -210,6 +240,24 @@ export default function ComparePage() {
         </div>
 
         <div>
+          <label className="label" htmlFor="my-values" style={{ display: "block", marginBottom: "var(--s-2)" }}>
+            Your values code · optional {myVals && <span style={{ color: "var(--sage)" }}>· valid</span>}
+          </label>
+          <input id="my-values" className="code-input" value={myValuesCode}
+            onChange={(e) => setMyValuesCode(e.target.value)}
+            placeholder="PRSM-VAL-…  (from your Core values)" spellCheck={false} autoComplete="off" />
+        </div>
+
+        <div>
+          <label className="label" htmlFor="their-values" style={{ display: "block", marginBottom: "var(--s-2)" }}>
+            Their values code · optional {theirVals && <span style={{ color: "var(--sage)" }}>· valid</span>}
+          </label>
+          <input id="their-values" className="code-input" value={theirValuesCode}
+            onChange={(e) => setTheirValuesCode(e.target.value)}
+            placeholder="PRSM-VAL-…" spellCheck={false} autoComplete="off" />
+        </div>
+
+        <div>
           <span className="label" style={{ display: "block", marginBottom: "var(--s-2)" }}>The purpose</span>
           <div className="purpose-row">
             {PURPOSES.map((p) => (
@@ -239,6 +287,12 @@ export default function ComparePage() {
       )}
 
       {show && report && me && them && <ReportView report={report} me={me} them={them} />}
+
+      {show && congruence && (
+        <div className="reveal" style={{ marginTop: report ? "var(--s-8)" : "var(--s-16)" }}>
+          <CongruenceView c={congruence} />
+        </div>
+      )}
     </main>
   );
 }
