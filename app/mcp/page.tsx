@@ -13,6 +13,7 @@ const TOOLS: Array<[string, string]> = [
   ["usage_guide", "The agent-facing markdown guide: which tool for which job, worked examples, binding rules — agents should call this first"],
   ["decode_profile", "Full structured blueprint from a share code: percentiles, uncertainty ranges, archetype blend, distinctiveness"],
   ["value_brief", "Core value priorities (Schwartz) from a PRSM-VAL- code — top/least values, the key tension, and how to weigh trade-offs for alignment"],
+  ["compare_values", "Value congruence for two PRSM-VAL- codes — alignment score, shared priorities, and friction points (the values counterpart of compare_dyad)"],
   ["profile_readings", "The six applied readings — relationships, career, work style, leadership, integrity, cofounder"],
   ["compare_dyad", "Pairing report for two codes: fit gauge, strengths, frictions with conversation prompts"],
   ["agent_handshake", "Two agents representing two people exchange negotiation profiles and compute a coordination protocol (commitments, conflict, trust) — the machine-to-machine counterpart of compare_dyad"],
