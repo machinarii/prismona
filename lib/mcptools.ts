@@ -335,9 +335,10 @@ export function registerPrismonaTools(server: McpServer): void {
     },
   );
 
-  const FEEDBACK_API = "https://prismona.vercel.app/api/feedback";
-  const OBSERVE_API = "https://prismona.vercel.app/api/observe";
-  const AGENTLEARN_API = "https://prismona.vercel.app/api/agentlearn";
+  const BASE = process.env.PRISMONA_BASE_URL ?? "https://prismona.vercel.app";
+  const FEEDBACK_API = `${BASE}/api/feedback`;
+  const OBSERVE_API = `${BASE}/api/observe`;
+  const AGENTLEARN_API = `${BASE}/api/agentlearn`;
 
   server.registerTool(
     "management_style",

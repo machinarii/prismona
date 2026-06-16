@@ -1,5 +1,5 @@
 import { createHmac } from "crypto";
-import { del, get, put } from "@vercel/blob";
+import { blob, blobConfigured } from "./blob";
 import { verifySession, type Session } from "../auth";
 import type { CodeRecord } from "../auth";
 
@@ -8,9 +8,9 @@ import type { CodeRecord } from "../auth";
 // itself appears only inside the account record, where it is the account).
 // Everything here is server-only.
 
-// Real email auth needs Blob (storage), AUTH_SECRET (signing) and Resend (delivery).
+// Real email auth needs storage, AUTH_SECRET (signing) and Resend (delivery).
 const realAuthConfigured = () =>
-  Boolean(process.env.BLOB_READ_WRITE_TOKEN && process.env.AUTH_SECRET && process.env.RESEND_API_KEY);
+  Boolean(blobConfigured() && process.env.AUTH_SECRET && process.env.RESEND_API_KEY);
 
 // Placeholder mode: a fixed dev sign-in code that works without Resend or Blob,
 // so the login gate can be exercised anywhere. Set AUTH_SECRET + AUTH_DEV_CODE
@@ -38,22 +38,15 @@ export function emailKey(email: string): string {
 
 async function readJson<T>(pathname: string): Promise<T | null> {
   try {
-    const res = await get(pathname, { access: "private" });
-    if (!res || res.statusCode !== 200) return null;
-    const text = await new Response(res.stream).text();
-    return JSON.parse(text) as T;
+    const text = await blob.get(pathname);
+    return text ? (JSON.parse(text) as T) : null;
   } catch {
     return null;
   }
 }
 
 async function writeJson(pathname: string, data: unknown): Promise<void> {
-  await put(pathname, JSON.stringify(data), {
-    access: "private",
-    contentType: "application/json",
-    addRandomSuffix: false,
-    allowOverwrite: true,
-  });
+  await blob.put(pathname, JSON.stringify(data));
 }
 
 export interface StoredCode extends CodeRecord {
@@ -66,7 +59,7 @@ const profilePath = (email: string) => `auth/profiles/${emailKey(email)}.json`;
 
 export const loadCode = (email: string) => readJson<StoredCode>(codePath(email));
 export const saveCode = (email: string, rec: StoredCode) => writeJson(codePath(email), rec);
-export const deleteCode = async (email: string) => { try { await del(codePath(email)); } catch { /* ignore */ } };
+export const deleteCode = async (email: string) => { try { await blob.del(codePath(email)); } catch { /* ignore */ } };
 
 export interface Account { email: string; createdMonth: string }
 
@@ -79,7 +72,7 @@ export async function ensureAccount(email: string): Promise<void> {
 
 export const loadSyncedProfile = (email: string) => readJson<unknown>(profilePath(email));
 export const saveSyncedProfile = (email: string, data: unknown) => writeJson(profilePath(email), data);
-export const deleteSyncedProfile = async (email: string) => { try { await del(profilePath(email)); } catch { /* ignore */ } };
+export const deleteSyncedProfile = async (email: string) => { try { await blob.del(profilePath(email)); } catch { /* ignore */ } };
 
 export async function sendCodeEmail(email: string, code: string): Promise<boolean> {
   const res = await fetch("https://api.resend.com/emails", {
