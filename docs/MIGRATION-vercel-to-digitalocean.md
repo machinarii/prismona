@@ -36,7 +36,7 @@ That's it — the `blobs(key text primary key, body jsonb, created_at)` table **
 - SSL: the backend uses `ssl: { rejectUnauthorized: false }` by default (accepts DO's cert). For stricter verification, supply the CA cert and adjust; set `DATABASE_SSL=off` only for a local non-TLS Postgres.
 - Pooling: `PG_POOL_MAX` (default 5). App Platform instances are long-lived, so a small pool per instance is fine; raise instance count rather than pool size for throughput.
 
-**Migrating existing data (optional).** Auth accounts + observations/feedback/learned blobs live in Vercel Blob today and do **not** auto-copy. If you need them, run a one-off: list each Vercel blob, read it, `insert into blobs(key, body)` with the same key (strip any random suffix Vercel added, or keep it — keys only need to stay unique under their prefix). Everything else is client-side localStorage and needs no migration.
+**Data: starting fresh — no migration.** The DO Postgres begins empty (the table auto-creates on first write); existing Vercel Blob data is abandoned, not copied. Practical effect: existing **auth accounts** and the **observed / learned / feedback** history are wiped — users re-sign-in, and those layers rebuild from new activity. **Client-side blueprints (localStorage) are unaffected** — they live in each user's browser, not the server. No migration script needed.
 
 ## Step 2 — Set `PRISMONA_BASE_URL`
 
@@ -106,7 +106,7 @@ export const config = { matcher: ["/((?!_next|favicon|api/mcp).*)"] };
 
 ## Step 7 — Decommission Vercel
 
-After verification: remove the domain from Vercel, delete the project, drop `BLOB_READ_WRITE_TOKEN`, and `npm rm @vercel/blob` (then delete the `vercelStore` block in `blob.ts`).
+After verification: remove the domain from Vercel, delete the project, drop `BLOB_READ_WRITE_TOKEN`, and `npm rm @vercel/blob` (then delete the `vercelStore` block in `blob.ts`). No data to preserve — you started fresh.
 
 ---
 
