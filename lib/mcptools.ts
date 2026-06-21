@@ -24,7 +24,7 @@ import { ARCHETYPE_BASE_RATES } from "./data/baserates";
 import type { ReportKey, ShareProfile } from "./types";
 
 // The Prismona MCP tool surface — registered identically by the remote
-// endpoint (prismona.vercel.app/api/mcp) and the local stdio package
+// endpoint (prismona.io/api/mcp) and the local stdio package
 // (packages/mcp). Profiles enter as PRSM share codes their owners chose to
 // hand over; possession of a code is the consent grant, a code shared for
 // one purpose is not consent for another, and no tool output is a verdict.
@@ -335,7 +335,7 @@ export function registerPrismonaTools(server: McpServer): void {
     },
   );
 
-  const BASE = process.env.PRISMONA_BASE_URL ?? "https://prismona.vercel.app";
+  const BASE = process.env.PRISMONA_BASE_URL ?? "https://prismona.io";
   const FEEDBACK_API = `${BASE}/api/feedback`;
   const OBSERVE_API = `${BASE}/api/observe`;
   const AGENTLEARN_API = `${BASE}/api/agentlearn`;
