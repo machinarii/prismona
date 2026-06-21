@@ -10,8 +10,8 @@ Prismona profiles are consent-carried personality IDs. Every tool here takes a *
 
 Every tool needs a \`PRSM-…\` share code. If the user hasn't given you one, they have no connected profile — guide them, don't guess:
 
-- **No profile / not signed in:** ask them to sign in and take the test at https://prismona.vercel.app/assess — sign-in is one email plus a six-digit code, and the test takes about five minutes. Their profile page then shows a \`PRSM-…\` code to paste back to you.
-- **Signed in but no profile yet:** same link — they simply haven't finished the test.
+- **No profile yet:** ask them to take the test at https://prismona.io/assess — no account or email is required (the blueprint stays in their browser), and it takes about five minutes. Their blueprint page then shows a \`PRSM-…\` code to paste back to you.
+- **Has a blueprint but no code handy:** same link — the \`PRSM-…\` code is on their blueprint page, under Share.
 
 Don't call the code-taking tools until you actually hold a \`PRSM-…\` code.
 
@@ -57,5 +57,5 @@ Don't call the code-taking tools until you actually hold a \`PRSM-…\` code.
 4. \`report_collaboration\` takes observations about collaboration only — never evaluations of the person.
 5. Behavior you observe overrides the profile wherever they conflict.
 
-Methodology and full citations: https://prismona.vercel.app/methodology
+Methodology and full citations: https://prismona.io/methodology
 `;
