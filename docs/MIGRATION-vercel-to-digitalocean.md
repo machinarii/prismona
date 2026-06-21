@@ -8,6 +8,7 @@ _Runbook for moving Prismona off Vercel to DigitalOcean App Platform + DigitalOc
 |---|---|
 | **Storage abstraction** (`lib/server/blob.ts`) | ✅ **Built.** `BlobStore` interface with a **Postgres** backend (primary) and a **Vercel Blob** backend (fallback). Picks by env: `DATABASE_URL` → Postgres, else `BLOB_READ_WRITE_TOKEN` → Vercel, else unconfigured (features 503). The four stores + the contribute route use it; no file imports `@vercel/blob` except the fallback in `blob.ts`. |
 | **Hardcoded URLs** | ✅ **Built.** `lib/mcptools.ts` uses `PRISMONA_BASE_URL` (falls back to the Vercel URL). |
+| **Deploy artifacts** | ✅ **Built.** `.do/app.yaml` (App Platform spec), `Dockerfile` + `.dockerignore` (Droplet path), `output: "standalone"` in `next.config.mjs`. Build verified. |
 | **Hosting / DB / DNS** | ⏳ The remaining work — config + DO setup below. |
 
 Because the abstraction picks Postgres whenever `DATABASE_URL` is set, you can flip storage to Postgres **on the existing Vercel deploy first** (Vercel compute + DO Postgres), verify, then move compute to DO — a safe, incremental cutover.
@@ -44,34 +45,9 @@ Set `PRISMONA_BASE_URL=https://prismona.io` (or the DO staging URL). This points
 
 ## Step 3 — Stand up DO App Platform
 
-App Platform runs Next.js natively (git deploys). Minimal `app.yaml`:
+App Platform runs Next.js natively (git deploys). The spec is committed at **`.do/app.yaml`** — `doctl apps create --spec .do/app.yaml` (or paste in the dashboard). `next start` binds to `$PORT` (= `http_port: 3000`), so no `-p` flag is needed. You can attach the Managed Postgres as a DO "database" component instead of a raw `DATABASE_URL` secret if you keep both in the same DO project.
 
-```yaml
-name: prismona
-region: nyc
-services:
-  - name: web
-    github:
-      repo: machinarii/prismona
-      branch: main          # or qa
-      deploy_on_push: true
-    build_command: npm run build
-    run_command: npm start
-    environment_slug: node-js
-    instance_size_slug: basic-xxs
-    http_port: 3000
-    routes:
-      - path: /
-    envs:
-      - { key: DATABASE_URL,      scope: RUN_TIME, type: SECRET }
-      - { key: AUTH_SECRET,       scope: RUN_TIME, type: SECRET }
-      - { key: RESEND_API_KEY,    scope: RUN_TIME, type: SECRET }
-      - { key: PRISMONA_BASE_URL, scope: RUN_TIME, value: https://prismona.io }
-```
-
-`doctl apps create --spec app.yaml` (or paste in the dashboard). Ensure `package.json` has `"start": "next start -p 3000"`. You can attach the Managed Postgres as a DO "database" component instead of a raw `DATABASE_URL` secret if you keep both in the same DO project.
-
-*Alternative — Droplet + Docker:* set `output: "standalone"` in `next.config.mjs`, build a `node:20-slim` image copying `.next/standalone`, run behind nginx with systemd/pm2. More control, more ops; App Platform is the closer Vercel analog.
+*Alternative — Droplet + Docker:* `output: "standalone"` is already set in `next.config.mjs`, and a **`Dockerfile`** + `.dockerignore` are committed (multi-stage, `node:24-slim`, runs `.next/standalone/server.js` on port 3000). `docker build -t prismona . && docker run -p 3000:3000 --env-file .env prismona`, optionally behind nginx with systemd. More control, more ops; App Platform is the closer Vercel analog.
 
 ## Step 4 — Environment variables
 

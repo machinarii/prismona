@@ -1,0 +1,47 @@
+# DigitalOcean App Platform spec for Prismona.
+# Deploy:  doctl apps create --spec .do/app.yaml
+# Update:  doctl apps update <APP_ID> --spec .do/app.yaml
+# Or paste in the App Platform dashboard (Create App → from this repo).
+#
+# Storage: the app auto-picks DO Managed Postgres when DATABASE_URL is set
+# (lib/server/blob.ts); the blobs(key, body jsonb, created_at) table
+# auto-creates on first write. See docs/MIGRATION-vercel-to-digitalocean.md.
+name: prismona
+region: nyc
+services:
+  - name: web
+    github:
+      repo: machinarii/prismona
+      branch: qa
+      deploy_on_push: true
+    build_command: npm run build
+    run_command: npm start            # next start binds to $PORT (= http_port)
+    environment_slug: node-js
+    instance_size_slug: basic-xxs
+    instance_count: 1
+    http_port: 3000
+    routes:
+      - path: /
+    health_check:
+      http_path: /
+    envs:
+      # --- required ---
+      - { key: DATABASE_URL,      scope: RUN_TIME, type: SECRET }   # DO Managed Postgres connection string
+      - { key: AUTH_SECRET,       scope: RUN_TIME, type: SECRET }   # HMAC signing for codes/sessions/pseudonymous keys
+      - { key: PRISMONA_BASE_URL, scope: RUN_TIME, value: https://prismona.io }
+      # --- email auth (removable after the recovery-key swap; see
+      #     docs/research/PRIVACY-AND-ANONYMITY.md) ---
+      - { key: RESEND_API_KEY,    scope: RUN_TIME, type: SECRET }
+      - { key: EMAIL_FROM,        scope: RUN_TIME, value: "Prismona <onboarding@resend.dev>" }
+      # --- optional tuning ---
+      # - { key: PG_POOL_MAX,     scope: RUN_TIME, value: "5" }
+      # - { key: DATABASE_SSL,    scope: RUN_TIME, value: "off" }   # only for a local non-TLS Postgres
+      # - { key: BASIC_AUTH_USER, scope: RUN_TIME, type: SECRET }   # staging lock (middleware), if added
+      # - { key: BASIC_AUTH_PASS, scope: RUN_TIME, type: SECRET }
+
+# You can attach the Managed Postgres as a DO "database" component in the same
+# project instead of a raw DATABASE_URL secret. To add custom domains, declare
+# them here or in the dashboard (DO issues a Let's Encrypt cert):
+# domains:
+#   - { domain: prismona.io, type: PRIMARY }
+#   - { domain: www.prismona.io, type: ALIAS }
