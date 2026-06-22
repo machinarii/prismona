@@ -51,8 +51,9 @@ App Platform runs Next.js natively (git deploys). The spec is committed at **`.d
 
 ## Step 4 — Environment variables
 
-- `DATABASE_URL` (DO Postgres) · `AUTH_SECRET` (carry over — keeps existing HMAC keys/codes valid) · `RESEND_API_KEY` · `PRISMONA_BASE_URL`
-- Optional: `AUTH_DEV_CODE` (placeholder login), `EMAIL_FROM`, `PG_POOL_MAX`, `DATABASE_SSL`
+- `DATABASE_URL` (DO Postgres) · `AUTH_SECRET` (signs sessions + the pseudonymous account/observe keys) · `PRISMONA_BASE_URL`
+- No `RESEND_API_KEY`/email service — accounts are self-generated recovery keys (`docs/research/PRIVACY-AND-ANONYMITY.md`).
+- Optional: `PG_POOL_MAX`, `DATABASE_SSL`, `OBS_RETENTION_DAYS` (observed-layer age-out; default 180, 0 disables)
 - You can drop `BLOB_READ_WRITE_TOKEN` once you're fully on Postgres (then remove `@vercel/blob` from `package.json` + the fallback in `blob.ts`).
 
 ## Step 5 — Replace the SSO preview gate
