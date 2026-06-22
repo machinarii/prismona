@@ -27,15 +27,14 @@ services:
     envs:
       # --- required ---
       - { key: DATABASE_URL,      scope: RUN_TIME, type: SECRET }   # DO Managed Postgres connection string
-      - { key: AUTH_SECRET,       scope: RUN_TIME, type: SECRET }   # HMAC signing for codes/sessions/pseudonymous keys
+      - { key: AUTH_SECRET,       scope: RUN_TIME, type: SECRET }   # HMAC signing for sessions + pseudonymous account/observe keys
       - { key: PRISMONA_BASE_URL, scope: RUN_TIME, value: https://prismona.io }
-      # --- email auth (removable after the recovery-key swap; see
-      #     docs/research/PRIVACY-AND-ANONYMITY.md) ---
-      - { key: RESEND_API_KEY,    scope: RUN_TIME, type: SECRET }
-      - { key: EMAIL_FROM,        scope: RUN_TIME, value: "Prismona <onboarding@resend.dev>" }
+      # No email service: accounts are self-generated recovery keys
+      # (docs/research/PRIVACY-AND-ANONYMITY.md), so there is no RESEND_API_KEY.
       # --- optional tuning ---
-      # - { key: PG_POOL_MAX,     scope: RUN_TIME, value: "5" }
-      # - { key: DATABASE_SSL,    scope: RUN_TIME, value: "off" }   # only for a local non-TLS Postgres
+      # - { key: PG_POOL_MAX,       scope: RUN_TIME, value: "5" }
+      # - { key: DATABASE_SSL,      scope: RUN_TIME, value: "off" }  # only for a local non-TLS Postgres
+      # - { key: OBS_RETENTION_DAYS, scope: RUN_TIME, value: "180" } # observed-layer age-out; 0 disables
       # - { key: BASIC_AUTH_USER, scope: RUN_TIME, type: SECRET }   # staging lock (middleware), if added
       # - { key: BASIC_AUTH_PASS, scope: RUN_TIME, type: SECRET }
 
