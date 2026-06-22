@@ -26,7 +26,7 @@ function Invalid() {
         This link carries no readable blueprint.
       </h1>
       <p className="prose">
-        A blueprint link looks like <span className="num">prismona.vercel.app/p#PRSM-…</span> —
+        A blueprint link looks like <span className="num">prismona.io/p#PRSM-…</span> —
         the code after the <span className="num">#</span> is the entire payload: six trait
         scores, a date, a consistency index. Nothing is stored on a server, so a truncated
         or mistyped link cannot be recovered. Ask for the link again, or paste the code
@@ -65,7 +65,7 @@ function SharedReport({ profile }: { profile: Profile }) {
       <div className="print-only print-head">
         <span className="label gold">Prismona — Shared Blueprint</span>
         <span className="num" style={{ fontSize: "var(--t-sm)", color: "var(--ivory-faint)" }}>
-          {TIER_LABELS[profile.tier]} · {longDate(profile.date)} · prismona.vercel.app
+          {TIER_LABELS[profile.tier]} · {longDate(profile.date)} · prismona.io
         </span>
       </div>
 
