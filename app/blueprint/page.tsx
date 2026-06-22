@@ -232,7 +232,7 @@ function Report({ profile, drift, interests }: {
       <div className="print-only print-head">
         <span className="label gold">Prismona — Personality Blueprint</span>
         <span className="num" style={{ fontSize: "var(--t-sm)", color: "var(--ivory-faint)" }}>
-          {TIER_LABELS[profile.tier]} · {longDate(profile.date)} · prismona.vercel.app
+          {TIER_LABELS[profile.tier]} · {longDate(profile.date)} · prismona.io
         </span>
       </div>
 

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     "Connect any AI agent to a Prismona personality blueprint over the Model Context Protocol: hosted endpoint, seven tools, consent carried by share codes.",
 };
 
-const ENDPOINT = "https://prismona.vercel.app/api/mcp";
+const ENDPOINT = "https://prismona.io/api/mcp";
 
 const TOOLS: Array<[string, string]> = [
   ["usage_guide", "The agent-facing markdown guide: which tool for which job, worked examples, binding rules — agents should call this first"],
