@@ -10,3 +10,5 @@ next-env.d.ts
 
 # Visual brainstorming companion (local mockups)
 .superpowers/
+
+.do/app.local.yaml
