@@ -5,9 +5,19 @@
 #
 # Storage: the app auto-picks DO Managed Postgres when DATABASE_URL is set
 # (lib/server/blob.ts); the blobs(key, body jsonb, created_at) table
-# auto-creates on first write. See docs/MIGRATION-vercel-to-digitalocean.md.
+# auto-creates on first write. DATABASE_URL is injected by App Platform from the
+# bound cluster below (${prismona-db.DATABASE_URL}) — no secret to hand-manage.
+# See docs/MIGRATION-vercel-to-digitalocean.md.
 name: prismona
 region: nyc
+databases:
+  - name: prismona-db        # binding name → ${prismona-db.DATABASE_URL}
+    engine: PG
+    version: "16"
+    production: true
+    cluster_name: prismona-db # the existing DO Managed Postgres cluster
+    db_name: defaultdb
+    db_user: doadmin
 services:
   - name: web
     github:
@@ -26,7 +36,7 @@ services:
       http_path: /
     envs:
       # --- required ---
-      - { key: DATABASE_URL,      scope: RUN_TIME, type: SECRET }   # DO Managed Postgres connection string
+      - { key: DATABASE_URL,      scope: RUN_TIME, value: "${prismona-db.DATABASE_URL}" }  # injected from the bound cluster
       - { key: AUTH_SECRET,       scope: RUN_TIME, type: SECRET }   # HMAC signing for sessions + pseudonymous account/observe keys
       - { key: PRISMONA_BASE_URL, scope: RUN_TIME, value: https://prismona.io }
       # No email service: accounts are self-generated recovery keys
@@ -38,9 +48,10 @@ services:
       # - { key: BASIC_AUTH_USER, scope: RUN_TIME, type: SECRET }   # staging lock (middleware), if added
       # - { key: BASIC_AUTH_PASS, scope: RUN_TIME, type: SECRET }
 
-# You can attach the Managed Postgres as a DO "database" component in the same
-# project instead of a raw DATABASE_URL secret. To add custom domains, declare
-# them here or in the dashboard (DO issues a Let's Encrypt cert):
+# AUTH_SECRET is the only true secret — supply it at create time via a gitignored
+# .do/app.local.yaml (a copy of this spec with the value filled). To add custom
+# domains at DNS cutover, declare them here or in the dashboard (DO issues a
+# Let's Encrypt cert):
 # domains:
 #   - { domain: prismona.io, type: PRIMARY }
 #   - { domain: www.prismona.io, type: ALIAS }
