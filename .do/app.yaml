@@ -1,0 +1,57 @@
+# DigitalOcean App Platform spec for Prismona.
+# Deploy:  doctl apps create --spec .do/app.yaml
+# Update:  doctl apps update <APP_ID> --spec .do/app.yaml
+# Or paste in the App Platform dashboard (Create App → from this repo).
+#
+# Storage: the app auto-picks DO Managed Postgres when DATABASE_URL is set
+# (lib/server/blob.ts); the blobs(key, body jsonb, created_at) table
+# auto-creates on first write. DATABASE_URL is injected by App Platform from the
+# bound cluster below (${prismona-db.DATABASE_URL}) — no secret to hand-manage.
+# See docs/MIGRATION-vercel-to-digitalocean.md.
+name: prismona
+region: nyc
+databases:
+  - name: prismona-db        # binding name → ${prismona-db.DATABASE_URL}
+    engine: PG
+    version: "16"
+    production: true
+    cluster_name: prismona-db # the existing DO Managed Postgres cluster
+    db_name: defaultdb
+    db_user: doadmin
+services:
+  - name: web
+    github:
+      repo: machinarii/prismona
+      branch: qa
+      deploy_on_push: true
+    build_command: npm run build
+    run_command: npm start            # next start binds to $PORT (= http_port)
+    environment_slug: node-js
+    instance_size_slug: basic-xxs
+    instance_count: 1
+    http_port: 3000
+    routes:
+      - path: /
+    health_check:
+      http_path: /
+    envs:
+      # --- required ---
+      - { key: DATABASE_URL,      scope: RUN_TIME, value: "${prismona-db.DATABASE_URL}" }  # injected from the bound cluster
+      - { key: AUTH_SECRET,       scope: RUN_TIME, type: SECRET }   # HMAC signing for sessions + pseudonymous account/observe keys
+      - { key: PRISMONA_BASE_URL, scope: RUN_TIME, value: https://prismona.io }
+      # No email service: accounts are self-generated recovery keys
+      # (docs/research/PRIVACY-AND-ANONYMITY.md), so there is no RESEND_API_KEY.
+      # --- optional tuning ---
+      # - { key: PG_POOL_MAX,       scope: RUN_TIME, value: "5" }
+      # - { key: DATABASE_SSL,      scope: RUN_TIME, value: "off" }  # only for a local non-TLS Postgres
+      # - { key: OBS_RETENTION_DAYS, scope: RUN_TIME, value: "180" } # observed-layer age-out; 0 disables
+      # - { key: BASIC_AUTH_USER, scope: RUN_TIME, type: SECRET }   # staging lock (middleware), if added
+      # - { key: BASIC_AUTH_PASS, scope: RUN_TIME, type: SECRET }
+
+# AUTH_SECRET is the only true secret — supply it at create time via a gitignored
+# .do/app.local.yaml (a copy of this spec with the value filled). To add custom
+# domains at DNS cutover, declare them here or in the dashboard (DO issues a
+# Let's Encrypt cert):
+# domains:
+#   - { domain: prismona.io, type: PRIMARY }
+#   - { domain: www.prismona.io, type: ALIAS }

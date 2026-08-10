@@ -1,35 +1,52 @@
 import { createHmac } from "crypto";
-import { del, get, list, put } from "@vercel/blob";
+import { blob, blobConfigured } from "./blob";
 import type { ObservationEntry } from "../observation";
 
 // Behavioral observations, keyed pseudonymously by share code (HMAC — the code
 // itself is never a path). Same possession-is-the-grant model as the field-notes
-// store. Server-only.
+// store. Server-only. Storage backend (Postgres / Vercel) is abstracted in ./blob.
 
 export const observeConfigured = () =>
-  Boolean(process.env.BLOB_READ_WRITE_TOKEN && process.env.AUTH_SECRET);
+  Boolean(blobConfigured() && process.env.AUTH_SECRET);
 
 const codeKey = (canonicalCode: string) =>
   createHmac("sha256", process.env.AUTH_SECRET ?? "").update(canonicalCode).digest("base64url").slice(0, 24);
 
 const MAX_ENTRIES = 400;
 
+// Retention: the observed corpus self-limits. Entries older than this are pruned
+// on each write (the ingest date is embedded in the key, so no read is needed).
+// OBS_RETENTION_DAYS=0 disables the cap. Default 180 days.
+const RETENTION_DAYS = Number(process.env.OBS_RETENTION_DAYS ?? 180);
+const keyDate = (key: string): string | null => {
+  const m = key.match(/\/(\d{4}-\d{2}-\d{2})\.json/);
+  return m ? m[1] : null;
+};
+
+async function pruneOld(id: string): Promise<void> {
+  if (!(RETENTION_DAYS > 0)) return;
+  const cutoff = new Date(Date.now() - RETENTION_DAYS * 86_400_000).toISOString().slice(0, 10);
+  const refs = await blob.list(`obs/${id}/`, MAX_ENTRIES);
+  await Promise.all(
+    refs
+      .filter((r) => { const d = keyDate(r.key); return d !== null && d < cutoff; })
+      .map((r) => blob.del(r.key).catch(() => {})),
+  );
+}
+
 export async function saveObservation(canonicalCode: string, entry: ObservationEntry): Promise<void> {
-  await put(`obs/${codeKey(canonicalCode)}/${entry.date}.json`, JSON.stringify(entry), {
-    access: "private",
-    contentType: "application/json",
-    addRandomSuffix: true,
-  });
+  const id = codeKey(canonicalCode);
+  await blob.put(`obs/${id}/${entry.date}.json`, JSON.stringify(entry), { randomSuffix: true });
+  await pruneOld(id);
 }
 
 export async function loadObservations(canonicalCode: string): Promise<ObservationEntry[]> {
-  const { blobs } = await list({ prefix: `obs/${codeKey(canonicalCode)}/`, limit: MAX_ENTRIES });
+  const refs = await blob.list(`obs/${codeKey(canonicalCode)}/`, MAX_ENTRIES);
   const entries = await Promise.all(
-    blobs.map(async (b) => {
+    refs.map(async (b) => {
       try {
-        const res = await get(b.pathname, { access: "private" });
-        if (!res || res.statusCode !== 200) return null;
-        return JSON.parse(await new Response(res.stream).text()) as ObservationEntry;
+        const text = await blob.get(b.key);
+        return text ? (JSON.parse(text) as ObservationEntry) : null;
       } catch {
         return null;
       }
@@ -39,32 +56,35 @@ export async function loadObservations(canonicalCode: string): Promise<Observati
 }
 
 export async function deleteObservations(canonicalCode: string): Promise<void> {
-  const { blobs } = await list({ prefix: `obs/${codeKey(canonicalCode)}/`, limit: MAX_ENTRIES });
-  await Promise.all(blobs.map((b) => del(b.url).catch(() => {})));
+  const refs = await blob.list(`obs/${codeKey(canonicalCode)}/`, MAX_ENTRIES);
+  await Promise.all(refs.map((b) => blob.del(b.key).catch(() => {})));
 }
 
 // Owner controls, stored under a separate prefix so they survive a "clear all"
-// and aren't picked up by loadObservations. `paused` = agent ids whose
-// submissions are dropped at ingest.
-export interface ObsSettings { paused: string[] }
+// and aren't picked up by loadObservations. `enabled` is the local-first opt-in:
+// the observed layer is OFF by default — nothing is stored until the owner turns
+// it on. `paused` = agent ids whose submissions are dropped at ingest.
+export interface ObsSettings { paused: string[]; enabled: boolean }
+const DEFAULT_SETTINGS: ObsSettings = { paused: [], enabled: false };
 const settingsPath = (canonicalCode: string) => `obsmeta/${codeKey(canonicalCode)}.json`;
 
 export async function loadSettings(canonicalCode: string): Promise<ObsSettings> {
   try {
-    const res = await get(settingsPath(canonicalCode), { access: "private" });
-    if (!res || res.statusCode !== 200) return { paused: [] };
-    const s = JSON.parse(await new Response(res.stream).text()) as ObsSettings;
-    return { paused: Array.isArray(s?.paused) ? s.paused.filter((x) => typeof x === "string") : [] };
+    const text = await blob.get(settingsPath(canonicalCode));
+    if (!text) return { ...DEFAULT_SETTINGS };
+    const s = JSON.parse(text) as Partial<ObsSettings>;
+    return {
+      paused: Array.isArray(s?.paused) ? s.paused.filter((x) => typeof x === "string") : [],
+      enabled: Boolean(s?.enabled),
+    };
   } catch {
-    return { paused: [] };
+    return { ...DEFAULT_SETTINGS };
   }
 }
 
 export async function saveSettings(canonicalCode: string, settings: ObsSettings): Promise<void> {
-  await put(settingsPath(canonicalCode), JSON.stringify({ paused: settings.paused.slice(0, 50) }), {
-    access: "private",
-    contentType: "application/json",
-    addRandomSuffix: false,
-    allowOverwrite: true,
-  });
+  await blob.put(
+    settingsPath(canonicalCode),
+    JSON.stringify({ paused: settings.paused.slice(0, 50), enabled: Boolean(settings.enabled) }),
+  );
 }

@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Privacy Policy — Prismona",
   description:
-    "Prismona's privacy policy: the architecture is the policy. Answers never leave your browser; no analytics on responses; accounts are optional, minimal, and exist only for blueprint sync.",
+    "Prismona's privacy policy: the architecture is the policy. Answers never leave your browser; no email, name, or login identity; accounts are an optional self-generated key for blueprint sync. The opposite of Cambridge Analytica.",
 };
 
 export default function PrivacyPage() {
@@ -19,8 +19,41 @@ export default function PrivacyPage() {
         is sensitive, so we built the product so that we never hold it: the assessment,
         scoring, and reports run entirely in your browser. This page states exactly what
         that means — including the optional, opt-in exceptions (sections V and VI).
-        Effective June 11, 2026.
+        Effective June 11, 2026; updated June 21, 2026 (accounts are now a
+        self-generated key, not an email).
       </p>
+
+      <section className="section">
+        <div className="section-head"><span className="label gold">The opposite of Cambridge Analytica</span></div>
+        <p className="prose">
+          Personality quizzes earned a bad name for good reason. In 2018, Cambridge
+          Analytica harvested roughly 87 million Facebook profiles through a personality
+          quiz — reaching far past the ~270,000 people who actually took it by pulling
+          their friends&apos; data through the social graph — and built psychographic
+          targeting on it. Prismona is built so that every one of those moves is
+          impossible here:
+        </p>
+        <ul className="prose" style={{ display: "grid", gap: "var(--s-3)", paddingLeft: "1.2em" }}>
+          <li><strong>No social graph.</strong> There is no friend API, no contacts, no network. The most we ever see is a single self-contained code you chose to hand over.</li>
+          <li><strong>Never sold, never targeted.</strong> Your data is not an input to advertising, to any third party, or to anything you didn&apos;t trigger yourself.</li>
+          <li><strong>We don&apos;t know who you are.</strong> No email, no name, no login identity. An account, if you make one, is a self-generated <em>recovery key</em> — the same model privacy tools like Mullvad use. A database dump shows opaque one-way hashes, not people.</li>
+          <li><strong>It stays on your device.</strong> Your blueprint lives in this browser; our server is a calculator you send a code to, not a vault of profiles.</li>
+        </ul>
+      </section>
+
+      <section className="section">
+        <div className="section-head"><span className="label gold">What we store — and what we don&apos;t</span></div>
+        <p className="prose">
+          By default we store <strong>nothing about you</strong>. Server-side data exists
+          only where you explicitly opt in: an <em>anonymous norms contribution</em> (trait
+          scores plus coarse age/country, section V); a <em>synced blueprint</em> kept under
+          a one-way hash of your recovery key, and nothing else (section VI); and an{" "}
+          <em>observed layer</em>, which is off unless you switch it on — behavioral tags
+          only, stored pseudonymously and auto-deleted after about 180 days (section V).
+          We never store your answers, your name, an email (we don&apos;t ask for one),
+          your contacts, your location, or any link between a code and a person.
+        </p>
+      </section>
 
       <section className="section">
         <div className="section-head"><span className="roman">I.</span><h2>What we never collect</h2></div>
@@ -112,20 +145,34 @@ export default function PrivacyPage() {
           someone who holds the code. Sharing your code is what enables this; treat the
           code accordingly.
         </p>
+        <p className="prose" style={{ marginTop: "var(--s-4)" }}>
+          A related <em>observed layer</em> lets assistants you work with record short
+          behavioral summaries (communication and work style — never message content,
+          names, or private information, enforced by a server-side filter). It is{" "}
+          <strong>off by default</strong>: nothing is stored until you switch it on from
+          your blueprint&apos;s AI tab, and you can turn it off or clear it at any time.
+          Like field notes, entries are keyed to a hash of your code, never your identity,
+          and they age out automatically (about 180 days). They never move your measured
+          trait scores.
+        </p>
       </section>
 
       <section className="section">
         <div className="section-head"><span className="roman">VI.</span><h2>Optional account and sync</h2></div>
         <p className="prose">
-          You can use all of Prismona with no account. If you choose to sign in (email
-          plus a six-digit emailed code — no password), an account stores exactly two
-          things in private storage: your email address, and — only when you press{" "}
+          You can use all of Prismona with no account. If you want to carry your blueprint
+          between devices, you create an account — and an account is simply a{" "}
+          <em>recovery key</em> you generate in your browser (a string like{" "}
+          <span className="num">PRSM-ACCT-…</span>). There is <strong>no email, no name,
+          and no password</strong>; we ask for nothing about you. The server only ever sees
+          a one-way hash of your key, so it cannot tell who you are and a database dump
+          reveals no keys. The account stores exactly one thing — and only when you press{" "}
           <em>Save this browser&apos;s blueprint</em> — the blueprint bundle you chose to
-          sync, so you can load it on another device. Sign-in codes are stored only as
-          salted hashes and expire in ten minutes; the session lives in a single
-          httpOnly cookie. Nothing syncs automatically, your email is never used for
-          anything but sending codes, and you can delete the synced bundle from the
-          account page or ask us to remove the account entirely.
+          sync, kept under that hash. The session lives in a single httpOnly cookie.
+          Nothing syncs automatically; you can delete the synced bundle from the account
+          page at any time. The trade, by design, is the same one Mullvad makes:{" "}
+          <strong>lose the key and the synced copy is unreachable — there is no reset</strong>.
+          Your in-browser blueprint is unaffected.
         </p>
       </section>
 

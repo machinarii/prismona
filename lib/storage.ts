@@ -157,6 +157,20 @@ export function loadObserverCodes(): string[] {
   } catch { return []; }
 }
 
+// The account recovery key (lib/account.ts), remembered on this device so you
+// don't re-enter it every visit. Kept separate from blueprints — clearProfiles
+// leaves it intact; the account page forgets it explicitly on sign-out.
+const ACCOUNT_KEY = "prismona.account";
+export function saveAccountKey(key: string): void {
+  try { localStorage.setItem(ACCOUNT_KEY, key); } catch { /* ignore */ }
+}
+export function loadAccountKey(): string | null {
+  try { return localStorage.getItem(ACCOUNT_KEY); } catch { return null; }
+}
+export function clearAccountKey(): void {
+  try { localStorage.removeItem(ACCOUNT_KEY); } catch { /* ignore */ }
+}
+
 export function markContributed(code: string): void {
   try { localStorage.setItem(`prismona.contributed.${code}`, "1"); } catch { /* ignore */ }
 }
