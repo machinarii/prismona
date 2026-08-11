@@ -13,6 +13,6 @@
   "devDependencies": {
     "typescript": "^5.9.0"
   },
-  "homepage": "https://prismona.vercel.app/method",
+  "homepage": "https://prismona.io/methodology",
   "keywords": ["personality", "big-five", "hexaco", "psychometrics", "share-code", "prismona"]
 }

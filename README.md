@@ -102,12 +102,19 @@ The deeper diagnosis: QS tracked the **wrong thing** (what you *did*, not who yo
 
 **Portability / digital ID**
 - `PRSM-…` share codes (carry six quantized trait scores and nothing else), unique profile URLs (`/p#code`, fragment never transmitted), canonical **JSON export** with a published schema, and the open **`@prismona/codec`** package.
+- One consent model, five code families: `PRSM-` (traits), `PRSM-VAL-` (values), `PRSM-DEL-` (delegation), `PRSM-COM-` (communication style), `PRSM-TEAM-` (agent teams). Every code carries scores only — no items, no answers, no identity.
 
 **Working with people**
 - A first-person **"working with me" manual**, a **managing-up** section, an inbound **interaction guide**, dyad **compatibility** reports, **team chemistry + composition**, a perception game, and an informant mini-360.
 
+**Stated-preference instruments** (measured directly, not inferred from traits)
+- **Core values** (`/values`) — Schwartz's 10 values by best-worst forced choice; produces the agent **value brief**.
+- **Delegation & decision style** (`/delegate`) — 12 forced-choice scenarios: decision rights, reporting cadence, options-vs-recommendation (GDMS-grounded), detail depth, ambiguity handling, verification posture.
+- **Communication style** (`/communication`) — 18 Likert items on the six CSI dimensions (de Vries): expressiveness, preciseness, directness, questioningness, emotional expression, impression management.
+- Each produces an agent-directed brief that stacks into the Agent context, plus **stated-vs-blueprint mismatch notes** where what you report diverges from what your traits predict — self-insight, never a correction.
+
 **Working with AI**
-- AI context block + complement-calibrated **agent persona**; **Persona Modulation** (per-register sliders); a **comportment adapter** (the persona is fixed; its register — formality, deference, disclosure… — adapts to the relationship).
+- AI context block (traits + value + delegation + communication briefs) + complement-calibrated **agent persona**; **Persona Modulation** (per-register sliders); a **comportment adapter** (the persona is fixed; its register — formality, deference, disclosure… — adapts to the relationship).
 - **Agent Team Composer** (`/agents`): assemble a bench of role + voice agents that complement you, publish a team code, and export every persona. Agents **learn** from real interaction (`tune_agent`) and the persona folds seed + learned.
 
 **Continuous tuning**
@@ -119,10 +126,10 @@ The deeper diagnosis: QS tracked the **wrong thing** (what you *did*, not who yo
 
 Profiles are consent-carried identity tokens; possession of a `PRSM-…` code is the grant. Prismona ships MCP in two flavors:
 
-- **Hosted endpoint** — `https://prismona.vercel.app/api/mcp` (Streamable HTTP, stateless; any agent connects live, zero install; docs at `/mcp`).
+- **Hosted endpoint** — `https://prismona.io/api/mcp` (Streamable HTTP, stateless; any agent connects live, zero install; docs at `/mcp`).
 - **Local stdio** — `prismona-mcp` (`packages/mcp`), the same tools fully offline.
 
-**~15 tools** (registry in `lib/mcptools.ts`): `usage_guide`, `decode_profile`, `profile_readings`, `compare_dyad`, `team_composition`, `compose_team`, `compose_agents`, `agent_persona` (flavor/role/comportment-tunable, folds learned), `team_personas`, `interaction_guide`, `working_with_me`, `management_style`, `report_collaboration`, `submit_observation`, `tune_agent`. A **Claude Connector** (the same endpoint with OAuth) is planned — see `docs/research/MCP-AND-CLAUDE-CONNECTOR.md`.
+**22 tools** (registry in `lib/mcptools.ts`): `usage_guide`, `decode_profile`, `profile_readings`, `value_brief`, `delegation_brief`, `communication_brief`, `compare_values`, `compare_dyad`, `agent_handshake`, `proxy_brief`, `team_composition`, `compose_team`, `compose_agents`, `agent_persona` (flavor/role/comportment-tunable; folds learned overlay + value/delegation/communication briefs), `team_personas`, `comportment_adapter`, `interaction_guide`, `working_with_me`, `management_style`, `report_collaboration`, `submit_observation`, `tune_agent`. A **Claude Connector** (the same endpoint with OAuth) is planned — see `docs/research/MCP-AND-CLAUDE-CONNECTOR.md`.
 
 ## App routes
 
@@ -135,6 +142,11 @@ Profiles are consent-carried identity tokens; possession of a `PRSM-…` code is
 | `/manual#PRSM-…` | The working-with-me one-pager, code-addressable |
 | `/ai#PRSM-…` | The AI context + persona pair, as its own share link |
 | `/p#PRSM-…` | A profile's unique URL (share code in the fragment, never transmitted) |
+| `/values` | Core values (Schwartz) by best-worst forced choice → value brief + `PRSM-VAL-` code |
+| `/delegate` | Delegation & decision style scenarios → delegation brief + `PRSM-DEL-` code |
+| `/communication` | Communication style (CSI dimensions) → communication brief + `PRSM-COM-` code |
+| `/interests` | O*NET Mini-IP RIASEC inventory → Holland code, folded into the career reading |
+| `/comportment` | Tune the persona's register per relationship (president vs. teammate) |
 | `/compare` | Dyad compatibility from two codes (romantic / cofounder / colleague / manager) |
 | `/team` | Read a team from 2+ codes, or compose one forward (outcome × topology × size) |
 | `/validate` | Informant mini-360 — rate someone; results show the self-insight gap |
@@ -148,9 +160,9 @@ Profiles are consent-carried identity tokens; possession of a `PRSM-…` code is
 
 Local-first by default: **all scoring runs client-side**, and your blueprint lives in the browser. Server features are **explicit opt-in and consent-gated**:
 
-- **Optional email sign-in** lets you save your blueprint (only an email + a six-digit code — no other personal info required).
+- **Optional account via a self-generated recovery key** (Mullvad-style): no email, no password, no personal information at all — the key is HMAC-derived server-side and never stored raw.
 - The **observation / tuning / norms** stores hold only consented, **PII-filtered behavioral tags**, keyed pseudonymously by an HMAC of the relevant code — never raw profiles, message content, or trait scores.
-- **MCP** stores nothing; share codes carry six quantized z-scores and nothing else.
+- **MCP** stores nothing; share codes carry quantized scores and nothing else.
 
 Full detail in the Privacy Policy and `docs/research/`.
 
@@ -163,11 +175,11 @@ npm test       # vitest on the pure core (lib/)
 npm run build  # production build
 ```
 
-Next.js 15 App Router. Deploys on Vercel; opt-in server features use Vercel Blob + a few environment secrets (auth, observation/feedback/learned stores).
+Next.js 15 App Router. Deploys on **DigitalOcean App Platform** (`.do/app.yaml`; see `docs/MIGRATION-vercel-to-digitalocean.md`) with a managed Postgres cluster bound natively by the platform — `AUTH_SECRET` is the only manually-supplied secret (via the gitignored `.do/app.local.yaml`). Opt-in server features share one `blobs` table that auto-creates on first write (`lib/server/blob.ts`).
 
 ## Structure
 
-- `lib/` — pure, unit-tested core: items (IPIP + O*NET Mini-IP + observer + HEXACO facets), norms, scoring (z → percentiles → SEM, consistency, quality), archetypes, insight engine, manual + managing-up, persona (complement + interaction guide + modulation + **comportment**), agent-team model + codec, continuous-tuning (observation/observed/learned), dyad, team composition, rarity, RIASEC, drift, JSON export, share-code codec, MCP tool registry
+- `lib/` — pure, unit-tested core: items (IPIP + O*NET Mini-IP + observer + HEXACO facets), norms, scoring (z → percentiles → SEM, consistency, quality), archetypes, insight engine, manual + managing-up, persona (complement + interaction guide + modulation + **comportment**), values (Schwartz best-worst), delegation scenarios, communication style (CSI), agent-team model, continuous-tuning (observation/observed/learned), dyad + handshake + proxy, team composition, rarity, RIASEC, drift, JSON export, codecs (share / values / delegation / communication / team), MCP tool registry
 - `packages/codec` — `@prismona/codec`: the open PRSM format (spec + dependency-free implementation, parity-tested)
 - `packages/mcp` — `prismona-mcp`: the local stdio MCP server over the core
 - `app/`, `components/` — Next.js UI

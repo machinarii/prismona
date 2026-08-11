@@ -3,7 +3,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { registerPrismonaTools, SERVER_INSTRUCTIONS } from "../../../lib/mcptools";
 
 // prismona-mcp — the local (offline) flavor of the Prismona MCP surface.
-// The hosted endpoint at https://prismona.vercel.app/api/mcp speaks the same
+// The hosted endpoint at https://prismona.io/api/mcp speaks the same
 // tools over Streamable HTTP; this stdio build exists for fully-local use
 // where profiles should never leave the machine at all.
 

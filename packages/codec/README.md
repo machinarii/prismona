@@ -1,6 +1,6 @@
 # @prismona/codec
 
-Encode and decode PRSM share codes — consent-carried personality profiles (Big Five reported with Emotional Stability, plus HEXACO Honesty-Humility) from [Prismona](https://prismona.vercel.app). Dependency-free; decodes entirely offline.
+Encode and decode PRSM share codes — consent-carried personality profiles (Big Five reported with Emotional Stability, plus HEXACO Honesty-Humility) from [Prismona](https://prismona.io). Dependency-free; decodes entirely offline.
 
 ```ts
 import { decodeShareCode, zToPercentile } from "@prismona/codec";
