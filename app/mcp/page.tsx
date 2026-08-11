@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "MCP — Prismona",
   description:
-    "Connect any AI agent to a Prismona personality blueprint over the Model Context Protocol: hosted endpoint, seven tools, consent carried by share codes.",
+    "Connect any AI agent to a Prismona personality blueprint over the Model Context Protocol: hosted endpoint, 22 tools, consent carried by share codes.",
 };
 
 const ENDPOINT = "https://prismona.io/api/mcp";

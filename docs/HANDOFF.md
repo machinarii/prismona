@@ -1,5 +1,7 @@
 # Prismona — Handoff
-*Last updated 2026-06-12. The single document for picking this project up cold.*
+*Written 2026-06-12; addendum 2026-08-10. The single document for picking this project up cold.*
+
+> **Since this was written (2026-08-10):** the app moved off Vercel to **DigitalOcean App Platform** at **https://prismona.io** (`.do/app.yaml`, native Postgres binding, `AUTH_SECRET` as the only secret — see `MIGRATION-vercel-to-digitalocean.md`); email sign-in became a **self-generated recovery key** (no email anywhere); and three stated-preference instruments shipped beside the trait blueprint — values (`/values`, `PRSM-VAL-`), delegation & decision style (`/delegate`, `PRSM-DEL-`), and communication style (`/communication`, `PRSM-COM-`), each with an MCP brief tool (registry now 22 tools). Current feature state: `ROADMAP.md` §E–§F and the root `README.md`. The architecture description below otherwise still holds.
 
 ## What this is
 

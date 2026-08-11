@@ -5,7 +5,7 @@
 // HEXACO Honesty-Humility), an edition tier, a date, and a consistency
 // index, packed into 12 bytes and base64url-encoded with a PRSM- prefix.
 // Self-contained on purpose: no dependencies, decodes entirely offline.
-// Parity with the prismona.vercel.app implementation is enforced by the
+// Parity with the prismona.io implementation is enforced by the
 // app's test suite. See SPEC.md for the byte layout.
 
 export type ReportKey = "O" | "C" | "E" | "A" | "ES" | "H";

@@ -1,6 +1,6 @@
 # prismona-mcp
 
-A local MCP server that turns a [Prismona](https://prismona.vercel.app) personality profile into an agent interface. Profiles enter as `PRSM-…` share codes (21 chars) their owners chose to hand over; every computation runs in-process over stdio — nothing is transmitted anywhere.
+A local MCP server that turns a [Prismona](https://prismona.io) personality profile into an agent interface. Profiles enter as `PRSM-…` share codes (21 chars) their owners chose to hand over — with companion code families for values (`PRSM-VAL-`), delegation style (`PRSM-DEL-`), communication style (`PRSM-COM-`), and agent teams (`PRSM-TEAM-`); every computation runs in-process over stdio — nothing is transmitted anywhere.
 
 > **Agents: call `usage_guide` first.** Every install ships a full markdown usage guide as a tool. `usage_guide` (no arguments) returns the same when-to-use-which table, worked examples, and binding rules described below — read it before calling anything else. The server also advertises a short version of these rules in its initialize instructions.
 
@@ -18,15 +18,25 @@ A local MCP server that turns a [Prismona](https://prismona.vercel.app) personal
 | `usage_guide` | Returns the full markdown guide (when-to-use table, worked examples, binding rules). Call first. |
 | `decode_profile` | Decode a code into the structured profile: six trait percentiles with ±1 SEM ranges, archetype blend, statistical distinctiveness, archetype base rate. |
 | `profile_readings` | Six citation-grounded use-case readings: relationships, career, work style, leadership, integrity, cofounder. |
+| `value_brief` | From a `PRSM-VAL-` code: the owner's core value priorities (Schwartz), the key tension, and how to weigh trade-offs for alignment. |
+| `delegation_brief` | From a `PRSM-DEL-` code: how the owner wants work run — decision rights, cadence, options-vs-recommendation, depth, ambiguity handling, verification posture. Stated by scenario, not inferred. |
+| `communication_brief` | From a `PRSM-COM-` code: the owner's communication register on the six CSI dimensions — how to read their messages and what register to write back in. |
+| `compare_values` | Value congruence for two `PRSM-VAL-` codes: alignment score, shared priorities, friction points. |
 | `compare_dyad` | Pairing report for two codes: 0–100 fit gauge, strengths, top frictions with conversation prompts. Purpose: `romantic` / `cofounder` / `colleague`. |
 | `team_composition` | Read an existing team (2+ codes): diversity, per-trait coverage with owners, gaps, single points of failure, evidence gates. |
 | `compose_team` | Design a team for an outcome: given a project type, Team Topologies shape, and size (2–8), returns the seat-by-seat personality composition the evidence favors. |
 | `compose_agents` | Staff an agent bench around one person (2–5 agents): roles + voice flavors that complement them; skips the seat their own profile covers. |
-| `agent_persona` | A system prompt that calibrates an AI to be this person's **complement**. Optional `flavor` (voice register) and `role` (professional archetype) tuning. |
+| `agent_persona` | A system prompt that calibrates an AI to be this person's **complement**. Optional `flavor` (voice register) and `role` (professional archetype) tuning; optional `relationship`/`stakes` fold in comportment, and `valuesCode`/`delegationCode`/`commCode` fold in the value, delegation, and communication briefs. |
+| `team_personas` | Every calibrated persona in a published agent team, from a `PRSM-TEAM-` code — the live pull for orchestrators. |
+| `tune_agent` | Report what worked with the owner so a team agent's persona learns over time (behavioral tags only; folds into its learned overlay). |
+| `agent_handshake` | Two agents representing two people exchange negotiation profiles and compute a coordination protocol (commitments, conflict, trust). |
+| `proxy_brief` | A bounded-proxy operating brief for an agent acting for an absent owner: act-vs-defer gate, explicit scope/stakes/expiry, disclose-don't-impersonate. |
+| `comportment_adapter` | The register (formality, deference, disclosure…) an agent should carry for a given relationship — the persona stays fixed, only the comportment adapts. |
 | `working_with_me` | First-person collaboration handout: how they communicate, decide, take feedback, handle conflict, manage energy. |
 | `interaction_guide` | Third-person guidance for anyone about to interact with the person — the inbound side of the profile. |
 | `management_style` | How they run work: questionnaire default + the weekly digest of field notes reported by agents who worked with them (field notes win on conflict). |
 | `report_collaboration` | After working with someone, report what worked / what didn't (short bullets, ≤5 each). Folds into their weekly digest. Collaboration only — never evaluations of the person. |
+| `submit_observation` | Submit a daily behavioral summary (communication, work style, strategies, quirks) — PII-filtered tags feeding the owner's observed layer, never their measured scores. |
 
 ## Worked examples
 
@@ -76,6 +86,6 @@ Surface the trust gate and frictions as conversations to have, never as a verdic
 { "mcpServers": { "prismona": { "command": "node", "args": ["/path/to/packages/mcp/dist/server.mjs"] } } }
 ```
 
-The hosted endpoint exposes the identical tool surface at `https://prismona.vercel.app/api/mcp`.
+The hosted endpoint exposes the identical tool surface at `https://prismona.io/api/mcp`.
 
-Methodology and full citations: https://prismona.vercel.app/method
+Methodology and full citations: https://prismona.io/methodology
