@@ -88,7 +88,7 @@
 | **Directly-measured delegation & decision style** — all AI-collab guidance was trait-inferred; nothing measured how the user actually wants agents run (decision rights, cadence, options-vs-recommendation, depth, ambiguity handling, verification posture) | SJT forced-choice format (Tier 2 #6, pulled forward); decision-support axis grounded in General Decision-Making Style (Scott & Bruce 1995) | ✅ Built 2026-08-10: `lib/delegation.ts`, `/delegate`, brief folded into Agent context; stated-vs-blueprint mismatch notes (C↔verification/cadence, O↔decision-support) |
 | Communication-style instrument — de Vries' Communication Styles Inventory dimensions integrate natively with HEXACO (same research lineage); own plain-language wordings per the values-module pattern | CSI (de Vries et al. 2013) | Backlog — next instrument after delegation collects usage signal |
 | Cognitive-style items (need for cognition, maximizer/satisficer, ambiguity tolerance) feeding depth/options calibration | Cacioppo & Petty 1982; Schwartz et al. 2002 | Backlog |
-| Delegation codec + MCP tool (`delegation_brief`) so agents fetch stated preferences live, not just via paste | valuescodec pattern | Follow-up (small) |
+| Delegation codec + MCP tool (`delegation_brief`) so agents fetch stated preferences live, not just via paste | valuescodec pattern | ✅ Built 2026-08-10: `PRSM-DEL-` codes (`lib/delegationcodec.ts`), `delegation_brief` tool, `delegationCode` fold-in on `agent_persona` |
 | Observed AI-interaction layer: correction rate, verbosity trims, autonomy granted — reconciled against stated preferences ("you say brief, you always ask follow-ups") | consent/local-first observed layer | v2 — the differentiator; needs the observe pipeline |
 
 ## C. Design direction

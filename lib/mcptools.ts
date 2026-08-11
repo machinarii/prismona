@@ -5,6 +5,8 @@ import { decodeShareCode } from "./codec";
 import { decodeTeamCode } from "./agentteam";
 import { decodeValuesCode } from "./valuescodec";
 import { valueBrief } from "./values";
+import { decodeDelegationCode } from "./delegationcodec";
+import { delegationBrief } from "./delegation";
 import { agentHandshake } from "./handshake";
 import { proxyBrief } from "./proxy";
 import { valueCongruence } from "./valuecongruence";
@@ -151,6 +153,20 @@ export function registerPrismonaTools(server: McpServer): void {
   );
 
   server.registerTool(
+    "delegation_brief",
+    {
+      title: "Delegation brief (how to run work with the owner)",
+      description: "Given a PRSM-DEL-… delegation code, returns the owner's stated operating preferences for agents: decision rights, reporting cadence, decision support (options vs. one recommendation), detail depth, ambiguity handling, and verification posture. Measured by forced-choice scenarios, not inferred from traits. Follow these as the owner's defaults; when live feedback contradicts a stated preference, say so and adapt.",
+      inputSchema: { delegationCode: z.string().describe("a PRSM-DEL-… delegation code") },
+    },
+    async ({ delegationCode }) => {
+      const p = decodeDelegationCode(delegationCode);
+      if (!p) return fail("invalid delegation code");
+      return ok(delegationBrief(p));
+    },
+  );
+
+  server.registerTool(
     "compare_values",
     {
       title: "Value congruence for two people",
@@ -210,9 +226,10 @@ export function registerPrismonaTools(server: McpServer): void {
         counterparty: z.string().optional().describe("The counterparty's PRSM share code, to converge register toward their style"),
         stakes: z.enum(["low", "med", "high"]).optional().describe("Stakes of the interaction (raises formality/care when high)"),
         valuesCode: z.string().optional().describe("the owner's PRSM-VAL-… values code — folds their value priorities (alignment brief) into the persona"),
+        delegationCode: z.string().optional().describe("the owner's PRSM-DEL-… delegation code — folds their stated operating preferences (delegation brief) into the persona"),
       },
     },
-    async ({ code, flavor, role, relationship, counterparty, stakes, valuesCode }) => {
+    async ({ code, flavor, role, relationship, counterparty, stakes, valuesCode, delegationCode }) => {
       const share = decodeShareCode(code);
       if (!share) return fail("invalid share code");
       const comportment = relationship
@@ -233,6 +250,10 @@ export function registerPrismonaTools(server: McpServer): void {
       if (valuesCode) {
         const vp = decodeValuesCode(valuesCode);
         if (vp) persona += `\n\n${valueBrief(vp)}`;
+      }
+      if (delegationCode) {
+        const dp = decodeDelegationCode(delegationCode);
+        if (dp) persona += `\n\n${delegationBrief(dp)}`;
       }
       return ok(persona);
     },
