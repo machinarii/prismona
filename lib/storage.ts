@@ -4,6 +4,7 @@ import { encodeShareCode } from "./codec";
 import type { InterestProfile } from "./interests";
 import { AGE_BANDS, CONTINENTS, type AgeBand, type Continent } from "./contrib";
 import type { ValuesProfile } from "./values";
+import type { DelegationProfile } from "./delegation";
 
 // Privacy by default: profiles live only in this browser's localStorage.
 const key = (tier: Tier) => `prismona.profile.${tier}`;
@@ -90,6 +91,23 @@ export function loadValues(): StoredValues | null {
     const raw = localStorage.getItem(VALUES_KEY);
     if (!raw) return null;
     const s = JSON.parse(raw) as StoredValues;
+    return s && s.v === 1 && s.profile ? s : null;
+  } catch { return null; }
+}
+
+// Delegation & decision style (scenario-based) — local like everything else.
+const DELEGATION_KEY = "prismona.delegation";
+export interface StoredDelegation { v: 1; date: string; profile: DelegationProfile }
+export function saveDelegation(profile: DelegationProfile): void {
+  try {
+    localStorage.setItem(DELEGATION_KEY, JSON.stringify({ v: 1, date: new Date().toISOString().slice(0, 10), profile }));
+  } catch { /* ignore */ }
+}
+export function loadDelegation(): StoredDelegation | null {
+  try {
+    const raw = localStorage.getItem(DELEGATION_KEY);
+    if (!raw) return null;
+    const s = JSON.parse(raw) as StoredDelegation;
     return s && s.v === 1 && s.profile ? s : null;
   } catch { return null; }
 }
@@ -189,5 +207,6 @@ export function clearProfiles(): void {
     localStorage.removeItem(INTERESTS_KEY);
     localStorage.removeItem(ARCHIVE_KEY);
     localStorage.removeItem(VALUES_KEY);
+    localStorage.removeItem(DELEGATION_KEY);
   } catch { /* ignore */ }
 }

@@ -72,5 +72,24 @@
 
 **Tier 4 — instrument expansion (bigger lifts / external blockers):** SJT scenarios; forced-choice tier; ~~remote MCP~~ (✅ pulled forward — hosted endpoint live at /api/mcp since 2026-06-12, docs at /mcp); therapist export; client-side language analysis (exploratory); behavioral micro-tasks; **values PVQ-RR and attachment ECR-R (licensing — start inquiries early)**.
 
+## F. AI-collaboration identity layer (captured 2026-08-10)
+*From the "how can the system learn the user's communication preferences, AI-management and decision-making style" review. Most of the vision already exists; this maps recommendations to shipped surfaces and names the gaps.*
+
+**Already built** (the audit found the frontier item further along than the roadmap recorded):
+- Portable agent briefing → `lib/portable.ts` (Agent context block), `lib/export.ts` (JSON + schema), `/ai` share links.
+- Live serving to agents → hosted MCP endpoint with 20 tools (manual, value brief, management style, personas, handshake, proxy mandate, comportment…).
+- Calibration loop → `report_collaboration` field notes + weekly digests (`lib/management.ts`), agent-side tuning via `lib/agentlearn.ts`.
+- Stated-vs-observed self-insight → informant mini-360 / ObserverLens; drift & retest → `lib/timeline.ts`.
+- Team mode → `/team`, `compose_*` MCP tools.
+
+**Gaps identified → plan:**
+| Gap | Grounding | Status |
+|---|---|---|
+| **Directly-measured delegation & decision style** — all AI-collab guidance was trait-inferred; nothing measured how the user actually wants agents run (decision rights, cadence, options-vs-recommendation, depth, ambiguity handling, verification posture) | SJT forced-choice format (Tier 2 #6, pulled forward); decision-support axis grounded in General Decision-Making Style (Scott & Bruce 1995) | ✅ Built 2026-08-10: `lib/delegation.ts`, `/delegate`, brief folded into Agent context; stated-vs-blueprint mismatch notes (C↔verification/cadence, O↔decision-support) |
+| Communication-style instrument — de Vries' Communication Styles Inventory dimensions integrate natively with HEXACO (same research lineage); own plain-language wordings per the values-module pattern | CSI (de Vries et al. 2013) | Backlog — next instrument after delegation collects usage signal |
+| Cognitive-style items (need for cognition, maximizer/satisficer, ambiguity tolerance) feeding depth/options calibration | Cacioppo & Petty 1982; Schwartz et al. 2002 | Backlog |
+| Delegation codec + MCP tool (`delegation_brief`) so agents fetch stated preferences live, not just via paste | valuescodec pattern | Follow-up (small) |
+| Observed AI-interaction layer: correction rate, verbosity trims, autonomy granted — reconciled against stated preferences ("you say brief, you always ask follow-ups") | consent/local-first observed layer | v2 — the differentiator; needs the observe pipeline |
+
 ## C. Design direction
 Elevated to high-end/exclusive: near-black ground, ivory typography, champagne-gold accents, editorial serif display (Cormorant), hairline rules, roman-numeral pacing, restrained motion. Tone: private research institute — "measured, not gamified."
