@@ -183,6 +183,16 @@ export interface DelegationProfile { v: 1; axes: Record<DelegationAxis, AxisScor
 const LEVEL_VALUE: Record<Band, number> = { lo: 0, mid: 50, hi: 100 };
 const bandOf = (score: number): Band => (score >= 70 ? "hi" : score <= 30 ? "lo" : "mid");
 
+// Rebuild a profile from bare axis scores (the codec's decode path).
+export function profileFromScores(scores: Record<DelegationAxis, number>): DelegationProfile {
+  const axes = {} as Record<DelegationAxis, AxisScore>;
+  AXIS_ORDER.forEach((a) => {
+    const score = Math.max(0, Math.min(100, Math.round(scores[a] ?? 50)));
+    axes[a] = { score, band: bandOf(score) };
+  });
+  return { v: 1, axes };
+}
+
 export function scoreDelegation(responses: DelegationResponse[]): DelegationProfile {
   const byId = new Map(DELEGATION_ITEMS.map((it) => [it.id, it]));
   const sums: Record<DelegationAxis, number[]> = { autonomy: [], cadence: [], options: [], depth: [], interrupts: [], verify: [] };

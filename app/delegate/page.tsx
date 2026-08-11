@@ -6,6 +6,7 @@ import {
   AXIS_META, AXIS_ORDER, DELEGATION_ITEMS, bandText, delegationBrief, delegationVsTraits,
   scoreDelegation, type DelegationProfile, type DelegationResponse,
 } from "@/lib/delegation";
+import { encodeDelegationCode } from "@/lib/delegationcodec";
 import { loadDelegation, loadLatest, saveDelegation } from "@/lib/storage";
 
 // /delegate — twelve forced-choice scenarios measuring how you want an AI
@@ -18,6 +19,7 @@ export default function DelegatePage() {
   const [i, setI] = useState(0);
   const [responses, setResponses] = useState<DelegationResponse[]>([]);
   const [copied, setCopied] = useState(false);
+  const [codeCopied, setCodeCopied] = useState(false);
 
   useEffect(() => { setResult(loadDelegation()?.profile ?? null); }, []);
 
@@ -73,9 +75,20 @@ export default function DelegatePage() {
                 });
               }}>{copied ? "Copied" : "Copy Delegation brief"}</button>
               <button className="btn quiet" onClick={() => {
+                navigator.clipboard?.writeText(encodeDelegationCode(result)).then(() => {
+                  setCodeCopied(true);
+                  setTimeout(() => setCodeCopied(false), 1800);
+                });
+              }}>{codeCopied ? "Copied" : "Copy Delegation code"}</button>
+              <button className="btn quiet" onClick={() => {
                 setRetaking(true); setResult(null); setI(0); setResponses([]);
               }}>Retake</button>
             </div>
+            <p className="footnote" style={{ marginTop: "var(--s-4)" }}>
+              The code (PRSM-DEL-…) carries only the six axis scores — agents connected via the{" "}
+              <Link href="/mcp" className="cite" style={{ color: "var(--ivory-dim)" }}>MCP endpoint</Link>{" "}
+              can fetch this brief live with the <span className="num">delegation_brief</span> tool.
+            </p>
           </div>
         </section>
       </main>
