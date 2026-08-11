@@ -4,8 +4,9 @@ import { type ReactNode, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { aiContextBlock } from "@/lib/portable";
 import { agentPersona, PERSONA_FLAVORS, type FlavorKey } from "@/lib/persona";
-import { loadValues } from "@/lib/storage";
+import { loadDelegation, loadValues } from "@/lib/storage";
 import { valueBrief } from "@/lib/values";
+import { delegationBrief } from "@/lib/delegation";
 import { profileUrl } from "@/lib/shareview";
 import { managementStyle, type FeedbackDigest } from "@/lib/management";
 import { encodeShareCode } from "@/lib/codec";
@@ -116,6 +117,7 @@ export function AiSheet({ profile }: { profile: Profile }) {
   const [mods, setMods] = useState<Partial<Record<FlavorKey, number>>>({});
   const [boxH, setBoxH] = useState<number | null>(null); // half the Agent-context natural height, shared by both boxes
   const [vBrief, setVBrief] = useState("");
+  const [dBrief, setDBrief] = useState("");
   useEffect(() => {
     try {
       const raw = localStorage.getItem("prismona.mods");
@@ -123,6 +125,8 @@ export function AiSheet({ profile }: { profile: Profile }) {
     } catch { /* ignore */ }
     const v = loadValues();
     if (v?.profile) setVBrief(valueBrief(v.profile));
+    const d = loadDelegation();
+    if (d?.profile) setDBrief(delegationBrief(d.profile));
   }, []);
   const setMod = (f: FlavorKey, v: number) => {
     setMods((prev) => {
@@ -147,8 +151,16 @@ export function AiSheet({ profile }: { profile: Profile }) {
         </p>
       </section>
       <section className="report-section">
-        <CopyBlock summary="Agent context" action="Copy Agent context" text={vBrief ? `${aiContextBlock(profile)}\n\n${vBrief}` : aiContextBlock(profile)}
+        <CopyBlock summary="Agent context" action="Copy Agent context"
+          text={[aiContextBlock(profile), vBrief, dBrief].filter(Boolean).join("\n\n")}
           maxHeight={boxH} onNaturalHeight={(h) => setBoxH((prev) => prev ?? Math.round(h / 2))} />
+        {!dBrief && (
+          <p className="footnote" style={{ margin: "calc(-1 * var(--s-4)) 0 var(--s-8)" }}>
+            The context infers how to work with you from traits. State it directly — five minutes of{" "}
+            <Link href="/delegate" className="cite" style={{ color: "var(--ivory-dim)" }}>delegation scenarios</Link>{" "}
+            add your operating preferences (decision rights, cadence, handoffs) to this block.
+          </p>
+        )}
 
         <CopyBlock summary="Agent persona" action="Copy Agent persona" text={personaText} maxHeight={boxH}
           extra={
