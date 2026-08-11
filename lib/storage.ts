@@ -5,6 +5,7 @@ import type { InterestProfile } from "./interests";
 import { AGE_BANDS, CONTINENTS, type AgeBand, type Continent } from "./contrib";
 import type { ValuesProfile } from "./values";
 import type { DelegationProfile } from "./delegation";
+import type { CommStyleProfile } from "./commstyle";
 
 // Privacy by default: profiles live only in this browser's localStorage.
 const key = (tier: Tier) => `prismona.profile.${tier}`;
@@ -112,6 +113,23 @@ export function loadDelegation(): StoredDelegation | null {
   } catch { return null; }
 }
 
+// Communication style (CSI-dimension Likert) — local like everything else.
+const COMMSTYLE_KEY = "prismona.commstyle";
+export interface StoredCommStyle { v: 1; date: string; profile: CommStyleProfile }
+export function saveCommStyle(profile: CommStyleProfile): void {
+  try {
+    localStorage.setItem(COMMSTYLE_KEY, JSON.stringify({ v: 1, date: new Date().toISOString().slice(0, 10), profile }));
+  } catch { /* ignore */ }
+}
+export function loadCommStyle(): StoredCommStyle | null {
+  try {
+    const raw = localStorage.getItem(COMMSTYLE_KEY);
+    if (!raw) return null;
+    const s = JSON.parse(raw) as StoredCommStyle;
+    return s && s.v === 1 && s.profile ? s : null;
+  } catch { return null; }
+}
+
 // Optional, local-only until the user explicitly contributes.
 export function saveAgeBand(band: AgeBand | null): void {
   try {
@@ -208,5 +226,6 @@ export function clearProfiles(): void {
     localStorage.removeItem(ARCHIVE_KEY);
     localStorage.removeItem(VALUES_KEY);
     localStorage.removeItem(DELEGATION_KEY);
+    localStorage.removeItem(COMMSTYLE_KEY);
   } catch { /* ignore */ }
 }
