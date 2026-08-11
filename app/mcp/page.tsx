@@ -14,6 +14,7 @@ const TOOLS: Array<[string, string]> = [
   ["decode_profile", "Full structured blueprint from a share code: percentiles, uncertainty ranges, archetype blend, distinctiveness"],
   ["value_brief", "Core value priorities (Schwartz) from a PRSM-VAL- code — top/least values, the key tension, and how to weigh trade-offs for alignment"],
   ["delegation_brief", "Stated operating preferences from a PRSM-DEL- code — decision rights, cadence, options-vs-recommendation, depth, ambiguity handling, verification posture; how the owner wants work run, measured by scenario, not inferred from traits"],
+  ["communication_brief", "Stated communication register from a PRSM-COM- code — expressiveness, preciseness, directness, questioningness, emotional expression, impression management; how to read the owner and write back"],
   ["compare_values", "Value congruence for two PRSM-VAL- codes — alignment score, shared priorities, and friction points (the values counterpart of compare_dyad)"],
   ["profile_readings", "The six applied readings — relationships, career, work style, leadership, integrity, cofounder"],
   ["compare_dyad", "Pairing report for two codes: fit gauge, strengths, frictions with conversation prompts"],

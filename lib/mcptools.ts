@@ -7,6 +7,8 @@ import { decodeValuesCode } from "./valuescodec";
 import { valueBrief } from "./values";
 import { decodeDelegationCode } from "./delegationcodec";
 import { delegationBrief } from "./delegation";
+import { decodeCommCode } from "./commstylecodec";
+import { commBrief } from "./commstyle";
 import { agentHandshake } from "./handshake";
 import { proxyBrief } from "./proxy";
 import { valueCongruence } from "./valuecongruence";
@@ -167,6 +169,20 @@ export function registerPrismonaTools(server: McpServer): void {
   );
 
   server.registerTool(
+    "communication_brief",
+    {
+      title: "Communication brief (how to read and write to the owner)",
+      description: "Given a PRSM-COM-… communication code, returns the owner's stated communication style along the CSI dimensions: expressiveness, preciseness, directness, questioningness, emotional expression, and impression management — how to read their messages and what register to write back in. Style guidance only, never substance — match their register where it helps, keep your judgment where it doesn't.",
+      inputSchema: { commCode: z.string().describe("a PRSM-COM-… communication code") },
+    },
+    async ({ commCode }) => {
+      const p = decodeCommCode(commCode);
+      if (!p) return fail("invalid communication code");
+      return ok(commBrief(p));
+    },
+  );
+
+  server.registerTool(
     "compare_values",
     {
       title: "Value congruence for two people",
@@ -227,9 +243,10 @@ export function registerPrismonaTools(server: McpServer): void {
         stakes: z.enum(["low", "med", "high"]).optional().describe("Stakes of the interaction (raises formality/care when high)"),
         valuesCode: z.string().optional().describe("the owner's PRSM-VAL-… values code — folds their value priorities (alignment brief) into the persona"),
         delegationCode: z.string().optional().describe("the owner's PRSM-DEL-… delegation code — folds their stated operating preferences (delegation brief) into the persona"),
+        commCode: z.string().optional().describe("the owner's PRSM-COM-… communication code — folds their stated communication style (communication brief) into the persona"),
       },
     },
-    async ({ code, flavor, role, relationship, counterparty, stakes, valuesCode, delegationCode }) => {
+    async ({ code, flavor, role, relationship, counterparty, stakes, valuesCode, delegationCode, commCode }) => {
       const share = decodeShareCode(code);
       if (!share) return fail("invalid share code");
       const comportment = relationship
@@ -254,6 +271,10 @@ export function registerPrismonaTools(server: McpServer): void {
       if (delegationCode) {
         const dp = decodeDelegationCode(delegationCode);
         if (dp) persona += `\n\n${delegationBrief(dp)}`;
+      }
+      if (commCode) {
+        const cp = decodeCommCode(commCode);
+        if (cp) persona += `\n\n${commBrief(cp)}`;
       }
       return ok(persona);
     },
