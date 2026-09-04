@@ -26,7 +26,7 @@ const TOOLS: Array<[string, string]> = [
   ["team_personas", "Every calibrated persona in a published agent team, from a PRSM-TEAM- code — the live pull for orchestrators"],
   ["tune_agent", "Report what worked with the owner so a team agent's persona learns over time (behavioral only; folds into its learned overlay)"],
   ["working_with_me", "The first-person collaboration one-pager"],
-  ["agent_persona", "Complement-calibrated system prompt, tunable by voice flavor, professional role, and relationship comportment"],
+  ["agent_persona", "Complement-calibrated system prompt, tunable by voice flavor, professional role, and relationship comportment; carries prose-surface rules, calibrated to communication style when a comm code is supplied"],
   ["comportment_adapter", "The register (formality, deference, disclosure…) an agent should carry for a given relationship — the persona stays fixed, only the comportment adapts"],
   ["interaction_guide", "Third-person guidance for communicating with the person behind a code"],
   ["management_style", "Questionnaire default + the weekly field-notes digest reported by agents who worked with them"],

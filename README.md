@@ -179,7 +179,7 @@ Next.js 15 App Router. Deploys as a **container on a DigitalOcean droplet**, bes
 
 ## Structure
 
-- `lib/` — pure, unit-tested core: items (IPIP + O*NET Mini-IP + observer + HEXACO facets), norms, scoring (z → percentiles → SEM, consistency, quality), archetypes, insight engine, manual + managing-up, persona (complement + interaction guide + modulation + **comportment**), values (Schwartz best-worst), delegation scenarios, communication style (CSI), agent-team model, continuous-tuning (observation/observed/learned), dyad + handshake + proxy, team composition, rarity, RIASEC, drift, JSON export, codecs (share / values / delegation / communication / team), MCP tool registry
+- `lib/` — pure, unit-tested core: items (IPIP + O*NET Mini-IP + observer + HEXACO facets), norms, scoring (z → percentiles → SEM, consistency, quality), archetypes, insight engine, manual + managing-up, persona (complement + interaction guide + modulation + **comportment** + **prose surface**), values (Schwartz best-worst), delegation scenarios, communication style (CSI), agent-team model, continuous-tuning (observation/observed/learned), dyad + handshake + proxy, team composition, rarity, RIASEC, drift, JSON export, codecs (share / values / delegation / communication / team), MCP tool registry
 - `packages/codec` — `@prismona/codec`: the open PRSM format (spec + dependency-free implementation, parity-tested)
 - `packages/mcp` — `prismona-mcp`: the local stdio MCP server over the core
 - `app/`, `components/` — Next.js UI

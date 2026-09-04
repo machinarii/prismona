@@ -252,7 +252,10 @@ export function registerPrismonaTools(server: McpServer): void {
       const comportment = relationship
         ? computeComportment({ preset: relationship, stakes }, counterparty ? (decodeShareCode(counterparty) ?? undefined) : undefined)
         : undefined;
-      let persona = agentPersona(profileFromShare(share), { flavor, role, comportment });
+      // Decoded up front: the CSI bands drive the persona's prose-surface directives
+      // (how to write back), while commBrief below covers how to read their messages.
+      const cp = commCode ? decodeCommCode(commCode) ?? undefined : undefined;
+      let persona = agentPersona(profileFromShare(share), { flavor, role, comportment, comm: cp });
       // Fold the learned overlay for this (owner, role) — the continuous-tuning
       // layer that agents accumulate via tune_agent (e.g. bridge agents).
       if (role) {
@@ -272,10 +275,7 @@ export function registerPrismonaTools(server: McpServer): void {
         const dp = decodeDelegationCode(delegationCode);
         if (dp) persona += `\n\n${delegationBrief(dp)}`;
       }
-      if (commCode) {
-        const cp = decodeCommCode(commCode);
-        if (cp) persona += `\n\n${commBrief(cp)}`;
-      }
+      if (cp) persona += `\n\n${commBrief(cp)}`;
       return ok(persona);
     },
   );

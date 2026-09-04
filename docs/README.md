@@ -8,6 +8,7 @@ The shipped product is the Next.js app at the repo root (see root `README.md`); 
 | `PRD.md` | Product requirements: vision, science basis, competitive analysis, MVP→v2 scope, compatibility engine, risks |
 | `ROADMAP.md` | Prioritized feature roadmap, use-case expansion verticals, design direction, build log |
 | `research/BIBLIOGRAPHY.md` | 65 annotated papers (trait models, relationships, work fit, teams/cofounders, trust, values, timing/faking). [OA] = one-click full text |
+| `research/AGENT-SURFACE.md` | Prose-texture note: why a calibrated persona can still read like a bot, what `humanizer` / WikiProject AI Cleanup get right, and the design position (small fixed block of machine tells + CSI-measured surface directives; no rewrite loop, no 35-rule checklist) |
 | `research/VOICE-STATE.md` | Speech-emotion (voice state) research note: repos + licensing, the valence gap, validity and EU AI Act limits, a spike over real dictation, and the design position (no categorical label; within-person arousal only, on-device, never persisted) |
 | `superpowers/specs/2026-06-11-prismona-web-app-design.md` | Web app design spec (frozen snapshot from build day) |
 | `poc/index.html` | Original working PoC, superseded by the app: 26-item Big Five + Honesty-Humility test, fully client-side. Double-click to run |
