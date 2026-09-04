@@ -175,7 +175,7 @@ npm test       # vitest on the pure core (lib/)
 npm run build  # production build
 ```
 
-Next.js 15 App Router. Deploys on **DigitalOcean App Platform** (`.do/app.yaml`; see `docs/MIGRATION-vercel-to-digitalocean.md`) with a managed Postgres cluster bound natively by the platform — `AUTH_SECRET` is the only manually-supplied secret (via the gitignored `.do/app.local.yaml`). Opt-in server features share one `blobs` table that auto-creates on first write (`lib/server/blob.ts`).
+Next.js 15 App Router. Deploys as a **container on a DigitalOcean droplet**, beside a **self-hosted Postgres 16** running in Docker on the same host (`docker-compose.yml` + `deploy/deploy.sh`; see `deploy/README.md`). No managed database: the app joins the Postgres stack's compose network and reaches it at `postgres:5432`, so the port never leaves `127.0.0.1`. `AUTH_SECRET` and the database password live in `/opt/prismona/.env` on the server. Opt-in server features share one `blobs` table that auto-creates on first write (`lib/server/blob.ts`), and a nightly `pg_dump` to object storage covers it.
 
 ## Structure
 

@@ -1,6 +1,6 @@
 // Storage abstraction: a tiny key → JSON blob store with put / get / list-by-prefix
-// / del. Backends are chosen by env — DO Managed Postgres (DATABASE_URL) is the
-// primary; Vercel Blob is kept as a fallback for the cutover window. Server-only.
+// / del. Backends are chosen by env — Postgres (DATABASE_URL) is the primary;
+// Vercel Blob is kept as a fallback for the cutover window. Server-only.
 // Chosen over object storage because the corpus stays queryable (jsonb) for
 // re-norming and analytics later — see docs/MIGRATION-vercel-to-digitalocean.md.
 
@@ -17,10 +17,13 @@ export interface BlobStore {
 const rand = () =>
   globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
-// ---- DO Managed Postgres backend (primary) ---------------------------------
+// ---- Postgres backend (primary) ---------------------------------------------
 // One table: blobs(key text primary key, body jsonb, created_at). The access
 // pattern (put / get / list-by-prefix / del) maps cleanly, and jsonb keeps the
 // data queryable — the reason to pick Postgres over object storage.
+// In production this is a self-hosted Postgres 16 container on the same droplet,
+// reached over a private docker network — so DATABASE_SSL=off there. The
+// rejectUnauthorized:false default below is for a managed cluster's own cert.
 let poolPromise: Promise<import("pg").Pool> | null = null;
 let readyPromise: Promise<void> | null = null;
 
