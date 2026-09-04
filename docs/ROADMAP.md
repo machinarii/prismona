@@ -90,6 +90,7 @@
 | Cognitive-style items (need for cognition, maximizer/satisficer, ambiguity tolerance) feeding depth/options calibration | Cacioppo & Petty 1982; Schwartz et al. 2002 | Backlog |
 | Delegation codec + MCP tool (`delegation_brief`) so agents fetch stated preferences live, not just via paste | valuescodec pattern | ✅ Built 2026-08-10: `PRSM-DEL-` codes (`lib/delegationcodec.ts`), `delegation_brief` tool, `delegationCode` fold-in on `agent_persona` |
 | Observed AI-interaction layer: correction rate, verbosity trims, autonomy granted — reconciled against stated preferences ("you say brief, you always ask follow-ups") | consent/local-first observed layer | v2 — the differentiator; needs the observe pipeline |
+| Voice **state** (transient, from dictation audio) as an input to comportment modulation — trait × state → delivery | Wagner et al. 2023 (valence gap); Barrett et al. 2019; EU AI Act Art. 5(1)(f) | Researched + spiked 2026-09-02, **position recorded, not built** — see `research/VOICE-STATE.md`. Categorical SER returned zero non-neutral labels on real dictation; only a within-person acoustic arousal proxy varied. Re-evaluate after weeks of real dictation accrue in the weekly harness |
 
 ## C. Design direction
 Elevated to high-end/exclusive: near-black ground, ivory typography, champagne-gold accents, editorial serif display (Cormorant), hairline rules, roman-numeral pacing, restrained motion. Tone: private research institute — "measured, not gamified."
