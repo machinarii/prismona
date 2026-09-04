@@ -1,6 +1,6 @@
 # Prismona — docs
 
-The shipped product is the Next.js app at the repo root (see root `README.md`); it lives at https://prismona.io (deploying on DigitalOcean App Platform — see `MIGRATION-vercel-to-digitalocean.md`). This folder holds the product documents and the historical artifacts the app grew out of.
+The shipped product is the Next.js app at the repo root (see root `README.md`); it lives at https://prismona.io (deploying as a container on a DigitalOcean droplet beside a self-hosted Postgres — see `MIGRATION-vercel-to-digitalocean.md` and `../deploy/README.md`). This folder holds the product documents and the historical artifacts the app grew out of.
 
 | File | What it is |
 |---|---|

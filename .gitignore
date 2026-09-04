@@ -12,3 +12,4 @@ next-env.d.ts
 .superpowers/
 
 .do/app.local.yaml
+!.env.example
