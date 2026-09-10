@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "build:hook": "esbuild lib/statehook.ts --bundle --platform=node --format=esm --outfile=bin/prismona-state.mjs && chmod +x bin/prismona-state.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.26.0",

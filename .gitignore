@@ -13,3 +13,6 @@ next-env.d.ts
 
 .do/app.local.yaml
 !.env.example
+
+# built by `npm run build:hook`
+bin/prismona-state.mjs
