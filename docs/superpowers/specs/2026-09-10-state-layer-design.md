@@ -128,10 +128,12 @@ Phase 1 ships with a **fixed rule table**, no learning. That is deliberate: it e
 ## Phase 2 — Delivery
 
 - **Claude Code:** `UserPromptSubmit` hook at `~/.claude/hooks/prismona-state.sh`, calling the extractor and writing the block to stdout. Must fail open — any error exits 0 with empty output. Budget: <150 ms, <120 tokens.
-- **Every other MCP host:** the trait tier already arrives via MCP `instructions`. State degrades to a sidecar `state.md` that the host's context file `@`-imports, refreshed at session start.
+- **Every other MCP host: trait tier only. The sidecar fallback is not built.** _(Resolves open question 2, 2026-09-10.)_ A sidecar file persists state to disk, which contradicts commitment 2 and creates exactly the artifact a later reader mistakes for a claim about the person. It would buy session-cadence state on hosts that cannot use it well, at the cost of the design's central privacy property — and after the Phase 0 gate failed, the value being bought is unproven. Hosts without hooks get the trait tier, which is the honest offering.
 - **`SOUL.md`, `CLAUDE.md`, `AGENTS.md` are never written by this system.** The sidecar is a separate file the user imports by choice and can delete without consequence.
 
-## Phase 3 — Learning loop
+## Phase 3 — Learning loop **(NOT BUILT — gate failed)**
+
+_The Phase 0 gate failed its pre-registered criterion on 2026-09-10 (`docs/research/STATE-LAYER.md`). This section is retained as the design to revisit if a re-run over a larger corpus clears the bar; none of it is implemented, and Phases 1/2/4 ship on the fixed rule table in `lib/statecompose.ts` instead._
 
 **Formalism: contextual bandit, not RL.** Context is the cue vector, arms are knob-delta variants, reward is the composite above. The action space is small and the data rate is single-digit sessions per week — Thompson sampling over a linear model converges at that scale; RL does not.
 
@@ -191,5 +193,6 @@ This spec describes the whole arc. **Only Phase 0 gets an implementation plan no
 
 ## Open questions
 
-1. Task-class detection for stratification — heuristic from tool mix, or explicit user signal?
-2. Does the sidecar fallback earn its keep on hosts without hooks, or is trait-tier-only the honest offering there?
+1. Task-class detection for stratification — heuristic from tool mix, or explicit user signal? _(Deferred with Phase 3.)_
+2. ~~Sidecar fallback on hook-less hosts?~~ **Resolved 2026-09-10: not built.** See Phase 2.
+3. Should the hook be installed into `~/.claude/settings.json` globally, or per-project? Left to the owner — it changes behaviour in every session it covers.
