@@ -45,9 +45,11 @@ Reusing the comportment −2…+2 convention. State proposes a delta in {−1, 0
 
 ## Cue taxonomy
 
-Measured against the existing corpus: `~/.claude/projects/` holds **245 sessions / 232 MB** of structured JSONL carrying `timestamp`, `cwd`, `gitBranch`, `permission-mode`, `toolUseResult`, and `file-history-snapshot` / `file-history-delta`.
+Measured against the existing corpus: `~/.claude/projects/` holds **248 JSONL files / 232 MB**, of which **94 sessions contain human turns**, totalling **675 human turns** spanning **2026-07-17 → 2026-09-10**. Records carry `timestamp`, `cwd`, `gitBranch`, `permissionMode`, `toolUseResult`, `promptId`, and `file-history-snapshot` / `file-history-delta`.
 
-Explicit negative events across all 245 sessions: **21** `[Request interrupted by user]`, **11** "doesn't want to proceed", **6** "User rejected" — **~38 total**, against 377 tool errors. That sparsity is the central design constraint: the loudest cues are far too rare to learn from directly.
+Explicit negative events across the corpus: **21** interrupts (16 `[Request interrupted by user]` + 5 `[Request interrupted by user for tool use]`), **11** "doesn't want to proceed", **6** "User rejected" — **~38 total**, against 379 tool-error blocks. Against 675 human turns that is a **~5.6% positive rate**, and it is the central design constraint twice over: the loudest cues are too rare to train on directly, and 38 events cap the model at roughly **4 effective features** under the standard 10-events-per-variable rule. Phase 0 must therefore use a small, pre-registered feature set with strong regularization — not the full vector below.
+
+**Two extraction facts the implementation must respect.** Interrupts appear as *text* (`[Request interrupted by user]`) inside user message content; the `toolUseResult.interrupted` boolean is `false` across the entire corpus and must not be used. And `origin.kind` / `promptSource` exist only on records from recent CLI versions, so human turns must be identified structurally — a `user` record whose `message.content` contains no `tool_result` block — not by those fields.
 
 ### Dense implicit — the feature vector
 
@@ -96,11 +98,11 @@ Runs entirely offline over local transcripts, outside this repo at `~/state-laye
 
 **Question:** do the dense features discriminate the known-bad turns from everything else?
 
-**Method.** Extract the feature vector for every user turn across all 245 sessions. Label the ~38 explicit-negative turns as the positive class. Fit L2 logistic regression with leave-one-session-out cross-validation. Report AUC with a bootstrap CI, plus per-feature coefficients.
+**Method.** Extract the feature vector for every human turn across all 94 sessions with human content. Label the ~38 explicit-negative turns as the positive class. Fit L2 logistic regression with leave-one-session-out cross-validation. Report AUC with a bootstrap CI, plus per-feature coefficients.
 
 **Success criterion, declared in advance:** AUC ≥ 0.65 with lower CI bound above 0.5, and at least two features individually informative. Below that, the honest outcome is a research note at `docs/research/STATE-LAYER.md` saying the signal was not there, and Phases 1–4 do not get built.
 
-**Known limitations to state in the report:** 38 positives is a small positive class; the corpus spans multiple projects and a changing agent; absence of evidence at this n is not strong evidence of absence.
+**Known limitations to state in the report:** 38 positives against 675 turns is a small positive class and caps effective feature count near 4; the corpus spans multiple projects and a changing agent; absence of evidence at this n is not strong evidence of absence.
 
 **Deliverable:** `~/state-layer-study/report-YYYY-MM-DD.md` + a recommendation.
 
