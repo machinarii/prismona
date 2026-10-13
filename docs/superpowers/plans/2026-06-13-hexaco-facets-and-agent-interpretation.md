@@ -135,7 +135,7 @@ Expected: PASS (all 5).
 
 ```bash
 git add lib/items.ts lib/__tests__/items.test.ts
-git -c user.name='admin-41853076' -c user.email='admin@sensingapparatus.com' commit -m "A1: faceted Honesty-Humility item bank (full tier, 16 items, 4 facets)"
+git -c user.name='admin-41853076' -c user.email='admin@machinarii.com' commit -m "A1: faceted Honesty-Humility item bank (full tier, 16 items, 4 facets)"
 ```
 
 ---
@@ -192,7 +192,7 @@ Expected: PASS — confirms the generic facet path already handles H. (If it FAI
 
 ```bash
 git add lib/__tests__/scoring.test.ts
-git -c user.name='admin-41853076' -c user.email='admin@sensingapparatus.com' commit -m "A1: lock H facet scoring behavior with test"
+git -c user.name='admin-41853076' -c user.email='admin@machinarii.com' commit -m "A1: lock H facet scoring behavior with test"
 ```
 
 ---
@@ -233,7 +233,7 @@ Expected: Errors: 0 | Warnings: 0.
 
 ```bash
 git add app/blueprint/page.tsx app/assess/page.tsx app/page.tsx lib/export.ts
-git -c user.name='admin-41853076' -c user.email='admin@sensingapparatus.com' commit -m "A1: H facets display (heading) + full-tier item-count copy"
+git -c user.name='admin-41853076' -c user.email='admin@machinarii.com' commit -m "A1: H facets display (heading) + full-tier item-count copy"
 ```
 
 ---
@@ -314,7 +314,7 @@ Expected: PASS.
 
 ```bash
 git add lib/manual.ts lib/__tests__/manual.test.ts
-git -c user.name='admin-41853076' -c user.email='admin@sensingapparatus.com' commit -m "A2.1: surface Honesty-Humility (candor) in the working-with-me manual"
+git -c user.name='admin-41853076' -c user.email='admin@machinarii.com' commit -m "A2.1: surface Honesty-Humility (candor) in the working-with-me manual"
 ```
 
 ---
@@ -434,7 +434,7 @@ Expected: PASS (all 4).
 
 ```bash
 git add lib/management.ts lib/__tests__/management.test.ts
-git -c user.name='admin-41853076' -c user.email='admin@sensingapparatus.com' commit -m "A2.2: managing-up section in management style (Gabarro/Kotter, Drucker, LMX)"
+git -c user.name='admin-41853076' -c user.email='admin@machinarii.com' commit -m "A2.2: managing-up section in management style (Gabarro/Kotter, Drucker, LMX)"
 ```
 
 ---
@@ -474,7 +474,7 @@ Expected: Errors: 0 | Warnings: 0.
 
 ```bash
 git add lib/mcpguide.ts
-git -c user.name='admin-41853076' -c user.email='admin@sensingapparatus.com' commit -m "A2.4: surface Honesty-Humility + managing-up in the MCP agent guide"
+git -c user.name='admin-41853076' -c user.email='admin@machinarii.com' commit -m "A2.4: surface Honesty-Humility + managing-up in the MCP agent guide"
 ```
 
 ---
