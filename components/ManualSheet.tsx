@@ -37,7 +37,7 @@ export function ManualSheet({ profile, showBack = true }: { profile: Profile; sh
       <div className="print-only print-head">
         <span className="label gold">Working with me — Prismona</span>
         <span className="num" style={{ fontSize: "var(--t-sm)", color: "var(--ivory-faint)" }}>
-          {longDate(profile.date)} · prismona.vercel.app
+          {longDate(profile.date)} · prismona.io
         </span>
       </div>
 

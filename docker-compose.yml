@@ -1,0 +1,44 @@
+# Prismona on the droplet, next to the self-hosted Postgres.
+# Lives at /opt/prismona on the server; deploy with deploy/deploy.sh.
+#
+# The database is the `postgres` container from /opt/postgres (see
+# deploy/README.md). We join its compose network and reach it by hostname
+# `postgres`, so 5432 is never published beyond 127.0.0.1 on the host.
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: prismona:local
+    container_name: prismona
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      HOSTNAME: "0.0.0.0"      # standalone server.js must bind all interfaces, not localhost
+    # Only nginx (on the host) talks to this; never expose it publicly.
+    ports:
+      - "127.0.0.1:3000:3000"
+    networks:
+      - default
+      - pg
+    # The droplet has 2 GB shared with Joplin, MariaDB and CloudPanel. Cap the
+    # app so a runaway request can't push the box into the OOM killer.
+    mem_limit: 512m
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  pg:
+    name: postgres_default   # created by /opt/postgres/docker-compose.yml
+    external: true

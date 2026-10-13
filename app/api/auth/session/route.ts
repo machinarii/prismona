@@ -1,14 +1,11 @@
 import { SESSION_COOKIE, authConfigured, sessionFrom } from "@/lib/server/authstore";
 
-// GET: who am I (from the httpOnly cookie). DELETE: sign out.
-// `enabled` is the feature flag: false when the auth secrets aren't configured,
-// which keeps the login gate transparent so test-taking still works.
+// GET: am I signed in (from the httpOnly cookie). DELETE: sign out.
+// `enabled` is the feature flag: false when AUTH_SECRET isn't configured.
+// No identity is returned — the session carries only a pseudonymous account id.
 
 export async function GET(req: Request): Promise<Response> {
-  const enabled = authConfigured();
-  const session = sessionFrom(req);
-  if (!session) return Response.json({ signedIn: false, enabled }, { status: 200 });
-  return Response.json({ signedIn: true, email: session.email, enabled });
+  return Response.json({ signedIn: Boolean(sessionFrom(req)), enabled: authConfigured() });
 }
 
 export async function DELETE(): Promise<Response> {

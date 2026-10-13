@@ -29,6 +29,7 @@ function TagRow({ label, tags }: { label: string; tags: OverlayTag[] }) {
 export function ObservedLayer({ profile }: { profile: Profile }) {
   const [overlay, setOverlay] = useState<ObservedOverlay | null | undefined>(undefined);
   const [paused, setPaused] = useState(false);
+  const [enabled, setEnabledState] = useState<boolean>(false);
   const [agentIds, setAgentIds] = useState<string[]>([]);
   const [pausedAgents, setPausedAgents] = useState<string[]>([]);
   const code = encodeShareCode(profile);
@@ -40,9 +41,22 @@ export function ObservedLayer({ profile }: { profile: Profile }) {
         setOverlay((d.overlay ?? null) as ObservedOverlay | null);
         setAgentIds(Array.isArray(d.agentIds) ? d.agentIds : []);
         setPausedAgents(Array.isArray(d.paused) ? d.paused : []);
+        setEnabledState(Boolean(d.enabled));
       })
       .catch((s) => { if (s === 503) setPaused(true); else setOverlay(null); });
   }, [code]);
+
+  const setEnabled = (next: boolean) => {
+    setEnabledState(next); // optimistic
+    fetch(`/api/observe`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code, enabled: next }),
+    })
+      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then((d) => { if (typeof d.enabled === "boolean") setEnabledState(d.enabled); })
+      .catch(() => { /* keep optimistic state */ });
+  };
 
   const clearAll = () => {
     fetch(`/api/observe?code=${encodeURIComponent(code)}`, { method: "DELETE" })
@@ -86,14 +100,29 @@ export function ObservedLayer({ profile }: { profile: Profile }) {
 
       {paused ? (
         <p className="footnote">The observation layer is paused right now.</p>
+      ) : !enabled ? (
+        <div className="no-print">
+          <p className="footnote" style={{ marginBottom: "var(--s-4)" }}>
+            The observed layer is <strong>off by default</strong>. Until you turn it on, no
+            agent can record anything about you on the server — your blueprint stays in this
+            browser. Turn it on and the assistants you work with can fold behavioral summaries
+            (never private content) in here; turn it off any time and submissions stop at the door.
+          </p>
+          <button className="btn solid" onClick={() => setEnabled(true)}>Enable the observed layer</button>
+        </div>
       ) : !overlay ? (
-        <p className="footnote">
-          No agent observations yet. Connect an assistant via the{" "}
-          <span className="num">MCP</span> endpoint and have it call{" "}
-          <span className="num">submit_observation</span> after working with you — behavioral
-          summaries (never private content) fold in here, recency-weighted, and the yearly Full
-          Test re-anchors the measured side.
-        </p>
+        <>
+          <p className="footnote">
+            No agent observations yet. Connect an assistant via the{" "}
+            <span className="num">MCP</span> endpoint and have it call{" "}
+            <span className="num">submit_observation</span> after working with you — behavioral
+            summaries (never private content) fold in here, recency-weighted, and the yearly Full
+            Test re-anchors the measured side.
+          </p>
+          <div className="no-print" style={{ marginTop: "var(--s-5)" }}>
+            <button className="btn quiet" onClick={() => setEnabled(false)}>Turn off the observed layer</button>
+          </div>
+        </>
       ) : (
         <>
           <p className="prose" style={{ marginBottom: "var(--s-6)" }}>{overlay.narrative}</p>
@@ -135,8 +164,9 @@ export function ObservedLayer({ profile }: { profile: Profile }) {
             </div>
           )}
 
-          <div className="no-print" style={{ marginTop: "var(--s-5)" }}>
+          <div className="no-print" style={{ marginTop: "var(--s-5)", display: "flex", gap: "var(--s-3)", flexWrap: "wrap" }}>
             <button className="btn quiet" onClick={clearAll}>Clear observations</button>
+            <button className="btn quiet" onClick={() => setEnabled(false)}>Turn off the observed layer</button>
           </div>
         </>
       )}
