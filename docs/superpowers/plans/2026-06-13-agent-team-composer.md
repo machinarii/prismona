@@ -124,7 +124,7 @@ Expected: PASS.
 
 ```bash
 git add lib/agentteam.ts lib/__tests__/agentteam.test.ts
-git -c user.name='admin-41853076' -c user.email='admin@sensingapparatus.com' commit -m "Composer P1: AgentTeam model + PRSM-TEAM- codec"
+git -c user.name='admin-41853076' -c user.email='admin@machinarii.com' commit -m "Composer P1: AgentTeam model + PRSM-TEAM- codec"
 ```
 
 ### Task 2: `team_personas` MCP tool
@@ -164,7 +164,7 @@ server.registerTool(
 
 ```bash
 git add lib/mcptools.ts
-git -c user.name='admin-41853076' -c user.email='admin@sensingapparatus.com' commit -m "Composer P1: team_personas MCP tool"
+git -c user.name='admin-41853076' -c user.email='admin@machinarii.com' commit -m "Composer P1: team_personas MCP tool"
 ```
 
 ### Task 3: `/agents` page
@@ -184,7 +184,7 @@ Follow the existing `AiSheet.tsx` patterns for `CopyBlock`/clipboard and `app/bl
 
 ```bash
 git add app/agents/page.tsx
-git -c user.name='admin-41853076' -c user.email='admin@sensingapparatus.com' commit -m "Composer P1: /agents roster page (add/suggest, publish, copy team personas)"
+git -c user.name='admin-41853076' -c user.email='admin@machinarii.com' commit -m "Composer P1: /agents roster page (add/suggest, publish, copy team personas)"
 ```
 
 ### Task 4: Phase-1 checkpoint
