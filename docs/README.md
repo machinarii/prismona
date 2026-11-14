@@ -1,6 +1,6 @@
 # Prismona — docs
 
-The shipped product is the Next.js app at the repo root (see root `README.md`); it is live at https://prismona.vercel.app. This folder holds the product documents and the historical artifacts the app grew out of.
+The shipped product is the Next.js app at the repo root (see root `README.md`); it lives at https://prismona.io (deploying as a container on a DigitalOcean droplet beside a self-hosted Postgres — see `MIGRATION-vercel-to-digitalocean.md` and `../deploy/README.md`). This folder holds the product documents and the historical artifacts the app grew out of.
 
 | File | What it is |
 |---|---|
@@ -8,6 +8,8 @@ The shipped product is the Next.js app at the repo root (see root `README.md`); 
 | `PRD.md` | Product requirements: vision, science basis, competitive analysis, MVP→v2 scope, compatibility engine, risks |
 | `ROADMAP.md` | Prioritized feature roadmap, use-case expansion verticals, design direction, build log |
 | `research/BIBLIOGRAPHY.md` | 65 annotated papers (trait models, relationships, work fit, teams/cofounders, trust, values, timing/faking). [OA] = one-click full text |
+| `research/AGENT-SURFACE.md` | Prose-texture note: why a calibrated persona can still read like a bot, what `humanizer` / WikiProject AI Cleanup get right, and the design position (small fixed block of machine tells + CSI-measured surface directives; no rewrite loop, no 35-rule checklist) |
+| `research/VOICE-STATE.md` | Speech-emotion (voice state) research note: repos + licensing, the valence gap, validity and EU AI Act limits, a spike over real dictation, and the design position (no categorical label; within-person arousal only, on-device, never persisted) |
 | `superpowers/specs/2026-06-11-prismona-web-app-design.md` | Web app design spec (frozen snapshot from build day) |
 | `poc/index.html` | Original working PoC, superseded by the app: 26-item Big Five + Honesty-Humility test, fully client-side. Double-click to run |
 | `keystone/` | Pre-Prismona project skeleton ("Keystone" was the working title), kept for reference |
@@ -21,6 +23,7 @@ The shipped product is the Next.js app at the repo root (see root `README.md`); 
 - **Profile as asset:** retest timeline with SEM-band-overlap drift detection (Roberts et al. 2007 framing), generated "Working with me" one-pager, portable AI context block, and print-to-PDF for every report.
 - **Norms:** provisional; replace with own-user norms at scale (see PRD §6).
 
-- **Digital ID & AI layer:** unique profile URLs (`/p#code`, fragment never transmitted), AI context + complement **persona** (flavor / role / **comportment**-tunable) + interaction guide, canonical JSON export with published schema, the open `@prismona/codec` package, and MCP in two flavors — the **hosted endpoint** at `prismona.vercel.app/api/mcp` (any agent connects live; docs at `/mcp`) and `prismona-mcp` as the fully-offline stdio server (~15 tools). Plus the **Agent Team Composer** (`/agents`), **continuous tuning** (`submit_observation` → observed layer; `tune_agent` → learned personas; yearly Full-Test re-anchor), team composition (`/team`), the perception game (`/predict`), and an informant mini-360 (`/validate`).
+- **Digital ID & AI layer:** unique profile URLs (`/p#code`, fragment never transmitted), AI context + complement **persona** (flavor / role / **comportment**-tunable) + interaction guide, canonical JSON export with published schema, the open `@prismona/codec` package, and MCP in two flavors — the **hosted endpoint** at `prismona.io/api/mcp` (any agent connects live; docs at `/mcp`) and `prismona-mcp` as the fully-offline stdio server (22 tools). Plus the **Agent Team Composer** (`/agents`), **continuous tuning** (`submit_observation` → observed layer; `tune_agent` → learned personas; yearly Full-Test re-anchor), team composition (`/team`), the perception game (`/predict`), and an informant mini-360 (`/validate`).
+- **Stated-preference instruments** (direct measurement beside the trait blueprint, each with its own code family and MCP brief): core values by Schwartz best-worst forced choice (`/values`, `PRSM-VAL-`), delegation & decision style by forced-choice scenarios grounded in the SJT format and General Decision-Making Style (`/delegate`, `PRSM-DEL-`), and communication style on the six CSI dimensions of de Vries et al. (`/communication`, `PRSM-COM-`). Each ships an agent-directed brief plus stated-vs-blueprint mismatch notes on published trait correlates. See `ROADMAP.md` §F.
 
 The entire `lib/` core is unit-tested (vitest in `lib/__tests__/`), built test-first.

@@ -1,7 +1,9 @@
 import type { Profile, ReportKey } from "./types";
 import { TRAIT_LABELS } from "./norms";
 import { longDate } from "./dates";
+import { SURFACE_TELLS, surfaceDirectives } from "./agentsurface";
 import { comportmentDirectives, type Comportment } from "./comportment";
+import type { CommStyleProfile } from "./commstyle";
 
 // Companion-persona generator: a system prompt that calibrates an AI to be
 // the COMPLEMENT of one measured person — supplying what their trait profile
@@ -161,6 +163,7 @@ export interface PersonaOptions {
   flavors?: Partial<Record<FlavorKey, number>>;  // per-register modulation: -1 less, 0 off, +1 more
   role?: RoleKey;
   comportment?: Comportment;                     // relationship-specific register (persona stays fixed)
+  comm?: CommStyleProfile;                       // measured CSI bands → per-person prose surface
 }
 
 export function agentPersona(p: Profile, opts: PersonaOptions = {}): string {
@@ -179,12 +182,19 @@ export function agentPersona(p: Profile, opts: PersonaOptions = {}): string {
         : `- Less ${PERSONA_FLAVORS[k].name}: deliberately downplay this register.`).join("\n")
     : "";
   const compBlock = opts.comportment ? comportmentDirectives(opts.comportment) : "";
+  // Surface = how the prose reads, distinct from who to be. The fixed tells ride
+  // along always; the measured half needs a communication profile. Both are
+  // subordinate to the calibration above — see docs/research/AGENT-SURFACE.md.
+  const surfBlock = [SURFACE_TELLS, opts.comm ? surfaceDirectives(opts.comm) : ""]
+    .filter(Boolean)
+    .join("\n\n");
   const tuning = [
     flavorBlock,
     role
       ? `\nProfessional role — ${role.name} (chosen by the user; archetype distilled from observed practitioners — ${role.source}):\n${role.directives}\nThe role shapes your craft and vocabulary; the complement calibration above still governs how you treat this specific person.`
       : "",
     compBlock ? `\n${compBlock}` : "",
+    `\n\n${surfBlock}\nThese govern texture only. Where they collide with the complement calibration or the register above, calibration wins.`,
   ].join("");
   return `COMPANION PERSONA — calibrated complement (Prismona, self-report, ${longDate(p.date)})
 

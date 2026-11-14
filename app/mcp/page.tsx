@@ -4,15 +4,17 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "MCP — Prismona",
   description:
-    "Connect any AI agent to a Prismona personality blueprint over the Model Context Protocol: hosted endpoint, seven tools, consent carried by share codes.",
+    "Connect any AI agent to a Prismona personality blueprint over the Model Context Protocol: hosted endpoint, 22 tools, consent carried by share codes.",
 };
 
-const ENDPOINT = "https://prismona.vercel.app/api/mcp";
+const ENDPOINT = "https://prismona.io/api/mcp";
 
 const TOOLS: Array<[string, string]> = [
   ["usage_guide", "The agent-facing markdown guide: which tool for which job, worked examples, binding rules — agents should call this first"],
   ["decode_profile", "Full structured blueprint from a share code: percentiles, uncertainty ranges, archetype blend, distinctiveness"],
   ["value_brief", "Core value priorities (Schwartz) from a PRSM-VAL- code — top/least values, the key tension, and how to weigh trade-offs for alignment"],
+  ["delegation_brief", "Stated operating preferences from a PRSM-DEL- code — decision rights, cadence, options-vs-recommendation, depth, ambiguity handling, verification posture; how the owner wants work run, measured by scenario, not inferred from traits"],
+  ["communication_brief", "Stated communication register from a PRSM-COM- code — expressiveness, preciseness, directness, questioningness, emotional expression, impression management; how to read the owner and write back"],
   ["compare_values", "Value congruence for two PRSM-VAL- codes — alignment score, shared priorities, and friction points (the values counterpart of compare_dyad)"],
   ["profile_readings", "The six applied readings — relationships, career, work style, leadership, integrity, cofounder"],
   ["compare_dyad", "Pairing report for two codes: fit gauge, strengths, frictions with conversation prompts"],
@@ -24,7 +26,7 @@ const TOOLS: Array<[string, string]> = [
   ["team_personas", "Every calibrated persona in a published agent team, from a PRSM-TEAM- code — the live pull for orchestrators"],
   ["tune_agent", "Report what worked with the owner so a team agent's persona learns over time (behavioral only; folds into its learned overlay)"],
   ["working_with_me", "The first-person collaboration one-pager"],
-  ["agent_persona", "Complement-calibrated system prompt, tunable by voice flavor, professional role, and relationship comportment"],
+  ["agent_persona", "Complement-calibrated system prompt, tunable by voice flavor, professional role, and relationship comportment; carries prose-surface rules, calibrated to communication style when a comm code is supplied"],
   ["comportment_adapter", "The register (formality, deference, disclosure…) an agent should carry for a given relationship — the persona stays fixed, only the comportment adapts"],
   ["interaction_guide", "Third-person guidance for communicating with the person behind a code"],
   ["management_style", "Questionnaire default + the weekly field-notes digest reported by agents who worked with them"],

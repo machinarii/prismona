@@ -10,8 +10,8 @@ Prismona profiles are consent-carried personality IDs. Every tool here takes a *
 
 Every tool needs a \`PRSM-…\` share code. If the user hasn't given you one, they have no connected profile — guide them, don't guess:
 
-- **No profile / not signed in:** ask them to sign in and take the test at https://prismona.vercel.app/assess — sign-in is one email plus a six-digit code, and the test takes about five minutes. Their profile page then shows a \`PRSM-…\` code to paste back to you.
-- **Signed in but no profile yet:** same link — they simply haven't finished the test.
+- **No profile yet:** ask them to take the test at https://prismona.io/assess — no account or email is required (the blueprint stays in their browser), and it takes about five minutes. Their blueprint page then shows a \`PRSM-…\` code to paste back to you.
+- **Has a blueprint but no code handy:** same link — the \`PRSM-…\` code is on their blueprint page, under Share.
 
 Don't call the code-taking tools until you actually hold a \`PRSM-…\` code.
 
@@ -21,6 +21,8 @@ Don't call the code-taking tools until you actually hold a \`PRSM-…\` code.
 |---|---|---|
 | Understand a person from their code | \`decode_profile\` | \`{ "code": "PRSM-…" }\` → percentiles across six factors **incl. Honesty-Humility**, ±1 SEM ranges, archetype blend, distinctiveness |
 | Read their core value priorities | \`value_brief\` | \`{ "valuesCode": "PRSM-VAL-…" }\` → most-important and least-emphasized values, key tension, how to weigh trade-offs (alignment) |
+| Read how they want work RUN (stated, not inferred) | \`delegation_brief\` | \`{ "delegationCode": "PRSM-DEL-…" }\` → decision rights, cadence, options-vs-recommendation, depth, ambiguity handling, verification posture; follow as defaults |
+| Read their stated communication register | \`communication_brief\` | \`{ "commCode": "PRSM-COM-…" }\` → expressiveness, preciseness, directness, questioningness, emotional expression, impression management; how to read them and what register to write back in |
 | Value alignment of two people | \`compare_values\` | \`{ "valuesCodeA": "PRSM-VAL-…", "valuesCodeB": "PRSM-VAL-…" }\` → congruence score, shared priorities, friction points |
 | Give them life/work readings | \`profile_readings\` | \`{ "code": "PRSM-…" }\` → six cited readings (relationships, career, work style, leadership, integrity, cofounder) |
 | Assess a pairing | \`compare_dyad\` | \`{ "codeA": "PRSM-…", "codeB": "PRSM-…", "purpose": "cofounder" }\` → fit gauge + top frictions with conversation prompts |
@@ -31,7 +33,7 @@ Don't call the code-taking tools until you actually hold a \`PRSM-…\` code.
 | Staff agents around a person | \`compose_agents\` | \`{ "code": "PRSM-…", "projectType": "scale", "size": 3 }\` → roles + flavors that complement them |
 | Pull a published agent team's personas | \`team_personas\` | \`{ "teamCode": "PRSM-TEAM-…" }\` → each agent's role, voice, and calibrated persona (seed + learned); adopt yours |
 | Tune your agent from real interaction | \`tune_agent\` | \`{ "code": "PRSM-…", "role": "engineer", "worked": ["terse-bullets"], "adjust": ["less-hedging"] }\` (or \`{ "teamCode", "agentId", … }\`) — behavioral only; folds into your learned overlay (returned via \`agent_persona\`/\`team_personas\`) |
-| Become their calibrated companion | \`agent_persona\` | \`{ "code": "PRSM-…", "flavor": "logician", "role": "engineer" }\` (optional \`relationship\`/\`stakes\` fold in comportment) → adopt the returned system prompt |
+| Become their calibrated companion | \`agent_persona\` | \`{ "code": "PRSM-…", "flavor": "logician", "role": "engineer" }\` (optional \`relationship\`/\`stakes\` fold in comportment; optional \`valuesCode\`/\`delegationCode\`/\`commCode\` fold in the value, delegation, and communication briefs — \`commCode\` also calibrates the prose surface) → adopt the returned system prompt |
 | Get the register for a relationship | \`comportment_adapter\` | \`{ "relationship": "authority", "stakes": "high" }\` → comportment (formality, deference, disclosure…) + directives; the persona stays fixed |
 | Communicate well with them | \`interaction_guide\` | \`{ "code": "PRSM-…" }\` → third-person guidance (channel, pacing, directness, **candor**); follow it |
 | Get their collaboration handout | \`working_with_me\` | \`{ "code": "PRSM-…" }\` |
@@ -57,5 +59,5 @@ Don't call the code-taking tools until you actually hold a \`PRSM-…\` code.
 4. \`report_collaboration\` takes observations about collaboration only — never evaluations of the person.
 5. Behavior you observe overrides the profile wherever they conflict.
 
-Methodology and full citations: https://prismona.vercel.app/methodology
+Methodology and full citations: https://prismona.io/methodology
 `;

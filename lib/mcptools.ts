@@ -5,6 +5,10 @@ import { decodeShareCode } from "./codec";
 import { decodeTeamCode } from "./agentteam";
 import { decodeValuesCode } from "./valuescodec";
 import { valueBrief } from "./values";
+import { decodeDelegationCode } from "./delegationcodec";
+import { delegationBrief } from "./delegation";
+import { decodeCommCode } from "./commstylecodec";
+import { commBrief } from "./commstyle";
 import { agentHandshake } from "./handshake";
 import { proxyBrief } from "./proxy";
 import { valueCongruence } from "./valuecongruence";
@@ -24,7 +28,7 @@ import { ARCHETYPE_BASE_RATES } from "./data/baserates";
 import type { ReportKey, ShareProfile } from "./types";
 
 // The Prismona MCP tool surface — registered identically by the remote
-// endpoint (prismona.vercel.app/api/mcp) and the local stdio package
+// endpoint (prismona.io/api/mcp) and the local stdio package
 // (packages/mcp). Profiles enter as PRSM share codes their owners chose to
 // hand over; possession of a code is the consent grant, a code shared for
 // one purpose is not consent for another, and no tool output is a verdict.
@@ -151,6 +155,34 @@ export function registerPrismonaTools(server: McpServer): void {
   );
 
   server.registerTool(
+    "delegation_brief",
+    {
+      title: "Delegation brief (how to run work with the owner)",
+      description: "Given a PRSM-DEL-… delegation code, returns the owner's stated operating preferences for agents: decision rights, reporting cadence, decision support (options vs. one recommendation), detail depth, ambiguity handling, and verification posture. Measured by forced-choice scenarios, not inferred from traits. Follow these as the owner's defaults; when live feedback contradicts a stated preference, say so and adapt.",
+      inputSchema: { delegationCode: z.string().describe("a PRSM-DEL-… delegation code") },
+    },
+    async ({ delegationCode }) => {
+      const p = decodeDelegationCode(delegationCode);
+      if (!p) return fail("invalid delegation code");
+      return ok(delegationBrief(p));
+    },
+  );
+
+  server.registerTool(
+    "communication_brief",
+    {
+      title: "Communication brief (how to read and write to the owner)",
+      description: "Given a PRSM-COM-… communication code, returns the owner's stated communication style along the CSI dimensions: expressiveness, preciseness, directness, questioningness, emotional expression, and impression management — how to read their messages and what register to write back in. Style guidance only, never substance — match their register where it helps, keep your judgment where it doesn't.",
+      inputSchema: { commCode: z.string().describe("a PRSM-COM-… communication code") },
+    },
+    async ({ commCode }) => {
+      const p = decodeCommCode(commCode);
+      if (!p) return fail("invalid communication code");
+      return ok(commBrief(p));
+    },
+  );
+
+  server.registerTool(
     "compare_values",
     {
       title: "Value congruence for two people",
@@ -210,15 +242,20 @@ export function registerPrismonaTools(server: McpServer): void {
         counterparty: z.string().optional().describe("The counterparty's PRSM share code, to converge register toward their style"),
         stakes: z.enum(["low", "med", "high"]).optional().describe("Stakes of the interaction (raises formality/care when high)"),
         valuesCode: z.string().optional().describe("the owner's PRSM-VAL-… values code — folds their value priorities (alignment brief) into the persona"),
+        delegationCode: z.string().optional().describe("the owner's PRSM-DEL-… delegation code — folds their stated operating preferences (delegation brief) into the persona"),
+        commCode: z.string().optional().describe("the owner's PRSM-COM-… communication code — folds their stated communication style (communication brief) into the persona"),
       },
     },
-    async ({ code, flavor, role, relationship, counterparty, stakes, valuesCode }) => {
+    async ({ code, flavor, role, relationship, counterparty, stakes, valuesCode, delegationCode, commCode }) => {
       const share = decodeShareCode(code);
       if (!share) return fail("invalid share code");
       const comportment = relationship
         ? computeComportment({ preset: relationship, stakes }, counterparty ? (decodeShareCode(counterparty) ?? undefined) : undefined)
         : undefined;
-      let persona = agentPersona(profileFromShare(share), { flavor, role, comportment });
+      // Decoded up front: the CSI bands drive the persona's prose-surface directives
+      // (how to write back), while commBrief below covers how to read their messages.
+      const cp = commCode ? decodeCommCode(commCode) ?? undefined : undefined;
+      let persona = agentPersona(profileFromShare(share), { flavor, role, comportment, comm: cp });
       // Fold the learned overlay for this (owner, role) — the continuous-tuning
       // layer that agents accumulate via tune_agent (e.g. bridge agents).
       if (role) {
@@ -234,6 +271,11 @@ export function registerPrismonaTools(server: McpServer): void {
         const vp = decodeValuesCode(valuesCode);
         if (vp) persona += `\n\n${valueBrief(vp)}`;
       }
+      if (delegationCode) {
+        const dp = decodeDelegationCode(delegationCode);
+        if (dp) persona += `\n\n${delegationBrief(dp)}`;
+      }
+      if (cp) persona += `\n\n${commBrief(cp)}`;
       return ok(persona);
     },
   );
@@ -335,7 +377,7 @@ export function registerPrismonaTools(server: McpServer): void {
     },
   );
 
-  const BASE = process.env.PRISMONA_BASE_URL ?? "https://prismona.vercel.app";
+  const BASE = process.env.PRISMONA_BASE_URL ?? "https://prismona.io";
   const FEEDBACK_API = `${BASE}/api/feedback`;
   const OBSERVE_API = `${BASE}/api/observe`;
   const AGENTLEARN_API = `${BASE}/api/agentlearn`;

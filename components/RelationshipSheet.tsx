@@ -37,7 +37,7 @@ export function RelationshipSheet({ profile, showBack = false }: { profile: Prof
       <div className="print-only print-head">
         <span className="label gold">Loving me — Prismona</span>
         <span className="num" style={{ fontSize: "var(--t-sm)", color: "var(--ivory-faint)" }}>
-          {longDate(profile.date)} · prismona.vercel.app
+          {longDate(profile.date)} · prismona.io
         </span>
       </div>
 

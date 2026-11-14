@@ -4,6 +4,8 @@ import { encodeShareCode } from "./codec";
 import type { InterestProfile } from "./interests";
 import { AGE_BANDS, CONTINENTS, type AgeBand, type Continent } from "./contrib";
 import type { ValuesProfile } from "./values";
+import type { DelegationProfile } from "./delegation";
+import type { CommStyleProfile } from "./commstyle";
 
 // Privacy by default: profiles live only in this browser's localStorage.
 const key = (tier: Tier) => `prismona.profile.${tier}`;
@@ -94,6 +96,40 @@ export function loadValues(): StoredValues | null {
   } catch { return null; }
 }
 
+// Delegation & decision style (scenario-based) — local like everything else.
+const DELEGATION_KEY = "prismona.delegation";
+export interface StoredDelegation { v: 1; date: string; profile: DelegationProfile }
+export function saveDelegation(profile: DelegationProfile): void {
+  try {
+    localStorage.setItem(DELEGATION_KEY, JSON.stringify({ v: 1, date: new Date().toISOString().slice(0, 10), profile }));
+  } catch { /* ignore */ }
+}
+export function loadDelegation(): StoredDelegation | null {
+  try {
+    const raw = localStorage.getItem(DELEGATION_KEY);
+    if (!raw) return null;
+    const s = JSON.parse(raw) as StoredDelegation;
+    return s && s.v === 1 && s.profile ? s : null;
+  } catch { return null; }
+}
+
+// Communication style (CSI-dimension Likert) — local like everything else.
+const COMMSTYLE_KEY = "prismona.commstyle";
+export interface StoredCommStyle { v: 1; date: string; profile: CommStyleProfile }
+export function saveCommStyle(profile: CommStyleProfile): void {
+  try {
+    localStorage.setItem(COMMSTYLE_KEY, JSON.stringify({ v: 1, date: new Date().toISOString().slice(0, 10), profile }));
+  } catch { /* ignore */ }
+}
+export function loadCommStyle(): StoredCommStyle | null {
+  try {
+    const raw = localStorage.getItem(COMMSTYLE_KEY);
+    if (!raw) return null;
+    const s = JSON.parse(raw) as StoredCommStyle;
+    return s && s.v === 1 && s.profile ? s : null;
+  } catch { return null; }
+}
+
 // Optional, local-only until the user explicitly contributes.
 export function saveAgeBand(band: AgeBand | null): void {
   try {
@@ -157,6 +193,20 @@ export function loadObserverCodes(): string[] {
   } catch { return []; }
 }
 
+// The account recovery key (lib/account.ts), remembered on this device so you
+// don't re-enter it every visit. Kept separate from blueprints — clearProfiles
+// leaves it intact; the account page forgets it explicitly on sign-out.
+const ACCOUNT_KEY = "prismona.account";
+export function saveAccountKey(key: string): void {
+  try { localStorage.setItem(ACCOUNT_KEY, key); } catch { /* ignore */ }
+}
+export function loadAccountKey(): string | null {
+  try { return localStorage.getItem(ACCOUNT_KEY); } catch { return null; }
+}
+export function clearAccountKey(): void {
+  try { localStorage.removeItem(ACCOUNT_KEY); } catch { /* ignore */ }
+}
+
 export function markContributed(code: string): void {
   try { localStorage.setItem(`prismona.contributed.${code}`, "1"); } catch { /* ignore */ }
 }
@@ -175,5 +225,7 @@ export function clearProfiles(): void {
     localStorage.removeItem(INTERESTS_KEY);
     localStorage.removeItem(ARCHIVE_KEY);
     localStorage.removeItem(VALUES_KEY);
+    localStorage.removeItem(DELEGATION_KEY);
+    localStorage.removeItem(COMMSTYLE_KEY);
   } catch { /* ignore */ }
 }

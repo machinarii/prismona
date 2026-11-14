@@ -33,7 +33,7 @@ export function buildProfileExport(p: Profile, interests: InterestProfile | null
     traits[k] = { label: TRAIT_LABELS[k], percentile: t.pct, range: [t.lo, t.hi], z: Math.round(t.z * 100) / 100 };
   });
   const out: ProfileExport = {
-    $schema: "https://prismona.vercel.app/schema/profile.v1.json",
+    $schema: "https://prismona.io/schema/profile.v1.json",
     version: 1,
     generator: "Prismona",
     instrument: p.tier === "full"
